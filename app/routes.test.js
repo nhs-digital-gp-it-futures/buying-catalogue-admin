@@ -4,17 +4,33 @@ import routes from './routes';
 
 jest.mock('./logger');
 
-describe('GET /health/live', () => {
-  it('should return the correct status and text', () => {
-    const app = new App().createApp();
-    app.use('/', routes);
+describe('routes', () => {
+  describe('GET /health/live', () => {
+    it('should return the correct status and text', () => {
+      const app = new App().createApp();
+      app.use('/', routes);
 
-    return request(app)
-      .get('/health/live')
-      .expect(200)
-      .then((res) => {
-        expect(res.text).toBe('Buying Catalogue Admin app is running!');
-      });
+      return request(app)
+        .get('/health/live')
+        .expect(200)
+        .then((res) => {
+          expect(res.text).toBe('Buying Catalogue Admin app is running!');
+        });
+    });
+  });
+
+  describe('GET /organisations', () => {
+    it('should return the correct status and text', () => {
+      const app = new App().createApp();
+      app.use('/', routes);
+
+      return request(app)
+        .get('/organisations')
+        .expect(200)
+        .then((res) => {
+          expect(res.text).toBe('Organisation page');
+        });
+    });
   });
 
   describe('GET *', () => {
