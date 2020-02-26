@@ -4,13 +4,13 @@ import routes from './routes';
 
 jest.mock('./logger');
 
-describe('GET /healthcheck', () => {
+describe('GET /health/live', () => {
   it('should return the correct status and text', () => {
     const app = new App().createApp();
     app.use('/', routes);
 
     return request(app)
-      .get('/healthcheck')
+      .get('/health/live')
       .expect(200)
       .then((res) => {
         expect(res.text).toBe('Buying Catalogue Admin app is running!');

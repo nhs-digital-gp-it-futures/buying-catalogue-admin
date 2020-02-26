@@ -4,8 +4,8 @@ import { errorHandler } from './error/errorHandler';
 
 const router = express.Router();
 
-router.get('/healthcheck', async (req, res) => {
-  logger.info('navigating to healthcheck page');
+router.get('/health/live', async (req, res) => {
+  logger.info('navigating to /health/live page');
   res.send('Buying Catalogue Admin app is running!');
 });
 
