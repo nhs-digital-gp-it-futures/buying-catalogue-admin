@@ -27,7 +27,7 @@ describe('table', () => {
     });
   }));
 
-  it('should render the table headings if columnInfo is passed in', createTestHarness(setup, (harness) => {
+  it('should render the table headings with correct classes if columnInfo is passed in', createTestHarness(setup, (harness) => {
     harness.request(mockContext, ($) => {
       expect($('[data-test-id="table-headings"]').length).toEqual(1);
       expect($('[data-test-id="column-heading"]').length).toEqual(mockContext.params.columnInfo.length);
@@ -47,14 +47,15 @@ describe('table', () => {
       expect($('[data-test-id="column-heading"]').length).toEqual(0);
     });
   }));
-  it('should render the table rows if data is passed in', createTestHarness(setup, (harness) => {
+
+  it('should render the table rows with text and classes if data is passed in', createTestHarness(setup, (harness) => {
     const context = { params: { ...mockContext.params } };
-    // context.params.data = [['Greater Manchester CCG', 'X01']];
     context.params.columnInfo[0].link = false;
     harness.request(context, ($) => {
       context.params.data.forEach((row, rowIndex) => {
         row.forEach((dataPoint, i) => {
           expect($(`[data-test-id="table-row-${rowIndex}"] div:nth-child(${i + 1})`).text().trim()).toEqual(dataPoint);
+          expect($(`[data-test-id="table-row-${rowIndex}"] div:nth-child(${i + 1})`).hasClass(mockContext.params.columnClass)).toEqual(true);
         });
       });
     });
@@ -66,6 +67,37 @@ describe('table', () => {
 
     harness.request(context, ($) => {
       expect($('[data-test-id="table-rows"]').length).toEqual(0);
+    });
+  }));
+
+  it('should render <a> for columns with link property', createTestHarness(setup, (harness) => {
+    const context = { params: { ...mockContext.params } };
+    context.params.columnInfo[0].link = true;
+    context.params.columnInfo[1].link = true;
+    harness.request(context, ($) => {
+      context.params.data.forEach((row, rowIndex) => {
+        row.forEach((dataPoint, i) => {
+          expect($(`[data-test-id="table-row-${rowIndex}"] a:nth-child(${i + 1})`).text().trim()).toEqual(dataPoint);
+          expect($(`[data-test-id="table-row-${rowIndex}"] a:nth-child(${i + 1})`).hasClass(mockContext.params.columnClass)).toEqual(true);
+          expect($(`[data-test-id="table-row-${rowIndex}"] a:nth-child(${i + 1})`).attr('href')).toEqual('#');
+          expect($(`[data-test-id="table-row-${rowIndex}"] div`).length).toEqual(0);
+        });
+      });
+    });
+  }));
+
+  it('should render <div> for columns with link false property', createTestHarness(setup, (harness) => {
+    const context = { params: { ...mockContext.params } };
+    context.params.columnInfo[0].link = false;
+    context.params.columnInfo[1].link = false;
+    harness.request(context, ($) => {
+      context.params.data.forEach((row, rowIndex) => {
+        row.forEach((dataPoint, i) => {
+          expect($(`[data-test-id="table-row-${rowIndex}"] div:nth-child(${i + 1})`).text().trim()).toEqual(dataPoint);
+          expect($(`[data-test-id="table-row-${rowIndex}"] div:nth-child(${i + 1})`).hasClass(mockContext.params.columnClass)).toEqual(true);
+          expect($(`[data-test-id="table-row-${rowIndex}"] a`).length).toEqual(0);
+        });
+      });
     });
   }));
 });
