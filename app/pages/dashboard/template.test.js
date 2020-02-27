@@ -42,7 +42,7 @@ describe('organisations dashboard page', () => {
     });
   }));
 
-  it('should render a table', createTestHarness(setup, (harness) => {
+  it('should render the table component', createTestHarness(setup, (harness) => {
     harness.request(context, ($) => {
       const orgTable = $('[data-test-id="org-table"]');
       expect(orgTable.length).toEqual(1);
