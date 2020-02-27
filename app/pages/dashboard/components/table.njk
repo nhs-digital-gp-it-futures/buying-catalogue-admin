@@ -3,9 +3,7 @@
     {% if params.columnInfo %}
       <div data-test-id="table-headings" class="nhsuk-grid-row nhsuk-u-margin-1 nhsuk-u-padding-bottom-3 bc-t-border-bottom--grey-3">
         {% for column in params.columnInfo %}
-          {% if column.data %}
-            <div data-test-id="column-heading" class="nhsuk-u-padding-0 nhsuk-u-font-weight-bold {{ params.columnClass }}">{{ column.data }}</div>
-          {% endif %}
+          <div data-test-id="column-heading" class="nhsuk-u-padding-1 nhsuk-u-font-weight-bold {{ params.columnClass }}">{{ column.data }}</div>
         {% endfor %}
       </div>
     {% endif %}
@@ -14,9 +12,9 @@
       <div data-test-id="table-row-{{ loop.index0 }}" class="nhsuk-grid-row nhsuk-u-margin-1 nhsuk-u-padding-top-3 nhsuk-u-padding-bottom-3 bc-t-border-bottom--grey-3">
         {% for dataPoint in row %}
           {% if params.columnInfo[loop.index0].link %}
-            <a class="nhsuk-u-padding-0 {{ params.columnClass }}" href="#">{{ dataPoint }}</a>
+            <a class="nhsuk-u-padding-1 {{ params.columnClass }}" href="#">{{ dataPoint }}</a>
           {% else %}
-            <div class="nhsuk-u-padding-0 {{ params.columnClass }}">{{ dataPoint }}</div>
+            <div class="nhsuk-u-padding-1 {{ params.columnClass }}">{{ dataPoint }}</div>
           {% endif %}
         {% endfor %}
       </div>
