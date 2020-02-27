@@ -6,34 +6,32 @@ const setup = {
   },
 };
 
-const content = {
-  footerLinks: [
-    {
-      label: 'Buyer\'s Guide',
-      URL: '/guide',
-    },
-    {
-      label: 'NHS Digital Helpdesk',
-      URL: '/guide#contact-us',
-    },
-    {
-      label: 'NHS Digital',
-      URL: 'https://digital.nhs.uk/',
-    },
-    {
-      label: 'About GP IT Futures',
-      URL: 'https://digital.nhs.uk/services/future-gp-it-systems-and-services',
-    },
-    {
-      label: 'Capabilities & Standards Model',
-      URL: 'https://gpitbjss.atlassian.net/wiki/spaces/GPITF/overview',
-    },
-  ],
-};
+const footerLinks = [
+  {
+    label: 'Buyer\'s Guide',
+    URL: '/guide',
+  },
+  {
+    label: 'NHS Digital Helpdesk',
+    URL: '/guide#contact-us',
+  },
+  {
+    label: 'NHS Digital',
+    URL: 'https://digital.nhs.uk/',
+  },
+  {
+    label: 'About GP IT Futures',
+    URL: 'https://digital.nhs.uk/services/future-gp-it-systems-and-services',
+  },
+  {
+    label: 'Capabilities & Standards Model',
+    URL: 'https://gpitbjss.atlassian.net/wiki/spaces/GPITF/overview',
+  },
+];
 
 describe('footer', () => {
   it('should render the footer panel', createTestHarness(setup, (harness) => {
-    const context = {};
+    const context = { footerLinks };
 
     harness.request(context, ($) => {
       const footer = $('[data-test-id="footer"]');
@@ -42,14 +40,14 @@ describe('footer', () => {
       expect(footer.length).toEqual(1);
       expect(footerComponent.length).toEqual(1);
 
-      content.footerLinks.map((link, i) => {
+      footerLinks.map((link, i) => {
         expect(footerComponent.find(`li:nth-child(${i + 1})`).text().trim()).toEqual(link.label);
       });
     });
   }));
 
   it('should render the footer legal panel', createTestHarness(setup, (harness) => {
-    const context = {};
+    const context = { showLegalPane: false };
 
     harness.request(context, ($) => {
       const footer = $('[data-test-id="footer"]');

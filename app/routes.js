@@ -2,7 +2,12 @@ import express from 'express';
 import logger from './logger';
 import { errorHandler } from './pages/error/errorHandler';
 import { getOrgDashboardContext } from './pages/dashboard/contextCreator';
+import includesContext from './includes/manifest.json';
 
+const addContext = context => ({
+  ...context,
+  ...includesContext,
+});
 
 const router = express.Router();
 
@@ -14,7 +19,7 @@ router.get('/health/live', async (req, res) => {
 router.get('/organisations', async (req, res) => {
   logger.info('navigating to /organisations page');
   const context = getOrgDashboardContext();
-  res.render('pages/dashboard/template.njk', context);
+  res.render('pages/dashboard/template.njk', addContext(context));
 });
 
 router.get('*', (req, res, next) => next({
@@ -26,7 +31,7 @@ router.use((err, req, res, next) => {
   if (err) {
     const context = errorHandler(err);
     logger.error(context.message);
-    return res.render('pages/error/template.njk', context);
+    return res.render('pages/error/template.njk', addContext(context));
   }
   return next();
 });

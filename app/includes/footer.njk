@@ -1,44 +1,6 @@
-{% from 'components/footer/macro.njk' import footer %}
-{% from 'components/panel/macro.njk' import panel %}
+{% from 'components/bc-footer/macro.njk' import bcFooter %}
 
-<div data-test-id="footer">
-  <div data-test-id="footer-component">
-    {{ footer({
-      "list": "nhsuk-footer__list--three-columns",
-      "links": [
-        {
-          "label": "Buyer's Guide",
-          "URL": "/guide"
-        },
-        {
-          "label": "NHS Digital Helpdesk",
-          "URL": "/guide#contact-us"
-        },
-        {
-          "label": "NHS Digital",
-          "URL": "https://digital.nhs.uk/"
-        },
-        {
-          "label": "About GP IT Futures",
-          "URL": "https://digital.nhs.uk/services/future-gp-it-systems-and-services"
-        },
-        {
-          "label": "Capabilities & Standards Model",
-          "URL": "https://gpitbjss.atlassian.net/wiki/spaces/GPITF/overview"
-        }
-      ],
-      "copyright": "" 
-    })}}
-  </div>
-
-  <div data-test-id="legal-panel" class="bc-t-bg--grey-4 nhsuk-u-padding-bottom-3">
-    {{ panel({
-      "HTML": "
-      <div>
-        <span class='nhsuk-u-margin-right-1'>Legal</span>
-        <span class='nhsuk-u-margin-right-1'><a href='https://digital.nhs.uk/about-nhs-digital/privacy-and-cookies'>Privacy and Cookies</a></span>
-      </div>",
-      "classes": "nhsuk-width-container nhsuk-u-padding-0 nhsuk-u-margin-top-0 nhsuk-u-margin-bottom-0 bc-t-bg--grey-4"
-    })}}
-  </div>
-</div>
+{{ bcFooter({
+  footerLinks: footerLinks,
+  showLegalPanel: true
+}) }}
