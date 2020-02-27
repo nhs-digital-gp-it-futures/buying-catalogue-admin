@@ -25,7 +25,7 @@ describe('getOrgDashboardContext', () => {
   });
 
   it('should transform data into correct format if data provided has missing fields', () => {
-    const mockData = [{ odsCode: 'X01' }, { name: 'Hampshire CCG' }, {}];
+    const mockData = [{ odsCode: 'X01' }, { name: 'Hampshire CCG' }];
     const { data } = getOrgDashboardContext(mockData);
     expect(data[0][0]).toEqual('');
     expect(data[0][1]).toEqual(mockData[0].odsCode);
