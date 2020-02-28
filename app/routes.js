@@ -17,9 +17,15 @@ router.get('/health/live', async (req, res) => {
 });
 
 router.get('/organisations', async (req, res) => {
-  logger.info('navigating to /organisations page');
+  logger.info('navigating to organisations page');
   const context = getOrgDashboardContext();
   res.render('pages/dashboard/template.njk', addContext(context));
+});
+
+router.get('/organisations/:orgId', async (req, res) => {
+  const { orgId } = req.params;
+  logger.info(`navigating to organisation: ${orgId} account page`);
+  res.send('Organisations page');
 });
 
 router.get('*', (req, res, next) => next({
