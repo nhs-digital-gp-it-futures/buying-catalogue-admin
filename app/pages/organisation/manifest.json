@@ -1,0 +1,17 @@
+{
+  "description": "These are the details for the organisation and its users.",
+  "columnInfo": [
+    {
+      "data": "Name",
+      "link": true
+    },
+    {
+      "data": "Telephone number"
+    },
+    {
+      "data": "Email address"
+    },
+    {}
+  ],
+  "columnClass": "nhsuk-grid-column-one-quarter"
+}
