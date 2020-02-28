@@ -1,16 +1,16 @@
 FROM node:12
 
 # Create app directory
-WORKDIR /usr/src/app
+WORKDIR /usr/src
 
 # Copy app files to source
 COPY . .
 
 # Install initial dependencies for transpiling
-RUN npm install --save-dev @babel/core @babel/node @babel/cli @babel/preset-env
+RUN npm install --save-dev @babel/core @babel/node @babel/cli @babel/preset-env node-sass
 
 # Transpile js into dist directory & copy all other files (njks templates etc)
-RUN npx babel app.js server.js -d dist && npx babel app -d dist/app --copy-files
+RUN npx babel app -d dist/app --copy-files
 
 # Transpile main.js to public/js/main.bundle
 RUN npx babel app/scripts/main.js -o dist/public/js/main.bundle.min.js
@@ -27,7 +27,9 @@ RUN find ./ -mindepth 1 ! -regex '^./dist\(/.*\)?' -delete
 # Expose port 
 EXPOSE 3005
 
+WORKDIR /usr/src/dist/app
+
 # Run app
-CMD [ "node", "dist/server.js"]
+CMD [ "node", "server.js"]
 
 USER node
