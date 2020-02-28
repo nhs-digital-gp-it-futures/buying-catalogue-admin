@@ -6,6 +6,9 @@ WORKDIR /usr/src
 # Copy app files to source
 COPY . .
 
+# Set default env. variable
+ENV NODE_ENV=production
+
 # Install initial dependencies for transpiling
 RUN npm install --save-dev @babel/core @babel/node @babel/cli @babel/preset-env node-sass
 
