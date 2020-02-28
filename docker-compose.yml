@@ -1,0 +1,10 @@
+version: '3.5'
+
+services:
+
+  nhsd.admin:
+    image: nhsd/buying-catalogue/admin
+    container_name: nhsd_bc_admin
+    build:
+      context: .
+      dockerfile: Dockerfile
