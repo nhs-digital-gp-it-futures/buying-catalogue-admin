@@ -23,7 +23,7 @@ describe('routes', () => {
   describe('GET /organisations', () => {
     it('should return the correct status and text', () => {
       orgDashboardContext.getOrgDashboardContext = jest.fn()
-        .mockImplementation(() => Promise.resolve({}));
+        .mockImplementation(() => {});
       const app = new App().createApp();
       app.use('/', routes);
 
@@ -33,6 +33,20 @@ describe('routes', () => {
         .then((res) => {
           expect(res.text.includes('data-test-id="organisations"')).toEqual(true);
           expect(res.text.includes('data-test-id="error-page-title"')).toEqual(false);
+        });
+    });
+  });
+
+  describe('GET /organisations/:orgId', () => {
+    it('should return the correct status and text', () => {
+      const app = new App().createApp();
+      app.use('/', routes);
+
+      return request(app)
+        .get('/organisations/org1')
+        .expect(200)
+        .then((res) => {
+          expect(res.text.includes('Organisations page')).toEqual(true);
         });
     });
   });
