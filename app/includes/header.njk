@@ -1,7 +1,15 @@
-{% from 'components/header/macro.njk' import header %}
+{% from 'components/bc-header/macro.njk' import bcHeader %}
+{% from 'components/panel/macro.njk' import panel %}
+{% from 'components/login-logout/macro.njk' import loginLogout %}
 
-{{ header({
-  "showNav": "false",
-  "showSearch": "false"
-  })
-}}
+{{ bcHeader({
+  dataTestId: "header-banner",
+  innerComponent: loginLogout({
+    dataTestId: "login-logout-component",
+    username: username,
+    loginUrl: "/login",
+    logoutUrl: "#"
+  }),
+  classes: "nhsuk-u-padding-top-3 nhsuk-u-padding-bottom-2"
+}) }}
+

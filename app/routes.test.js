@@ -1,6 +1,7 @@
 import request from 'supertest';
 import { App } from '../app';
 import routes from './routes';
+import * as orgDashboardContext from './pages/dashboard/contextCreator';
 
 jest.mock('./logger');
 
@@ -21,6 +22,8 @@ describe('routes', () => {
 
   describe('GET /organisations', () => {
     it('should return the correct status and text', () => {
+      orgDashboardContext.getOrgDashboardContext = jest.fn()
+        .mockImplementation(() => Promise.resolve({}));
       const app = new App().createApp();
       app.use('/', routes);
 
@@ -28,7 +31,8 @@ describe('routes', () => {
         .get('/organisations')
         .expect(200)
         .then((res) => {
-          expect(res.text).toBe('Organisation page');
+          expect(res.text.includes('data-test-id="organisations"')).toEqual(true);
+          expect(res.text.includes('data-test-id="error-page-title"')).toEqual(false);
         });
     });
   });
