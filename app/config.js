@@ -8,8 +8,9 @@ module.exports = {
   // Port to run local development server on
   port: process.env.PORT || 3005,
 
-  // API_HOST
-  apiHost: process.env.API_HOST || 'http://localhost:8080',
+  // IDENTITY_SERVER
+  // TODO: Port will need changed
+  identityServer: process.env.IDENTITY_SERVER || 'http://localhost:8080',
 
   // LOGGER_LEVEL options are info, warn, error, off
   loggerLevel: process.env.LOGGER_LEVEL || 'error',
