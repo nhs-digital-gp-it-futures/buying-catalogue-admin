@@ -1,0 +1,77 @@
+{% extends 'includes/layout.njk' %}
+{% from 'components/back-link/macro.njk' import backLink %}
+{% from 'components/button/macro.njk' import button %}
+{% from '../../common/components/table.njk' import table %}
+{% from './components/checked-statement.njk' import checkedStatement %}
+
+
+{% block body %}
+  <div class="nhsuk-width-container" data-test-id="organisation">
+    <div data-test-id="go-back-link">
+      {{ backLink({
+        "href": "/organisations",
+        "text": "Back"
+      }) }}
+    </div>
+  
+    <h1 data-test-id="org-page-title" class="nhsuk-u-margin-top-7 nhsuk-u-margin-bottom-3">{{ orgName }}</h1>
+    <h2 data-test-id="org-page-description" class="nhsuk-u-font-size-22 nhsuk-u-margin-bottom-9">{{ description }}</h2>
+
+    <h3 data-test-id="organisation-details-subheading" class="nhsuk-u-font-weight-bold nhsuk-u-margin-bottom-7">{{ orgSubheading }}</h3>
+
+    <div data-test-id="edit-org-button">
+      {{ button({
+        text: EditOrgButtonText,
+        classes: "nhsuk-u-margin-bottom-9",
+        href: "#"
+      }) }}
+    </div>
+
+    <div class="nhsuk-u-font-size-19 nhsuk-grid-row nhsuk-u-padding-bottom-5">
+      <div class="nhsuk-grid-column-one-half">
+        <div class="nhsuk-grid-row">
+          <div class="nhsuk-grid-column-one-half">
+            <div data-test-id="org-page-ods-code-heading" class="nhsuk-u-font-weight-bold nhsuk-u-padding-bottom-2">{{ odsCodeHeading }}</div>
+            <div data-test-id="org-page-ods-code" class="nhsuk-u-padding-bottom-2">{{ odsCode }}</div>
+            <div data-test-id="org-page-primary-role-id-heading" class="nhsuk-u-font-weight-bold nhsuk-u-padding-bottom-2">{{ primaryRoleIdHeading }}</div>
+            <div data-test-id="org-page-primary-role-id">{{ primaryRoleId }}</div>
+          </div>
+          <div class="nhsuk-grid-column-one-half">
+            <div data-test-id="org-page-address-heading" class="nhsuk-u-font-weight-bold nhsuk-u-padding-bottom-2">{{ addressHeading }}</div>
+            {% for line in address %}
+              <div data-test-id="org-page-address-{{ loop.index }}">{{ line }}</div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% if agreementSigned %}
+      {{ checkedStatement({
+        text: agreementSignedText,
+        dataTestId: "agreement-signed-checked-statement"
+      }) }}
+    {% endif %}
+
+    <hr/>
+  
+    <h3 data-test-id="accounts-subheading" class="nhsuk-u-font-weight-bold nhsuk-u-margin-bottom-7">{{ accountsSubheading }} {{ orgName }}</h3>
+
+    <div data-test-id="add-user-button">
+      {{ button({
+        text: addUserButtonText,
+        classes: "nhsuk-u-margin-bottom-9",
+        href: "#"
+      }) }}
+    </div>
+
+
+    <div data-test-id="org-table" class="nhsuk-u-font-size-19">
+      {{ table({
+        columnInfo: columnInfo,
+        data: data,
+        columnClass: columnClass
+      })}}
+    </div>
+  </div>
+{% endblock %}
