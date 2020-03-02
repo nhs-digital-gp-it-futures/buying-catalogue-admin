@@ -28,7 +28,7 @@ describe('getOrgDashboardContext', () => {
     const context = getContext({ data: {} });
     expect(context.description).toEqual(manifest.description);
     expect(context.orgSubheading).toEqual(manifest.orgSubheading);
-    expect(context.EditOrgButtonText).toEqual(manifest.EditOrgButtonText);
+    expect(context.editOrgButtonText).toEqual(manifest.editOrgButtonText);
     expect(context.odsCodeHeading).toEqual(manifest.odsCodeHeading);
     expect(context.primaryRoleIdHeading).toEqual(manifest.primaryRoleIdHeading);
     expect(context.addressHeading).toEqual(manifest.addressHeading);

@@ -85,7 +85,7 @@ describe('organisations dashboard page', () => {
     harness.request(mockContext, ($) => {
       const addOrgButton = $('[data-test-id="edit-org-button"] a');
       expect(addOrgButton.length).toEqual(1);
-      expect(addOrgButton.text().trim()).toEqual(mockContext.EditOrgButtonText);
+      expect(addOrgButton.text().trim()).toEqual(mockContext.editOrgButtonText);
       expect(addOrgButton.attr('href')).toEqual('#');
     });
   }));

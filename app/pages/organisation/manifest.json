@@ -1,7 +1,7 @@
 {
   "description": "These are the details for the organisation and its users.",
   "orgSubheading": "Organisation details",
-  "EditOrgButtonText": "Edit organisation",
+  "editOrgButtonText": "Edit organisation",
   "odsCodeHeading": "ODS code",
   "primaryRoleIdHeading": "Primary Role ID",
   "addressHeading": "Business address",
