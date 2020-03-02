@@ -1,7 +1,7 @@
 import express from 'express';
 import logger from './logger';
 import { errorHandler } from './pages/error/errorHandler';
-import { getOrgDashboardContext } from './pages/dashboard/contextCreator';
+import { getOrgDashboardContext } from './pages/dashboard/controller';
 import includesContext from './includes/manifest.json';
 
 const addContext = context => ({

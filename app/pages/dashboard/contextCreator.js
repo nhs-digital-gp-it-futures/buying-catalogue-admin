@@ -1,6 +1,6 @@
 import manifest from './manifest.json';
 
-export const getOrgDashboardContext = data => ({
+export const getContext = ({ data }) => ({
   ...manifest,
   columnInfo: manifest.columnInfo ? manifest.columnInfo.map(heading => ({
     data: heading.data || '',
