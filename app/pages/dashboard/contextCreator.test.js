@@ -12,18 +12,18 @@ describe('getOrgDashboardContext', () => {
 
   it('should return an empty array for data key if no data provided', () => {
     const context = getOrgDashboardContext();
-    expect(context.data).toEqual([]);
+    expect(context.organisations).toEqual([]);
   });
 
   it('should transform data into correct format if all data provided', () => {
     const mockData = [{ name: 'Greater Manchester CCG', odsCode: 'X01', orgId: 'org1' }, { name: 'Hampshire CCG', odsCode: 'X02', orgId: 'org2' }];
-    const { data } = getOrgDashboardContext(mockData);
-    expect(data[0][0].data).toEqual(mockData[0].name);
-    expect(data[0][0].href).toEqual(`organisations/${mockData[0].orgId}`);
-    expect(data[0][1].data).toEqual(mockData[0].odsCode);
-    expect(data[1][0].data).toEqual(mockData[1].name);
-    expect(data[1][0].href).toEqual(`organisations/${mockData[1].orgId}`);
-    expect(data[1][1].data).toEqual(mockData[1].odsCode);
+    const { organisations } = getOrgDashboardContext(mockData);
+    expect(organisations[0][0].data).toEqual(mockData[0].name);
+    expect(organisations[0][0].href).toEqual(`organisations/${mockData[0].orgId}`);
+    expect(organisations[0][1].data).toEqual(mockData[0].odsCode);
+    expect(organisations[1][0].data).toEqual(mockData[1].name);
+    expect(organisations[1][0].href).toEqual(`organisations/${mockData[1].orgId}`);
+    expect(organisations[1][1].data).toEqual(mockData[1].odsCode);
   });
 
   it('should transform data into correct format if data provided has missing fields', () => {
@@ -32,15 +32,15 @@ describe('getOrgDashboardContext', () => {
       { name: 'Hampshire CCG', orgId: 'org2' },
       { name: 'Somerset CCG', odsCode: 'X01' },
     ];
-    const { data } = getOrgDashboardContext(mockData);
-    expect(data[0][0].data).toEqual('');
-    expect(data[0][0].href).toEqual(`organisations/${mockData[0].orgId}`);
-    expect(data[0][1].data).toEqual(mockData[0].odsCode);
-    expect(data[1][0].data).toEqual(mockData[1].name);
-    expect(data[1][0].href).toEqual(`organisations/${mockData[1].orgId}`);
-    expect(data[1][1].data).toEqual('');
-    expect(data[2][0].data).toEqual(mockData[2].name);
-    expect(data[2][0].href).toEqual('#');
-    expect(data[2][1].data).toEqual(mockData[2].odsCode);
+    const { organisations } = getOrgDashboardContext(mockData);
+    expect(organisations[0][0].data).toEqual('');
+    expect(organisations[0][0].href).toEqual(`organisations/${mockData[0].orgId}`);
+    expect(organisations[0][1].data).toEqual(mockData[0].odsCode);
+    expect(organisations[1][0].data).toEqual(mockData[1].name);
+    expect(organisations[1][0].href).toEqual(`organisations/${mockData[1].orgId}`);
+    expect(organisations[1][1].data).toEqual('');
+    expect(organisations[2][0].data).toEqual(mockData[2].name);
+    expect(organisations[2][0].href).toEqual('#');
+    expect(organisations[2][1].data).toEqual(mockData[2].odsCode);
   });
 });
