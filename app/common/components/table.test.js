@@ -53,6 +53,7 @@ describe('table', () => {
   it('should render the table rows with text and classes if data is passed in', createTestHarness(setup, (harness) => {
     const context = { params: { ...mockContext.params } };
     harness.request(context, ($) => {
+      console.log($.html())
       context.params.data.forEach((row, rowIndex) => {
         row.forEach((dataPoint, i) => {
           expect($(`[data-test-id="table-row-${rowIndex}"] div:nth-child(${i + 1})`).text().trim()).toEqual(dataPoint.data);
@@ -137,29 +138,6 @@ describe('table', () => {
                 classes: 'a-class',
               },
             },
-            {
-              tag: {
-                dataTestId: 'a-tag-id-2',
-                text: 'tag text 2',
-                classes: 'a-class-2',
-              },
-            },
-          ],
-          [
-            {
-              tag: {
-                dataTestId: 'a-tag-id-3',
-                text: 'tag text 3',
-                classes: 'a-class-3',
-              },
-            },
-            {
-              tag: {
-                dataTestId: 'a-tag-id-4',
-                text: 'tag text 4',
-                classes: 'a-class-4',
-              },
-            },
           ],
         ],
       },
@@ -168,12 +146,6 @@ describe('table', () => {
     harness.request(context, ($) => {
       expect($('[data-test-id="a-tag-id-1"]').text().trim()).toEqual(context.params.data[0][0].tag.text);
       expect($('[data-test-id="a-tag-id-1"]').hasClass(context.params.data[0][0].tag.classes)).toEqual(true);
-      expect($('[data-test-id="a-tag-id-2"]').text().trim()).toEqual(context.params.data[0][1].tag.text);
-      expect($('[data-test-id="a-tag-id-2"]').hasClass(context.params.data[0][1].tag.classes)).toEqual(true);
-      expect($('[data-test-id="a-tag-id-3"]').text().trim()).toEqual(context.params.data[1][0].tag.text);
-      expect($('[data-test-id="a-tag-id-3"]').hasClass(context.params.data[1][0].tag.classes)).toEqual(true);
-      expect($('[data-test-id="a-tag-id-4"]').text().trim()).toEqual(context.params.data[1][1].tag.text);
-      expect($('[data-test-id="a-tag-id-4"]').hasClass(context.params.data[1][1].tag.classes)).toEqual(true);
     });
   }));
 });

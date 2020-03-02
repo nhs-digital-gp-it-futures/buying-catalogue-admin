@@ -1,4 +1,5 @@
 {% from 'components/tag/macro.njk' import tag %}
+{% from 'components/view-data-text/macro.njk' import viewDataText %}
 
 {% macro table(params) %}
   <div data-test-id="table">
@@ -22,7 +23,10 @@
               classes: dataPoint.tag.classes
             }) }}
           {% else %}
-            <div class="nhsuk-u-padding-1 {{ params.columnClass }}">{{ dataPoint.data }}</div>
+            {{ viewDataText({
+              classes: "nhsuk-u-padding-1 "+ params.columnClass,
+              data: dataPoint.data
+            }) }}
           {% endif %}
         {% endfor %}
       </div>
