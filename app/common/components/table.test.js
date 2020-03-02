@@ -71,12 +71,46 @@ describe('table', () => {
     });
   }));
 
-  it('should render <a> for data with link property', createTestHarness(setup, (harness) => {
-    const context = { params: { ...mockContext.params } };
-    context.params.data[0][0].href = 'organisations/org1';
-    context.params.data[0][1].href = 'ods/X01';
-    context.params.data[1][0].href = 'organisations/org1';
-    context.params.data[1][1].href = 'ods/X02';
+  it('should render <div> for data with no href property', createTestHarness(setup, (harness) => {
+    const context = {
+      params: {
+        ...mockContext.params,
+        data: [
+          [{ data: 'Greater Manchester CCG' }, { data: 'X01' }],
+          [{ data: 'Hampshire CCG' }, { data: 'X02' }],
+        ],
+      },
+    };
+
+    harness.request(context, ($) => {
+      context.params.data.forEach((row, rowIndex) => {
+        row.forEach((dataPoint, i) => {
+          const divTag = $(`[data-test-id="table-row-${rowIndex}"] div:nth-child(${i + 1})`);
+          expect(divTag.text().trim()).toEqual(dataPoint.data);
+          expect(divTag.hasClass(mockContext.params.columnClass)).toEqual(true);
+          expect($(`[data-test-id="table-row-${rowIndex}"] a`).length).toEqual(0);
+        });
+      });
+    });
+  }));
+
+  it('should render <a> for data with href property', createTestHarness(setup, (harness) => {
+    const context = {
+      params: {
+        ...mockContext.params,
+        data: [
+          [
+            { data: 'Greater Manchester CCG', href: 'organisations/org1' },
+            { data: 'X01', href: 'ods/X01' },
+          ],
+          [
+            { data: 'Hampshire CCG', href: 'organisations/org2' },
+            { data: 'X02', href: 'ods/X02' },
+          ],
+        ],
+      },
+    };
+
     harness.request(context, ($) => {
       context.params.data.forEach((row, rowIndex) => {
         row.forEach((dataPoint, i) => {
@@ -90,38 +124,56 @@ describe('table', () => {
     });
   }));
 
-  it('should render <div> for data with no link property', createTestHarness(setup, (harness) => {
-    const context = { params: { ...mockContext.params } };
-    delete context.params.data[0][0].href;
-    delete context.params.data[0][1].href;
-    delete context.params.data[1][0].href;
-    delete context.params.data[1][1].href;
-    harness.request(context, ($) => {
-      context.params.data.forEach((row, rowIndex) => {
-        row.forEach((dataPoint, i) => {
-          const divTag = $(`[data-test-id="table-row-${rowIndex}"] div:nth-child(${i + 1})`);
-          expect(divTag.text().trim()).toEqual(dataPoint.data);
-          expect(divTag.hasClass(mockContext.params.columnClass)).toEqual(true);
-          expect($(`[data-test-id="table-row-${rowIndex}"] a`).length).toEqual(0);
-        });
-      });
-    });
-  }));
-
   it('should render tag component for columns with tag property', createTestHarness(setup, (harness) => {
-    const context = { params: { ...mockContext.params } };
-    delete context.params.data[0][0].href;
-    delete context.params.data[0][1].href;
-    delete context.params.data[1][0].href;
-    delete context.params.data[1][1].href;
-    context.params.data[0][0].tag = {
-      dataTestId: 'a-tag-id-1',
-      text: 'tag text',
-      classes: 'a-class',
+    const context = {
+      params: {
+        ...mockContext.params,
+        data: [
+          [
+            {
+              tag: {
+                dataTestId: 'a-tag-id-1',
+                text: 'tag text',
+                classes: 'a-class',
+              },
+            },
+            {
+              tag: {
+                dataTestId: 'a-tag-id-2',
+                text: 'tag text 2',
+                classes: 'a-class-2',
+              },
+            },
+          ],
+          [
+            {
+              tag: {
+                dataTestId: 'a-tag-id-3',
+                text: 'tag text 3',
+                classes: 'a-class-3',
+              },
+            },
+            {
+              tag: {
+                dataTestId: 'a-tag-id-4',
+                text: 'tag text 4',
+                classes: 'a-class-4',
+              },
+            },
+          ],
+        ],
+      },
     };
+
     harness.request(context, ($) => {
       expect($('[data-test-id="a-tag-id-1"]').text().trim()).toEqual(context.params.data[0][0].tag.text);
       expect($('[data-test-id="a-tag-id-1"]').hasClass(context.params.data[0][0].tag.classes)).toEqual(true);
+      expect($('[data-test-id="a-tag-id-2"]').text().trim()).toEqual(context.params.data[0][1].tag.text);
+      expect($('[data-test-id="a-tag-id-2"]').hasClass(context.params.data[0][1].tag.classes)).toEqual(true);
+      expect($('[data-test-id="a-tag-id-3"]').text().trim()).toEqual(context.params.data[1][0].tag.text);
+      expect($('[data-test-id="a-tag-id-3"]').hasClass(context.params.data[1][0].tag.classes)).toEqual(true);
+      expect($('[data-test-id="a-tag-id-4"]').text().trim()).toEqual(context.params.data[1][1].tag.text);
+      expect($('[data-test-id="a-tag-id-4"]').hasClass(context.params.data[1][1].tag.classes)).toEqual(true);
     });
   }));
 });
