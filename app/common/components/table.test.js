@@ -61,7 +61,7 @@ describe('table', () => {
       });
     });
   }));
- 
+
   it('should not render the table rows if no data is passed in', createTestHarness(setup, (harness) => {
     const context = { params: { ...mockContext.params } };
     delete context.params.data;

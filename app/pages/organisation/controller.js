@@ -1,5 +1,5 @@
 // import axios from 'axios';
-import { getContext } from './contextCreator'
+import { getContext } from './contextCreator';
 import { identityServer } from '../../config';
 import logger from '../../logger';
 

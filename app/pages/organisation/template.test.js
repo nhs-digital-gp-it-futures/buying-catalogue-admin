@@ -1,6 +1,5 @@
 import { createTestHarness } from '../../test-utils/testHarness';
 import manifest from './manifest.json';
-import { isContext } from 'vm';
 
 const setup = {
   template: {
