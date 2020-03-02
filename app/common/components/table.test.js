@@ -53,7 +53,6 @@ describe('table', () => {
   it('should render the table rows with text and classes if data is passed in', createTestHarness(setup, (harness) => {
     const context = { params: { ...mockContext.params } };
     harness.request(context, ($) => {
-      console.log($.html())
       context.params.data.forEach((row, rowIndex) => {
         row.forEach((dataPoint, i) => {
           expect($(`[data-test-id="table-row-${rowIndex}"] div:nth-child(${i + 1})`).text().trim()).toEqual(dataPoint.data);
