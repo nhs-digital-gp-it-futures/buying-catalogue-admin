@@ -1,5 +1,13 @@
 {
   "description": "These are the details for the organisation and its users.",
+  "orgSubheading": "Organisation details",
+  "EditOrgButtonText": "Edit organisation",
+  "odsCodeHeading": "ODS code",
+  "primaryRoleIdHeading": "Primary Role ID",
+  "addressHeading": "Business address",
+  "agreementSignedText": "Catalogue agreement has been signed",
+  "accountsSubheading": "User accounts for",
+  "addUserButtonText": "Add new user",
   "columnInfo": [
     {
       "data": "Name",
