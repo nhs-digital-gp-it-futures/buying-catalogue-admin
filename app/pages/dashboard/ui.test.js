@@ -78,6 +78,7 @@ test('should render add org button', async (t) => {
     .expect(addOrgButton.exists).ok()
     .expect(await extractInnerText(addOrgButton)).eql(content.addOrgButtonText)
     .expect(addOrgButton.hasClass('nhsuk-u-margin-bottom-9')).ok()
+    // TODO: Change when add organisation implemented
     .expect(addOrgButton.getAttribute('href')).eql('#');
 });
 
@@ -95,5 +96,5 @@ test('should render the table', async (t) => {
     .expect(columnHeading1.exists).ok()
     .expect(await extractInnerText(columnHeading1)).eql(content.columnInfo[0].data)
     .expect(await extractInnerText(columnHeading2)).eql(content.columnInfo[1].data);
-  // Add tests for column data once API is ready
+  // TODO: Add tests for column data once API is ready and organisation page is merged
 });
