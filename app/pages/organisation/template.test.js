@@ -14,7 +14,7 @@ const mockData = {
   address: ['12 Station Road', 'Leeds', 'West Yorkshire', 'LS15 5FG'],
   isCatalogueAgreementSigned: true,
   agreementSigned: true,
-  data: [
+  users: [
     [{
       data: 'John Smith',
     }, {
