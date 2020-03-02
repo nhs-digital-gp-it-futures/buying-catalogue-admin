@@ -61,7 +61,7 @@ describe('table', () => {
       });
     });
   }));
-  // , href: 'organisations/org2'
+ 
   it('should not render the table rows if no data is passed in', createTestHarness(setup, (harness) => {
     const context = { params: { ...mockContext.params } };
     delete context.params.data;
@@ -80,9 +80,10 @@ describe('table', () => {
     harness.request(context, ($) => {
       context.params.data.forEach((row, rowIndex) => {
         row.forEach((dataPoint, i) => {
-          expect($(`[data-test-id="table-row-${rowIndex}"] a:nth-child(${i + 1})`).text().trim()).toEqual(dataPoint.data);
-          expect($(`[data-test-id="table-row-${rowIndex}"] a:nth-child(${i + 1})`).hasClass(mockContext.params.columnClass)).toEqual(true);
-          expect($(`[data-test-id="table-row-${rowIndex}"] a:nth-child(${i + 1})`).attr('href')).toEqual(dataPoint.href);
+          const aTag = $(`[data-test-id="table-row-${rowIndex}"] a:nth-child(${i + 1})`);
+          expect(aTag.text().trim()).toEqual(dataPoint.data);
+          expect(aTag.hasClass(mockContext.params.columnClass)).toEqual(true);
+          expect(aTag.attr('href')).toEqual(dataPoint.href);
           expect($(`[data-test-id="table-row-${rowIndex}"] div`).length).toEqual(0);
         });
       });
@@ -98,8 +99,9 @@ describe('table', () => {
     harness.request(context, ($) => {
       context.params.data.forEach((row, rowIndex) => {
         row.forEach((dataPoint, i) => {
-          expect($(`[data-test-id="table-row-${rowIndex}"] div:nth-child(${i + 1})`).text().trim()).toEqual(dataPoint.data);
-          expect($(`[data-test-id="table-row-${rowIndex}"] div:nth-child(${i + 1})`).hasClass(mockContext.params.columnClass)).toEqual(true);
+          const divTag = $(`[data-test-id="table-row-${rowIndex}"] div:nth-child(${i + 1})`);
+          expect(divTag.text().trim()).toEqual(dataPoint.data);
+          expect(divTag.hasClass(mockContext.params.columnClass)).toEqual(true);
           expect($(`[data-test-id="table-row-${rowIndex}"] a`).length).toEqual(0);
         });
       });
