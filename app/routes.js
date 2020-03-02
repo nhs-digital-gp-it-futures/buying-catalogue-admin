@@ -30,6 +30,12 @@ router.get('/organisations/:orgId', async (req, res) => {
   res.render('pages/organisation/template.njk', addContext(context));
 });
 
+router.get('/organisations/:orgId/adduser', async (req, res) => {
+  const { orgId } = req.params;
+  logger.info(`navigating to organisation: ${orgId} create user page`);
+  res.send('create user account');
+});
+
 router.get('*', (req, res, next) => next({
   status: 404,
   message: `Incorrect url ${req.originalUrl} - please check it is valid and try again`,

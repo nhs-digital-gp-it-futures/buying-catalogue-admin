@@ -51,6 +51,20 @@ describe('routes', () => {
     });
   });
 
+  describe('GET /organisations/:orgId/adduser', () => {
+    it('should return the correct status and text', () => {
+      const app = new App().createApp();
+      app.use('/', routes);
+
+      return request(app)
+        .get('/organisations/org1/adduser')
+        .expect(200)
+        .then((res) => {
+          expect(res.text).toEqual('create user account');
+        });
+    });
+  });
+
   describe('GET *', () => {
     it('should return error page if url cannot be matched', () => {
       const app = new App().createApp();
