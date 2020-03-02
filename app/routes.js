@@ -1,6 +1,7 @@
 import express from 'express';
 import logger from './logger';
 import { errorHandler } from './pages/error/errorHandler';
+import { getOrgAccountsContext } from './pages/organisation/controller';
 import { getOrgDashboardContext } from './pages/dashboard/controller';
 import includesContext from './includes/manifest.json';
 
@@ -25,7 +26,8 @@ router.get('/organisations', async (req, res) => {
 router.get('/organisations/:orgId', async (req, res) => {
   const { orgId } = req.params;
   logger.info(`navigating to organisation: ${orgId} account page`);
-  res.send('Organisations page');
+  const context = await getOrgAccountsContext(orgId);
+  res.render('pages/organisation/template.njk', addContext(context));
 });
 
 router.get('*', (req, res, next) => next({

@@ -19,7 +19,7 @@ describe('organisations dashboard page', () => {
 
   it('should render a title', createTestHarness(setup, (harness) => {
     harness.request(context, ($) => {
-      const title = $('h1[data-test-id="org-page-title"]');
+      const title = $('h1[data-test-id="org-dashboard-title"]');
       expect(title.length).toEqual(1);
       expect(title.text().trim()).toEqual(context.title);
     });
@@ -27,7 +27,7 @@ describe('organisations dashboard page', () => {
 
   it('should render a description', createTestHarness(setup, (harness) => {
     harness.request(context, ($) => {
-      const description = $('[data-test-id="org-page-description"]');
+      const description = $('[data-test-id="org-dashboard-description"]');
       expect(description.length).toEqual(1);
       expect(description.text().trim()).toEqual(context.description);
     });
@@ -49,6 +49,7 @@ describe('organisations dashboard page', () => {
       expect(orgTable.find('[data-test-id="table"]').length).toEqual(1);
       expect(orgTable.find('[data-test-id="table-headings"]').length).toEqual(1);
       expect(orgTable.find('[data-test-id="column-heading"]').length).toEqual(2);
+      // TODO: Add tests to check the organisations data comes through
     });
   }));
 });

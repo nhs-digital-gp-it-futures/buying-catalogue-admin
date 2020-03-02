@@ -2,6 +2,13 @@
   "title": "Manage organisations and users",
   "description": "Edit existing account information or add new user to an organisation.",
   "addOrgButtonText": "Add an organisation",
-  "columnInfo": [{ "data": "Organisation name", "link": true }, { "data": "ODS code", "link": false }],
+  "columnInfo": [
+    {
+      "data": "Organisation name"
+    },
+    {
+      "data": "ODS code"
+    }
+  ],
   "columnClass": "nhsuk-grid-column-one-half"
 }

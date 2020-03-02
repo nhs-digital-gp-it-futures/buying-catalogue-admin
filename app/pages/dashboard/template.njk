@@ -1,7 +1,7 @@
 {% extends 'includes/layout.njk' %}
 {% from 'components/back-link/macro.njk' import backLink %}
 {% from 'components/button/macro.njk' import button %}
-{% from './components/table.njk' import table %}
+{% from '../../common/components/table.njk' import table %}
 
 {% block body %}
   <div class="nhsuk-width-container" data-test-id="organisations">
@@ -11,8 +11,8 @@
         "text": "Go back to previous page"
       }) }}
     </div>
-    <h1 data-test-id="org-page-title" class="nhsuk-u-margin-top-7 nhsuk-u-margin-bottom-3">{{ title }}</h1>
-    <h2 data-test-id="org-page-description" class="nhsuk-u-font-size-22 nhsuk-u-margin-bottom-9">{{ description }}</h2>
+    <h1 data-test-id="org-dashboard-title" class="nhsuk-u-margin-top-7 nhsuk-u-margin-bottom-3">{{ title }}</h1>
+    <h2 data-test-id="org-dashboard-description" class="nhsuk-u-font-size-22 nhsuk-u-margin-bottom-9">{{ description }}</h2>
 
     <div data-test-id="add-org-button">
       {{ button({
@@ -25,7 +25,7 @@
     <div data-test-id="org-table" class="nhsuk-u-font-size-19">
       {{ table({
         columnInfo: columnInfo,
-        data: data,
+        data: organisations,
         columnClass: columnClass
       })}}
     </div>

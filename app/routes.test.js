@@ -46,7 +46,7 @@ describe('routes', () => {
         .get('/organisations/org1')
         .expect(200)
         .then((res) => {
-          expect(res.text.includes('Organisations page')).toEqual(true);
+          expect(res.text.includes('data-test-id="org-page-title"')).toEqual(true);
         });
     });
   });
