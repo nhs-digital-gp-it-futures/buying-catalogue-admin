@@ -49,6 +49,7 @@ describe('organisations dashboard page', () => {
       expect(orgTable.find('[data-test-id="table"]').length).toEqual(1);
       expect(orgTable.find('[data-test-id="table-headings"]').length).toEqual(1);
       expect(orgTable.find('[data-test-id="column-heading"]').length).toEqual(2);
+      // TODO: Add tests to check the organisations data comes through
     });
   }));
 });
