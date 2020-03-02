@@ -37,7 +37,7 @@ describe('organisations dashboard page', () => {
     harness.request(context, ($) => {
       const addOrgButton = $('[data-test-id="add-org-button"] a');
       expect(addOrgButton.length).toEqual(1);
-      expect(addOrgButton.text().trim()).toEqual('Add an organisation');
+      expect(addOrgButton.text().trim()).toEqual(context.addOrgButtonText);
       expect(addOrgButton.attr('href')).toEqual('#');
     });
   }));

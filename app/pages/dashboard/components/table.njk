@@ -6,7 +6,7 @@
     {% if params.columnInfo %}
       <div data-test-id="table-headings" class="nhsuk-grid-row nhsuk-u-margin-1 nhsuk-u-padding-bottom-3 bc-t-border-bottom--grey-3">
         {% for column in params.columnInfo %}
-          <div data-test-id="column-heading" class="nhsuk-u-padding-1 nhsuk-u-font-weight-bold {{ params.columnClass }}">{{ column.data }}</div>
+          <div data-test-id="column-heading-{{ loop.index0 }}" class="nhsuk-u-padding-1 nhsuk-u-font-weight-bold {{ params.columnClass }}">{{ column.data }}</div>
         {% endfor %}
       </div>
     {% endif %}

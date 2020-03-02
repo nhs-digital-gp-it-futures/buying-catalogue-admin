@@ -1,9 +1,9 @@
 import manifest from './manifest.json';
-import { getOrgDashboardContext } from './contextCreator';
+import { getContext } from './contextCreator';
 
-describe('getOrgDashboardContext', () => {
+describe('getContext', () => {
   it('should return the contents of the manfest', () => {
-    const context = getOrgDashboardContext();
+    const context = getContext();
     expect(context.title).toEqual(manifest.title);
     expect(context.description).toEqual(manifest.description);
     expect(context.columnInfo).toEqual(manifest.columnInfo);
@@ -11,13 +11,13 @@ describe('getOrgDashboardContext', () => {
   });
 
   it('should return an empty array for data key if no data provided', () => {
-    const context = getOrgDashboardContext();
+    const context = getContext();
     expect(context.organisations).toEqual([]);
   });
 
   it('should transform data into correct format if all data provided', () => {
     const mockData = [{ name: 'Greater Manchester CCG', odsCode: 'X01', orgId: 'org1' }, { name: 'Hampshire CCG', odsCode: 'X02', orgId: 'org2' }];
-    const { organisations } = getOrgDashboardContext(mockData);
+    const { organisations } = getContext(mockData);
     expect(organisations[0][0].data).toEqual(mockData[0].name);
     expect(organisations[0][0].href).toEqual(`organisations/${mockData[0].orgId}`);
     expect(organisations[0][1].data).toEqual(mockData[0].odsCode);
@@ -32,7 +32,7 @@ describe('getOrgDashboardContext', () => {
       { name: 'Hampshire CCG', orgId: 'org2' },
       { name: 'Somerset CCG', odsCode: 'X01' },
     ];
-    const { organisations } = getOrgDashboardContext(mockData);
+    const { organisations } = getContext(mockData);
     expect(organisations[0][0].data).toEqual('');
     expect(organisations[0][0].href).toEqual(`organisations/${mockData[0].orgId}`);
     expect(organisations[0][1].data).toEqual(mockData[0].odsCode);
