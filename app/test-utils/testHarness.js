@@ -3,7 +3,7 @@ import express from 'express';
 import request from 'supertest';
 import cheerio from 'cheerio';
 import nunjucks from 'nunjucks';
-import { App } from '../../app';
+import { App } from '../app';
 
 const testFunction = ({ setup, done }) => {
   const app = new App().createApp();

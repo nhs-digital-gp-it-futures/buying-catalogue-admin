@@ -1,6 +1,6 @@
 const browserSync = require('browser-sync');
-const routes = require('./app/routes');
-const config = require('./app/config');
+const routes = require('./routes');
+const config = require('./config');
 const { App } = require('./app');
 
 // Routes
@@ -11,7 +11,7 @@ app.use('/', routes);
 if (config.env === 'development') {
   app.listen(config.port - 50, () => {
     browserSync({
-      files: ['public/**/*.*'],
+      files: ['../public/**/*.*'],
       notify: true,
       open: false,
       port: config.port,
