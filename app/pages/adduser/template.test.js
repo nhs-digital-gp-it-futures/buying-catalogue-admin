@@ -57,8 +57,7 @@ describe('organisations add user page', () => {
         expect(labels.length).toEqual(context.questions.length);
         context.questions.forEach((question, i) => {
           expect(labels[i].attribs.for).toEqual(question.id);
-          expect(labels[i].children[0].data.trim()).toEqual(question.text);
-          expect(labels[i].attribs.class).toEqual('nhsuk-label nhsuk-u-margin-top-5');
+          expect(labels[i].children[0].data.trim()).toEqual(question.mainAdvice);
         });
       });
     }));
