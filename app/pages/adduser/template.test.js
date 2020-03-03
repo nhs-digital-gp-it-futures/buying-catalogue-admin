@@ -41,7 +41,7 @@ describe('organisations add user page', () => {
     });
   }));
 
-  fit('should render the organisation name', createTestHarness(setup, (harness) => {
+  it('should render the organisation name', createTestHarness(setup, (harness) => {
     const modifiedContext = { ...context, orgName: 'a lovely org name' };
     harness.request(modifiedContext, ($) => {
       const orgName = $('[data-test-id="org-name"]');
