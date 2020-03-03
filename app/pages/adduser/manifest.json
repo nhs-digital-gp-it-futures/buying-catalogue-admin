@@ -1,0 +1,24 @@
+{
+  "title": "Add new user",
+  "description": "Provide the following information to make a new user account.",
+  "orgNameSubheading": "Organisation name",
+  "questions": [
+    {
+      "id": "firstName",
+      "text": "First name"
+    },
+    {
+      "id": "lastName",
+      "text": "Last name"
+    },
+    {
+      "id": "phoneNumber",
+      "text": "Telephone number"
+    },
+    {
+      "id": "emailAddress",
+      "text": "Email address"
+    }
+  ],
+  "addUserButtonText": "Add user"
+}
