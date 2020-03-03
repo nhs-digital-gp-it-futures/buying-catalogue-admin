@@ -10,7 +10,7 @@ describe('getContext', () => {
     expect(context.columnClass).toEqual(manifest.columnClass);
   });
 
-  it('should return an empty array for data key if no data provided', () => {
+  it('should return an empty array for organisations key if no data provided', () => {
     const context = getContext({});
     expect(context.organisations).toEqual([]);
   });
