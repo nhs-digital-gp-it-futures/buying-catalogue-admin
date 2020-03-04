@@ -14,9 +14,10 @@ const config = require('./config');
 const locals = require('./locals');
 
 class App {
-  constructor() {
+  constructor(authProvider) {
     // Initialise application
     this.app = express();
+    this.authProvider = authProvider;
   }
 
   createApp() {
@@ -55,6 +56,12 @@ class App {
     });
 
     env.addFilter('dateTime', dateFilter);
+
+    if (this.authProvider) {
+      this.authProvider.setup(this.app);
+    }
+
+
     return this.app;
   }
 }

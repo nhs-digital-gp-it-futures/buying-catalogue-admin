@@ -1,8 +1,9 @@
 require('dotenv').config();
 const browserSync = require('browser-sync');
-const routes = require('./routes');
 const config = require('./config');
 const { App } = require('./app');
+const { AuthProvider } = require('./authProvider');
+const { routes } = require('./routes');
 const { logger } = require('./logger');
 
 Object.keys(config).map((configKey) => {
@@ -14,8 +15,9 @@ Object.keys(config).map((configKey) => {
 });
 
 // Routes
-const app = new App().createApp();
-app.use('/', routes);
+const authProvider = new AuthProvider();
+const app = new App(authProvider).createApp();
+app.use('/', routes(authProvider));
 
 // Run application on configured port
 if (config.env === 'development') {

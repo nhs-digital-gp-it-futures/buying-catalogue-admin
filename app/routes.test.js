@@ -1,17 +1,22 @@
 import request from 'supertest';
 import { App } from './app';
-import routes from './routes';
+import { routes } from './routes';
+import { FakeAuthProvider } from './test-utils/FakeAuthProvider';
 import * as orgDashboardContext from './pages/dashboard/contextCreator';
 
 jest.mock('./logger');
 
+const setUpFakeApp = () => {
+  const authProvider = new FakeAuthProvider();
+  const app = new App(authProvider).createApp();
+  app.use('/', routes(authProvider));
+  return app;
+};
+
 describe('routes', () => {
   describe('GET /health/live', () => {
     it('should return the correct status and text', () => {
-      const app = new App().createApp();
-      app.use('/', routes);
-
-      return request(app)
+      return request(setUpFakeApp())
         .get('/health/live')
         .expect(200)
         .then((res) => {
@@ -20,14 +25,23 @@ describe('routes', () => {
     });
   });
 
+  describe('GET /login', () => {
+    it('should return the correct status and redirect to the login page when not authenticated', () => (
+      request(setUpFakeApp())
+        .get('/login')
+        .expect(302)
+        .then((res) => {
+          expect(res.redirect).toEqual(true);
+          expect(res.headers.location).toEqual('http://identity-server/login');
+        })));
+  });
+
   describe('GET /organisations', () => {
     it('should return the correct status and text', () => {
       orgDashboardContext.getOrgDashboardContext = jest.fn()
         .mockImplementation(() => {});
-      const app = new App().createApp();
-      app.use('/', routes);
 
-      return request(app)
+      return request(setUpFakeApp())
         .get('/organisations')
         .expect(200)
         .then((res) => {
@@ -39,10 +53,7 @@ describe('routes', () => {
 
   describe('GET /organisations/:orgId', () => {
     it('should return the correct status and text', () => {
-      const app = new App().createApp();
-      app.use('/', routes);
-
-      return request(app)
+      return request(setUpFakeApp())
         .get('/organisations/org1')
         .expect(200)
         .then((res) => {
@@ -53,10 +64,7 @@ describe('routes', () => {
 
   describe('GET /organisations/:orgId/adduser', () => {
     it('should return the correct status and text', () => {
-      const app = new App().createApp();
-      app.use('/', routes);
-
-      return request(app)
+      return request(setUpFakeApp())
         .get('/organisations/org1/adduser')
         .expect(200)
         .then((res) => {
@@ -67,9 +75,7 @@ describe('routes', () => {
 
   describe('GET *', () => {
     it('should return error page if url cannot be matched', () => {
-      const app = new App().createApp();
-      app.use('/', routes);
-      return request(app)
+      return request(setUpFakeApp())
         .get('/aaaa')
         .expect(200)
         .then((res) => {
