@@ -5,6 +5,7 @@ import { getOrgAccountsContext } from './pages/organisation/controller';
 import { getOrgDashboardContext } from './pages/dashboard/controller';
 import { getAddUserContext, postAddUser } from './pages/adduser/controller';
 import includesContext from './includes/manifest.json';
+import { getAddUserConfirmationContext } from './pages/adduser/confirmation/controller';
 
 const addContext = context => ({
   ...context,
@@ -36,6 +37,13 @@ router.get('/organisations/:orgId/adduser', async (req, res) => {
   logger.info(`navigating to organisation: ${orgId} add user page`);
   const context = await getAddUserContext(orgId);
   res.render('pages/adduser/template.njk', addContext(context));
+});
+
+router.get('/organisations/:orgId/adduser/confirmation', async (req, res) => {
+  const { orgId } = req.params;
+  logger.info(`navigating to organisation: ${orgId} add user confirmation page`);
+  const context = await getAddUserConfirmationContext(orgId);
+  res.render('pages/adduser/confirmation/template.njk', addContext(context));
 });
 
 router.post('/organisations/:orgId/adduser', async (req, res) => {
