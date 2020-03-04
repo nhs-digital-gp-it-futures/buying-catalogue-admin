@@ -1,7 +1,17 @@
+require('dotenv').config();
 const browserSync = require('browser-sync');
 const routes = require('./routes');
 const config = require('./config');
 const { App } = require('./app');
+const { logger } = require('./logger');
+
+Object.keys(config).map((configKey) => {
+  if (config[configKey]) {
+    logger.info(`${configKey} set to ${config[configKey]}`);
+  } else {
+    logger.error(`${configKey} not set`);
+  }
+});
 
 // Routes
 const app = new App().createApp();

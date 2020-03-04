@@ -1,7 +1,7 @@
 // import axios from 'axios';
 import { getContext } from './contextCreator';
 import { identityServer } from '../../config';
-import logger from '../../logger';
+import { logger } from '../../logger';
 
 export const getOrgAccountsContext = (orgId) => {
   const endpoint = `${identityServer}/api/v1/Organisations/${orgId}`;
