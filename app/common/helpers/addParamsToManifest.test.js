@@ -91,18 +91,6 @@ describe('addParamsToManifest', () => {
           key: 'emailAddress',
           value: '{{emailAddress}}',
         },
-        {
-          key: 'firstName',
-          value: '{{firstName}}',
-        },
-        {
-          key: 'lastName',
-          value: '{{lastName}}',
-        },
-        {
-          key: 'fullName',
-          value: '{{firstName}} {{lastName}}',
-        },
       ],
     };
 
@@ -115,18 +103,6 @@ describe('addParamsToManifest', () => {
         {
           key: 'emailAddress',
           value: 'john.smith@email.com',
-        },
-        {
-          key: 'firstName',
-          value: 'John',
-        },
-        {
-          key: 'lastName',
-          value: 'Smith',
-        },
-        {
-          key: 'fullName',
-          value: 'John Smith',
         },
       ],
     };
