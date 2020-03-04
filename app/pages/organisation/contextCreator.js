@@ -9,6 +9,7 @@ export const getContext = ({ data }) => ({
   address: data.address ? data.address.split(',') : [],
   agreementSigned: data.isCatalogueAgreementSigned,
   columnInfo: manifest.columnInfo ? manifest.columnInfo : [],
+  addUserButtonHref: `/organisations/${data.organisationId}/adduser`,
   users: data && data.users ? data.users.map(row => [
     { data: row.name || '', href: '#' || '#' },
     { data: row.telephone || '' },

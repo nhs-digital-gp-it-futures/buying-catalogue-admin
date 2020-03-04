@@ -39,7 +39,7 @@ describe('getOrgDashboardContext', () => {
     expect(context.columnClass).toEqual(manifest.columnClass);
   });
 
-  it('should return an empty array for data key if no data provided', () => {
+  it('should return an empty array for users key if no data provided', () => {
     const context = getContext({ data: {} });
     expect(context.users).toEqual([]);
   });
@@ -85,5 +85,10 @@ describe('getOrgDashboardContext', () => {
     expect(users[1][1].data).toEqual(mockData.users[1].telephone);
     expect(users[1][2].data).toEqual('');
     expect(users[1][3].tag).toEqual(false);
+  });
+
+  it('should create an add user button href', () => {
+    const context = getContext({ data: { organisationId: 'org1' } });
+    expect(context.addUserButtonHref).toEqual('/organisations/org1/adduser');
   });
 });

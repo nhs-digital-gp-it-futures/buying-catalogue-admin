@@ -3,6 +3,7 @@ import logger from './logger';
 import { errorHandler } from './pages/error/errorHandler';
 import { getOrgAccountsContext } from './pages/organisation/controller';
 import { getOrgDashboardContext } from './pages/dashboard/controller';
+import { getAddUserContext, postAddUser } from './pages/adduser/controller';
 import includesContext from './includes/manifest.json';
 
 const addContext = context => ({
@@ -32,8 +33,24 @@ router.get('/organisations/:orgId', async (req, res) => {
 
 router.get('/organisations/:orgId/adduser', async (req, res) => {
   const { orgId } = req.params;
-  logger.info(`navigating to organisation: ${orgId} create user page`);
-  res.send('create user account');
+  logger.info(`navigating to organisation: ${orgId} add user page`);
+  const context = await getAddUserContext(orgId);
+  res.render('pages/adduser/template.njk', addContext(context));
+});
+
+router.post('/organisations/:orgId/adduser', async (req, res) => {
+  const { orgId } = req.params;
+  const response = await postAddUser({ orgId, data: req.body });
+
+  if (response.success) {
+    res.send('Confirmation page');
+    // TODO: Uncomment when confirmation page is done
+    // return res.redirect('/organisations/:orgId/adduser/success (TBD)');
+  }
+  // TODO: Implement with errors
+  // const context = await getAddUserPageErrorContext({ validationErrors: response (etc) });
+
+  //   return res.render('pages/adduser/template', context);
 });
 
 router.get('*', (req, res, next) => next({

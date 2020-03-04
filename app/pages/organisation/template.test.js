@@ -14,6 +14,7 @@ const mockData = {
   address: ['12 Station Road', 'Leeds', 'West Yorkshire', 'LS15 5FG'],
   isCatalogueAgreementSigned: true,
   agreementSigned: true,
+  addUserButtonHref: '/organisations/org1/adduser',
   users: [
     [{
       data: 'John Smith',
@@ -153,7 +154,7 @@ describe('organisations dashboard page', () => {
       const addOrgButton = $('[data-test-id="add-user-button"] a');
       expect(addOrgButton.length).toEqual(1);
       expect(addOrgButton.text().trim()).toEqual(mockContext.addUserButtonText);
-      expect(addOrgButton.attr('href')).toEqual('#');
+      expect(addOrgButton.attr('href')).toEqual(`/organisations/${mockContext.orgId}/adduser`);
     });
   }));
 
