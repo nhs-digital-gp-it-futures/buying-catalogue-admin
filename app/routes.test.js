@@ -15,14 +15,13 @@ const setUpFakeApp = () => {
 
 describe('routes', () => {
   describe('GET /health/live', () => {
-    it('should return the correct status and text', () => {
-      return request(setUpFakeApp())
+    it('should return the correct status and text', () => (
+      request(setUpFakeApp())
         .get('/health/live')
         .expect(200)
         .then((res) => {
           expect(res.text).toBe('Buying Catalogue Admin app is running!');
-        });
-    });
+        })));
   });
 
   describe('GET /login', () => {
@@ -52,35 +51,32 @@ describe('routes', () => {
   });
 
   describe('GET /organisations/:orgId', () => {
-    it('should return the correct status and text', () => {
-      return request(setUpFakeApp())
+    it('should return the correct status and text', () => (
+      request(setUpFakeApp())
         .get('/organisations/org1')
         .expect(200)
         .then((res) => {
           expect(res.text.includes('data-test-id="org-page-title"')).toEqual(true);
-        });
-    });
+        })));
   });
 
   describe('GET /organisations/:orgId/adduser', () => {
-    it('should return the correct status and text', () => {
-      return request(setUpFakeApp())
+    it('should return the correct status and text', () => (
+      request(setUpFakeApp())
         .get('/organisations/org1/adduser')
         .expect(200)
         .then((res) => {
           expect(res.text).toEqual('create user account');
-        });
-    });
+        })));
   });
 
   describe('GET *', () => {
-    it('should return error page if url cannot be matched', () => {
-      return request(setUpFakeApp())
+    it('should return error page if url cannot be matched', () => (
+      request(setUpFakeApp())
         .get('/aaaa')
         .expect(200)
         .then((res) => {
           expect(res.text.includes('<h1 class="nhsuk-heading-l nhsuk-u-padding-left-3" data-test-id="error-page-title">Error: Incorrect url /aaaa - please check it is valid and try again</h1>')).toEqual(true);
-        });
-    });
+        })));
   });
 });
