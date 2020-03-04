@@ -10,10 +10,10 @@ const setup = {
 describe('organisations add user page', () => {
   it('should render a backLink', createTestHarness(setup, (harness) => {
     harness.request(context, ($) => {
-      const homepageBackLink = $('[data-test-id="go-back-link"]');
-      expect(homepageBackLink.length).toEqual(1);
-      expect(homepageBackLink.text().trim()).toEqual('Back');
-      expect($(homepageBackLink).find('a').attr('href')).toEqual('./');
+      const backLink = $('[data-test-id="go-back-link"]');
+      expect(backLink.length).toEqual(1);
+      expect(backLink.text().trim()).toEqual('Back');
+      expect($(backLink).find('a').attr('href')).toEqual('./');
     });
   }));
 
