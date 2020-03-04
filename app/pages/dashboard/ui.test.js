@@ -52,7 +52,7 @@ test('should navigate to / when click Back', async (t) => {
 test('should render the title', async (t) => {
   await pageSetup(t);
 
-  const title = Selector('h1[data-test-id="org-page-title"]');
+  const title = Selector('h1[data-test-id="org-dashboard-title"]');
 
   await t
     .expect(title.exists).ok()
@@ -62,7 +62,7 @@ test('should render the title', async (t) => {
 test('should render the description', async (t) => {
   await pageSetup(t);
 
-  const description = Selector('h2[data-test-id="org-page-description"]');
+  const description = Selector('h2[data-test-id="org-dashboard-description"]');
 
   await t
     .expect(description.exists).ok()
@@ -87,8 +87,8 @@ test('should render the table', async (t) => {
 
   const table = Selector('div[data-test-id="org-table"]');
   const tableHeadings = Selector('[data-test-id="table-headings"]');
-  const columnHeading1 = tableHeadings.find('[data-test-id="column-heading-0"]');
-  const columnHeading2 = tableHeadings.find('[data-test-id="column-heading-1"]');
+  const columnHeading1 = tableHeadings.find('[data-test-id="column-heading"]:nth-child(1)');
+  const columnHeading2 = tableHeadings.find('[data-test-id="column-heading"]:nth-child(2)');
 
   await t
     .expect(table.exists).ok()
