@@ -5,10 +5,61 @@ import { extractInnerText } from '../../test-utils/helper';
 // import { apiLocalhost } from '../../test-utils/config';
 // import organisationsList from '../../test-utils/fixtures/organisationsList.json';
 
+const setCookies = ClientFunction(() => {
+  const cookieValue = JSON.stringify({
+    id: '88421113', name: 'Cool Dude', _raw: '{"sub":"88421113"}', _json: { sub: '88421113' },
+  });
 
-const pageSetup = async (t) => {
+  document.cookie = `fakeToken=${cookieValue}`;
+});
+
+const pageSetup = async (t, withAuth = false) => {
+  if (withAuth) {
+    await setCookies();
+  }
   await t.navigateTo('http://localhost:1234/organisations');
 };
+
+fixture('Header')
+  .page('http://localhost:1234/healthcheck')
+  .afterEach(async (t) => {
+    const isDone = nock.isDone();
+    if (!isDone) {
+      nock.cleanAll();
+    }
+
+    await t.expect(isDone).ok('Not all nock interceptors were used!');
+  });
+
+test('when user is not authenticated - should display the login link', async (t) => {
+  await pageSetup(t);
+
+  const loginComponent = Selector('[data-test-id="login-logout-component"] a');
+  await t
+    .expect(await extractInnerText(loginComponent)).eql('Log in');
+});
+
+test('when user is not authenticated - should navigate to the identity server login page when clicking the login link', async (t) => {
+  await pageSetup(t);
+
+  nock('http://identity-server')
+    .get('/login')
+    .reply(200);
+
+  const getLocation = ClientFunction(() => document.location.href);
+  const loginComponent = Selector('[data-test-id="login-logout-component"] a');
+  await t
+    .click(loginComponent)
+    .expect(getLocation()).eql('http://identity-server/login');
+});
+
+test('when user is authenticated - should display the logout link', async (t) => {
+  await pageSetup(t, true);
+
+  const logoutComponent = Selector('[data-test-id="login-logout-component"] a');
+  await t
+    .expect(await extractInnerText(logoutComponent)).eql('Log out');
+});
 
 // TODO: Use when API work is complete
 // const mocks = () => {
