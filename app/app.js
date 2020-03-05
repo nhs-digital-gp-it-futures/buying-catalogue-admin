@@ -3,6 +3,7 @@ const path = require('path');
 const favicon = require('serve-favicon');
 const csurf = require('csurf');
 const cookieParser = require('cookie-parser');
+const helmet = require('helmet');
 
 // External dependencies
 const compression = require('compression');
@@ -40,6 +41,8 @@ class App {
     });
     this.app.use(cookieParser());
     this.app.use(csrfMiddleware);
+
+    this.app.use(helmet());
 
     // Middleware to serve static assets
     this.app.use(express.static(path.join(__dirname, '/../public/')));
