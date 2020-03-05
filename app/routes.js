@@ -10,7 +10,7 @@ import { getAddUserConfirmationContext } from './pages/adduser/confirmation/cont
 const addContext = ({ context, user }) => ({
   ...context,
   ...includesContext,
-  username: user && user.id,
+  username: user && user.name,
 });
 
 export const routes = (authProvider) => {
@@ -23,7 +23,6 @@ export const routes = (authProvider) => {
 
   router.get('/login', authProvider.authenticate({
     successReturnToOrRedirect: '/organisations',
-    scope: 'profile',
   }));
 
   router.get('/oauth/callback', authProvider.authenticate({
