@@ -2,6 +2,7 @@ import request from 'supertest';
 import { App } from './app';
 import { routes } from './routes';
 import { FakeAuthProvider } from './test-utils/FakeAuthProvider';
+import { getCsrfTokenFromGet } from './test-utils/helper';
 import * as orgDashboardContext from './pages/dashboard/contextCreator';
 import * as addUserController from './pages/adduser/controller';
 
@@ -83,13 +84,33 @@ describe('routes', () => {
       addUserController.postAddUser.mockReset();
     });
 
-    it('should return the correct status and text if response.success is true', () => {
+    it('should return 403 forbidden if no csrf token is available', () => {
       addUserController.postAddUser = jest.fn()
         .mockImplementation(() => Promise.resolve({ success: true }));
 
       return request(setUpFakeApp())
-        .post('/organisations/:orgId/adduser')
-        .send(mockAddUserData)
+        .post('/organisations/org1/adduser')
+        .type('form')
+        .send({
+          ...mockAddUserData,
+        })
+        .expect(403);
+    });
+
+    it('should return the correct status and text if response.success is true', async () => {
+      addUserController.postAddUser = jest.fn()
+        .mockImplementation(() => Promise.resolve({ success: true }));
+
+      const { cookies, csrfToken } = await getCsrfTokenFromGet(setUpFakeApp(), '/organisations/org1/adduser');
+
+      return request(setUpFakeApp())
+        .post('/organisations/org1/adduser')
+        .type('form')
+        .set('Cookie', cookies)
+        .send({
+          ...mockAddUserData,
+          _csrf: csrfToken,
+        })
         // TODO: Change to test redirect when confirmation page is done
         // .expect(302)
         .expect(200)

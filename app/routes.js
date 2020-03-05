@@ -7,10 +7,11 @@ import { getAddUserContext, postAddUser } from './pages/adduser/controller';
 import includesContext from './includes/manifest.json';
 import { getAddUserConfirmationContext } from './pages/adduser/confirmation/controller';
 
-const addContext = ({ context, user }) => ({
+const addContext = ({ context, user, csrfToken }) => ({
   ...context,
   ...includesContext,
   username: user && user.name,
+  csrfToken,
 });
 
 export const routes = (authProvider) => {
@@ -41,14 +42,7 @@ export const routes = (authProvider) => {
     const { orgId } = req.params;
     logger.info(`navigating to organisation: ${orgId} add user page`);
     const context = await getAddUserContext(orgId);
-    res.render('pages/adduser/template.njk', addContext({ context, user: req.user }));
-  });
-
-  router.get('/organisations/:orgId/adduser/confirmation', async (req, res) => {
-    const { orgId } = req.params;
-    logger.info(`navigating to organisation: ${orgId} add user confirmation page`);
-    const context = await getAddUserConfirmationContext(orgId);
-    res.render('pages/adduser/confirmation/template.njk', addContext({ context, user: req.user }));
+    res.render('pages/adduser/template.njk', addContext({ context, user: req.user, csrfToken: req.csrfToken() }));
   });
 
   router.post('/organisations/:orgId/adduser', async (req, res) => {
@@ -66,17 +60,18 @@ export const routes = (authProvider) => {
     //   return res.render('pages/adduser/template', context);
   });
 
+  router.get('/organisations/:orgId/adduser/confirmation', async (req, res) => {
+    const { orgId } = req.params;
+    logger.info(`navigating to organisation: ${orgId} add user confirmation page`);
+    const context = await getAddUserConfirmationContext(orgId);
+    res.render('pages/adduser/confirmation/template.njk', addContext({ context, user: req.user }));
+  });
+
   router.get('/organisations/:orgId', async (req, res) => {
     const { orgId } = req.params;
     logger.info(`navigating to organisation: ${orgId} account page`);
     const context = await getOrgAccountsContext(orgId);
     res.render('pages/organisation/template.njk', addContext({ context, user: req.user }));
-  });
-
-  router.get('/organisations/:orgId/adduser', async (req, res) => {
-    const { orgId } = req.params;
-    logger.info(`navigating to organisation: ${orgId} create user page`);
-    res.send('create user account');
   });
 
   router.get('*', (req, res, next) => next({

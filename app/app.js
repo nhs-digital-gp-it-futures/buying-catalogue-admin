@@ -1,6 +1,8 @@
 // Core dependencies
 const path = require('path');
 const favicon = require('serve-favicon');
+const csurf = require('csurf');
+const cookieParser = require('cookie-parser');
 
 // External dependencies
 const compression = require('compression');
@@ -31,6 +33,13 @@ class App {
     this.app.use(bodyParser.urlencoded({ extended: true }));
 
     this.app.use(express.json());
+
+    // Middleware for csurf
+    const csrfMiddleware = csurf({
+      cookie: true,
+    });
+    this.app.use(cookieParser());
+    this.app.use(csrfMiddleware);
 
     // Middleware to serve static assets
     this.app.use(express.static(path.join(__dirname, '/../public/')));
