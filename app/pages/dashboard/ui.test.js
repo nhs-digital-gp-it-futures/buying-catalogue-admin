@@ -2,8 +2,8 @@ import nock from 'nock';
 import { Selector, ClientFunction } from 'testcafe';
 import content from './manifest.json';
 import { extractInnerText } from '../../test-utils/helper';
-import { apiLocalhost } from '../../test-utils/config';
-import organisationsList from '../../test-utils/fixtures/organisationsList.json';
+// import { apiLocalhost } from '../../test-utils/config';
+// import organisationsList from '../../test-utils/fixtures/organisationsList.json';
 
 // const mocks = () => {
 //   nock(apiLocalhost)
