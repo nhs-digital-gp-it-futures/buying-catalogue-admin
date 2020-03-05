@@ -1,5 +1,4 @@
 import passport from 'passport';
-// import PassportClient from 'passport-openidconnect';
 import { Strategy, Issuer } from 'openid-client';
 import session from 'cookie-session';
 import {

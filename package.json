@@ -45,7 +45,6 @@
     "nunjucks-date-filter": "^0.1.1",
     "openid-client": "^3.14.0",
     "passport": "^0.4.1",
-    "passport-openidconnect": "0.0.2",
     "serve-favicon": "^2.5.0",
     "winston": "^3.2.1"
   },
