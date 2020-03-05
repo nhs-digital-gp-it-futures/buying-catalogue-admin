@@ -2,20 +2,19 @@ import nock from 'nock';
 import { Selector, ClientFunction } from 'testcafe';
 import content from './manifest.json';
 import { extractInnerText } from '../../test-utils/helper';
-// import { apiLocalhost } from '../../test-utils/config';
-// import organisationsList from '../../test-utils/fixtures/organisationsList.json';
+import { apiLocalhost } from '../../test-utils/config';
+import organisationsList from '../../test-utils/fixtures/organisationsList.json';
 
-
-const pageSetup = async (t) => {
-  await t.navigateTo('http://localhost:1234/organisations');
-};
-
-// TODO: Use when API work is complete
 // const mocks = () => {
 //   nock(apiLocalhost)
 //     .get('/api/v1/Organisations')
 //     .reply(200, organisationsList);
 // };
+
+const pageSetup = async (t) => {
+  // await mocks();
+  await t.navigateTo('http://localhost:1234/organisations');
+};
 
 const getLocation = ClientFunction(() => document.location.href);
 
@@ -96,5 +95,5 @@ test('should render the table', async (t) => {
     .expect(columnHeading1.exists).ok()
     .expect(await extractInnerText(columnHeading1)).eql(content.columnInfo[0].data)
     .expect(await extractInnerText(columnHeading2)).eql(content.columnInfo[1].data);
-  // TODO: Add tests for column data once API is ready and organisation page is merged
+  // TODO: Add tests for column data once API is ready
 });
