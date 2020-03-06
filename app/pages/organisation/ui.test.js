@@ -90,6 +90,7 @@ test('should render edit org button', async (t) => {
     .expect(editOrgButton.hasClass('nhsuk-u-margin-bottom-9')).ok()
     // TODO: Change when edit organisation implemented
     .expect(editOrgButton.getAttribute('href')).eql('#');
+  // .click()
 });
 
 test('should render organisation ods code', async (t) => {
@@ -180,6 +181,7 @@ test('should render add user button', async (t) => {
     .expect(addUserButton.hasClass('nhsuk-u-margin-bottom-9')).ok();
   // TODO: Uncomment when API returns organisation details
   // .expect(addUserButton.getAttribute('href')).eql(`/organisations/${organisationDetails.organisationId}/adduser`);
+  // .click()
 });
 
 test('should render the table with users', async (t) => {
@@ -199,4 +201,5 @@ test('should render the table with users', async (t) => {
     .expect(await extractInnerText(columnHeading2)).eql(content.columnInfo[1].data)
     .expect(await extractInnerText(columnHeading3)).eql(content.columnInfo[2].data);
   // TODO: Add tests when API returns organisation users
+  // .click()
 });
