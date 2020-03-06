@@ -51,8 +51,8 @@ router.post('/organisations/:orgId/adduser', async (req, res) => {
   const response = await postAddUser({ orgId, data: req.body });
 
   if (response.success) {
-    return res.redirect(`/organisations/${orgId}/adduser/confirmation`);
-  }
+    res.redirect(`/organisations/${orgId}/adduser/confirmation`);
+  } else res.send('Error adding user');
   // TODO: Implement with errors
   // const context = await getAddUserPageErrorContext({ validationErrors: response (etc) });
 

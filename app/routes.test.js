@@ -95,23 +95,24 @@ describe('routes', () => {
     });
 
     // TODO: Implement with errors
-    // it('should return the correct status and text if response.success is false', () => {
-    //   addUserController.postAddUser = jest.fn()
-    //     .mockImplementation(() => Promise.resolve());
-    //   addUserController.getAddUserPageErrorContext = jest.fn()
-    //     .mockImplementation(() => Promise.resolve(mockAddUserErrorContext));
-    //   const app = new App().createApp();
-    //   app.use('/authority', routes);
-    //   return request(app)
-    //     .post('/organisations/:orgId/adduser')
-    //     .send(mockAddUserData)
-    //     .expect(200)
-    //     .then((res) => {
-    //       expect(res.text.includes('')).toEqual(true);
-    //       expect(res.text.includes('data-test-id="error-page-title"')).toEqual(false);
-    //       addUserController.getAddUserPageErrorContext.mockReset();
-    //     });
-    // });
+    it('should return the correct status and text if response.success is false', () => {
+      addUserController.postAddUser = jest.fn()
+        .mockImplementation(() => Promise.resolve({ success: false }));
+      // addUserController.getAddUserPageErrorContext = jest.fn()
+      // .mockImplementation(() => Promise.resolve(mockAddUserErrorContext));
+      const app = new App().createApp();
+      app.use('/', routes);
+      return request(app)
+        .post('/organisations/:orgId/adduser')
+        .send(mockAddUserData)
+        .expect(200)
+        .then((res) => {
+          expect(res.text).toEqual('Error adding user');
+          // expect(res.text.includes('')).toEqual(true);
+        // expect(res.text.includes('data-test-id="error-page-title"')).toEqual(false);
+        // addUserController.getAddUserPageErrorContext.mockReset();
+        });
+    });
   });
 
   describe('GET *', () => {
