@@ -14,6 +14,7 @@
         "text": "Back"
       }) }}
     </div>
+
     <h1 data-test-id="add-user-page-title" class="nhsuk-u-margin-top-7 nhsuk-u-margin-bottom-3">{{ title }}</h1>
     <h2 data-test-id="add-user-page-description" class="nhsuk-u-font-size-24 nhsuk-u-margin-bottom-6">{{ description }}</h2>
 
@@ -26,7 +27,7 @@
 
     <form method="post" action="{{ submitActionUrl }}">
       <div class="nhsuk-grid-row">
-        <div class="nhsuk-grid-column-two-thirds bc-c-add-user">
+        <div class="nhsuk-grid-column-two-thirds">
           {% for question in questions %}
             <div class="nhsuk-u-margin-bottom-4">
               {{ textField({
