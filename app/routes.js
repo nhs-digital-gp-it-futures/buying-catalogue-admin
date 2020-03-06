@@ -51,9 +51,7 @@ router.post('/organisations/:orgId/adduser', async (req, res) => {
   const response = await postAddUser({ orgId, data: req.body });
 
   if (response.success) {
-    res.send('Confirmation page');
-    // TODO: Uncomment when confirmation page is done
-    // return res.redirect('/organisations/:orgId/adduser/success (TBD)');
+    return res.redirect(`/organisations/${orgId}/adduser/confirmation`);
   }
   // TODO: Implement with errors
   // const context = await getAddUserPageErrorContext({ validationErrors: response (etc) });

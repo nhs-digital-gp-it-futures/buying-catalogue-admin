@@ -86,12 +86,10 @@ describe('routes', () => {
       return request(app)
         .post('/organisations/:orgId/adduser')
         .send(mockAddUserData)
-        // TODO: Change to test redirect when confirmation page is done
-        // .expect(302)
-        .expect(200)
+        .expect(302)
         .then((res) => {
-          expect(res.text).toEqual('Confirmation page');
-          // expect(res.redirect).toEqual(true);
+          expect(res.redirect).toEqual(true);
+          expect(res.headers.location).toEqual('/organisations/:orgId/adduser/confirmation');
           expect(res.text.includes('data-test-id="error-page-title"')).toEqual(false);
         });
     });
