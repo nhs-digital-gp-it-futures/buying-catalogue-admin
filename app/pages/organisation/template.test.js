@@ -160,7 +160,7 @@ describe('organisations dashboard page', () => {
 
   it('should render the table component', createTestHarness(setup, (harness) => {
     harness.request(mockContext, ($) => {
-      const orgTable = $('[data-test-id="org-table"]');
+      const orgTable = $('[data-test-id="user-table"]');
       expect(orgTable.length).toEqual(1);
       expect(orgTable.find('[data-test-id="table"]').length).toEqual(1);
       expect(orgTable.find('[data-test-id="table-headings"]').length).toEqual(1);
