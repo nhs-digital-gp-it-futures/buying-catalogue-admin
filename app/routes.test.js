@@ -1,10 +1,19 @@
 import request from 'supertest';
 import { App } from './app';
-import routes from './routes';
+import { routes } from './routes';
+import { FakeAuthProvider } from './test-utils/FakeAuthProvider';
+import { getCsrfTokenFromGet } from './test-utils/helper';
 import * as orgDashboardContext from './pages/dashboard/contextCreator';
 import * as addUserController from './pages/adduser/controller';
 
 jest.mock('./logger');
+
+const setUpFakeApp = () => {
+  const authProvider = new FakeAuthProvider();
+  const app = new App(authProvider).createApp();
+  app.use('/', routes(authProvider));
+  return app;
+};
 
 const mockAddUserData = {
   firstName: 'Jane',
@@ -15,27 +24,32 @@ const mockAddUserData = {
 
 describe('routes', () => {
   describe('GET /health/live', () => {
-    it('should return the correct status and text', () => {
-      const app = new App().createApp();
-      app.use('/', routes);
-
-      return request(app)
+    it('should return the correct status and text', () => (
+      request(setUpFakeApp())
         .get('/health/live')
         .expect(200)
         .then((res) => {
           expect(res.text).toBe('Buying Catalogue Admin app is running!');
-        });
-    });
+        })));
+  });
+
+  describe('GET /login', () => {
+    it('should return the correct status and redirect to the login page when not authenticated', () => (
+      request(setUpFakeApp())
+        .get('/login')
+        .expect(302)
+        .then((res) => {
+          expect(res.redirect).toEqual(true);
+          expect(res.headers.location).toEqual('http://identity-server/login');
+        })));
   });
 
   describe('GET /organisations', () => {
     it('should return the correct status and text', () => {
       orgDashboardContext.getOrgDashboardContext = jest.fn()
         .mockImplementation(() => {});
-      const app = new App().createApp();
-      app.use('/', routes);
 
-      return request(app)
+      return request(setUpFakeApp())
         .get('/organisations')
         .expect(200)
         .then((res) => {
@@ -46,31 +60,23 @@ describe('routes', () => {
   });
 
   describe('GET /organisations/:orgId', () => {
-    it('should return the correct status and text', () => {
-      const app = new App().createApp();
-      app.use('/', routes);
-
-      return request(app)
+    it('should return the correct status and text', () => (
+      request(setUpFakeApp())
         .get('/organisations/org1')
         .expect(200)
         .then((res) => {
           expect(res.text.includes('data-test-id="org-page-title"')).toEqual(true);
-        });
-    });
+        })));
   });
 
   describe('GET /organisations/:orgId/adduser', () => {
-    it('should return the correct status and text', () => {
-      const app = new App().createApp();
-      app.use('/', routes);
-
-      return request(app)
+    it('should return the correct status and text', () => (
+      request(setUpFakeApp())
         .get('/organisations/org1/adduser')
         .expect(200)
         .then((res) => {
           expect(res.text.includes('data-test-id="add-user-page"')).toEqual(true);
-        });
-    });
+        })));
   });
 
   describe('POST /organisations/:orgId/adduser', () => {
@@ -78,33 +84,57 @@ describe('routes', () => {
       addUserController.postAddUser.mockReset();
     });
 
-    it('should return the correct status and text if response.success is true', () => {
+    it('should return 403 forbidden if no csrf token is available', () => {
       addUserController.postAddUser = jest.fn()
         .mockImplementation(() => Promise.resolve({ success: true }));
-      const app = new App().createApp();
-      app.use('/', routes);
-      return request(app)
-        .post('/organisations/:orgId/adduser')
-        .send(mockAddUserData)
+
+      return request(setUpFakeApp())
+        .post('/organisations/org1/adduser')
+        .type('form')
+        .send({
+          ...mockAddUserData,
+        })
+        .expect(403);
+    });
+
+    it('should return the correct status and text if response.success is true', async () => {
+      addUserController.postAddUser = jest.fn()
+        .mockImplementation(() => Promise.resolve({ success: true }));
+
+      const { cookies, csrfToken } = await getCsrfTokenFromGet(setUpFakeApp(), '/organisations/org1/adduser');
+
+      return request(setUpFakeApp())
+        .post('/organisations/org1/adduser')
+        .type('form')
+        .set('Cookie', cookies)
+        .send({
+          ...mockAddUserData,
+          _csrf: csrfToken,
+        })
         .expect(302)
         .then((res) => {
           expect(res.redirect).toEqual(true);
-          expect(res.headers.location).toEqual('/organisations/:orgId/adduser/confirmation');
+          expect(res.headers.location).toEqual('/organisations/org1/adduser/confirmation');
           expect(res.text.includes('data-test-id="error-page-title"')).toEqual(false);
         });
     });
 
-    // TODO: Implement with errors
-    it('should return the correct status and text if response.success is false', () => {
+    it('should return the correct status and text if response.success is false', async () => {
       addUserController.postAddUser = jest.fn()
         .mockImplementation(() => Promise.resolve({ success: false }));
+      // TODO: Implement with errors
       // addUserController.getAddUserPageErrorContext = jest.fn()
       // .mockImplementation(() => Promise.resolve(mockAddUserErrorContext));
-      const app = new App().createApp();
-      app.use('/', routes);
-      return request(app)
+      const { cookies, csrfToken } = await getCsrfTokenFromGet(setUpFakeApp(), '/organisations/org1/adduser');
+
+      return request(setUpFakeApp())
         .post('/organisations/:orgId/adduser')
-        .send(mockAddUserData)
+        .type('form')
+        .set('Cookie', cookies)
+        .send({
+          ...mockAddUserData,
+          _csrf: csrfToken,
+        })
         .expect(200)
         .then((res) => {
           expect(res.text).toEqual('Error adding user');
@@ -116,15 +146,12 @@ describe('routes', () => {
   });
 
   describe('GET *', () => {
-    it('should return error page if url cannot be matched', () => {
-      const app = new App().createApp();
-      app.use('/', routes);
-      return request(app)
+    it('should return error page if url cannot be matched', () => (
+      request(setUpFakeApp())
         .get('/aaaa')
         .expect(200)
         .then((res) => {
           expect(res.text.includes('<h1 class="nhsuk-heading-l nhsuk-u-padding-left-3" data-test-id="error-page-title">Error: Incorrect url /aaaa - please check it is valid and try again</h1>')).toEqual(true);
-        });
-    });
+        })));
   });
 });
