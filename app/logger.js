@@ -10,7 +10,7 @@ const {
 } = format;
 const logFormat = printf(info => `${info.timestamp} [${info.level}] ${info.label} | message: ${info.message} ${info.message.stack ? `: ${info.message.stack}` : ''}`);
 
-const logger = createLogger({
+export const logger = createLogger({
   format: combine(
     label({ label: 'buying-catalogue-admin' }),
     timestamp(),
@@ -24,5 +24,3 @@ const logger = createLogger({
     }),
   ],
 });
-
-export default logger;

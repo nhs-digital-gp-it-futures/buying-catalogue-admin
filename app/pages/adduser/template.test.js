@@ -64,7 +64,7 @@ describe('organisations add user page', () => {
 
     it('should render a textField for each question', createTestHarness(setup, (harness) => {
       harness.request(context, ($) => {
-        const inputs = $('input');
+        const inputs = $('input:not([name=_csrf])');
         expect(inputs.length).toEqual(context.questions.length);
         context.questions.forEach((question, i) => {
           expect(inputs[i].attribs.id).toEqual(question.id);
