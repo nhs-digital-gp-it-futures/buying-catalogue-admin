@@ -111,34 +111,38 @@ describe('routes', () => {
           ...mockAddUserData,
           _csrf: csrfToken,
         })
-        // TODO: Change to test redirect when confirmation page is done
-        // .expect(302)
-        .expect(200)
+        .expect(302)
         .then((res) => {
-          expect(res.text).toEqual('Confirmation page');
-          // expect(res.redirect).toEqual(true);
+          expect(res.redirect).toEqual(true);
+          expect(res.headers.location).toEqual('/organisations/org1/adduser/confirmation');
           expect(res.text.includes('data-test-id="error-page-title"')).toEqual(false);
         });
     });
 
-    // TODO: Implement with errors
-    // it('should return the correct status and text if response.success is false', () => {
-    //   addUserController.postAddUser = jest.fn()
-    //     .mockImplementation(() => Promise.resolve());
-    //   addUserController.getAddUserPageErrorContext = jest.fn()
-    //     .mockImplementation(() => Promise.resolve(mockAddUserErrorContext));
-    //   const app = new App().createApp();
-    //   app.use('/authority', routes);
-    //   return request(app)
-    //     .post('/organisations/:orgId/adduser')
-    //     .send(mockAddUserData)
-    //     .expect(200)
-    //     .then((res) => {
-    //       expect(res.text.includes('')).toEqual(true);
-    //       expect(res.text.includes('data-test-id="error-page-title"')).toEqual(false);
-    //       addUserController.getAddUserPageErrorContext.mockReset();
-    //     });
-    // });
+    it('should return the correct status and text if response.success is false', async () => {
+      addUserController.postAddUser = jest.fn()
+        .mockImplementation(() => Promise.resolve({ success: false }));
+      // TODO: Implement with errors
+      // addUserController.getAddUserPageErrorContext = jest.fn()
+      // .mockImplementation(() => Promise.resolve(mockAddUserErrorContext));
+      const { cookies, csrfToken } = await getCsrfTokenFromGet(setUpFakeApp(), '/organisations/org1/adduser');
+
+      return request(setUpFakeApp())
+        .post('/organisations/:orgId/adduser')
+        .type('form')
+        .set('Cookie', cookies)
+        .send({
+          ...mockAddUserData,
+          _csrf: csrfToken,
+        })
+        .expect(200)
+        .then((res) => {
+          expect(res.text).toEqual('Error adding user');
+          // expect(res.text.includes('')).toEqual(true);
+        // expect(res.text.includes('data-test-id="error-page-title"')).toEqual(false);
+        // addUserController.getAddUserPageErrorContext.mockReset();
+        });
+    });
   });
 
   describe('GET *', () => {
