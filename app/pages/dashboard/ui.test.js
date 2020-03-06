@@ -13,6 +13,13 @@ const setCookies = ClientFunction(() => {
   document.cookie = `fakeToken=${cookieValue}`;
 });
 
+// TODO: Use when API work is complete
+// const mocks = () => {
+//   nock(apiLocalhost)
+//     .get('/api/v1/Organisations')
+//     .reply(200, organisationsList);
+// };
+
 const pageSetup = async (t, withAuth = false) => {
   if (withAuth) {
     await setCookies();
@@ -60,13 +67,6 @@ test('when user is authenticated - should display the logout link', async (t) =>
   await t
     .expect(await extractInnerText(logoutComponent)).eql('Log out');
 });
-
-// TODO: Use when API work is complete
-// const mocks = () => {
-//   nock(apiLocalhost)
-//     .get('/api/v1/Organisations')
-//     .reply(200, organisationsList);
-// };
 
 const getLocation = ClientFunction(() => document.location.href);
 
@@ -147,5 +147,5 @@ test('should render the table', async (t) => {
     .expect(columnHeading1.exists).ok()
     .expect(await extractInnerText(columnHeading1)).eql(content.columnInfo[0].data)
     .expect(await extractInnerText(columnHeading2)).eql(content.columnInfo[1].data);
-  // TODO: Add tests for column data once API is ready and organisation page is merged
+  // TODO: Add tests for column data once API is ready
 });
