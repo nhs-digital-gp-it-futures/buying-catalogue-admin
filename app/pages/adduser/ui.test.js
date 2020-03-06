@@ -130,4 +130,6 @@ test('should render add user button', async (t) => {
   // TODO: Uncomment when API allows users to be added
   // .expect(addUserButton.getAttribute('href')).eql(`/organisations/${organisationDetails.organisationId}/adduser`);
   // .click()
+  // Add tests for confirmation page for success
+  // Add tests for validation
 });
