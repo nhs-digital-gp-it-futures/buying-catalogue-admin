@@ -13,7 +13,7 @@ pr:
 - development
 
 pool:
-  vmImage: 'GP IT Futures AKS Build Agents'
+  name: GP IT Futures AKS Build Agents
 
 jobs: 
 - job: buildAndTest
