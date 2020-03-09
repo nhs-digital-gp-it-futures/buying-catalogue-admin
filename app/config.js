@@ -12,14 +12,13 @@ module.exports = {
   appBaseUri: process.env.APP_BASE_URI || 'http://localhost:3005',
 
   // IDENTITY_SERVER
-  // TODO: Port will need changed
-  identityServer: process.env.IDENTITY_SERVER || 'http://localhost:8080',
+  identityServer: process.env.IDENTITY_SERVER || 'http://localhost:5102',
 
   // LOGGER_LEVEL options are info, warn, error, off
   loggerLevel: process.env.LOGGER_LEVEL || 'error',
 
   // The base uri of identity service
-  oidcBaseUri: process.env.OIDC_BASE_URI || 'http://localhost:8070',
+  oidcBaseUri: process.env.OIDC_BASE_URI || 'http://localhost:5102',
 
   // The client id to be sent to identity service
   oidcClientId: process.env.OIDC_CLIENT_ID || 'SampleClient',

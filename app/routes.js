@@ -29,7 +29,6 @@ export const routes = (authProvider) => {
   router.get('/oauth/callback', authProvider.authenticate({
     callback: true,
     successReturnToOrRedirect: '/organisations',
-    failureRedirect: '/',
   }));
 
   router.get('/organisations', async (req, res) => {
