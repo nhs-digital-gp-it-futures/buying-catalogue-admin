@@ -6,6 +6,7 @@ import { getOrgDashboardContext } from './pages/dashboard/controller';
 import { getAddUserContext, postAddUser } from './pages/adduser/controller';
 import includesContext from './includes/manifest.json';
 import { getAddUserConfirmationContext } from './pages/adduser/confirmation/controller';
+import config from './config';
 
 const addContext = ({ context, user, csrfToken }) => ({
   ...context,
@@ -22,14 +23,28 @@ export const routes = (authProvider) => {
     res.send('Buying Catalogue Admin app is running!');
   });
 
-  router.get('/login', authProvider.authenticate({
-    successReturnToOrRedirect: '/organisations',
-  }));
+  router.get('/login', authProvider.login());
 
-  router.get('/oauth/callback', authProvider.authenticate({
-    callback: true,
-    successReturnToOrRedirect: '/organisations',
-  }));
+  router.get('/oauth/callback', authProvider.loginCallback());
+
+  router.get('/logout', async (req, res) => {
+    const url = await authProvider.logout({ req });
+    res.redirect(url);
+  });
+
+  router.get('/signout-callback-oidc', async (req, res) => {
+    console.log('%%%', req.logout)
+    if (req.logout) req.logout();
+    req.session = null;
+
+    if (req.headers.cookie) {
+      req.headers.cookie.split(';')
+        .map(cookie => cookie.split('=')[0])
+        .forEach(cookieKey => res.clearCookie(cookieKey));
+    }
+
+    res.redirect(config.logoutRedirectPath);
+  });
 
   router.get('/organisations', async (req, res) => {
     logger.info('navigating to organisations page');

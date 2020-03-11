@@ -1,3 +1,4 @@
+import url from 'url';
 import passport from 'passport';
 import { Strategy, Issuer } from 'openid-client';
 import session from 'cookie-session';
@@ -11,7 +12,7 @@ export class AuthProvider {
 
     Issuer.discover(oidcBaseUri)
       .then((issuer) => {
-        const client = new issuer.Client({
+        this.client = new issuer.Client({
           client_id: oidcClientId,
           client_secret: oidcClientSecret,
         });
@@ -27,9 +28,10 @@ export class AuthProvider {
         const usePKCE = 'S256';
 
         this.passport.use('oidc', new Strategy({
-          client, params, passReqToCallback, usePKCE,
+          client: this.client, params, passReqToCallback, usePKCE,
         }, (req, tokenset, userinfo, done) => {
           req.session.accessToken = tokenset;
+          this.id_token = tokenset.id_token;
 
           return done(null, userinfo);
         }));
@@ -54,9 +56,34 @@ export class AuthProvider {
     app.use(this.passport.session());
   }
 
-  authenticate(options) {
+  login() {
     return (req, res, next) => {
+      const options = {
+        state: url.parse(req.headers.referer).pathname,
+      };
       this.passport.authenticate('oidc', options)(req, res, next);
     };
+  }
+
+  loginCallback() {
+    return (req, res, next) => {
+      const redirectUrl = req.query.state;
+      const optionsWithUrl = {
+        callback: true,
+        failureRedirect: '/',
+        successReturnToOrRedirect: redirectUrl,
+      };
+
+      this.passport.authenticate('oidc', optionsWithUrl)(req, res, next);
+    };
+  }
+
+  logout() {
+    this.loginRedirectUrl = null;
+
+    return this.client.endSessionUrl({
+      id_token_hint: this.id_token,
+      post_logout_redirect_uri: `${appBaseUri}/signout-callback-oidc`,
+    });
   }
 }

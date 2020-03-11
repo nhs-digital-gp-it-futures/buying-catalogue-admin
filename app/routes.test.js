@@ -2,14 +2,16 @@ import request from 'supertest';
 import { App } from './app';
 import { routes } from './routes';
 import { FakeAuthProvider } from './test-utils/FakeAuthProvider';
-import { getCsrfTokenFromGet } from './test-utils/helper';
+import { getCsrfTokenFromGet, setFakeCookie } from './test-utils/helper';
 import * as orgDashboardContext from './pages/dashboard/contextCreator';
 import * as addUserController from './pages/adduser/controller';
 
 jest.mock('./logger');
 
+const mockLogoutMethod = jest.fn().mockImplementation(() => Promise.resolve({}));
+
 const setUpFakeApp = () => {
-  const authProvider = new FakeAuthProvider();
+  const authProvider = new FakeAuthProvider(mockLogoutMethod);
   const app = new App(authProvider).createApp();
   app.use('/', routes(authProvider));
   return app;
@@ -42,6 +44,49 @@ describe('routes', () => {
           expect(res.redirect).toEqual(true);
           expect(res.headers.location).toEqual('http://identity-server/login');
         })));
+  });
+
+  describe('GET /logout', () => {
+    it('should redirect to the url provided by authProvider', async () => request(setUpFakeApp())
+      .get('/logout')
+      .expect(302)
+      .then((res) => {
+        expect(res.redirect).toEqual(true);
+        expect(res.headers.location).toEqual('/signout-callback-oidc');
+      }));
+  });
+
+  describe('GET /signout-callback-oidc', () => {
+    afterEach(() => {
+      mockLogoutMethod.mockReset();
+    });
+
+    it('should redirect to /', async () => request(setUpFakeApp())
+      .get('/signout-callback-oidc')
+      .expect(302)
+      .then((res) => {
+        expect(res.redirect).toEqual(true);
+        expect(res.headers.location).toEqual('/');
+      }));
+
+    it('should call req.logout', async () => request(setUpFakeApp())
+      .get('/signout-callback-oidc')
+      .expect(302)
+      .then(() => {
+        expect(mockLogoutMethod.mock.calls.length).toEqual(1);
+      }));
+
+    it('should delete cookies', async () => {
+      const { modifiedApp, cookies } = await setFakeCookie(setUpFakeApp(), '/signout-callback-oidc');
+      expect(cookies.length).toEqual(2);
+
+      return request(modifiedApp)
+        .get('/')
+        .expect(200)
+        .then((res) => {
+          expect(res.headers['set-cookie'].length).toEqual(1);
+        });
+    });
   });
 
   describe('GET /organisations', () => {
