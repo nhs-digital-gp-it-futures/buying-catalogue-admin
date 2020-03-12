@@ -45,7 +45,7 @@ export const routes = (authProvider) => {
     res.redirect(config.logoutRedirectPath);
   });
 
-  router.get('/organisations', async (req, res) => {
+  router.get('/organisations', authProvider.authorise(), async (req, res) => {
     logger.info('navigating to organisations page');
     const context = getOrgDashboardContext();
     res.render('pages/dashboard/template.njk', addContext({ context, user: req.user }));

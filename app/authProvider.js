@@ -84,4 +84,16 @@ export class AuthProvider {
       post_logout_redirect_uri: `${appBaseUri}/signout-callback-oidc`,
     });
   }
+
+  authorise() {
+    return (req, res, next) => {
+      if (req.user && req.user.name) {
+        next();
+      } else {
+        this.passport.authenticate('oidc', {
+          successReturnToOrRedirect: '/organisations',
+        })(req, res, next);
+      }
+    };
+  }
 }

@@ -37,4 +37,11 @@ export class FakeAuthProvider {
   logout() {
     return '/signout-callback-oidc';
   }
+
+  // eslint-disable-next-line class-methods-use-this
+  authorise() {
+    return (req, res, next) => {
+      next();
+    };
+  }
 }
