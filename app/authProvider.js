@@ -79,8 +79,6 @@ export class AuthProvider {
   }
 
   logout() {
-    this.loginRedirectUrl = null;
-
     return this.client.endSessionUrl({
       id_token_hint: this.id_token,
       post_logout_redirect_uri: `${appBaseUri}/signout-callback-oidc`,
