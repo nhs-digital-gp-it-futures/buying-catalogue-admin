@@ -25,4 +25,7 @@ module.exports = {
 
   // The secret need to decode JWT tokens
   oidcClientSecret: process.env.OIDC_CLIENT_SECRET,
+
+  // The path that the user is redirected to after logout
+  logoutRedirectPath: process.env.LOGOUT_REDIRECT_PATH || '/',
 };
