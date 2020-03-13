@@ -156,15 +156,14 @@ describe('routes', () => {
       checkAuthorisedRouteWithoutClaim('/organisations/org1')
     ));
 
-    it('should return the correct status and text', () => {
-      return request(setUpFakeApp())
+    it('should return the correct status and text', () => (
+      request(setUpFakeApp())
         .get('/organisations/org1')
         .set('Cookie', [fakeAuthorisedCookie])
         .expect(200)
         .then((res) => {
           expect(res.text.includes('data-test-id="org-page-title"')).toEqual(true);
-        });
-    });
+        })));
   });
 
   describe('GET /organisations/:orgId/adduser', () => {
@@ -176,15 +175,14 @@ describe('routes', () => {
       checkAuthorisedRouteWithoutClaim('/organisations/org1/adduser')
     ));
 
-    it('should return the correct status and text', () => {
-      return request(setUpFakeApp())
+    it('should return the correct status and text', () => (
+      request(setUpFakeApp())
         .get('/organisations/org1/adduser')
         .set('Cookie', [fakeAuthorisedCookie])
         .expect(200)
         .then((res) => {
           expect(res.text.includes('data-test-id="add-user-page"')).toEqual(true);
-        });
-    });
+        })));
   });
 
   describe('POST /organisations/:orgId/adduser', () => {
