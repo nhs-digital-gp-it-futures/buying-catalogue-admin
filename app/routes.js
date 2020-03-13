@@ -1,6 +1,6 @@
 import express from 'express';
 import { logger } from './logger';
-import { withCatch } from './helpers/routerHelper';
+import { withCatch, extractAccessToken } from './helpers/routerHelper';
 import { errorHandler } from './pages/error/errorHandler';
 import { getOrgAccountsContext } from './pages/organisation/controller';
 import { getOrgDashboardContext } from './pages/dashboard/controller';
@@ -29,7 +29,7 @@ export const routes = (authProvider) => {
   router.get('/oauth/callback', authProvider.loginCallback());
 
   router.get('/logout', async (req, res) => {
-    const url = await authProvider.logout();
+    const url = await authProvider.logout({ idToken: extractAccessToken({ req, tokenType: 'id' }) });
     res.redirect(url);
   });
 
@@ -48,7 +48,7 @@ export const routes = (authProvider) => {
 
   router.get('/organisations', withCatch(async (req, res) => {
     logger.info('navigating to organisations page');
-    const context = getOrgDashboardContext();
+    const context = await getOrgDashboardContext({ accessToken: extractAccessToken({ req, tokenType: 'access' }) });
     res.render('pages/dashboard/template.njk', addContext({ context, user: req.user }));
   }));
 
