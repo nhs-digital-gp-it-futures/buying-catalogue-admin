@@ -41,10 +41,12 @@ export class FakeAuthProvider {
   // eslint-disable-next-line class-methods-use-this
   authorise() {
     return (req, res, next) => {
-      if (req.user && req.user.organisation) {
+      if (!req.user) {
+        this.login()(req, res, next);
+      } else if (req.user && req.user.organisation) {
         next();
       } else {
-        this.login()(req, res, next);
+        throw new Error('Not authorised matey');
       }
     };
   }

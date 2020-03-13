@@ -42,10 +42,10 @@ const checkAuthorisedRouteWithoutClaim = (path) => {
   request(setUpFakeApp())
     .get(path)
     .set('Cookie', [fakeCookie])
-    .expect(302)
+    .expect(200)
     .then((res) => {
-      expect(res.redirect).toEqual(true);
-      expect(res.headers.location).toEqual('http://identity-server/login');
+      expect(res.text.includes('data-test-id="error-page-title"')).toEqual(true);
+      expect(res.text.includes('Not authorised')).toEqual(true);
     });
 };
 
@@ -122,7 +122,7 @@ describe('routes', () => {
       checkAuthorisedRouteNotLoggedIn('/organisations')
     ));
 
-    it('should redirect to the login page if the user is logged in but not authorised', () => (
+    it('should show the error page indicating the user is not authorised if the user is logged in but not authorised', () => (
       checkAuthorisedRouteWithoutClaim('/organisations')
     ));
 
