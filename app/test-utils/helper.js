@@ -11,12 +11,13 @@ const extractCsrfToken = (res) => {
   return $('[name=_csrf]').val();
 };
 
-export const getCsrfTokenFromGet = async (app, getPath) => {
+export const getCsrfTokenFromGet = async (app, getPath, authenticationCookie = undefined) => {
   let cookies;
   let csrfToken;
 
   await request(app)
     .get(getPath)
+    .set('Cookie', authenticationCookie)
     .then((getRes) => {
       cookies = getRes.headers['set-cookie'];
       csrfToken = extractCsrfToken(getRes);

@@ -10,6 +10,12 @@ jest.mock('./logger');
 
 const mockLogoutMethod = jest.fn().mockImplementation(() => Promise.resolve({}));
 
+const mockAuthorisedJwtPayload = JSON.stringify({
+  id: '88421113', name: 'Cool Dude', organisation: 'view',
+});
+
+const fakeAuthorisedCookie = `fakeToken=${mockAuthorisedJwtPayload}`;
+
 const setUpFakeApp = () => {
   const authProvider = new FakeAuthProvider(mockLogoutMethod);
   const app = new App(authProvider).createApp();
@@ -34,14 +40,14 @@ const checkAuthorisedRouteNotLoggedIn = path => (
     }));
 
 const checkAuthorisedRouteWithoutClaim = (path) => {
-  const cookieValue = JSON.stringify({
+  const mockUnauthorisedJwtPayload = JSON.stringify({
     id: '88421113', name: 'Cool Dude',
   });
-  const fakeCookie = `fakeToken=${cookieValue}`;
+  const fakeUnauthorisedCookie = `fakeToken=${mockUnauthorisedJwtPayload}`;
 
   request(setUpFakeApp())
     .get(path)
-    .set('Cookie', [fakeCookie])
+    .set('Cookie', [fakeUnauthorisedCookie])
     .expect(200)
     .then((res) => {
       expect(res.text.includes('data-test-id="error-page-title"')).toEqual(true);
@@ -130,14 +136,9 @@ describe('routes', () => {
       orgDashboardContext.getOrgDashboardContext = jest.fn()
         .mockImplementation(() => {});
 
-      const cookieValue = JSON.stringify({
-        id: '88421113', name: 'Cool Dude', organisation: 'view',
-      });
-      const fakeCookie = `fakeToken=${cookieValue}`;
-
       return request(setUpFakeApp())
         .get('/organisations')
-        .set('Cookie', [fakeCookie])
+        .set('Cookie', [fakeAuthorisedCookie])
         .expect(200)
         .then((res) => {
           expect(res.text.includes('data-test-id="organisations"')).toEqual(true);
@@ -156,15 +157,9 @@ describe('routes', () => {
     ));
 
     it('should return the correct status and text', () => {
-      const cookieValue = JSON.stringify({
-        id: '88421113', name: 'Cool Dude', organisation: 'view',
-      });
-
-      const fakeCookie = `fakeToken=${cookieValue}`;
-
       return request(setUpFakeApp())
         .get('/organisations/org1')
-        .set('Cookie', [fakeCookie])
+        .set('Cookie', [fakeAuthorisedCookie])
         .expect(200)
         .then((res) => {
           expect(res.text.includes('data-test-id="org-page-title"')).toEqual(true);
@@ -173,13 +168,23 @@ describe('routes', () => {
   });
 
   describe('GET /organisations/:orgId/adduser', () => {
-    it('should return the correct status and text', () => (
-      request(setUpFakeApp())
+    it('should redirect to the login page if the user is not logged in', () => (
+      checkAuthorisedRouteNotLoggedIn('/organisations/org1/adduser')
+    ));
+
+    it('should show the error page indicating the user is not authorised if the user is logged in but not authorised', () => (
+      checkAuthorisedRouteWithoutClaim('/organisations/org1/adduser')
+    ));
+
+    it('should return the correct status and text', () => {
+      return request(setUpFakeApp())
         .get('/organisations/org1/adduser')
+        .set('Cookie', [fakeAuthorisedCookie])
         .expect(200)
         .then((res) => {
           expect(res.text.includes('data-test-id="add-user-page"')).toEqual(true);
-        })));
+        });
+    });
   });
 
   describe('POST /organisations/:orgId/adduser', () => {
@@ -193,6 +198,7 @@ describe('routes', () => {
 
       return request(setUpFakeApp())
         .post('/organisations/org1/adduser')
+        .set('Cookie', [fakeAuthorisedCookie])
         .type('form')
         .send({
           ...mockAddUserData,
@@ -204,12 +210,12 @@ describe('routes', () => {
       addUserController.postAddUser = jest.fn()
         .mockImplementation(() => Promise.resolve({ success: true }));
 
-      const { cookies, csrfToken } = await getCsrfTokenFromGet(setUpFakeApp(), '/organisations/org1/adduser');
+      const { cookies, csrfToken } = await getCsrfTokenFromGet(setUpFakeApp(), '/organisations/org1/adduser', fakeAuthorisedCookie);
 
       return request(setUpFakeApp())
         .post('/organisations/org1/adduser')
         .type('form')
-        .set('Cookie', cookies)
+        .set('Cookie', [cookies, fakeAuthorisedCookie])
         .send({
           ...mockAddUserData,
           _csrf: csrfToken,
@@ -228,12 +234,12 @@ describe('routes', () => {
       // TODO: Implement with errors
       // addUserController.getAddUserPageErrorContext = jest.fn()
       // .mockImplementation(() => Promise.resolve(mockAddUserErrorContext));
-      const { cookies, csrfToken } = await getCsrfTokenFromGet(setUpFakeApp(), '/organisations/org1/adduser');
+      const { cookies, csrfToken } = await getCsrfTokenFromGet(setUpFakeApp(), '/organisations/org1/adduser', fakeAuthorisedCookie);
 
       return request(setUpFakeApp())
         .post('/organisations/:orgId/adduser')
         .type('form')
-        .set('Cookie', cookies)
+        .set('Cookie', [cookies, fakeAuthorisedCookie])
         .send({
           ...mockAddUserData,
           _csrf: csrfToken,

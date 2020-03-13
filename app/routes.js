@@ -58,14 +58,14 @@ export const routes = (authProvider) => {
     res.render('pages/organisation/template.njk', addContext({ context, user: req.user }));
   });
 
-  router.get('/organisations/:orgId/adduser', async (req, res) => {
+  router.get('/organisations/:orgId/adduser', authProvider.authorise(), async (req, res) => {
     const { orgId } = req.params;
     logger.info(`navigating to organisation: ${orgId} add user page`);
     const context = await getAddUserContext(orgId);
     res.render('pages/adduser/template.njk', addContext({ context, user: req.user, csrfToken: req.csrfToken() }));
   });
 
-  router.post('/organisations/:orgId/adduser', async (req, res) => {
+  router.post('/organisations/:orgId/adduser', authProvider.authorise(), async (req, res) => {
     const { orgId } = req.params;
     const response = await postAddUser({ orgId, data: req.body });
 
