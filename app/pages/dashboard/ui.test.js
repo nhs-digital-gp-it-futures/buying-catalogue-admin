@@ -2,8 +2,8 @@ import nock from 'nock';
 import { Selector, ClientFunction } from 'testcafe';
 import content from './manifest.json';
 import { extractInnerText } from '../../test-utils/helper';
-// import { apiLocalhost } from '../../test-utils/config';
-// import organisationsList from '../../test-utils/fixtures/organisationsList.json';
+import { organisationsApiLocalhost } from '../../test-utils/config';
+import organisationsList from '../../test-utils/fixtures/organisationsList.json';
 
 const setCookies = ClientFunction(() => {
   const cookieValue = JSON.stringify({
@@ -13,14 +13,14 @@ const setCookies = ClientFunction(() => {
   document.cookie = `fakeToken=${cookieValue}`;
 });
 
-// TODO: Use when API work is complete
-// const mocks = () => {
-//   nock(apiLocalhost)
-//     .get('/api/v1/Organisations')
-//     .reply(200, organisationsList);
-// };
+const mocks = () => {
+  nock(organisationsApiLocalhost)
+    .get('/api/v1/Organisations')
+    .reply(200, organisationsList);
+};
 
 const pageSetup = async (t, withAuth = false) => {
+  mocks();
   if (withAuth) {
     await setCookies();
   }

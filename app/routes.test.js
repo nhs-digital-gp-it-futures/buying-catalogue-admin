@@ -3,7 +3,7 @@ import { App } from './app';
 import { routes } from './routes';
 import { FakeAuthProvider } from './test-utils/FakeAuthProvider';
 import { getCsrfTokenFromGet, setFakeCookie } from './test-utils/helper';
-import * as orgDashboardContext from './pages/dashboard/contextCreator';
+import * as orgDashboardContext from './pages/dashboard/controller';
 import * as addUserController from './pages/adduser/controller';
 
 jest.mock('./logger');

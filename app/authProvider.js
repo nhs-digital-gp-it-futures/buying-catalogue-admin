@@ -20,7 +20,7 @@ export class AuthProvider {
         const params = {
           client_id: oidcClientId,
           redirect_uri: `${appBaseUri}/oauth/callback`,
-          scope: 'openid profile',
+          scope: 'openid profile Organisation',
         };
 
         const passReqToCallback = true;
@@ -35,7 +35,6 @@ export class AuthProvider {
         },
         (req, tokenset, userinfo, done) => {
           req.session.accessToken = tokenset;
-          this.id_token = tokenset.id_token;
 
           return done(null, userinfo);
         }));
@@ -83,9 +82,9 @@ export class AuthProvider {
     };
   }
 
-  logout() {
+  logout({ idToken }) {
     return this.client.endSessionUrl({
-      id_token_hint: this.id_token,
+      id_token_hint: idToken,
       post_logout_redirect_uri: `${appBaseUri}/signout-callback-oidc`,
     });
   }
