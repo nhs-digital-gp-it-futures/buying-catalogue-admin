@@ -24,6 +24,31 @@ const mockAddUserData = {
   emailAdress: 'jane.jones@email.com',
 };
 
+const checkAuthorisedRouteNotLoggedIn = path => (
+  request(setUpFakeApp())
+    .get(path)
+    .expect(302)
+    .then((res) => {
+      expect(res.redirect).toEqual(true);
+      expect(res.headers.location).toEqual('http://identity-server/login');
+    }));
+
+const checkAuthorisedRouteWithoutClaim = (path) => {
+  const cookieValue = JSON.stringify({
+    id: '88421113', name: 'Cool Dude',
+  });
+  const fakeCookie = `fakeToken=${cookieValue}`;
+
+  request(setUpFakeApp())
+    .get(path)
+    .set('Cookie', [fakeCookie])
+    .expect(302)
+    .then((res) => {
+      expect(res.redirect).toEqual(true);
+      expect(res.headers.location).toEqual('http://identity-server/login');
+    });
+};
+
 describe('routes', () => {
   describe('GET /health/live', () => {
     it('should return the correct status and text', () => (
@@ -47,13 +72,14 @@ describe('routes', () => {
   });
 
   describe('GET /logout', () => {
-    it('should redirect to the url provided by authProvider', async () => request(setUpFakeApp())
-      .get('/logout')
-      .expect(302)
-      .then((res) => {
-        expect(res.redirect).toEqual(true);
-        expect(res.headers.location).toEqual('/signout-callback-oidc');
-      }));
+    it('should redirect to the url provided by authProvider', async () => (
+      request(setUpFakeApp())
+        .get('/logout')
+        .expect(302)
+        .then((res) => {
+          expect(res.redirect).toEqual(true);
+          expect(res.headers.location).toEqual('/signout-callback-oidc');
+        })));
   });
 
   describe('GET /signout-callback-oidc', () => {
@@ -61,20 +87,22 @@ describe('routes', () => {
       mockLogoutMethod.mockReset();
     });
 
-    it('should redirect to /', async () => request(setUpFakeApp())
-      .get('/signout-callback-oidc')
-      .expect(302)
-      .then((res) => {
-        expect(res.redirect).toEqual(true);
-        expect(res.headers.location).toEqual('/');
-      }));
+    it('should redirect to /', async () => (
+      request(setUpFakeApp())
+        .get('/signout-callback-oidc')
+        .expect(302)
+        .then((res) => {
+          expect(res.redirect).toEqual(true);
+          expect(res.headers.location).toEqual('/');
+        })));
 
-    it('should call req.logout', async () => request(setUpFakeApp())
-      .get('/signout-callback-oidc')
-      .expect(302)
-      .then(() => {
-        expect(mockLogoutMethod.mock.calls.length).toEqual(1);
-      }));
+    it('should call req.logout', async () => (
+      request(setUpFakeApp())
+        .get('/signout-callback-oidc')
+        .expect(302)
+        .then(() => {
+          expect(mockLogoutMethod.mock.calls.length).toEqual(1);
+        })));
 
     it('should delete cookies', async () => {
       const { modifiedApp, cookies } = await setFakeCookie(setUpFakeApp(), '/signout-callback-oidc');
@@ -90,12 +118,26 @@ describe('routes', () => {
   });
 
   describe('GET /organisations', () => {
-    it('should return the correct status and text', () => {
+    it('should redirect to the login page if the user is not logged in', () => (
+      checkAuthorisedRouteNotLoggedIn('/organisations')
+    ));
+
+    it('should redirect to the login page if the user is logged in but not authorised', () => (
+      checkAuthorisedRouteWithoutClaim('/organisations')
+    ));
+
+    it('should return the correct status and text when the user is authorised', () => {
       orgDashboardContext.getOrgDashboardContext = jest.fn()
         .mockImplementation(() => {});
 
+      const cookieValue = JSON.stringify({
+        id: '88421113', name: 'Cool Dude', organisation: 'view',
+      });
+      const fakeCookie = `fakeToken=${cookieValue}`;
+
       return request(setUpFakeApp())
         .get('/organisations')
+        .set('Cookie', [fakeCookie])
         .expect(200)
         .then((res) => {
           expect(res.text.includes('data-test-id="organisations"')).toEqual(true);

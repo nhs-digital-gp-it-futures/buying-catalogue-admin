@@ -90,9 +90,8 @@ export class AuthProvider {
       if (req.user && req.user.name) {
         next();
       } else {
-        this.passport.authenticate('oidc', {
-          successReturnToOrRedirect: '/organisations',
-        })(req, res, next);
+        req.headers.referer = `${appBaseUri}${req.originalUrl}`;
+        this.login()(req, res, next);
       }
     };
   }

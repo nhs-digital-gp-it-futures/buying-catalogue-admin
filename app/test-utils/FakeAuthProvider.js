@@ -41,7 +41,11 @@ export class FakeAuthProvider {
   // eslint-disable-next-line class-methods-use-this
   authorise() {
     return (req, res, next) => {
-      next();
+      if (req.user && req.user.organisation) {
+        next();
+      } else {
+        this.login()(req, res, next);
+      }
     };
   }
 }
