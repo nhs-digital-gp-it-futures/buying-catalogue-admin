@@ -204,6 +204,47 @@ describe('routes', () => {
         .expect(403);
     });
 
+    it('should redirect to the login page if the user is not logged in', async () => {
+      const { cookies, csrfToken } = await getCsrfTokenFromGet(setUpFakeApp(), '/organisations/org1/adduser', fakeAuthorisedCookie);
+
+      return request(setUpFakeApp())
+        .post('/organisations/:orgId/adduser')
+        .type('form')
+        .set('Cookie', [cookies])
+        .send({
+          ...mockAddUserData,
+          _csrf: csrfToken,
+        })
+        .expect(302)
+        .then((res) => {
+          expect(res.redirect).toEqual(true);
+          expect(res.headers.location).toEqual('http://identity-server/login');
+        });
+    });
+
+    it('should show the error page indicating the user is not authorised if the user is logged in but not authorised', async () => {
+      const { cookies, csrfToken } = await getCsrfTokenFromGet(setUpFakeApp(), '/organisations/org1/adduser', fakeAuthorisedCookie);
+
+      const mockUnauthorisedJwtPayload = JSON.stringify({
+        id: '88421113', name: 'Cool Dude',
+      });
+      const fakeUnauthorisedCookie = `fakeToken=${mockUnauthorisedJwtPayload}`;
+
+      return request(setUpFakeApp())
+        .post('/organisations/:orgId/adduser')
+        .type('form')
+        .set('Cookie', [cookies, fakeUnauthorisedCookie])
+        .send({
+          ...mockAddUserData,
+          _csrf: csrfToken,
+        })
+        .expect(200)
+        .then((res) => {
+          expect(res.text.includes('data-test-id="error-page-title"')).toEqual(true);
+          expect(res.text.includes('Not authorised')).toEqual(true);
+        });
+    });
+
     it('should return the correct status and text if response.success is true', async () => {
       addUserController.postAddUser = jest.fn()
         .mockImplementation(() => Promise.resolve({ success: true }));
