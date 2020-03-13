@@ -7,4 +7,4 @@ export const withCatch = route => async (req, res, next) => {
 };
 
 export const extractAccessToken = req => req.session
-  && req.session.accessToken && req.session.accessToken.id_token;
+  && req.session.accessToken && req.session.accessToken.access_token;
