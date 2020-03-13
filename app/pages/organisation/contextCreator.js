@@ -9,7 +9,7 @@ export const getContext = ({ organisation }) => ({
   address: organisation.address ? organisation.address.split(',') : [],
   agreementSigned: organisation.isCatalogueAgreementSigned,
   columnInfo: manifest.columnInfo ? manifest.columnInfo : [],
-  addUserButtonHref: `/organisations/${organisation.organisationId}/adduser`,
+  addUserButtonHref: 'adduser',
   users: organisation && organisation.users ? organisation.users.map(row => [
     {
       data: `${(`${row.firstName ? row.firstName : ''} ${row.lastName ? row.lastName : ''}`).trim()}` || '',
