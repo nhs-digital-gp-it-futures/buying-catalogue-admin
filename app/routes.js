@@ -51,6 +51,13 @@ export const routes = (authProvider) => {
     res.render('pages/dashboard/template.njk', addContext({ context, user: req.user }));
   });
 
+  router.get('/organisations/:orgId', authProvider.authorise(), async (req, res) => {
+    const { orgId } = req.params;
+    logger.info(`navigating to organisation: ${orgId} account page`);
+    const context = await getOrgAccountsContext(orgId);
+    res.render('pages/organisation/template.njk', addContext({ context, user: req.user }));
+  });
+
   router.get('/organisations/:orgId/adduser', async (req, res) => {
     const { orgId } = req.params;
     logger.info(`navigating to organisation: ${orgId} add user page`);
@@ -76,13 +83,6 @@ export const routes = (authProvider) => {
     logger.info(`navigating to organisation: ${orgId} add user confirmation page`);
     const context = await getAddUserConfirmationContext(orgId);
     res.render('pages/adduser/confirmation/template.njk', addContext({ context, user: req.user }));
-  });
-
-  router.get('/organisations/:orgId', async (req, res) => {
-    const { orgId } = req.params;
-    logger.info(`navigating to organisation: ${orgId} account page`);
-    const context = await getOrgAccountsContext(orgId);
-    res.render('pages/organisation/template.njk', addContext({ context, user: req.user }));
   });
 
   router.get('*', (req, res, next) => next({

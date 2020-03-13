@@ -147,13 +147,29 @@ describe('routes', () => {
   });
 
   describe('GET /organisations/:orgId', () => {
-    it('should return the correct status and text', () => (
-      request(setUpFakeApp())
+    it('should redirect to the login page if the user is not logged in', () => (
+      checkAuthorisedRouteNotLoggedIn('/organisations/org1')
+    ));
+
+    it('should show the error page indicating the user is not authorised if the user is logged in but not authorised', () => (
+      checkAuthorisedRouteWithoutClaim('/organisations/org1')
+    ));
+
+    it('should return the correct status and text', () => {
+      const cookieValue = JSON.stringify({
+        id: '88421113', name: 'Cool Dude', organisation: 'view',
+      });
+
+      const fakeCookie = `fakeToken=${cookieValue}`;
+
+      return request(setUpFakeApp())
         .get('/organisations/org1')
+        .set('Cookie', [fakeCookie])
         .expect(200)
         .then((res) => {
           expect(res.text.includes('data-test-id="org-page-title"')).toEqual(true);
-        })));
+        });
+    });
   });
 
   describe('GET /organisations/:orgId/adduser', () => {
