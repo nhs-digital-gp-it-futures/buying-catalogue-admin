@@ -2,6 +2,9 @@ module.exports = {
   // App name
   appName: 'NHSD Buying Catalogue Admin',
 
+  // Base URL
+  baseUrl: '/admin',
+
   // Environment
   env: process.env.NODE_ENV || 'development',
 

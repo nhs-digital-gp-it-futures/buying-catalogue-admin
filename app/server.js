@@ -16,7 +16,12 @@ Object.keys(config).map((configKey) => {
 // Routes
 const authProvider = new AuthProvider();
 const app = new App(authProvider).createApp();
-app.use('/', routes(authProvider));
+app.use(config.baseUrl ? config.baseUrl : '/', routes(authProvider));
+if (config.baseUrl) {
+  app.use('/', (req, res) => {
+    res.redirect(config.baseUrl);
+  });
+}
 
 // Run application on configured port
 if (config.env === 'development') {
