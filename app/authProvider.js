@@ -3,7 +3,7 @@ import passport from 'passport';
 import { Strategy, Issuer } from 'openid-client';
 import session from 'cookie-session';
 import {
-  oidcBaseUri, oidcClientId, oidcClientSecret, appBaseUri,
+  oidcBaseUri, oidcClientId, oidcClientSecret, appBaseUri, maxCookieAge,
 } from './config';
 
 export class AuthProvider {
@@ -28,8 +28,12 @@ export class AuthProvider {
         const usePKCE = 'S256';
 
         this.passport.use('oidc', new Strategy({
-          client: this.client, params, passReqToCallback, usePKCE,
-        }, (req, tokenset, userinfo, done) => {
+          client: this.client,
+          params,
+          passReqToCallback,
+          usePKCE,
+        },
+        (req, tokenset, userinfo, done) => {
           req.session.accessToken = tokenset;
           this.id_token = tokenset.id_token;
 
@@ -50,6 +54,7 @@ export class AuthProvider {
     app.use(session({
       name: 'token2',
       secret: 'secret squirrel',
+      maxAge: maxCookieAge,
     }));
 
     app.use(this.passport.initialize());
