@@ -3,11 +3,11 @@ import { getContext } from './contextCreator';
 import { organisationApiUrl } from '../../config';
 import { logger } from '../../logger';
 
-export const getOrgDashboardContext = async ({ token }) => {
+export const getOrgDashboardContext = async ({ accessToken }) => {
   const endpoint = `${organisationApiUrl}/api/v1/Organisations`;
   logger.info(`api called: [GET] ${endpoint}`);
 
-  const response = await axios.get(endpoint, { headers: { Authorization: `Bearer ${token}` } });
+  const response = await axios.get(endpoint, { headers: { Authorization: `Bearer ${accessToken}` } });
   if (response.data) {
     logger.info('Organisations returned');
     const { data } = response;
