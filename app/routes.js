@@ -28,7 +28,8 @@ export const routes = (authProvider) => {
   router.get('/oauth/callback', authProvider.loginCallback());
 
   router.get('/logout', async (req, res) => {
-    const url = await authProvider.logout();
+    const idToken = req.session && req.session.accessToken && req.session.accessToken.id_token;
+    const url = await authProvider.logout({ idToken });
     res.redirect(url);
   });
 
@@ -47,7 +48,8 @@ export const routes = (authProvider) => {
 
   router.get('/organisations', async (req, res) => {
     logger.info('navigating to organisations page');
-    const context = getOrgDashboardContext();
+    const token = req.session && req.session.accessToken && req.session.accessToken.access_token;
+    const context = await getOrgDashboardContext({ token });
     res.render('pages/dashboard/template.njk', addContext({ context, user: req.user }));
   });
 
