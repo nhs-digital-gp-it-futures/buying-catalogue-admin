@@ -47,7 +47,8 @@ export const routes = (authProvider) => {
 
   router.get('/organisations', async (req, res) => {
     logger.info('navigating to organisations page');
-    const context = getOrgDashboardContext();
+    
+    const context = await getOrgDashboardContext({ accessToken: extractAccessToken({ req, tokenType: 'access' }) });
     res.render('pages/dashboard/template.njk', addContext({ context, user: req.user }));
   });
 
