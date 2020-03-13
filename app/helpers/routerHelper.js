@@ -6,5 +6,5 @@ export const withCatch = route => async (req, res, next) => {
   }
 };
 
-export const extractAccessToken = req => req.session
-  && req.session.accessToken && req.session.accessToken.access_token;
+export const extractAccessToken = ({ req, tokenType }) => req.session
+  && req.session.accessToken && req.session.accessToken[`${tokenType}_token`];
