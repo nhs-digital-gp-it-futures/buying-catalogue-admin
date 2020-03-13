@@ -5,3 +5,6 @@ export const withCatch = route => async (req, res, next) => {
     return next(err);
   }
 };
+
+export const extractAccessToken = req => req.session
+  && req.session.accessToken && req.session.accessToken.id_token;
