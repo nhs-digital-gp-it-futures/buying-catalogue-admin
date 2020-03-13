@@ -293,6 +293,30 @@ describe('routes', () => {
     });
   });
 
+  describe('GET /organisations/:orgId/adduser/confirmation', () => {
+    it('should redirect to the login page if the user is not logged in', () => (
+      checkAuthorisedRouteNotLoggedIn('/organisations/org1/adduser/confirmation')
+    ));
+
+    it('should show the error page indicating the user is not authorised if the user is logged in but not authorised', () => (
+      checkAuthorisedRouteWithoutClaim('/organisations/org1/adduser/confirmation')
+    ));
+
+    it('should return the correct status and text when the user is authorised', () => {
+      orgDashboardContext.getOrgDashboardContext = jest.fn()
+        .mockImplementation(() => {});
+
+      return request(setUpFakeApp())
+        .get('/organisations/org1/adduser/confirmation')
+        .set('Cookie', [fakeAuthorisedCookie])
+        .expect(200)
+        .then((res) => {
+          expect(res.text.includes('data-test-id="add-user-confirmation"')).toEqual(true);
+          expect(res.text.includes('data-test-id="error-page-title"')).toEqual(false);
+        });
+    });
+  });
+
   describe('GET *', () => {
     it('should return error page if url cannot be matched', () => (
       request(setUpFakeApp())

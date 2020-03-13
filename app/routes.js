@@ -78,7 +78,7 @@ export const routes = (authProvider) => {
     //   return res.render('pages/adduser/template', context);
   });
 
-  router.get('/organisations/:orgId/adduser/confirmation', async (req, res) => {
+  router.get('/organisations/:orgId/adduser/confirmation', authProvider.authorise(), async (req, res) => {
     const { orgId } = req.params;
     logger.info(`navigating to organisation: ${orgId} add user confirmation page`);
     const context = await getAddUserConfirmationContext(orgId);
