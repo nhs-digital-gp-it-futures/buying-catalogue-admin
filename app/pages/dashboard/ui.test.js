@@ -7,7 +7,7 @@ import { extractInnerText } from '../../test-utils/helper';
 
 const setCookies = ClientFunction(() => {
   const cookieValue = JSON.stringify({
-    id: '88421113', name: 'Cool Dude', _raw: '{"sub":"88421113"}', _json: { sub: '88421113' },
+    id: '88421113', name: 'Cool Dude', organisation: 'view',
   });
 
   document.cookie = `fakeToken=${cookieValue}`;
@@ -24,7 +24,6 @@ const pageSetup = async (t, withAuth = false) => {
   if (withAuth) {
     await setCookies();
   }
-  await t.navigateTo('http://localhost:1234/organisations');
 };
 
 fixture('Header')
@@ -38,30 +37,22 @@ fixture('Header')
     await t.expect(isDone).ok('Not all nock interceptors were used!');
   });
 
-test('when user is not authenticated - should display the login link', async (t) => {
+test('when user is not authenticated - should navigate to the identity server login page', async (t) => {
   await pageSetup(t);
-
-  const loginComponent = Selector('[data-test-id="login-logout-component"] a');
-  await t
-    .expect(await extractInnerText(loginComponent)).eql('Log in');
-});
-
-test('when user is not authenticated - should navigate to the identity server login page when clicking the login link', async (t) => {
-  await pageSetup(t);
-
   nock('http://identity-server')
     .get('/login')
     .reply(200);
 
+  await t.navigateTo('http://localhost:1234/organisations');
+
   const getLocation = ClientFunction(() => document.location.href);
-  const loginComponent = Selector('[data-test-id="login-logout-component"] a');
   await t
-    .click(loginComponent)
     .expect(getLocation()).eql('http://identity-server/login');
 });
 
 test('when user is authenticated - should display the logout link', async (t) => {
   await pageSetup(t, true);
+  await t.navigateTo('http://localhost:1234/organisations');
 
   const logoutComponent = Selector('[data-test-id="login-logout-component"] a');
   await t
@@ -71,6 +62,7 @@ test('when user is authenticated - should display the logout link', async (t) =>
 const getLocation = ClientFunction(() => document.location.href);
 
 fixture('Organisation Dashboard Page')
+  .page('http://localhost:1234/healthcheck')
   .afterEach(async (t) => {
     const isDone = nock.isDone();
     if (!isDone) {
@@ -81,7 +73,8 @@ fixture('Organisation Dashboard Page')
   });
 
 test('should render Organisations dashboard page', async (t) => {
-  await pageSetup(t);
+  await pageSetup(t, true);
+  await t.navigateTo('http://localhost:1234/organisations');
 
   const orgDashboardPage = Selector('[data-test-id="organisations"]');
 
@@ -90,7 +83,8 @@ test('should render Organisations dashboard page', async (t) => {
 });
 
 test('should navigate to / when click Back', async (t) => {
-  await pageSetup(t);
+  await pageSetup(t, true);
+  await t.navigateTo('http://localhost:1234/organisations');
 
   const goBackLink = Selector('[data-test-id="go-back-link"] a');
 
@@ -101,7 +95,8 @@ test('should navigate to / when click Back', async (t) => {
 });
 
 test('should render the title', async (t) => {
-  await pageSetup(t);
+  await pageSetup(t, true);
+  await t.navigateTo('http://localhost:1234/organisations');
 
   const title = Selector('h1[data-test-id="org-dashboard-title"]');
 
@@ -111,7 +106,8 @@ test('should render the title', async (t) => {
 });
 
 test('should render the description', async (t) => {
-  await pageSetup(t);
+  await pageSetup(t, true);
+  await t.navigateTo('http://localhost:1234/organisations');
 
   const description = Selector('h2[data-test-id="org-dashboard-description"]');
 
@@ -121,7 +117,8 @@ test('should render the description', async (t) => {
 });
 
 test('should render add org button', async (t) => {
-  await pageSetup(t);
+  await pageSetup(t, true);
+  await t.navigateTo('http://localhost:1234/organisations');
 
   const addOrgButton = Selector('[data-test-id="add-org-button"] a');
 
@@ -134,7 +131,8 @@ test('should render add org button', async (t) => {
 });
 
 test('should render the table', async (t) => {
-  await pageSetup(t);
+  await pageSetup(t, true);
+  await t.navigateTo('http://localhost:1234/organisations');
 
   const table = Selector('div[data-test-id="org-table"]');
   const tableHeadings = Selector('[data-test-id="table-headings"]');
