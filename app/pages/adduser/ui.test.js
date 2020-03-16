@@ -5,20 +5,31 @@ import { extractInnerText } from '../../test-utils/helper';
 // import { apiLocalhost } from '../../test-utils/config';
 // import organisationDetails from '../../test-utils/fixtures/organisationDetails.json';
 
+const setCookies = ClientFunction(() => {
+  const cookieValue = JSON.stringify({
+    id: '88421113', name: 'Cool Dude', organisation: 'view',
+  });
+
+  document.cookie = `fakeToken=${cookieValue}`;
+});
+
+
 // const mocks = () => {
 //   nock(apiLocalhost)
 //     .get('/api/v1/Organisations/org1')
 //     .reply(200, organisationDetails);
 // };
 
-const pageSetup = async (t) => {
-  // await mocks();
-  await t.navigateTo('http://localhost:1234/organisations/org1/adduser');
+const pageSetup = async (t, withAuth = false) => {
+  if (withAuth) {
+    await setCookies();
+  }
 };
 
 const getLocation = ClientFunction(() => document.location.href);
 
 fixture('Add User Page')
+  .page('http://localhost:1234/some-fake-page')
   .afterEach(async (t) => {
     const isDone = nock.isDone();
     if (!isDone) {
@@ -28,8 +39,21 @@ fixture('Add User Page')
     await t.expect(isDone).ok('Not all nock interceptors were used!');
   });
 
-test('should render Add User page', async (t) => {
+test('when user is not authenticated - should navigate to the identity server login page', async (t) => {
   await pageSetup(t);
+  nock('http://identity-server')
+    .get('/login')
+    .reply(200);
+
+  await t.navigateTo('http://localhost:1234/organisations/org1/adduser');
+
+  await t
+    .expect(getLocation()).eql('http://identity-server/login');
+});
+
+test('should render Add User page', async (t) => {
+  await pageSetup(t, true);
+  await t.navigateTo('http://localhost:1234/organisations/org1/adduser');
 
   const orgPage = Selector('[data-test-id="add-user-page"]');
 
@@ -38,7 +62,8 @@ test('should render Add User page', async (t) => {
 });
 
 test('should navigate to /organisations/org when click on Back', async (t) => {
-  await pageSetup(t);
+  await pageSetup(t, true);
+  await t.navigateTo('http://localhost:1234/organisations/org1/adduser');
 
   const goBackLink = Selector('[data-test-id="go-back-link"] a');
 
@@ -49,7 +74,8 @@ test('should navigate to /organisations/org when click on Back', async (t) => {
 });
 
 test('should render the title', async (t) => {
-  await pageSetup(t);
+  await pageSetup(t, true);
+  await t.navigateTo('http://localhost:1234/organisations/org1/adduser');
 
   const title = Selector('h1[data-test-id="add-user-page-title"]');
 
@@ -59,7 +85,8 @@ test('should render the title', async (t) => {
 });
 
 test('should render the description', async (t) => {
-  await pageSetup(t);
+  await pageSetup(t, true);
+  await t.navigateTo('http://localhost:1234/organisations/org1/adduser');
 
   const description = Selector('h2[data-test-id="add-user-page-description"]');
 
@@ -69,7 +96,8 @@ test('should render the description', async (t) => {
 });
 
 test('should render organisation name subheading', async (t) => {
-  await pageSetup(t);
+  await pageSetup(t, true);
+  await t.navigateTo('http://localhost:1234/organisations/org1/adduser');
 
   const orgDetailsSubheading = Selector('h3[data-test-id="org-name-subheading"]');
 
@@ -90,7 +118,8 @@ test('should render organisation name subheading', async (t) => {
 // });
 
 test('should render a text field for each question', async (t) => {
-  await pageSetup(t);
+  await pageSetup(t, true);
+  await t.navigateTo('http://localhost:1234/organisations/org1/adduser');
 
   const firstName = Selector('[data-test-id="question-firstName"]');
   const lastName = Selector('[data-test-id="question-lastName"]');
@@ -119,7 +148,8 @@ test('should render a text field for each question', async (t) => {
 });
 
 test('should render add user button', async (t) => {
-  await pageSetup(t);
+  await pageSetup(t, true);
+  await t.navigateTo('http://localhost:1234/organisations/org1/adduser');
 
   const addUserButton = Selector('[data-test-id="add-user-button"] button');
 

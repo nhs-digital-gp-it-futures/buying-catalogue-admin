@@ -10,6 +10,12 @@ jest.mock('./logger');
 
 const mockLogoutMethod = jest.fn().mockImplementation(() => Promise.resolve({}));
 
+const mockAuthorisedJwtPayload = JSON.stringify({
+  id: '88421113', name: 'Cool Dude', organisation: 'view',
+});
+
+const mockAuthorisedCookie = `fakeToken=${mockAuthorisedJwtPayload}`;
+
 const setUpFakeApp = () => {
   const authProvider = new FakeAuthProvider(mockLogoutMethod);
   const app = new App(authProvider).createApp();
@@ -22,6 +28,31 @@ const mockAddUserData = {
   lastName: 'Jones',
   phoneNumber: '07777777777',
   emailAdress: 'jane.jones@email.com',
+};
+
+const checkAuthorisedRouteNotLoggedIn = path => (
+  request(setUpFakeApp())
+    .get(path)
+    .expect(302)
+    .then((res) => {
+      expect(res.redirect).toEqual(true);
+      expect(res.headers.location).toEqual('http://identity-server/login');
+    }));
+
+const checkAuthorisedRouteWithoutClaim = (path) => {
+  const mockUnauthorisedJwtPayload = JSON.stringify({
+    id: '88421113', name: 'Cool Dude',
+  });
+  const mockUnauthorisedCookie = `fakeToken=${mockUnauthorisedJwtPayload}`;
+
+  request(setUpFakeApp())
+    .get(path)
+    .set('Cookie', [mockUnauthorisedCookie])
+    .expect(200)
+    .then((res) => {
+      expect(res.text.includes('data-test-id="error-page-title"')).toEqual(true);
+      expect(res.text.includes('Not authorised')).toEqual(true);
+    });
 };
 
 describe('routes', () => {
@@ -47,13 +78,14 @@ describe('routes', () => {
   });
 
   describe('GET /logout', () => {
-    it('should redirect to the url provided by authProvider', async () => request(setUpFakeApp())
-      .get('/logout')
-      .expect(302)
-      .then((res) => {
-        expect(res.redirect).toEqual(true);
-        expect(res.headers.location).toEqual('/signout-callback-oidc');
-      }));
+    it('should redirect to the url provided by authProvider', async () => (
+      request(setUpFakeApp())
+        .get('/logout')
+        .expect(302)
+        .then((res) => {
+          expect(res.redirect).toEqual(true);
+          expect(res.headers.location).toEqual('/signout-callback-oidc');
+        })));
   });
 
   describe('GET /signout-callback-oidc', () => {
@@ -61,20 +93,22 @@ describe('routes', () => {
       mockLogoutMethod.mockReset();
     });
 
-    it('should redirect to /', async () => request(setUpFakeApp())
-      .get('/signout-callback-oidc')
-      .expect(302)
-      .then((res) => {
-        expect(res.redirect).toEqual(true);
-        expect(res.headers.location).toEqual('/');
-      }));
+    it('should redirect to /', async () => (
+      request(setUpFakeApp())
+        .get('/signout-callback-oidc')
+        .expect(302)
+        .then((res) => {
+          expect(res.redirect).toEqual(true);
+          expect(res.headers.location).toEqual('/');
+        })));
 
-    it('should call req.logout', async () => request(setUpFakeApp())
-      .get('/signout-callback-oidc')
-      .expect(302)
-      .then(() => {
-        expect(mockLogoutMethod.mock.calls.length).toEqual(1);
-      }));
+    it('should call req.logout', async () => (
+      request(setUpFakeApp())
+        .get('/signout-callback-oidc')
+        .expect(302)
+        .then(() => {
+          expect(mockLogoutMethod.mock.calls.length).toEqual(1);
+        })));
 
     it('should delete cookies', async () => {
       const { modifiedApp, cookies } = await setFakeCookie(setUpFakeApp(), '/signout-callback-oidc');
@@ -90,12 +124,21 @@ describe('routes', () => {
   });
 
   describe('GET /organisations', () => {
-    it('should return the correct status and text', () => {
+    it('should redirect to the login page if the user is not logged in', () => (
+      checkAuthorisedRouteNotLoggedIn('/organisations')
+    ));
+
+    it('should show the error page indicating the user is not authorised if the user is logged in but not authorised', () => (
+      checkAuthorisedRouteWithoutClaim('/organisations')
+    ));
+
+    it('should return the correct status and text when the user is authorised', () => {
       orgDashboardContext.getOrgDashboardContext = jest.fn()
         .mockImplementation(() => {});
 
       return request(setUpFakeApp())
         .get('/organisations')
+        .set('Cookie', [mockAuthorisedCookie])
         .expect(200)
         .then((res) => {
           expect(res.text.includes('data-test-id="organisations"')).toEqual(true);
@@ -105,9 +148,18 @@ describe('routes', () => {
   });
 
   describe('GET /organisations/:orgId', () => {
-    it('should return the correct status and text', () => (
+    it('should redirect to the login page if the user is not logged in', () => (
+      checkAuthorisedRouteNotLoggedIn('/organisations/org1')
+    ));
+
+    it('should show the error page indicating the user is not authorised if the user is logged in but not authorised', () => (
+      checkAuthorisedRouteWithoutClaim('/organisations/org1')
+    ));
+
+    it('should return the correct status and text when the user is authorised', () => (
       request(setUpFakeApp())
         .get('/organisations/org1')
+        .set('Cookie', [mockAuthorisedCookie])
         .expect(200)
         .then((res) => {
           expect(res.text.includes('data-test-id="org-page-title"')).toEqual(true);
@@ -115,9 +167,18 @@ describe('routes', () => {
   });
 
   describe('GET /organisations/:orgId/adduser', () => {
-    it('should return the correct status and text', () => (
+    it('should redirect to the login page if the user is not logged in', () => (
+      checkAuthorisedRouteNotLoggedIn('/organisations/org1/adduser')
+    ));
+
+    it('should show the error page indicating the user is not authorised if the user is logged in but not authorised', () => (
+      checkAuthorisedRouteWithoutClaim('/organisations/org1/adduser')
+    ));
+
+    it('should return the correct status and text when the user is authorised', () => (
       request(setUpFakeApp())
         .get('/organisations/org1/adduser')
+        .set('Cookie', [mockAuthorisedCookie])
         .expect(200)
         .then((res) => {
           expect(res.text.includes('data-test-id="add-user-page"')).toEqual(true);
@@ -135,6 +196,7 @@ describe('routes', () => {
 
       return request(setUpFakeApp())
         .post('/organisations/org1/adduser')
+        .set('Cookie', [mockAuthorisedCookie])
         .type('form')
         .send({
           ...mockAddUserData,
@@ -142,16 +204,57 @@ describe('routes', () => {
         .expect(403);
     });
 
+    it('should redirect to the login page if the user is not logged in', async () => {
+      const { cookies, csrfToken } = await getCsrfTokenFromGet(setUpFakeApp(), '/organisations/org1/adduser', mockAuthorisedCookie);
+
+      return request(setUpFakeApp())
+        .post('/organisations/:orgId/adduser')
+        .type('form')
+        .set('Cookie', [cookies])
+        .send({
+          ...mockAddUserData,
+          _csrf: csrfToken,
+        })
+        .expect(302)
+        .then((res) => {
+          expect(res.redirect).toEqual(true);
+          expect(res.headers.location).toEqual('http://identity-server/login');
+        });
+    });
+
+    it('should show the error page indicating the user is not authorised if the user is logged in but not authorised', async () => {
+      const { cookies, csrfToken } = await getCsrfTokenFromGet(setUpFakeApp(), '/organisations/org1/adduser', mockAuthorisedCookie);
+
+      const mockUnauthorisedJwtPayload = JSON.stringify({
+        id: '88421113', name: 'Cool Dude',
+      });
+      const mockUnauthorisedCookie = `fakeToken=${mockUnauthorisedJwtPayload}`;
+
+      return request(setUpFakeApp())
+        .post('/organisations/:orgId/adduser')
+        .type('form')
+        .set('Cookie', [cookies, mockUnauthorisedCookie])
+        .send({
+          ...mockAddUserData,
+          _csrf: csrfToken,
+        })
+        .expect(200)
+        .then((res) => {
+          expect(res.text.includes('data-test-id="error-page-title"')).toEqual(true);
+          expect(res.text.includes('Not authorised')).toEqual(true);
+        });
+    });
+
     it('should return the correct status and text if response.success is true', async () => {
       addUserController.postAddUser = jest.fn()
         .mockImplementation(() => Promise.resolve({ success: true }));
 
-      const { cookies, csrfToken } = await getCsrfTokenFromGet(setUpFakeApp(), '/organisations/org1/adduser');
+      const { cookies, csrfToken } = await getCsrfTokenFromGet(setUpFakeApp(), '/organisations/org1/adduser', mockAuthorisedCookie);
 
       return request(setUpFakeApp())
         .post('/organisations/org1/adduser')
         .type('form')
-        .set('Cookie', cookies)
+        .set('Cookie', [cookies, mockAuthorisedCookie])
         .send({
           ...mockAddUserData,
           _csrf: csrfToken,
@@ -170,12 +273,12 @@ describe('routes', () => {
       // TODO: Implement with errors
       // addUserController.getAddUserPageErrorContext = jest.fn()
       // .mockImplementation(() => Promise.resolve(mockAddUserErrorContext));
-      const { cookies, csrfToken } = await getCsrfTokenFromGet(setUpFakeApp(), '/organisations/org1/adduser');
+      const { cookies, csrfToken } = await getCsrfTokenFromGet(setUpFakeApp(), '/organisations/org1/adduser', mockAuthorisedCookie);
 
       return request(setUpFakeApp())
         .post('/organisations/:orgId/adduser')
         .type('form')
-        .set('Cookie', cookies)
+        .set('Cookie', [cookies, mockAuthorisedCookie])
         .send({
           ...mockAddUserData,
           _csrf: csrfToken,
@@ -186,6 +289,30 @@ describe('routes', () => {
           // expect(res.text.includes('')).toEqual(true);
         // expect(res.text.includes('data-test-id="error-page-title"')).toEqual(false);
         // addUserController.getAddUserPageErrorContext.mockReset();
+        });
+    });
+  });
+
+  describe('GET /organisations/:orgId/adduser/confirmation', () => {
+    it('should redirect to the login page if the user is not logged in', () => (
+      checkAuthorisedRouteNotLoggedIn('/organisations/org1/adduser/confirmation')
+    ));
+
+    it('should show the error page indicating the user is not authorised if the user is logged in but not authorised', () => (
+      checkAuthorisedRouteWithoutClaim('/organisations/org1/adduser/confirmation')
+    ));
+
+    it('should return the correct status and text when the user is authorised', () => {
+      orgDashboardContext.getOrgDashboardContext = jest.fn()
+        .mockImplementation(() => {});
+
+      return request(setUpFakeApp())
+        .get('/organisations/org1/adduser/confirmation')
+        .set('Cookie', [mockAuthorisedCookie])
+        .expect(200)
+        .then((res) => {
+          expect(res.text.includes('data-test-id="add-user-confirmation"')).toEqual(true);
+          expect(res.text.includes('data-test-id="error-page-title"')).toEqual(false);
         });
     });
   });

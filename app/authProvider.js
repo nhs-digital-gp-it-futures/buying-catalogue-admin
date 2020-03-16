@@ -88,4 +88,17 @@ export class AuthProvider {
       post_logout_redirect_uri: `${appBaseUri}/signout-callback-oidc`,
     });
   }
+
+  authorise() {
+    return (req, res, next) => {
+      if (!req.user) {
+        req.headers.referer = `${appBaseUri}${req.originalUrl}`;
+        this.login()(req, res, next);
+      } else if (req.user && req.user.organisation) {
+        next();
+      } else {
+        throw new Error('Not authorised matey');
+      }
+    };
+  }
 }

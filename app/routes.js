@@ -46,20 +46,27 @@ export const routes = (authProvider) => {
     res.redirect(config.logoutRedirectPath);
   });
 
-  router.get('/organisations', withCatch(async (req, res) => {
+  router.get('/organisations', authProvider.authorise(), withCatch(async (req, res) => {
     logger.info('navigating to organisations page');
     const context = await getOrgDashboardContext({ accessToken: extractAccessToken({ req, tokenType: 'access' }) });
     res.render('pages/dashboard/template.njk', addContext({ context, user: req.user }));
   }));
 
-  router.get('/organisations/:orgId/adduser', withCatch(async (req, res) => {
+  router.get('/organisations/:orgId', authProvider.authorise(), withCatch(async (req, res) => {
+    const { orgId } = req.params;
+    logger.info(`navigating to organisation: ${orgId} account page`);
+    const context = await getOrgAccountsContext(orgId);
+    res.render('pages/organisation/template.njk', addContext({ context, user: req.user }));
+  }));
+
+  router.get('/organisations/:orgId/adduser', authProvider.authorise(), withCatch(async (req, res) => {
     const { orgId } = req.params;
     logger.info(`navigating to organisation: ${orgId} add user page`);
     const context = await getAddUserContext(orgId);
     res.render('pages/adduser/template.njk', addContext({ context, user: req.user, csrfToken: req.csrfToken() }));
   }));
 
-  router.post('/organisations/:orgId/adduser', withCatch(async (req, res) => {
+  router.post('/organisations/:orgId/adduser', authProvider.authorise(), withCatch(async (req, res) => {
     const { orgId } = req.params;
     const response = await postAddUser({ orgId, data: req.body });
 
@@ -72,18 +79,11 @@ export const routes = (authProvider) => {
     //   return res.render('pages/adduser/template', context);
   }));
 
-  router.get('/organisations/:orgId/adduser/confirmation', withCatch(async (req, res) => {
+  router.get('/organisations/:orgId/adduser/confirmation', authProvider.authorise(), withCatch(async (req, res) => {
     const { orgId } = req.params;
     logger.info(`navigating to organisation: ${orgId} add user confirmation page`);
     const context = await getAddUserConfirmationContext(orgId);
     res.render('pages/adduser/confirmation/template.njk', addContext({ context, user: req.user }));
-  }));
-
-  router.get('/organisations/:orgId', withCatch(async (req, res) => {
-    const { orgId } = req.params;
-    logger.info(`navigating to organisation: ${orgId} account page`);
-    const context = await getOrgAccountsContext(orgId);
-    res.render('pages/organisation/template.njk', addContext({ context, user: req.user }));
   }));
 
   router.get('*', (req, res, next) => next({
