@@ -31,4 +31,7 @@ module.exports = {
 
   // The path that the user is redirected to after logout
   logoutRedirectPath: process.env.LOGOUT_REDIRECT_PATH || '/',
+
+  // How long before the cookies stored in the session expire in ms (8 hours)
+  maxCookieAge: process.env.MAX_COOKIE_AGE || 28800000,
 };
