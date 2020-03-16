@@ -14,7 +14,7 @@ const mockAuthorisedJwtPayload = JSON.stringify({
   id: '88421113', name: 'Cool Dude', organisation: 'view',
 });
 
-const fakeAuthorisedCookie = `fakeToken=${mockAuthorisedJwtPayload}`;
+const mockAuthorisedCookie = `fakeToken=${mockAuthorisedJwtPayload}`;
 
 const setUpFakeApp = () => {
   const authProvider = new FakeAuthProvider(mockLogoutMethod);
@@ -43,11 +43,11 @@ const checkAuthorisedRouteWithoutClaim = (path) => {
   const mockUnauthorisedJwtPayload = JSON.stringify({
     id: '88421113', name: 'Cool Dude',
   });
-  const fakeUnauthorisedCookie = `fakeToken=${mockUnauthorisedJwtPayload}`;
+  const mockUnauthorisedCookie = `fakeToken=${mockUnauthorisedJwtPayload}`;
 
   request(setUpFakeApp())
     .get(path)
-    .set('Cookie', [fakeUnauthorisedCookie])
+    .set('Cookie', [mockUnauthorisedCookie])
     .expect(200)
     .then((res) => {
       expect(res.text.includes('data-test-id="error-page-title"')).toEqual(true);
@@ -138,7 +138,7 @@ describe('routes', () => {
 
       return request(setUpFakeApp())
         .get('/organisations')
-        .set('Cookie', [fakeAuthorisedCookie])
+        .set('Cookie', [mockAuthorisedCookie])
         .expect(200)
         .then((res) => {
           expect(res.text.includes('data-test-id="organisations"')).toEqual(true);
@@ -159,7 +159,7 @@ describe('routes', () => {
     it('should return the correct status and text when the user is authorised', () => (
       request(setUpFakeApp())
         .get('/organisations/org1')
-        .set('Cookie', [fakeAuthorisedCookie])
+        .set('Cookie', [mockAuthorisedCookie])
         .expect(200)
         .then((res) => {
           expect(res.text.includes('data-test-id="org-page-title"')).toEqual(true);
@@ -178,7 +178,7 @@ describe('routes', () => {
     it('should return the correct status and text when the user is authorised', () => (
       request(setUpFakeApp())
         .get('/organisations/org1/adduser')
-        .set('Cookie', [fakeAuthorisedCookie])
+        .set('Cookie', [mockAuthorisedCookie])
         .expect(200)
         .then((res) => {
           expect(res.text.includes('data-test-id="add-user-page"')).toEqual(true);
@@ -196,7 +196,7 @@ describe('routes', () => {
 
       return request(setUpFakeApp())
         .post('/organisations/org1/adduser')
-        .set('Cookie', [fakeAuthorisedCookie])
+        .set('Cookie', [mockAuthorisedCookie])
         .type('form')
         .send({
           ...mockAddUserData,
@@ -205,7 +205,7 @@ describe('routes', () => {
     });
 
     it('should redirect to the login page if the user is not logged in', async () => {
-      const { cookies, csrfToken } = await getCsrfTokenFromGet(setUpFakeApp(), '/organisations/org1/adduser', fakeAuthorisedCookie);
+      const { cookies, csrfToken } = await getCsrfTokenFromGet(setUpFakeApp(), '/organisations/org1/adduser', mockAuthorisedCookie);
 
       return request(setUpFakeApp())
         .post('/organisations/:orgId/adduser')
@@ -223,17 +223,17 @@ describe('routes', () => {
     });
 
     it('should show the error page indicating the user is not authorised if the user is logged in but not authorised', async () => {
-      const { cookies, csrfToken } = await getCsrfTokenFromGet(setUpFakeApp(), '/organisations/org1/adduser', fakeAuthorisedCookie);
+      const { cookies, csrfToken } = await getCsrfTokenFromGet(setUpFakeApp(), '/organisations/org1/adduser', mockAuthorisedCookie);
 
       const mockUnauthorisedJwtPayload = JSON.stringify({
         id: '88421113', name: 'Cool Dude',
       });
-      const fakeUnauthorisedCookie = `fakeToken=${mockUnauthorisedJwtPayload}`;
+      const mockUnauthorisedCookie = `fakeToken=${mockUnauthorisedJwtPayload}`;
 
       return request(setUpFakeApp())
         .post('/organisations/:orgId/adduser')
         .type('form')
-        .set('Cookie', [cookies, fakeUnauthorisedCookie])
+        .set('Cookie', [cookies, mockUnauthorisedCookie])
         .send({
           ...mockAddUserData,
           _csrf: csrfToken,
@@ -249,12 +249,12 @@ describe('routes', () => {
       addUserController.postAddUser = jest.fn()
         .mockImplementation(() => Promise.resolve({ success: true }));
 
-      const { cookies, csrfToken } = await getCsrfTokenFromGet(setUpFakeApp(), '/organisations/org1/adduser', fakeAuthorisedCookie);
+      const { cookies, csrfToken } = await getCsrfTokenFromGet(setUpFakeApp(), '/organisations/org1/adduser', mockAuthorisedCookie);
 
       return request(setUpFakeApp())
         .post('/organisations/org1/adduser')
         .type('form')
-        .set('Cookie', [cookies, fakeAuthorisedCookie])
+        .set('Cookie', [cookies, mockAuthorisedCookie])
         .send({
           ...mockAddUserData,
           _csrf: csrfToken,
@@ -273,12 +273,12 @@ describe('routes', () => {
       // TODO: Implement with errors
       // addUserController.getAddUserPageErrorContext = jest.fn()
       // .mockImplementation(() => Promise.resolve(mockAddUserErrorContext));
-      const { cookies, csrfToken } = await getCsrfTokenFromGet(setUpFakeApp(), '/organisations/org1/adduser', fakeAuthorisedCookie);
+      const { cookies, csrfToken } = await getCsrfTokenFromGet(setUpFakeApp(), '/organisations/org1/adduser', mockAuthorisedCookie);
 
       return request(setUpFakeApp())
         .post('/organisations/:orgId/adduser')
         .type('form')
-        .set('Cookie', [cookies, fakeAuthorisedCookie])
+        .set('Cookie', [cookies, mockAuthorisedCookie])
         .send({
           ...mockAddUserData,
           _csrf: csrfToken,
@@ -308,7 +308,7 @@ describe('routes', () => {
 
       return request(setUpFakeApp())
         .get('/organisations/org1/adduser/confirmation')
-        .set('Cookie', [fakeAuthorisedCookie])
+        .set('Cookie', [mockAuthorisedCookie])
         .expect(200)
         .then((res) => {
           expect(res.text.includes('data-test-id="add-user-confirmation"')).toEqual(true);
