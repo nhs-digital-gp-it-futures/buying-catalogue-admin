@@ -218,7 +218,7 @@ test('should render add user button', async (t) => {
 });
 
 test('should render the table with users', async (t) => {
-  await pageSetup(t, true);  
+  await pageSetup(t, true);
   await t.navigateTo('http://localhost:1234/organisations/org1');
 
   const table = Selector('div[data-test-id="user-table"]');
