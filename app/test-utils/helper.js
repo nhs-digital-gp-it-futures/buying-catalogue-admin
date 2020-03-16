@@ -11,7 +11,7 @@ const extractCsrfToken = (res) => {
   return $('[name=_csrf]').val();
 };
 
-export const getCsrfTokenFromGet = async (app, getPath, authenticationCookie = undefined) => {
+export const getCsrfTokenFromGet = async (app, getPath, authenticationCookie) => {
   let cookies;
   let csrfToken;
 
