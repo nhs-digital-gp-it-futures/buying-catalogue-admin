@@ -5,9 +5,8 @@ import { env } from './app/config';
 import { FakeAuthProvider } from './app/test-utils/FakeAuthProvider';
 
 let testcafe;
-const mockLogoutMethod = () => {};
 
-const authProvider = new FakeAuthProvider(mockLogoutMethod);
+const authProvider = new FakeAuthProvider();
 const app = new App(authProvider).createApp();
 app.use('/', routes(authProvider));
 const server = app.listen('1234');
