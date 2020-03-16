@@ -27,7 +27,7 @@ const pageSetup = async (t, withAuth = false) => {
 };
 
 fixture('Header')
-  .page('http://localhost:1234/healthcheck')
+  .page('http://localhost:1234/some-fake-page')
   .afterEach(async (t) => {
     const isDone = nock.isDone();
     if (!isDone) {
@@ -62,7 +62,7 @@ test('when user is authenticated - should display the logout link', async (t) =>
 const getLocation = ClientFunction(() => document.location.href);
 
 fixture('Organisation Dashboard Page')
-  .page('http://localhost:1234/healthcheck')
+  .page('http://localhost:1234/some-fake-page')
   .afterEach(async (t) => {
     const isDone = nock.isDone();
     if (!isDone) {

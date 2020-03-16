@@ -28,7 +28,7 @@ const pageSetup = async (t, withAuth = false) => {
 const getLocation = ClientFunction(() => document.location.href);
 
 fixture('Organisation Page')
-  .page('http://localhost:1234/healthcheck')
+  .page('http://localhost:1234/some-fake-page')
   .afterEach(async (t) => {
     const isDone = nock.isDone();
     if (!isDone) {
