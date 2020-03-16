@@ -156,7 +156,7 @@ describe('routes', () => {
       checkAuthorisedRouteWithoutClaim('/organisations/org1')
     ));
 
-    it('should return the correct status and text', () => (
+    it('should return the correct status and text when the user is authorised', () => (
       request(setUpFakeApp())
         .get('/organisations/org1')
         .set('Cookie', [fakeAuthorisedCookie])
@@ -175,7 +175,7 @@ describe('routes', () => {
       checkAuthorisedRouteWithoutClaim('/organisations/org1/adduser')
     ));
 
-    it('should return the correct status and text', () => (
+    it('should return the correct status and text when the user is authorised', () => (
       request(setUpFakeApp())
         .get('/organisations/org1/adduser')
         .set('Cookie', [fakeAuthorisedCookie])
