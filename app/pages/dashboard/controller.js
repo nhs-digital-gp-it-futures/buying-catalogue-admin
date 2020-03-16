@@ -1,26 +1,18 @@
-// import axios from 'axios';
+import axios from 'axios';
 import { getContext } from './contextCreator';
-import { identityServer } from '../../config';
+import { organisationApiUrl } from '../../config';
 import { logger } from '../../logger';
 
-export const getOrgDashboardContext = () => {
-  const endpoint = `${identityServer}/api/v1/Organisations`;
+export const getOrgDashboardContext = async ({ accessToken }) => {
+  const endpoint = `${organisationApiUrl}/api/v1/Organisations`;
   logger.info(`api called: [GET] ${endpoint}`);
-  logger.info('Organisations returned');
-  return getContext({});
+
+  const response = await axios.get(endpoint, { headers: { Authorization: `Bearer ${accessToken}` } });
+  if (response.data) {
+    logger.info('Organisations returned');
+    const { data } = response;
+    return getContext({ data });
+  }
+
+  throw new Error('No organisations data returned');
 };
-
-// TODO: Uncomment when API work is done and remove the implementation above
-// export const getOrgDashboardContext = async () => {
-//   const endpoint = `${identityServer}/api/v1/Organisations`;
-//   logger.info(`api called: [GET] ${endpoint}`);
-//   const response = await axios.get(endpoint);
-
-//   if (response.data) {
-//     logger.info('Organisations returned');
-//     const { data } = response;
-//     return getContext({ data });
-//   }
-
-//   throw new Error('No data returned');
-// };

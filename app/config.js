@@ -14,6 +14,9 @@ module.exports = {
   // IDENTITY_SERVER
   identityServer: process.env.IDENTITY_SERVER || 'http://localhost:5102',
 
+  // ORGANISATION_API_URL
+  organisationApiUrl: process.env.ORGANISATION_API_URL || 'http://localhost:8075',
+
   // LOGGER_LEVEL options are info, warn, error, off
   loggerLevel: process.env.LOGGER_LEVEL || 'error',
 
@@ -28,4 +31,7 @@ module.exports = {
 
   // The path that the user is redirected to after logout
   logoutRedirectPath: process.env.LOGOUT_REDIRECT_PATH || '/',
+
+  // How long before the cookies stored in the session expire in ms (8 hours)
+  maxCookieAge: process.env.MAX_COOKIE_AGE || 28800000,
 };
