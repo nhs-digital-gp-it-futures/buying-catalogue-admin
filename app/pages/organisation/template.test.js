@@ -7,7 +7,7 @@ const setup = {
   },
 };
 const mockData = {
-  orgId: 'org1',
+  organisationId: 'org1',
   orgName: 'Greater Manchester CCG',
   odsCode: 'X01',
   primaryRoleId: 'ID123',
@@ -154,7 +154,7 @@ describe('organisations dashboard page', () => {
       const addOrgButton = $('[data-test-id="add-user-button"] a');
       expect(addOrgButton.length).toEqual(1);
       expect(addOrgButton.text().trim()).toEqual(mockContext.addUserButtonText);
-      expect(addOrgButton.attr('href')).toEqual(`/organisations/${mockContext.orgId}/adduser`);
+      expect(addOrgButton.attr('href')).toEqual(`/organisations/${mockContext.organisationId}/adduser`);
     });
   }));
 
