@@ -1,23 +1,23 @@
 // import axios from 'axios';
 import { getContext } from './contextCreator';
-import { identityServer } from '../../config';
+import { organisationApiUrl } from '../../config';
 import { logger } from '../../logger';
 
-export const getAddUserContext = (orgId) => {
-  const endpoint = `${identityServer}/api/v1/Organisations/${orgId}`;
+export const getAddUserContext = (organisationId) => {
+  const endpoint = `${organisationApiUrl}/api/v1/Organisations/${organisationId}`;
   logger.info(`api called: [GET] ${endpoint}`);
-  logger.info(`Organisation ${orgId} returned`);
+  logger.info(`Organisation ${organisationId} returned`);
   return getContext({ data: {} });
 };
 
 // TODO: Uncomment when API work is done and remove the implementation above
-// export const getAddUserContext = async (orgId) => {
-//   const endpoint = `${identityServer}/api/v1/Organisations/${orgId}`;
+// export const getAddUserContext = async (organisationId) => {
+//   const endpoint = `${organisationApiUrl}/api/v1/Organisations/${organisationId}`;
 //   logger.info(`api called: [GET] ${endpoint}`);
 //   const response = await axios.get(endpoint);
 
 //   if (response.data) {
-//     logger.info(`Organisation ${orgId} returned`);
+//     logger.info(`Organisation ${organisationId} returned`);
 //     const { data } = response;
 //     return getContext({ data });
 //   }
@@ -25,9 +25,9 @@ export const getAddUserContext = (orgId) => {
 //   throw new Error('No data returned');
 // };
 
-export const postAddUser = async ({ orgId/* , data */ }) => {
-  const endpoint = `${identityServer}/api/v1/Organisations/${orgId}/Users`;
-  logger.info(`Organisation ${orgId} returned`);
+export const postAddUser = async ({ organisationId/* , data */ }) => {
+  const endpoint = `${organisationApiUrl}/api/v1/Organisations/${organisationId}/Users`;
+  logger.info(`Organisation ${organisationId} returned`);
   try {
     logger.info(`api called: [POST] ${endpoint}`);
     // TODO: Uncomment when API work is done
