@@ -52,26 +52,26 @@ export const routes = (authProvider) => {
     res.render('pages/dashboard/template.njk', addContext({ context, user: req.user }));
   }));
 
-  router.get('/organisations/:orgId', authProvider.authorise(), withCatch(async (req, res) => {
-    const { orgId } = req.params;
-    logger.info(`navigating to organisation: ${orgId} account page`);
-    const context = await getOrgAccountsContext(orgId);
+  router.get('/organisations/:organisationId', authProvider.authorise(), withCatch(async (req, res) => {
+    const { organisationId } = req.params;
+    logger.info(`navigating to organisation: ${organisationId} account page`);
+    const context = await getOrgAccountsContext({ organisationId, accessToken: extractAccessToken({ req, tokenType: 'access' }) });
     res.render('pages/organisation/template.njk', addContext({ context, user: req.user }));
   }));
 
-  router.get('/organisations/:orgId/adduser', authProvider.authorise(), withCatch(async (req, res) => {
-    const { orgId } = req.params;
-    logger.info(`navigating to organisation: ${orgId} add user page`);
-    const context = await getAddUserContext(orgId);
+  router.get('/organisations/:organisationId/adduser', authProvider.authorise(), withCatch(async (req, res) => {
+    const { organisationId } = req.params;
+    logger.info(`navigating to organisation: ${organisationId} add user page`);
+    const context = await getAddUserContext(organisationId);
     res.render('pages/adduser/template.njk', addContext({ context, user: req.user, csrfToken: req.csrfToken() }));
   }));
 
-  router.post('/organisations/:orgId/adduser', authProvider.authorise(), withCatch(async (req, res) => {
-    const { orgId } = req.params;
-    const response = await postAddUser({ orgId, data: req.body });
+  router.post('/organisations/:organisationId/adduser', authProvider.authorise(), withCatch(async (req, res) => {
+    const { organisationId } = req.params;
+    const response = await postAddUser({ organisationId, data: req.body });
 
     if (response.success) {
-      res.redirect(`/organisations/${orgId}/adduser/confirmation`);
+      res.redirect(`/organisations/${organisationId}/adduser/confirmation`);
     } else res.send('Error adding user');
     // TODO: Implement with errors
     // const context = await getAddUserPageErrorContext({ validationErrors: response (etc) });
@@ -79,10 +79,10 @@ export const routes = (authProvider) => {
     //   return res.render('pages/adduser/template', context);
   }));
 
-  router.get('/organisations/:orgId/adduser/confirmation', authProvider.authorise(), withCatch(async (req, res) => {
-    const { orgId } = req.params;
-    logger.info(`navigating to organisation: ${orgId} add user confirmation page`);
-    const context = await getAddUserConfirmationContext(orgId);
+  router.get('/organisations/:organisationId/adduser/confirmation', authProvider.authorise(), withCatch(async (req, res) => {
+    const { organisationId } = req.params;
+    logger.info(`navigating to organisation: ${organisationId} add user confirmation page`);
+    const context = await getAddUserConfirmationContext(organisationId);
     res.render('pages/adduser/confirmation/template.njk', addContext({ context, user: req.user }));
   }));
 

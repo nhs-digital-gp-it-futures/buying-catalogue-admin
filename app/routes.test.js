@@ -4,6 +4,7 @@ import { routes } from './routes';
 import { FakeAuthProvider } from './test-utils/FakeAuthProvider';
 import { getCsrfTokenFromGet, setFakeCookie } from './test-utils/helper';
 import * as orgDashboardContext from './pages/dashboard/controller';
+import * as orgAccountsContext from './pages/organisation/controller';
 import * as addUserController from './pages/adduser/controller';
 
 jest.mock('./logger');
@@ -147,7 +148,7 @@ describe('routes', () => {
     });
   });
 
-  describe('GET /organisations/:orgId', () => {
+  describe('GET /organisations/:organisationId', () => {
     it('should redirect to the login page if the user is not logged in', () => (
       checkAuthorisedRouteNotLoggedIn('/organisations/org1')
     ));
@@ -156,17 +157,22 @@ describe('routes', () => {
       checkAuthorisedRouteWithoutClaim('/organisations/org1')
     ));
 
-    it('should return the correct status and text when the user is authorised', () => (
-      request(setUpFakeApp())
+    it('should return the correct status and text when the user is authorised', () => {
+      orgAccountsContext.getOrgAccountsContext = jest.fn()
+        .mockImplementation(() => {});
+
+      return request(setUpFakeApp())
         .get('/organisations/org1')
         .set('Cookie', [mockAuthorisedCookie])
         .expect(200)
         .then((res) => {
           expect(res.text.includes('data-test-id="org-page-title"')).toEqual(true);
-        })));
+          expect(res.text.includes('data-test-id="error-page-title"')).toEqual(false);
+        });
+    });
   });
 
-  describe('GET /organisations/:orgId/adduser', () => {
+  describe('GET /organisations/:organisationId/adduser', () => {
     it('should redirect to the login page if the user is not logged in', () => (
       checkAuthorisedRouteNotLoggedIn('/organisations/org1/adduser')
     ));
@@ -185,7 +191,7 @@ describe('routes', () => {
         })));
   });
 
-  describe('POST /organisations/:orgId/adduser', () => {
+  describe('POST /organisations/:organisationId/adduser', () => {
     afterEach(() => {
       addUserController.postAddUser.mockReset();
     });
@@ -208,7 +214,7 @@ describe('routes', () => {
       const { cookies, csrfToken } = await getCsrfTokenFromGet(setUpFakeApp(), '/organisations/org1/adduser', mockAuthorisedCookie);
 
       return request(setUpFakeApp())
-        .post('/organisations/:orgId/adduser')
+        .post('/organisations/:organisationId/adduser')
         .type('form')
         .set('Cookie', [cookies])
         .send({
@@ -231,7 +237,7 @@ describe('routes', () => {
       const mockUnauthorisedCookie = `fakeToken=${mockUnauthorisedJwtPayload}`;
 
       return request(setUpFakeApp())
-        .post('/organisations/:orgId/adduser')
+        .post('/organisations/:organisationId/adduser')
         .type('form')
         .set('Cookie', [cookies, mockUnauthorisedCookie])
         .send({
@@ -276,7 +282,7 @@ describe('routes', () => {
       const { cookies, csrfToken } = await getCsrfTokenFromGet(setUpFakeApp(), '/organisations/org1/adduser', mockAuthorisedCookie);
 
       return request(setUpFakeApp())
-        .post('/organisations/:orgId/adduser')
+        .post('/organisations/:organisationId/adduser')
         .type('form')
         .set('Cookie', [cookies, mockAuthorisedCookie])
         .send({
@@ -293,7 +299,7 @@ describe('routes', () => {
     });
   });
 
-  describe('GET /organisations/:orgId/adduser/confirmation', () => {
+  describe('GET /organisations/:organisationId/adduser/confirmation', () => {
     it('should redirect to the login page if the user is not logged in', () => (
       checkAuthorisedRouteNotLoggedIn('/organisations/org1/adduser/confirmation')
     ));
