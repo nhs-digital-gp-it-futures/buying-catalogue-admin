@@ -2,7 +2,7 @@ import manifest from './manifest.json';
 
 export const getContext = ({ data }) => ({
   ...manifest,
-  orgId: data.organisationId,
+  organisationId: data.organisationId,
   orgName: data.name,
   odsCode: data.odsCode,
   primaryRoleId: data.primaryRoleId,
