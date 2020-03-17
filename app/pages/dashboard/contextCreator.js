@@ -5,7 +5,7 @@ export const getContext = ({ data }) => ({
   columnInfo: manifest.columnInfo ? manifest.columnInfo : [],
   organisations: data && data.organisations
     ? data.organisations.map(row => [
-      { data: row.name || '', href: row.orgId ? `organisations/${row.orgId}` : '#' },
+      { data: row.name || '', href: row.organisationId ? `organisations/${row.organisationId}` : '#' },
       { data: row.odsCode || '' },
     ])
     : [],
