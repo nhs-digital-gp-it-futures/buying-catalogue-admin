@@ -8,7 +8,6 @@ export const getAddUserContext = async ({ organisationId, accessToken }) => {
   const options = { organisationId };
   // Need to call this to get org name
   const orgData = await getData({ endpointLocator: 'getOrgById', options, accessToken });
-  console.log('@@@', orgData)
   logger.info(`Organisation ${organisationId} returned`);
   return getContext(orgData);
 };
