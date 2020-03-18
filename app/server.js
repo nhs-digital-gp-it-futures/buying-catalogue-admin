@@ -19,7 +19,6 @@ const app = new App(authProvider).createApp();
 app.use('/', routes(authProvider));
 
 // Run application on configured port
-app.use('/', routes);
 if (config.env === 'development') {
   logger.info(`Buying Catalogue Admin - \x1b[35m${config.appBaseUri}/organisations\x1b[0m`);
 } else {
