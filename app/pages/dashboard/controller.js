@@ -3,11 +3,11 @@ import { logger } from '../../logger';
 import { getData } from '../../apiProvider';
 
 export const getOrgDashboardContext = async ({ accessToken }) => {
-  const data = await getData({ endpointLocator: 'getOrganisations', accessToken });
+  const organisations = await getData({ endpointLocator: 'getOrganisations', accessToken });
 
-  if (data) {
+  if (organisations) {
     logger.info('Organisations returned');
-    return getContext({ data });
+    return getContext({ organisations: organisations.organisations });
   }
 
   throw new Error('No organisations data returned');
