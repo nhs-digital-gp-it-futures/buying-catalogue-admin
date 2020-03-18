@@ -1,16 +1,16 @@
 import manifest from './manifest.json';
 
-export const getContext = ({ data }) => ({
+export const getContext = ({ organisation }) => ({
   ...manifest,
-  organisationId: data.organisationId,
-  organisationName: data.name,
-  odsCode: data.odsCode,
-  primaryRoleId: data.primaryRoleId,
-  address: data.address ? data.address.split(',') : [],
-  agreementSigned: data.isCatalogueAgreementSigned,
+  organisationId: organisation.organisationId,
+  organisationName: organisation.name,
+  odsCode: organisation.odsCode,
+  primaryRoleId: organisation.primaryRoleId,
+  address: organisation.address ? organisation.address.split(',') : [],
+  agreementSigned: organisation.isCatalogueAgreementSigned,
   columnInfo: manifest.columnInfo ? manifest.columnInfo : [],
-  addUserButtonHref: `/organisations/${data.organisationId}/adduser`,
-  users: data && data.users ? data.users.map(row => [
+  addUserButtonHref: `/organisations/${organisation.organisationId}/adduser`,
+  users: organisation && organisation.users ? organisation.users.map(row => [
     {
       data: `${(`${row.firstName ? row.firstName : ''} ${row.lastName ? row.lastName : ''}`).trim()}` || '',
       href: '#' || '#',

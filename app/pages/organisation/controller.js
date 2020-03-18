@@ -12,7 +12,7 @@ export const getOrgAccountsContext = async ({ organisationId, accessToken }) => 
 
     logger.info(`${users.users ? users.users.length : 'No'} users found`);
     orgData.users = users.users;
-    return getContext({ data: orgData });
+    return getContext({ organisation: orgData });
   }
 
   throw new Error(`No organisation data returned for id: ${organisationId}`);

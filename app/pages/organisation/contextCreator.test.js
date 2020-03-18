@@ -25,9 +25,9 @@ const mockData = {
   }],
 };
 
-describe('getOrgDashboardContext', () => {
+describe('getOrganisationContext', () => {
   it('should return the contents of the manfest', () => {
-    const context = getContext({ data: {} });
+    const context = getContext({ organisation: {} });
     expect(context.description).toEqual(manifest.description);
     expect(context.orgSubheading).toEqual(manifest.orgSubheading);
     expect(context.editOrgButtonText).toEqual(manifest.editOrgButtonText);
@@ -42,12 +42,12 @@ describe('getOrgDashboardContext', () => {
   });
 
   it('should return an empty array for users key if no data provided', () => {
-    const context = getContext({ data: {} });
+    const context = getContext({ organisation: {} });
     expect(context.users).toEqual([]);
   });
 
   it('should transform data into correct format if all data provided', () => {
-    const { users } = getContext({ data: mockData });
+    const { users } = getContext({ organisation: mockData });
     expect(users[0][0].data).toEqual(`${mockData.users[0].firstName} ${mockData.users[0].lastName}`);
     expect(users[0][0].href).toEqual('#');
     expect(users[0][1].data).toEqual(mockData.users[0].phoneNumber);
@@ -77,7 +77,7 @@ describe('getOrgDashboardContext', () => {
       }],
     };
 
-    const { users } = getContext({ data: modifiedMockData });
+    const { users } = getContext({ organisation: modifiedMockData });
     expect(users[0][0].data).toEqual('');
     expect(users[0][0].href).toEqual('#');
     expect(users[0][1].data).toEqual('');
@@ -91,7 +91,7 @@ describe('getOrgDashboardContext', () => {
   });
 
   it('should create an add user button href', () => {
-    const context = getContext({ data: { organisationId: 'org1' } });
+    const context = getContext({ organisation: { organisationId: 'org1' } });
     expect(context.addUserButtonHref).toEqual('/organisations/org1/adduser');
   });
 });
