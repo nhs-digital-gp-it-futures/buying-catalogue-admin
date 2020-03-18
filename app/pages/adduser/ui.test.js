@@ -110,11 +110,11 @@ test('should render organisation name subheading', async (t) => {
 // test('should render organisation name', async (t) => {
 //   await pageSetup(t);
 
-//   const orgName = Selector('[data-test-id="org-name"]');
+//   const organisationName = Selector('[data-test-id="org-name"]');
 
 //   await t
-//     .expect(orgName.exists).ok()
-//     .expect(await extractInnerText(orgName)).eql(organisationDetails.name);
+//     .expect(organisationName.exists).ok()
+//     .expect(await extractInnerText(organisationName)).eql(organisationDetails.name);
 // });
 
 test('should render a text field for each question', async (t) => {

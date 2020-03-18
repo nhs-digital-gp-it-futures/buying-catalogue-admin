@@ -42,11 +42,11 @@ describe('organisations add user page', () => {
   }));
 
   it('should render the organisation name', createTestHarness(setup, (harness) => {
-    const modifiedContext = { ...context, orgName: 'a lovely org name' };
+    const modifiedContext = { ...context, organisationName: 'a lovely org name' };
     harness.request(modifiedContext, ($) => {
-      const orgName = $('[data-test-id="org-name"]');
-      expect(orgName.length).toEqual(1);
-      expect(orgName.text().trim()).toEqual(modifiedContext.orgName);
+      const organisationName = $('[data-test-id="org-name"]');
+      expect(organisationName.length).toEqual(1);
+      expect(organisationName.text().trim()).toEqual(modifiedContext.organisationName);
     });
   }));
 

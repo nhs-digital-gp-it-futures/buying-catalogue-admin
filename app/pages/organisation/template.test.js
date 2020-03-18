@@ -8,7 +8,7 @@ const setup = {
 };
 const mockData = {
   organisationId: 'org1',
-  orgName: 'Greater Manchester CCG',
+  organisationName: 'Greater Manchester CCG',
   odsCode: 'X01',
   primaryRoleId: 'ID123',
   address: ['12 Station Road', 'Leeds', 'West Yorkshire', 'LS15 5FG'],
@@ -62,7 +62,7 @@ describe('organisations dashboard page', () => {
     harness.request(mockContext, ($) => {
       const title = $('h1[data-test-id="org-page-title"]');
       expect(title.length).toEqual(1);
-      expect(title.text().trim()).toEqual(mockContext.orgName);
+      expect(title.text().trim()).toEqual(mockContext.organisationName);
     });
   }));
 
@@ -145,7 +145,7 @@ describe('organisations dashboard page', () => {
     harness.request(mockContext, ($) => {
       const subheading = $('h3[data-test-id="accounts-subheading"]');
       expect(subheading.length).toEqual(1);
-      expect(subheading.text().trim()).toEqual(`${mockContext.accountsSubheading} ${mockContext.orgName}`);
+      expect(subheading.text().trim()).toEqual(`${mockContext.accountsSubheading} ${mockContext.organisationName}`);
     });
   }));
 
