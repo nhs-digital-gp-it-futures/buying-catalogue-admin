@@ -1,5 +1,4 @@
 require('dotenv').config();
-const browserSync = require('browser-sync');
 const config = require('./config');
 const { App } = require('./app');
 const { AuthProvider } = require('./authProvider');
@@ -21,16 +20,8 @@ app.use('/', routes(authProvider));
 
 // Run application on configured port
 if (config.env === 'development') {
-  app.listen(config.port - 50, () => {
-    browserSync({
-      files: ['../public/**/*.*'],
-      notify: true,
-      open: false,
-      port: config.port,
-      proxy: `localhost:${config.port - 50}`,
-      ui: false,
-    });
-  });
+  logger.info(`Buying Catalogue Admin - \x1b[35m${config.appBaseUri}/organisations\x1b[0m`);
 } else {
-  app.listen(config.port);
+  logger.info(`App listening on port ${config.port} - Buying Catalogue Admin`);
 }
+app.listen(config.port);
