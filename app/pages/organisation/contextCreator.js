@@ -11,9 +11,12 @@ export const getContext = ({ data }) => ({
   columnInfo: manifest.columnInfo ? manifest.columnInfo : [],
   addUserButtonHref: `/organisations/${data.organisationId}/adduser`,
   users: data && data.users ? data.users.map(row => [
-    { data: row.name || '', href: '#' || '#' },
-    { data: row.telephone || '' },
-    { data: row.email || '' },
+    {
+      data: `${(`${row.firstName ? row.firstName : ''} ${row.lastName ? row.lastName : ''}`).trim()}` || '',
+      href: '#' || '#',
+    },
+    { data: row.phoneNumber || '' },
+    { data: row.emailAddress || '' },
     {
       tag: row.isDisabled ? {
         dataTestId: `account-disabled-tag-${row.userId}`,
