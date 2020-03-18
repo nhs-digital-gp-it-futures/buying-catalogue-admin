@@ -1,26 +1,19 @@
-// import axios from 'axios';
+import { getData } from '../../apiProvider';
 import { getContext } from './contextCreator';
-import { identityServer } from '../../config';
 import { logger } from '../../logger';
 
-export const getOrgAccountsContext = (orgId) => {
-  const endpoint = `${identityServer}/api/v1/Organisations/${orgId}`;
-  logger.info(`api called: [GET] ${endpoint}`);
-  logger.info(`Organisation ${orgId} returned`);
-  return getContext({ data: {} });
+export const getOrgAccountsContext = async ({ organisationId, accessToken }) => {
+  const options = { organisationId };
+  const organisation = await getData({ endpointLocator: 'getOrgById', options, accessToken });
+
+  if (organisation) {
+    logger.info(`Organisation ${organisation.name} (${organisationId}) returned`);
+    const users = await getData({ endpointLocator: 'getUsers', options, accessToken });
+
+    logger.info(`${users.users ? users.users.length : 'No'} users found`);
+    organisation.users = users.users;
+    return getContext({ organisation });
+  }
+
+  throw new Error(`No organisation data returned for id: ${organisationId}`);
 };
-
-// TODO: Uncomment when API work is done and remove the implementation above
-// export const getOrgAccountsContext = async (orgId) => {
-//   const endpoint = `${identityServer}/api/v1/Organisations/${orgId}`;
-//   logger.info(`api called: [GET] ${endpoint}`);
-//   const response = await axios.get(endpoint);
-
-//   if (response.data) {
-//     logger.info(`Organisation ${orgId} returned`);
-//     const { data } = response;
-//     return getContext({ data });
-//   }
-
-//   throw new Error('No data returned');
-// };

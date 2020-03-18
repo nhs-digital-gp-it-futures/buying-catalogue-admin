@@ -20,10 +20,10 @@ describe('getContext', () => {
     expect(context.addUserButtonText).toEqual(manifest.addUserButtonText);
   });
 
-  it('should add orgId and orgName from the data provided', () => {
+  it('should add organisationId and organisationName from the data provided', () => {
     const context = getContext(mockData);
-    expect(context.orgId).toEqual(mockData.organisationId);
-    expect(context.orgName).toEqual(mockData.name);
+    expect(context.organisationId).toEqual(mockData.organisationId);
+    expect(context.organisationName).toEqual(mockData.name);
   });
 
   it('should add submitActionUrl from the provided organisation id', () => {

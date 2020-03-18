@@ -2,8 +2,8 @@ import nock from 'nock';
 import { Selector, ClientFunction } from 'testcafe';
 import content from './manifest.json';
 import { extractInnerText } from '../../test-utils/helper';
-// import { apiLocalhost } from '../../test-utils/config';
-// import organisationDetails from '../../test-utils/fixtures/organisationDetails.json';
+import { organisationsApiLocalhost } from '../../test-utils/config';
+import organisationDetails from '../../test-utils/fixtures/organisationDetails.json';
 
 const setCookies = ClientFunction(() => {
   const cookieValue = JSON.stringify({
@@ -13,14 +13,18 @@ const setCookies = ClientFunction(() => {
   document.cookie = `fakeToken=${cookieValue}`;
 });
 
-// const mocks = () => {
-//   nock(apiLocalhost)
-//     .get('/api/v1/Organisations/org1')
-//     .reply(200, organisationDetails);
-// };
+const mocks = () => {
+  nock(organisationsApiLocalhost)
+    .get('/api/v1/Organisations/org1')
+    .reply(200, organisationDetails);
+  nock(organisationsApiLocalhost)
+    .get('/api/v1/Organisations/org1/users')
+    .reply(200, organisationDetails.users);
+};
 
 const pageSetup = async (t, withAuth = false) => {
   if (withAuth) {
+    mocks();
     await setCookies();
   }
 };
@@ -199,7 +203,7 @@ test('should render user accounts subheading', async (t) => {
 
   await t
     .expect(accountsSubheading.exists).ok()
-    .expect(await extractInnerText(accountsSubheading)).eql(content.accountsSubheading);
+    .expect(await extractInnerText(accountsSubheading)).eql(`${content.accountsSubheading} ${organisationDetails.name}`);
 });
 
 test('should render add user button', async (t) => {

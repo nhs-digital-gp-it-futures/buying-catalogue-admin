@@ -1,17 +1,13 @@
-import axios from 'axios';
 import { getContext } from './contextCreator';
-import { organisationApiUrl } from '../../config';
 import { logger } from '../../logger';
+import { getData } from '../../apiProvider';
 
 export const getOrgDashboardContext = async ({ accessToken }) => {
-  const endpoint = `${organisationApiUrl}/api/v1/Organisations`;
-  logger.info(`api called: [GET] ${endpoint}`);
+  const organisations = await getData({ endpointLocator: 'getOrganisations', accessToken });
 
-  const response = await axios.get(endpoint, { headers: { Authorization: `Bearer ${accessToken}` } });
-  if (response.data) {
+  if (organisations) {
     logger.info('Organisations returned');
-    const { data } = response;
-    return getContext({ data });
+    return getContext({ organisations: organisations.organisations });
   }
 
   throw new Error('No organisations data returned');

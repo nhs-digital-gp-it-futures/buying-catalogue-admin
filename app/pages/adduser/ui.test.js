@@ -2,8 +2,8 @@ import nock from 'nock';
 import { Selector, ClientFunction } from 'testcafe';
 import content from './manifest.json';
 import { extractInnerText } from '../../test-utils/helper';
-// import { apiLocalhost } from '../../test-utils/config';
-// import organisationDetails from '../../test-utils/fixtures/organisationDetails.json';
+import { organisationsApiLocalhost } from '../../test-utils/config';
+import organisationDetails from '../../test-utils/fixtures/organisationDetails.json';
 
 const setCookies = ClientFunction(() => {
   const cookieValue = JSON.stringify({
@@ -14,14 +14,15 @@ const setCookies = ClientFunction(() => {
 });
 
 
-// const mocks = () => {
-//   nock(apiLocalhost)
-//     .get('/api/v1/Organisations/org1')
-//     .reply(200, organisationDetails);
-// };
+const mocks = () => {
+  nock(organisationsApiLocalhost)
+    .get('/api/v1/Organisations/org1')
+    .reply(200, organisationDetails);
+};
 
 const pageSetup = async (t, withAuth = false) => {
   if (withAuth) {
+    mocks();
     await setCookies();
   }
 };
@@ -62,6 +63,9 @@ test('should render Add User page', async (t) => {
 });
 
 test('should navigate to /organisations/org when click on Back', async (t) => {
+  nock(organisationsApiLocalhost)
+    .get('/api/v1/Organisations/org1')
+    .reply(200, organisationDetails);
   await pageSetup(t, true);
   await t.navigateTo('http://localhost:1234/organisations/org1/adduser');
 
@@ -110,11 +114,11 @@ test('should render organisation name subheading', async (t) => {
 // test('should render organisation name', async (t) => {
 //   await pageSetup(t);
 
-//   const orgName = Selector('[data-test-id="org-name"]');
+//   const organisationName = Selector('[data-test-id="org-name"]');
 
 //   await t
-//     .expect(orgName.exists).ok()
-//     .expect(await extractInnerText(orgName)).eql(organisationDetails.name);
+//     .expect(organisationName.exists).ok()
+//     .expect(await extractInnerText(organisationName)).eql(organisationDetails.name);
 // });
 
 test('should render a text field for each question', async (t) => {

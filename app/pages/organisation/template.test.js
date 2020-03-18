@@ -7,8 +7,8 @@ const setup = {
   },
 };
 const mockData = {
-  orgId: 'org1',
-  orgName: 'Greater Manchester CCG',
+  organisationId: 'org1',
+  organisationName: 'Greater Manchester CCG',
   odsCode: 'X01',
   primaryRoleId: 'ID123',
   address: ['12 Station Road', 'Leeds', 'West Yorkshire', 'LS15 5FG'],
@@ -62,7 +62,7 @@ describe('organisations dashboard page', () => {
     harness.request(mockContext, ($) => {
       const title = $('h1[data-test-id="org-page-title"]');
       expect(title.length).toEqual(1);
-      expect(title.text().trim()).toEqual(mockContext.orgName);
+      expect(title.text().trim()).toEqual(mockContext.organisationName);
     });
   }));
 
@@ -145,7 +145,7 @@ describe('organisations dashboard page', () => {
     harness.request(mockContext, ($) => {
       const subheading = $('h3[data-test-id="accounts-subheading"]');
       expect(subheading.length).toEqual(1);
-      expect(subheading.text().trim()).toEqual(`${mockContext.accountsSubheading} ${mockContext.orgName}`);
+      expect(subheading.text().trim()).toEqual(`${mockContext.accountsSubheading} ${mockContext.organisationName}`);
     });
   }));
 
@@ -154,7 +154,7 @@ describe('organisations dashboard page', () => {
       const addOrgButton = $('[data-test-id="add-user-button"] a');
       expect(addOrgButton.length).toEqual(1);
       expect(addOrgButton.text().trim()).toEqual(mockContext.addUserButtonText);
-      expect(addOrgButton.attr('href')).toEqual(`/organisations/${mockContext.orgId}/adduser`);
+      expect(addOrgButton.attr('href')).toEqual(`/organisations/${mockContext.organisationId}/adduser`);
     });
   }));
 
