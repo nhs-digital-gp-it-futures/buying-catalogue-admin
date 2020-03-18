@@ -62,7 +62,7 @@ export const routes = (authProvider) => {
   router.get('/organisations/:organisationId/adduser', authProvider.authorise(), withCatch(async (req, res) => {
     const { organisationId } = req.params;
     logger.info(`navigating to organisation: ${organisationId} add user page`);
-    const context = await getAddUserContext(organisationId);
+    const context = await getAddUserContext({ organisationId, accessToken: extractAccessToken({ req, tokenType: 'access' }) });
     res.render('pages/adduser/template.njk', addContext({ context, user: req.user, csrfToken: req.csrfToken() }));
   }));
 
