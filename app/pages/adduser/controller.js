@@ -1,13 +1,16 @@
-// import axios from 'axios';
+// import axios from 'axios'
+import { getData } from '../../apiProvider';
 import { getContext } from './contextCreator';
 import { organisationApiUrl } from '../../config';
 import { logger } from '../../logger';
 
-export const getAddUserContext = (organisationId) => {
-  const endpoint = `${organisationApiUrl}/api/v1/Organisations/${organisationId}`;
-  logger.info(`api called: [GET] ${endpoint}`);
+export const getAddUserContext = async ({ organisationId, accessToken }) => {
+  const options = { organisationId };
+  // Need to call this to get org name
+  const orgData = await getData({ endpointLocator: 'getOrgById', options, accessToken });
+  console.log('@@@', orgData)
   logger.info(`Organisation ${organisationId} returned`);
-  return getContext({ data: {} });
+  return getContext(orgData);
 };
 
 // TODO: Uncomment when API work is done and remove the implementation above
