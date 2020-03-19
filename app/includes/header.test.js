@@ -32,25 +32,32 @@ describe('header', () => {
 
       it('should render logout link', createTestHarness(setup, (harness) => {
         const context = {
+          config: {
+            baseUrl: '',
+          },
           username: 'user 1',
         };
         harness.request(context, ($) => {
           const headerBanner = $('header[data-test-id="header-banner"]');
           const logoutLink = headerBanner.find('[data-test-id="login-logout-component"] a');
           expect(logoutLink.text().trim()).toEqual('Log out');
-          expect(logoutLink.attr('href')).toEqual('/admin/logout');
+          expect(logoutLink.attr('href')).toEqual('/logout');
         });
       }));
     });
 
     describe('when username is not provided', () => {
       it('should render login link', createTestHarness(setup, (harness) => {
-        const context = {};
+        const context = {
+          config: {
+            baseUrl: '',
+          },
+        };
         harness.request(context, ($) => {
           const headerBanner = $('header[data-test-id="header-banner"]');
           const loginLink = headerBanner.find('[data-test-id="login-logout-component"] a');
           expect(loginLink.text().trim()).toEqual('Log in');
-          expect(loginLink.attr('href')).toEqual('/admin/login');
+          expect(loginLink.attr('href')).toEqual('/login');
         });
       }));
     });
