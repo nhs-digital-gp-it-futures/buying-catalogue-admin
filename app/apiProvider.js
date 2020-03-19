@@ -1,6 +1,13 @@
 import axios from 'axios';
-import { endpoints } from './helpers/endpoints';
+import { organisationApiUrl } from './config';
 import { logger } from './logger';
+
+const endpoints = {
+  // GET endpoints
+  getOrganisations: () => `${organisationApiUrl}/api/v1/Organisations`,
+  getOrgById: options => `${organisationApiUrl}/api/v1/Organisations/${options.organisationId}`,
+  getUsers: options => `${organisationApiUrl}/api/v1/Organisations/${options.organisationId}/users`,
+};
 
 const getHeaders = accessToken => (accessToken ? { headers: { Authorization: `Bearer ${accessToken}` } } : {});
 
