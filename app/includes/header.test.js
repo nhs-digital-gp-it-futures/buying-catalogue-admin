@@ -38,7 +38,7 @@ describe('header', () => {
           const headerBanner = $('header[data-test-id="header-banner"]');
           const logoutLink = headerBanner.find('[data-test-id="login-logout-component"] a');
           expect(logoutLink.text().trim()).toEqual('Log out');
-          expect(logoutLink.attr('href')).toEqual('admin/logout');
+          expect(logoutLink.attr('href')).toEqual('/admin/logout');
         });
       }));
     });
@@ -50,7 +50,7 @@ describe('header', () => {
           const headerBanner = $('header[data-test-id="header-banner"]');
           const loginLink = headerBanner.find('[data-test-id="login-logout-component"] a');
           expect(loginLink.text().trim()).toEqual('Log in');
-          expect(loginLink.attr('href')).toEqual('admin/login');
+          expect(loginLink.attr('href')).toEqual('/admin/login');
         });
       }));
     });
