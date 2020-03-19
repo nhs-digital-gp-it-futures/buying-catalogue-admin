@@ -25,9 +25,4 @@ describe('getContext', () => {
     expect(context.organisationId).toEqual(mockData.organisationId);
     expect(context.organisationName).toEqual(mockData.name);
   });
-
-  it('should add submitActionUrl from the provided organisation id', () => {
-    const context = getContext(mockData);
-    expect(context.submitActionUrl).toEqual(`/organisations/${mockData.organisationId}/adduser`);
-  });
 });

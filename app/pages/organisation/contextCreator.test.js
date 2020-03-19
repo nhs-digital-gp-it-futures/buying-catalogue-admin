@@ -89,9 +89,4 @@ describe('getOrganisationContext', () => {
     expect(users[1][2].data).toEqual('');
     expect(users[1][3].tag).toEqual(false);
   });
-
-  it('should create an add user button href', () => {
-    const context = getContext({ organisation: { organisationId: 'org1' } });
-    expect(context.addUserButtonHref).toEqual('/organisations/org1/adduser');
-  });
 });

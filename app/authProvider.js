@@ -92,7 +92,7 @@ export class AuthProvider {
   authorise() {
     return (req, res, next) => {
       if (!req.user) {
-        req.headers.referer = `${appBaseUri}${req.originalUrl}`;
+        req.headers.referer = `${req.originalUrl}`;
         this.login()(req, res, next);
       } else if (req.user && req.user.organisation) {
         next();

@@ -12,6 +12,7 @@ import config from './config';
 const addContext = ({ context, user, csrfToken }) => ({
   ...context,
   ...includesContext,
+  config,
   username: user && user.name,
   csrfToken,
 });
