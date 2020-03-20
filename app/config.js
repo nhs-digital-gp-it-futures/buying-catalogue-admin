@@ -37,4 +37,7 @@ module.exports = {
 
   // How long before the cookies stored in the session expire in ms (1 hour)
   maxCookieAge: process.env.MAX_COOKIE_AGE || 3600000,
+
+  // The secret needed for encoding and decoding the cookie
+  cookieSecret: process.env.COOKIE_SECRET,
 };
