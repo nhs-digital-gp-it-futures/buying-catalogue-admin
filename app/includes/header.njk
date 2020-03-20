@@ -7,8 +7,8 @@
   innerComponent: loginLogout({
     dataTestId: "login-logout-component",
     username: username,
-    loginUrl: "/admin/login",
-    logoutUrl: "/admin/logout"
+    loginUrl: config.baseUrl + "/login",
+    logoutUrl: config.baseUrl + "/logout"
   }),
   classes: "nhsuk-u-padding-top-3 nhsuk-u-padding-bottom-2"
 }) }}
