@@ -3,7 +3,7 @@ module.exports = {
   appName: 'NHSD Buying Catalogue Admin',
 
   // Base URL
-  baseUrl: process.env.BASE_URL || '/admin',
+  baseUrl: process.env.BASE_URL || '',
 
   // Environment
   env: process.env.NODE_ENV || 'development',
@@ -12,7 +12,7 @@ module.exports = {
   port: process.env.PORT || 3005,
 
   // The base uri the app is running on to pass to identity service for redirection
-  appBaseUri: process.env.APP_BASE_URI || 'http://localhost:3005/admin',
+  appBaseUri: process.env.APP_BASE_URI || 'http://localhost:3005',
 
   // IDENTITY_SERVER
   identityServer: process.env.IDENTITY_SERVER || 'http://localhost:5102',

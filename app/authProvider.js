@@ -3,7 +3,7 @@ import passport from 'passport';
 import { Strategy, Issuer } from 'openid-client';
 import session from 'cookie-session';
 import {
-  oidcBaseUri, oidcClientId, oidcClientSecret, appBaseUri, maxCookieAge, cookieSecret,
+  oidcBaseUri, baseUrl, oidcClientId, oidcClientSecret, appBaseUri, maxCookieAge, cookieSecret,
 } from './config';
 
 export class AuthProvider {
@@ -19,7 +19,7 @@ export class AuthProvider {
 
         const params = {
           client_id: oidcClientId,
-          redirect_uri: `${appBaseUri}/oauth/callback`,
+          redirect_uri: `${appBaseUri}${baseUrl}/oauth/callback`,
           scope: 'openid profile Organisation',
         };
 
@@ -85,7 +85,7 @@ export class AuthProvider {
   logout({ idToken }) {
     return this.client.endSessionUrl({
       id_token_hint: idToken,
-      post_logout_redirect_uri: `${appBaseUri}/signout-callback-oidc`,
+      post_logout_redirect_uri: `${appBaseUri}${baseUrl}/signout-callback-oidc`,
     });
   }
 
