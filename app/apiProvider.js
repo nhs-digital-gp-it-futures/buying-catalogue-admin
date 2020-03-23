@@ -8,7 +8,7 @@ const endpoints = {
   getOrgById: options => `${organisationApiUrl}/api/v1/Organisations/${options.organisationId}`,
   getUsers: options => `${organisationApiUrl}/api/v1/Organisations/${options.organisationId}/users`,
   // POST endpoints
-  postAddUser: options => `${organisationApiUrl}/api/v1/Organisations/${options.organisationId}/Users`
+  postAddUser: options => `${organisationApiUrl}/api/v1/Organisations/${options.organisationId}/Users`,
 };
 
 const getHeaders = accessToken => (accessToken ? { headers: { Authorization: `Bearer ${accessToken}` } } : {});
