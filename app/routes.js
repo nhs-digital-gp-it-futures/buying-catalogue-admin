@@ -36,7 +36,6 @@ export const routes = (authProvider) => {
 
   router.get('/signout-callback-oidc', async (req, res) => {
     if (req.logout) req.logout();
-    req.session = null;
 
     if (req.headers.cookie) {
       req.headers.cookie.split(';')
