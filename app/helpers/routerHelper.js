@@ -1,7 +1,13 @@
-export const withCatch = route => async (req, res, next) => {
+import { appBaseUri } from '../config';
+
+export const withCatch = (authProvider, route) => async (req, res, next) => {
   try {
     return await route(req, res, next);
   } catch (err) {
+    if (err.response.status === 401) {
+      req.headers.referer = `${appBaseUri}${req.originalUrl}`;
+      return authProvider.login()(req, res, next);
+    }
     return next(err);
   }
 };
