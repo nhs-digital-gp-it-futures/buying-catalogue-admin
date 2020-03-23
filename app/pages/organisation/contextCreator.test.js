@@ -6,8 +6,16 @@ const mockData = {
   name: 'Greater Manchester CCG',
   odsCode: 'X01',
   primaryRoleId: 'ID123',
-  address: '12 Station Road, Leeds, West Yorkshire, LS15 5FG',
-  isCatalogueAgreementSigned: true,
+  address: {
+    line1: 'C/O NHS ENGLAND, 1W09, 1ST FLOOR',
+    line2: 'QUARRY HOUSE',
+    line3: 'QUARRY HILL',
+    line4: null,
+    town: 'LEEDS',
+    county: 'WEST YORKSHIRE',
+    postcode: 'LS2 7UE',
+    country: 'ENGLAND',
+  },
   users: [{
     userId: 'user1',
     firstName: 'John',
@@ -23,6 +31,7 @@ const mockData = {
     emailAddress: 'daisy.chain@email.com',
     isDisabled: true,
   }],
+  isCatalogueAgreementSigned: true,
 };
 
 describe('getOrganisationContext', () => {
@@ -41,12 +50,44 @@ describe('getOrganisationContext', () => {
     expect(context.columnClass).toEqual(manifest.columnClass);
   });
 
-  it('should return an empty array for users key if no data provided', () => {
+  it('should add organisationId, organisationName, odsCode, primaryRoleId, agreementSigned to the context if provided', () => {
+    const context = getContext({ organisation: mockData });
+    expect(context.organisationId).toEqual(mockData.organisationId);
+    expect(context.organisationName).toEqual(mockData.name);
+    expect(context.odsCode).toEqual(mockData.odsCode);
+    expect(context.primaryRoleId).toEqual(mockData.primaryRoleId);
+    expect(context.agreementSigned).toEqual(mockData.isCatalogueAgreementSigned);
+  });
+
+  it('should add addUserButtonHref', () => {
+    const { addUserButtonHref } = getContext({ organisation: mockData });
+    expect(addUserButtonHref).toEqual(`/organisations/${mockData.organisationId}/adduser`);
+  });
+
+  it('should transform address object into array of data strings if provided', () => {
+    const { address } = getContext({ organisation: mockData });
+    expect(address).toEqual([
+      'C/O NHS ENGLAND, 1W09, 1ST FLOOR',
+      'QUARRY HOUSE',
+      'QUARRY HILL',
+      'LEEDS',
+      'WEST YORKSHIRE',
+      'LS2 7UE',
+      'ENGLAND',
+    ]);
+  });
+
+  it('should return empty array if address not provided', () => {
+    const { address } = getContext({ organisation: {} });
+    expect(address).toEqual([]);
+  });
+
+  it('should return an empty array for users key if no user data provided', () => {
     const context = getContext({ organisation: {} });
     expect(context.users).toEqual([]);
   });
 
-  it('should transform data into correct format if all data provided', () => {
+  it('should transform user data into correct format if all data provided', () => {
     const { users } = getContext({ organisation: mockData });
     expect(users[0][0].data).toEqual(`${mockData.users[0].firstName} ${mockData.users[0].lastName}`);
     expect(users[0][0].href).toEqual('#');
@@ -62,7 +103,7 @@ describe('getOrganisationContext', () => {
     expect(users[1][3].tag.text).toEqual('ACCOUNT DISABLED');
   });
 
-  it('should transform data into correct format if data provided has missing fields', () => {
+  it('should transform user data into correct format if data provided has missing fields', () => {
     const modifiedMockData = {
       ...mockData,
       users: [{

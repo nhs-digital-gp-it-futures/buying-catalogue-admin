@@ -69,7 +69,7 @@ export const routes = (authProvider) => {
 
   router.post('/organisations/:organisationId/adduser', authProvider.authorise(), withCatch(authProvider, async (req, res) => {
     const { organisationId } = req.params;
-    const response = await postAddUser({ organisationId, data: req.body });
+    const response = await postAddUser({ organisationId, data: req.body, accessToken: extractAccessToken({ req, tokenType: 'access' }) });
 
     if (response.success) {
       res.redirect(`/organisations/${organisationId}/adduser/confirmation`);
