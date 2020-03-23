@@ -6,10 +6,13 @@ export const getContext = ({ organisation }) => ({
   organisationName: organisation.name,
   odsCode: organisation.odsCode,
   primaryRoleId: organisation.primaryRoleId,
-  address: organisation.address ? organisation.address.split(',') : [],
+  address: organisation.address ? Object.keys(organisation.address).reduce((acc, key) => {
+    if (organisation.address[key]) acc.push(organisation.address[key]);
+    return acc;
+  }, []) : [],
   agreementSigned: organisation.isCatalogueAgreementSigned,
   columnInfo: manifest.columnInfo ? manifest.columnInfo : [],
-  addUserButtonHref: 'adduser',
+  addUserButtonHref: `/organisations/${organisation.organisationId}/adduser`,
   users: organisation && organisation.users ? organisation.users.map(row => [
     {
       data: `${(`${row.firstName ? row.firstName : ''} ${row.lastName ? row.lastName : ''}`).trim()}` || '',
