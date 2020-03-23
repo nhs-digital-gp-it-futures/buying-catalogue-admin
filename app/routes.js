@@ -47,27 +47,27 @@ export const routes = (authProvider) => {
     res.redirect(config.logoutRedirectPath);
   });
 
-  router.get('/organisations', authProvider.authorise(), withCatch(async (req, res) => {
+  router.get('/organisations', authProvider.authorise(), withCatch(authProvider, async (req, res) => {
     logger.info('navigating to organisations page');
     const context = await getOrgDashboardContext({ accessToken: extractAccessToken({ req, tokenType: 'access' }) });
     res.render('pages/dashboard/template.njk', addContext({ context, user: req.user }));
   }));
 
-  router.get('/organisations/:organisationId', authProvider.authorise(), withCatch(async (req, res) => {
+  router.get('/organisations/:organisationId', authProvider.authorise(), withCatch(authProvider, async (req, res) => {
     const { organisationId } = req.params;
     logger.info(`navigating to organisation: ${organisationId} account page`);
     const context = await getOrgAccountsContext({ organisationId, accessToken: extractAccessToken({ req, tokenType: 'access' }) });
     res.render('pages/organisation/template.njk', addContext({ context, user: req.user }));
   }));
 
-  router.get('/organisations/:organisationId/adduser', authProvider.authorise(), withCatch(async (req, res) => {
+  router.get('/organisations/:organisationId/adduser', authProvider.authorise(), withCatch(authProvider, async (req, res) => {
     const { organisationId } = req.params;
     logger.info(`navigating to organisation: ${organisationId} add user page`);
     const context = await getAddUserContext({ organisationId, accessToken: extractAccessToken({ req, tokenType: 'access' }) });
     res.render('pages/adduser/template.njk', addContext({ context, user: req.user, csrfToken: req.csrfToken() }));
   }));
 
-  router.post('/organisations/:organisationId/adduser', authProvider.authorise(), withCatch(async (req, res) => {
+  router.post('/organisations/:organisationId/adduser', authProvider.authorise(), withCatch(authProvider, async (req, res) => {
     const { organisationId } = req.params;
     const response = await postAddUser({ organisationId, data: req.body });
 
@@ -80,7 +80,7 @@ export const routes = (authProvider) => {
     //   return res.render('pages/adduser/template', context);
   }));
 
-  router.get('/organisations/:organisationId/adduser/confirmation', authProvider.authorise(), withCatch(async (req, res) => {
+  router.get('/organisations/:organisationId/adduser/confirmation', authProvider.authorise(), withCatch(authProvider, async (req, res) => {
     const { organisationId } = req.params;
     logger.info(`navigating to organisation: ${organisationId} add user confirmation page`);
     const context = await getAddUserConfirmationContext(organisationId);
