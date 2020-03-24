@@ -13,7 +13,7 @@ describe('organisations add user confirmation page', () => {
       const addUserConfirmationBackLink = $('[data-test-id="go-back-link"]');
       expect(addUserConfirmationBackLink.length).toEqual(1);
       expect(addUserConfirmationBackLink.text().trim()).toEqual(context.backLinkText);
-      expect($(addUserConfirmationBackLink).find('a').attr('href')).toEqual('./');
+      expect($(addUserConfirmationBackLink).find('a').attr('href')).toEqual('/organisations/{{organisationId}}');
     });
   }));
 
