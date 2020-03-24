@@ -28,7 +28,7 @@ export const postAddUser = async ({ organisationId, data, accessToken }) => {
     if (err.response && err.response.status === 400 && err.response.data) {
       return err.response.data;
     }
-    logger.error(JSON.stringify(err));
-    throw new Error(err.response.data || 'Something went wrong');
+
+    throw new Error(err.response.data);
   }
 };
