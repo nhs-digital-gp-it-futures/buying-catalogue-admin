@@ -41,8 +41,8 @@ const mockUsersData = {
   ],
 };
 
-describe('dashboard controller', () => {
-  describe('getAddUserContext', () => {
+describe('organisation controller', () => {
+  describe('getOrgAccountsContext', () => {
     afterEach(() => {
       apiProvider.getData.mockReset();
       contextCreator.getContext.mockReset();
