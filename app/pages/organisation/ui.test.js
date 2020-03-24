@@ -227,7 +227,7 @@ test('should render add user button', async (t) => {
     .expect(addUserButton.exists).ok()
     .expect(await extractInnerText(addUserButton)).eql(content.addUserButtonText)
     .expect(addUserButton.hasClass('nhsuk-u-margin-bottom-9')).ok()
-    .expect(addUserButton.getAttribute('href')).eql(`/organisations/${orgId}/adduser`)
+    .expect(addUserButton.getAttribute('href')).eql(`/organisations/${orgId}/adduser`);
 });
 
 test('should navigate to add user page when add user button is clicked', async (t) => {
@@ -257,7 +257,7 @@ test('should render the table with users', async (t) => {
   const user1Name = user1Row.find('a');
   const user1Phone = user1Row.find('div');
   const user1Email = Selector('div[data-test-id="table-row-0"] div:nth-child(3)');
-  const user1DisabledTag = user1Row.find('div').withText('ACCOUNT DISABLED')
+  const user1DisabledTag = user1Row.find('div').withText('ACCOUNT DISABLED');
 
   const user2Row = Selector('div[data-test-id="table-row-1"]');
   const user2Name = user2Row.find('a');
