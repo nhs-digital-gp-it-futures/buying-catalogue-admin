@@ -23,12 +23,12 @@ export const postAddUser = async ({ organisationId, data, accessToken }) => {
     });
 
     logger.info(`User added: ${JSON.stringify(data)}`);
-    return { success: true };
+    return { success: true, userAdded: `${data.firstName} ${data.lastName}` };
   } catch (err) {
-    if (err.response.status === 400) {
+    if (err.response && err.response.status === 400 && err.response.data) {
       return err.response.data;
     }
     logger.error(JSON.stringify(err));
-    throw new Error(err.response.data);
+    throw new Error(err.response.data || 'Something went wrong');
   }
 };

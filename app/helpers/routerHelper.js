@@ -4,7 +4,7 @@ export const withCatch = (authProvider, route) => async (req, res, next) => {
   try {
     return await route(req, res, next);
   } catch (err) {
-    if (err.response.status === 401) {
+    if (err.response && err.response.status === 401) {
       req.headers.referer = `${appBaseUri}${req.originalUrl}`;
       return authProvider.login()(req, res, next);
     }

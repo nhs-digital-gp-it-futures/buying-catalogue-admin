@@ -4,6 +4,7 @@ import content from './manifest.json';
 import { extractInnerText } from '../../test-utils/helper';
 import { organisationsApiLocalhost } from '../../test-utils/config';
 import organisationDetails from '../../test-utils/fixtures/organisationDetails.json';
+import usersData from '../../test-utils/fixtures/users.json';
 
 const setCookies = ClientFunction(() => {
   const cookieValue = JSON.stringify({
@@ -19,7 +20,7 @@ const mocks = () => {
     .reply(200, organisationDetails);
   nock(organisationsApiLocalhost)
     .get('/api/v1/Organisations/org1/users')
-    .reply(200, organisationDetails.users);
+    .reply(200, usersData);
 };
 
 const pageSetup = async (t, withAuth = false) => {
@@ -65,6 +66,10 @@ test('should render Organisation page', async (t) => {
 });
 
 test('should navigate to /organisations when click on Back', async (t) => {
+  nock(organisationsApiLocalhost)
+    .get('/api/v1/Organisations')
+    .reply(200, {});
+
   await pageSetup(t, true);
   await t.navigateTo('http://localhost:1234/organisations/org1');
 
@@ -76,16 +81,16 @@ test('should navigate to /organisations when click on Back', async (t) => {
     .expect(getLocation()).eql('http://localhost:1234/organisations');
 });
 
-// TODO: Uncomment when API returns organisation details
-// test('should render the title', async (t) => {
-//   await pageSetup(t);
+test('should render the title', async (t) => {
+  await pageSetup(t, true);
+  await t.navigateTo('http://localhost:1234/organisations/org1');
 
-//   const title = Selector('h1[data-test-id="org-page-title"]');
+  const title = Selector('h1[data-test-id="org-page-title"]');
 
-//   await t
-//     .expect(title.exists).ok()
-//     .expect(await extractInnerText(title)).eql(organisationDetails.name);
-// });
+  await t
+    .expect(title.exists).ok()
+    .expect(await extractInnerText(title)).eql(organisationDetails.name);
+});
 
 test('should render the description', async (t) => {
   await pageSetup(t, true);
@@ -129,15 +134,13 @@ test('should render organisation ods code', async (t) => {
   await t.navigateTo('http://localhost:1234/organisations/org1');
 
   const odsCodeHeading = Selector('[data-test-id="org-page-ods-code-heading"]');
-  // TODO: Uncomment when API returns organisation details
-  // const odsCodeText = Selector('[data-test-id="org-page-ods-code"]');
+  const odsCodeText = Selector('[data-test-id="org-page-ods-code"]');
 
   await t
     .expect(odsCodeHeading.exists).ok()
-    .expect(await extractInnerText(odsCodeHeading)).eql(content.odsCodeHeading);
-  // TODO: Uncomment when API returns organisation details
-  // .expect(odsCodeText.exists).ok()
-  // .expect(await extractInnerText(odsCodeText)).eql(organisationDetails.odsCode);
+    .expect(await extractInnerText(odsCodeHeading)).eql(content.odsCodeHeading)
+    .expect(odsCodeText.exists).ok()
+    .expect(await extractInnerText(odsCodeText)).eql(organisationDetails.odsCode);
 });
 
 test('should render organisation ods code', async (t) => {
@@ -145,55 +148,62 @@ test('should render organisation ods code', async (t) => {
   await t.navigateTo('http://localhost:1234/organisations/org1');
 
   const primaryRoleIdHeading = Selector('[data-test-id="org-page-primary-role-id-heading"]');
-  // TODO: Uncomment when API returns organisation details
-  // const primaryRoleId = Selector('[data-test-id="org-page-primary-role-id-heading"]');
+  const primaryRoleId = Selector('[data-test-id="org-page-primary-role-id"]');
 
   await t
     .expect(primaryRoleIdHeading.exists).ok()
-    .expect(await extractInnerText(primaryRoleIdHeading)).eql(content.primaryRoleIdHeading);
-  // TODO: Uncomment when API returns organisation details
-  // .expect(primaryRoleId.exists).ok()
-  // .expect(await extractInnerText(primaryRoleId)).eql(organisationDetails.primaryRoleId);
+    .expect(await extractInnerText(primaryRoleIdHeading)).eql(content.primaryRoleIdHeading)
+    .expect(primaryRoleId.exists).ok()
+    .expect(await extractInnerText(primaryRoleId)).eql(organisationDetails.primaryRoleId);
 });
 
 test('should render address', async (t) => {
   await pageSetup(t, true);
   await t.navigateTo('http://localhost:1234/organisations/org1');
 
-  // TODO: Uncomment when API returns organisation details
-  // const address = organisationDetails.address.split(',');
+  const address = Object.keys(organisationDetails.address).reduce((acc, key) => {
+    if (organisationDetails.address[key]) acc.push(organisationDetails.address[key]);
+    return acc;
+  }, []);
 
   const addressHeading = Selector('[data-test-id="org-page-address-heading"]');
-  // TODO: Uncomment when API returns organisation details
-  // const addressTextLine1 = Selector('[data-test-id="org-page-address-0"]');
-  // const addressTextLine2 = Selector('[data-test-id="org-page-address-1"]');
-  // const addressTextLine3 = Selector('[data-test-id="org-page-address-2"]');
-  // const addressTextLine4 = Selector('[data-test-id="org-page-address-3"]');
+  const addressTextLine1 = Selector('[data-test-id="org-page-address-1"]');
+  const addressTextLine2 = Selector('[data-test-id="org-page-address-2"]');
+  const addressTextLine3 = Selector('[data-test-id="org-page-address-3"]');
+  const addressTextLine4 = Selector('[data-test-id="org-page-address-4"]');
+  const addressTextLine5 = Selector('[data-test-id="org-page-address-5"]');
+  const addressTextLine6 = Selector('[data-test-id="org-page-address-6"]');
+  const addressTextLine7 = Selector('[data-test-id="org-page-address-7"]');
 
   await t
     .expect(addressHeading.exists).ok()
-    .expect(await extractInnerText(addressHeading)).eql(content.addressHeading);
-  // TODO: Uncomment when API returns organisation details
-  // .expect(addressTextLine1.exists).ok()
-  // .expect(await extractInnerText(addressTextLine1)).eql(address[0]);
-  // .expect(addressTextLine2.exists).ok()
-  // .expect(await extractInnerText(addressTextLine2)).eql(address[1]);
-  // .expect(addressTextLine3.exists).ok()
-  // .expect(await extractInnerText(addressTextLine3)).eql(address[2]);
-  // .expect(addressTextLine4.exists).ok()
-  // .expect(await extractInnerText(addressTextLine4)).eql(address[3]);
+    .expect(await extractInnerText(addressHeading)).eql(content.addressHeading)
+    .expect(addressTextLine1.exists).ok()
+    .expect(await extractInnerText(addressTextLine1)).eql(address[0])
+    .expect(addressTextLine2.exists).ok()
+    .expect(await extractInnerText(addressTextLine2)).eql(address[1])
+    .expect(addressTextLine3.exists).ok()
+    .expect(await extractInnerText(addressTextLine3)).eql(address[2])
+    .expect(addressTextLine4.exists).ok()
+    .expect(await extractInnerText(addressTextLine4)).eql(address[3])
+    .expect(addressTextLine5.exists).ok()
+    .expect(await extractInnerText(addressTextLine5)).eql(address[4])
+    .expect(addressTextLine6.exists).ok()
+    .expect(await extractInnerText(addressTextLine6)).eql(address[5])
+    .expect(addressTextLine7.exists).ok()
+    .expect(await extractInnerText(addressTextLine7)).eql(address[6]);
 });
 
-// TODO: Uncomment when API returns organisation details
-// test('should render the agreement signed checked statement', async (t) => {
-//   await pageSetup(t);
+test('should render the agreement signed checked statement', async (t) => {
+  await pageSetup(t, true);
+  await t.navigateTo('http://localhost:1234/organisations/org1');
 
-//   const agreementSignedCheckedStatement = Selector('[data-test-id="agreement-signed-checked-statement"]');
+  const agreementSignedCheckedStatement = Selector('[data-test-id="agreement-signed-checked-statement"]');
 
-//   await t
-//     .expect(agreementSignedCheckedStatement.exists).ok()
-//     .expect(await extractInnerText(agreementSignedCheckedStatement)).eql(content.agreementSignedText);
-// });
+  await t
+    .expect(agreementSignedCheckedStatement.exists).ok()
+    .expect(await extractInnerText(agreementSignedCheckedStatement)).eql(content.agreementSignedText);
+});
 
 test('should render user accounts subheading', async (t) => {
   await pageSetup(t, true);
@@ -211,14 +221,26 @@ test('should render add user button', async (t) => {
   await t.navigateTo('http://localhost:1234/organisations/org1');
 
   const addUserButton = Selector('[data-test-id="add-user-button"] a');
+  const orgId = organisationDetails.organisationId;
 
   await t
     .expect(addUserButton.exists).ok()
     .expect(await extractInnerText(addUserButton)).eql(content.addUserButtonText)
-    .expect(addUserButton.hasClass('nhsuk-u-margin-bottom-9')).ok();
-  // TODO: Uncomment when API returns organisation details
-  // .expect(addUserButton.getAttribute('href')).eql(`/organisations/${organisationDetails.organisationId}/adduser`);
-  // .click()
+    .expect(addUserButton.hasClass('nhsuk-u-margin-bottom-9')).ok()
+    .expect(addUserButton.getAttribute('href')).eql(`/organisations/${orgId}/adduser`)
+});
+
+test('should navigate to add user page when add user button is clicked', async (t) => {
+  await pageSetup(t, true);
+  await t.navigateTo('http://localhost:1234/organisations/org1');
+
+  const addUserButton = Selector('[data-test-id="add-user-button"] a');
+  const orgId = organisationDetails.organisationId;
+
+  await t
+    .expect(addUserButton.exists).ok()
+    .click(addUserButton)
+    .expect(getLocation()).eql(`http://localhost:1234/organisations/${orgId}/adduser`);
 });
 
 test('should render the table with users', async (t) => {
@@ -231,13 +253,33 @@ test('should render the table with users', async (t) => {
   const columnHeading2 = tableHeadings.find('[data-test-id="column-heading"]:nth-child(2)');
   const columnHeading3 = tableHeadings.find('[data-test-id="column-heading"]:nth-child(3)');
 
+  const user1Row = Selector('div[data-test-id="table-row-0"]');
+  const user1Name = user1Row.find('a');
+  const user1Phone = user1Row.find('div');
+  const user1Email = Selector('div[data-test-id="table-row-0"] div:nth-child(3)');
+  const user1DisabledTag = user1Row.find('div').withText('ACCOUNT DISABLED')
+
+  const user2Row = Selector('div[data-test-id="table-row-1"]');
+  const user2Name = user2Row.find('a');
+  const user2Phone = user2Row.find('div');
+  const user2Email = Selector('div[data-test-id="table-row-1"] div:nth-child(3)');
+  const user2DisabledTag = user2Row.find('div').withText('ACCOUNT DISABLED');
+
   await t
     .expect(table.exists).ok()
     .expect(tableHeadings.exists).ok()
     .expect(columnHeading1.exists).ok()
     .expect(await extractInnerText(columnHeading1)).eql(content.columnInfo[0].data)
     .expect(await extractInnerText(columnHeading2)).eql(content.columnInfo[1].data)
-    .expect(await extractInnerText(columnHeading3)).eql(content.columnInfo[2].data);
-  // TODO: Add tests when API returns organisation users
+    .expect(await extractInnerText(columnHeading3)).eql(content.columnInfo[2].data)
+    .expect(await extractInnerText(user1Name)).eql(`${usersData.users[0].firstName} ${usersData.users[0].lastName}`)
+    .expect(await extractInnerText(user1Phone)).eql(usersData.users[0].phoneNumber)
+    .expect(await extractInnerText(user1Email)).eql(usersData.users[0].emailAddress)
+    .expect(user1DisabledTag.exists).notOk()
+    .expect(await extractInnerText(user2Name)).eql(`${usersData.users[1].firstName} ${usersData.users[1].lastName}`)
+    .expect(await extractInnerText(user2Phone)).eql(usersData.users[1].phoneNumber)
+    .expect(await extractInnerText(user2Email)).eql(usersData.users[1].emailAddress)
+    .expect(user2DisabledTag.exists).ok();
+  // TODO: Add click user name when API allows edit user
   // .click()
 });

@@ -1,8 +1,9 @@
 import manifest from './manifest.json';
 import { addParamsToManifest } from '../../../common/helpers/addParamsToManifest';
 
-export const getAddUserConfirmationContext = () => ({
+export const getAddUserConfirmationContext = ({ params, organisationId }) => ({
   ...addParamsToManifest(manifest, {
-    username: 'aNewUser',
+    userAdded: params.userAdded,
+    organisationId,
   }),
 });

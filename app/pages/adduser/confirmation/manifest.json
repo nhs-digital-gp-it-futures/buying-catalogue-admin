@@ -1,5 +1,6 @@
 {
   "backLinkText": "Back to dashboard",
-  "title": "{{username}} account added",
+  "backLinkHref": "/organisations/{{organisationId}}",
+  "title": "{{userAdded}} account added",
   "description": "The user has been sent an email so they can set their password."
 }
