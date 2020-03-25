@@ -1,6 +1,6 @@
 import manifest from './manifest.json';
 import { baseUrl } from '../../config';
-import { formatErrors, formatAllErrors, addErrorsToManifest } from './contextCreatorErrorsHelper';
+import { formatErrors, formatAllErrors, addErrorsToManifest } from './contextCreatorErrorHelper';
 
 export const getContext = orgData => ({
   ...manifest,
