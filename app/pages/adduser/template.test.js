@@ -29,7 +29,7 @@ const questionsWithErrors = {
     {
       id: 'emailAddress',
       mainAdvice: 'Email address',
-      error: [{ message: 'Email address is required, Email address is too long, Email address already exists' }]
+      error: [{ message: 'Email address is required, Email address is too long, Email address already exists' }],
     },
   ],
   errors: [

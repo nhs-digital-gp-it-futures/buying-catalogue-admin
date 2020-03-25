@@ -300,16 +300,6 @@ describe('routes', () => {
         });
     });
   });
-  // if (response.successm) {
-  //   res.redirect(`/organisations/${organisationId}/adduser/confirmation?userAdded=${response.userAdded}`);
-  // } else {
-  //   const context = await getAddUserPageErrorContext({
-  //     validationErrors: response.errors,
-  //     organisationId,
-  //     accessToken: extractAccessToken({ req, tokenType: 'access' }),
-  //   });
-  //   return res.render('pages/adduser/template', context);
-  // }
 
   describe('GET /organisations/:organisationId/adduser/confirmation', () => {
     it('should redirect to the login page if the user is not logged in', () => (

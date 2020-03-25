@@ -71,15 +71,14 @@ export const routes = (authProvider) => {
     const { organisationId } = req.params;
     const response = await postAddUser({ organisationId, data: req.body, accessToken: extractAccessToken({ req, tokenType: 'access' }) });
     if (response.success) {
-      res.redirect(`/organisations/${organisationId}/adduser/confirmation?userAdded=${response.userAdded}`);
-    } else {
-      const context = await getAddUserPageErrorContext({
-        validationErrors: response.errors,
-        organisationId,
-        accessToken: extractAccessToken({ req, tokenType: 'access' }),
-      });
-      return res.render('pages/adduser/template', context);
+      return res.redirect(`/organisations/${organisationId}/adduser/confirmation?userAdded=${response.userAdded}`);
     }
+    const context = await getAddUserPageErrorContext({
+      validationErrors: response.errors,
+      organisationId,
+      accessToken: extractAccessToken({ req, tokenType: 'access' }),
+    });
+    return res.render('pages/adduser/template', context);
   }));
 
   router.get('/organisations/:organisationId/adduser/confirmation', authProvider.authorise(), withCatch(authProvider, async (req, res) => {

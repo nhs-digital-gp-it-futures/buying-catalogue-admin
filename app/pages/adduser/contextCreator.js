@@ -9,46 +9,7 @@ export const getContext = orgData => ({
   backLinkHref: `${baseUrl}/organisations/${orgData.organisationId}`,
 });
 
-const validationErrorsDefault = [
-  {
-    field: 'firstName',
-    id: 'FirstNameRequired',
-  },
-  {
-    field: 'firstName',
-    id: 'FirstNameTooLong',
-  },
-  {
-    field: 'lastName',
-    id: 'LastNameRequired',
-  },
-  {
-    field: 'lastName',
-    id: 'LastNameTooLong',
-  },
-  {
-    field: 'emailAddress',
-    id: 'EmailRequired',
-  },
-  {
-    field: 'emailAddress',
-    id: 'EmailTooLong',
-  },
-  {
-    field: 'emailAddress',
-    id: 'EmailInvalidFormat',
-  },
-  {
-    field: 'emailAddress',
-    id: 'EmailAlreadyExists',
-  },
-  {
-    field: 'phoneNumber',
-    id: 'PhoneNumberRequired',
-  },
-];
-
-export const getErrorContext = ({ orgData, validationErrors = validationErrorsDefault }) => {
+export const getErrorContext = ({ orgData, validationErrors }) => {
   const formattedErrors = formatErrors(validationErrors);
   const allErrors = formatAllErrors(formattedErrors);
   const manifestWithErrors = addErrorsToManifest({ manifest, errors: formattedErrors });

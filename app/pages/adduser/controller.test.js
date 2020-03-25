@@ -75,18 +75,7 @@ describe('adduser controller', () => {
       }
     });
   });
-  // export const getAddUserPageErrorContext = async ({
-  //   organisationId, accessToken, validationErrors,
-  // }) => {
-  //   // Need to call getOrgById to get org name
-  //   const orgData = await getData({ endpointLocator: 'getOrgById', options: { organisationId }, accessToken });
-  //   if (orgData) {
-  //     logger.info(`Organisation ${organisationId} returned`);
-  //     return getErrorContext({ orgData, validationErrors });
-  //   }
-  
-  //   throw new Error('No data returned');
-  // };
+
   describe('getAddUserPageErrorContext', () => {
     afterEach(() => {
       apiProvider.getData.mockReset();
