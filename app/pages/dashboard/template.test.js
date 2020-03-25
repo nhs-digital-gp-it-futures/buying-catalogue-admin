@@ -9,7 +9,7 @@ const setup = {
 };
 
 describe('organisations dashboard page', () => {
-  it.only('should render a backLink to public browse', createTestHarness(setup, (harness) => {
+  it('should render a backLink to public browse', createTestHarness(setup, (harness) => {
     harness.request(context, ($) => {
       const homepageBackLink = $('[data-test-id="go-back-link"]');
       expect(homepageBackLink.length).toEqual(1);
