@@ -1,4 +1,4 @@
-import { getAddUserContext, postAddUser } from './controller';
+import { getAddUserContext, getAddUserPageErrorContext, postAddUser } from './controller';
 import * as apiProvider from '../../apiProvider';
 import * as contextCreator from './contextCreator';
 
@@ -9,6 +9,7 @@ jest.mock('../../apiProvider', () => ({
 
 jest.mock('./contextCreator', () => ({
   getContext: jest.fn(),
+  getErrorContext: jest.fn(),
 }));
 
 jest.mock('../../logger');
@@ -69,6 +70,64 @@ describe('adduser controller', () => {
 
       try {
         await getAddUserContext({ organisationId: 1, accessToken: 'access_token' });
+      } catch (err) {
+        expect(err).toEqual(new Error('No data returned'));
+      }
+    });
+  });
+  // export const getAddUserPageErrorContext = async ({
+  //   organisationId, accessToken, validationErrors,
+  // }) => {
+  //   // Need to call getOrgById to get org name
+  //   const orgData = await getData({ endpointLocator: 'getOrgById', options: { organisationId }, accessToken });
+  //   if (orgData) {
+  //     logger.info(`Organisation ${organisationId} returned`);
+  //     return getErrorContext({ orgData, validationErrors });
+  //   }
+  
+  //   throw new Error('No data returned');
+  // };
+  describe('getAddUserPageErrorContext', () => {
+    afterEach(() => {
+      apiProvider.getData.mockReset();
+      contextCreator.getErrorContext.mockReset();
+    });
+
+    it('should call getData once with the correct params', async () => {
+      apiProvider.getData
+        .mockResolvedValueOnce(mockedAddUserData);
+
+      await getAddUserPageErrorContext({ organisationId: 1, accessToken: 'access_token', validationErrors: [] });
+      expect(apiProvider.getData.mock.calls.length).toEqual(1);
+      expect(apiProvider.getData).toHaveBeenCalledWith({
+        endpointLocator: 'getOrgById',
+        accessToken: 'access_token',
+        options: { organisationId: 1 },
+      });
+    });
+
+    it('should call getErrorContext with the correct params when organisation data is returned by the apiProvider', async () => {
+      const validationErrors = [];
+      apiProvider.getData
+        .mockResolvedValueOnce(mockedAddUserData);
+      contextCreator.getErrorContext
+        .mockResolvedValueOnce();
+
+      await getAddUserPageErrorContext({ organisationId: 1, accessToken: 'access_token', validationErrors });
+
+      expect(contextCreator.getErrorContext.mock.calls.length).toEqual(1);
+      expect(contextCreator.getErrorContext).toHaveBeenCalledWith({
+        orgData: mockedAddUserData,
+        validationErrors,
+      });
+    });
+
+    it('should throw an error when no data is returned from the apiProvider', async () => {
+      apiProvider.getData
+        .mockResolvedValueOnce();
+
+      try {
+        await getAddUserPageErrorContext({ organisationId: 1, accessToken: 'access_token', validationErrors: [] });
       } catch (err) {
         expect(err).toEqual(new Error('No data returned'));
       }
