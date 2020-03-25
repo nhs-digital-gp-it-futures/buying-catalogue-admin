@@ -82,7 +82,7 @@ export const routes = (authProvider) => {
     const { organisationId } = req.params;
     const { userAdded } = req.query;
     logger.info(`navigating to organisation: ${organisationId} add user confirmation page`);
-    const context = await getAddUserConfirmationContext({ params: { userAdded }, organisationId });
+    const context = await getAddUserConfirmationContext({ userAdded, organisationId });
     res.render('pages/adduser/confirmation/template.njk', addContext({ context, user: req.user }));
   }));
 
