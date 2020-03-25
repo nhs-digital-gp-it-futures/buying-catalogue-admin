@@ -3,7 +3,7 @@ import { createTestHarness } from '../../../test-utils/testHarness';
 const setup = {
   component: {
     name: 'errorSummary',
-    path: 'common/components/error-summary/macro.njk',
+    path: 'pages/adduser/error-summary/macro.njk',
   },
 };
 
