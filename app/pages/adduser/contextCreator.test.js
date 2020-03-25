@@ -74,7 +74,7 @@ describe('adduser contextCreator', () => {
       });
       expect(context.errors.length).toEqual(mockValidationErrors.length);
       context.errors.forEach((error, i) => {
-        expect(error.href).toEqual(`#${mockValidationErrors[i].field.toLowerCase()}`);
+        expect(error.href).toEqual(`#${mockValidationErrors[i].field[0].toLowerCase()}${mockValidationErrors[i].field.slice(1)}`);
         expect(error.text).toEqual(errorMessages[mockValidationErrors[i].id]);
       });
     });
