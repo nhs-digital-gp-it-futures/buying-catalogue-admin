@@ -4,7 +4,7 @@ import { withCatch, extractAccessToken } from './helpers/routerHelper';
 import { errorHandler } from './pages/error/errorHandler';
 import { getOrgAccountsContext } from './pages/organisation/controller';
 import { getOrgDashboardContext } from './pages/dashboard/controller';
-import { getAddUserContext, postAddUser } from './pages/adduser/controller';
+import { getAddUserContext, getAddUserPageErrorContext, postAddUser } from './pages/adduser/controller';
 import includesContext from './includes/manifest.json';
 import { getAddUserConfirmationContext } from './pages/adduser/confirmation/controller';
 import config from './config';
@@ -72,10 +72,14 @@ export const routes = (authProvider) => {
     const response = await postAddUser({ organisationId, data: req.body, accessToken: extractAccessToken({ req, tokenType: 'access' }) });
     if (response.success) {
       res.redirect(`/organisations/${organisationId}/adduser/confirmation?userAdded=${response.userAdded}`);
-    } else res.send('Error adding user');
-    // TODO: Implement with errors
-    // const context = await getAddUserPageErrorContext({ validationErrors: response (etc) });
-    //   return res.render('pages/adduser/template', context);
+    } else {
+      const context = await getAddUserPageErrorContext({
+        validationErrors: response.errors,
+        organisationId,
+        accessToken: extractAccessToken({ req, tokenType: 'access' }),
+      });
+      return res.render('pages/adduser/template', context);
+    }
   }));
 
   router.get('/organisations/:organisationId/adduser/confirmation', authProvider.authorise(), withCatch(authProvider, async (req, res) => {

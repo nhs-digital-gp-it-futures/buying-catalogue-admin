@@ -280,9 +280,8 @@ describe('routes', () => {
     it('should return the correct status and text if response.success is false', async () => {
       addUserContext.postAddUser = jest.fn()
         .mockImplementation(() => Promise.resolve({ success: false }));
-      // TODO: Implement with errors
-      // addUserContext.getAddUserPageErrorContext = jest.fn()
-      // .mockImplementation(() => Promise.resolve(mockAddUserErrorContext));
+      addUserContext.getAddUserPageErrorContext = jest.fn()
+        .mockImplementation(() => Promise.resolve({}));
       const { cookies, csrfToken } = await getCsrfTokenFromGet(setUpFakeApp(), '/organisations/org1/adduser', mockAuthorisedCookie);
 
       return request(setUpFakeApp())
@@ -295,13 +294,22 @@ describe('routes', () => {
         })
         .expect(200)
         .then((res) => {
-          expect(res.text).toEqual('Error adding user');
-          // expect(res.text.includes('')).toEqual(true);
-        // expect(res.text.includes('data-test-id="error-page-title"')).toEqual(false);
-        // addUserContext.getAddUserPageErrorContext.mockReset();
+          expect(res.text.includes('data-test-id="add-user-page"')).toEqual(true);
+          expect(res.text.includes('data-test-id="error-page-title"')).toEqual(false);
+          addUserContext.getAddUserPageErrorContext.mockReset();
         });
     });
   });
+  // if (response.successm) {
+  //   res.redirect(`/organisations/${organisationId}/adduser/confirmation?userAdded=${response.userAdded}`);
+  // } else {
+  //   const context = await getAddUserPageErrorContext({
+  //     validationErrors: response.errors,
+  //     organisationId,
+  //     accessToken: extractAccessToken({ req, tokenType: 'access' }),
+  //   });
+  //   return res.render('pages/adduser/template', context);
+  // }
 
   describe('GET /organisations/:organisationId/adduser/confirmation', () => {
     it('should redirect to the login page if the user is not logged in', () => (
