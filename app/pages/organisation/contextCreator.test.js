@@ -130,4 +130,9 @@ describe('getOrganisationContext', () => {
     expect(users[1][2].data).toEqual('');
     expect(users[1][3].tag).toEqual(false);
   });
+
+  it('should construct backLinkHref from the data provided', () => {
+    const context = getContext({ organisation: mockData });
+    expect(context.backLinkHref).toEqual('/organisations');
+  });
 });

@@ -74,7 +74,7 @@ test('should navigate to /organisations/org when click on Back', async (t) => {
   await t
     .expect(goBackLink.exists).ok()
     .click(goBackLink)
-    .expect(getLocation()).eql('http://localhost:1234/organisations/org1/');
+    .expect(getLocation()).eql('http://localhost:1234/organisations/org1');
 });
 
 test('should render the title', async (t) => {
@@ -110,16 +110,16 @@ test('should render organisation name subheading', async (t) => {
     .expect(await extractInnerText(orgDetailsSubheading)).eql(content.orgNameSubheading);
 });
 
-// TODO: Uncomment when API returns organisation details
-// test('should render organisation name', async (t) => {
-//   await pageSetup(t);
+test('should render organisation name', async (t) => {
+  await pageSetup(t, true);
+  await t.navigateTo('http://localhost:1234/organisations/org1/adduser');
 
-//   const organisationName = Selector('[data-test-id="org-name"]');
+  const organisationName = Selector('[data-test-id="org-name"]');
 
-//   await t
-//     .expect(organisationName.exists).ok()
-//     .expect(await extractInnerText(organisationName)).eql(organisationDetails.name);
-// });
+  await t
+    .expect(organisationName.exists).ok()
+    .expect(await extractInnerText(organisationName)).eql(organisationDetails.name);
+});
 
 test('should render a text field for each question', async (t) => {
   await pageSetup(t, true);
@@ -161,9 +161,29 @@ test('should render add user button', async (t) => {
     .expect(addUserButton.exists).ok()
     .expect(await extractInnerText(addUserButton)).eql(content.addUserButtonText)
     .expect(addUserButton.hasClass('nhsuk-u-margin-bottom-9')).ok();
-  // TODO: Uncomment when API allows users to be added
-  // .expect(addUserButton.getAttribute('href')).eql(`/organisations/${organisationDetails.organisationId}/adduser`);
-  // .click()
-  // Add tests for confirmation page for success
+});
+
+test('should navigate to confirmation page when form is filled out and addUser button is clicked', async (t) => {
+  nock(organisationsApiLocalhost)
+    .post('/api/v1/Organisations/org1/Users')
+    .reply(200);
+
+  await pageSetup(t, true);
+  await t.navigateTo('http://localhost:1234/organisations/org1/adduser');
+
+  const firstName = Selector('[data-test-id="question-firstName"] input');
+  const lastName = Selector('[data-test-id="question-lastName"] input');
+  const phoneNumber = Selector('[data-test-id="question-phoneNumber"] input');
+  const emailAddress = Selector('[data-test-id="question-emailAddress"] input');
+  const addUserButton = Selector('[data-test-id="add-user-button"] button');
+
+  await t
+    .expect(addUserButton.exists).ok()
+    .typeText(firstName, 'Peter')
+    .typeText(lastName, 'Parker')
+    .typeText(phoneNumber, '07777777777')
+    .typeText(emailAddress, 'Peter@Parker.com')
+    .click(addUserButton)
+    .expect(getLocation()).eql('http://localhost:1234/organisations/org1/adduser/confirmation?userAdded=Peter%20Parker');
   // Add tests for validation
 });

@@ -3,22 +3,15 @@
   "name": "Greater Manchester CCG",
   "odsCode": "X01",
   "primaryRoleId": "ID123",
-  "address": "12 Station Road, Leeds, West Yorkshire, LS15 5FG",
-  "isCatalogueAgreementSigned": true,
-  "users": [
-    {
-      "userId": "1234-56789",
-      "name": "John Smith",
-      "phoneNumber": "01234567890",
-      "emailAddress": "a.b@c.com",
-      "isDisabled": false
-    },
-    {
-      "userId": "4321-98765",
-      "name": "Jane Jones",
-      "phoneNumber": "01234987654",
-      "emailAddress": "j.j@company.com",
-      "isDisabled": true
-    }
-  ]
+  "address": {
+    "line1": "C/O NHS ENGLAND, 1W09, 1ST FLOOR",
+    "line2": "QUARRY HOUSE",
+    "line3": "QUARRY HILL",
+    "line4": null,
+    "town": "LEEDS",
+    "county": "WEST YORKSHIRE",
+    "postcode": "LS2 7UE",
+    "country": "ENGLAND"
+  },
+  "isCatalogueAgreementSigned": true
 }

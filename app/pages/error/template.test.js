@@ -8,7 +8,7 @@ const setup = {
 
 describe('error page', () => {
   it('should render the error title', createTestHarness(setup, (harness) => {
-    const context = { message: 'an error message' };
+    const context = { message: 'an error message', backLinkHref: '/' };
 
     harness.request(context, ($) => {
       const errorTitle = $('[data-test-id="error-page-title"]');
@@ -18,7 +18,7 @@ describe('error page', () => {
   }));
 
   it('should render a backLink to the home page', createTestHarness(setup, (harness) => {
-    const context = {};
+    const context = { backLinkHref: '/' };
 
     harness.request(context, ($) => {
       const homepageBackLink = $('[data-test-id="go-to-home-page-link"]');

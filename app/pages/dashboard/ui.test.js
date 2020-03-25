@@ -145,5 +145,47 @@ test('should render the table', async (t) => {
     .expect(columnHeading1.exists).ok()
     .expect(await extractInnerText(columnHeading1)).eql(content.columnInfo[0].data)
     .expect(await extractInnerText(columnHeading2)).eql(content.columnInfo[1].data);
-  // TODO: Add tests for column data once API is ready
+});
+
+test('should render the table content', async (t) => {
+  await pageSetup(t, true);
+  await t.navigateTo('http://localhost:1234/organisations');
+
+  const row0 = Selector('div[data-test-id="table-row-0"]');
+  const row0Name = row0.find('a');
+  const row0Ods = row0.find('div');
+  const row1 = Selector('div[data-test-id="table-row-1"]');
+  const row1Name = row1.find('a');
+  const row1Ods = row1.find('div');
+
+  await t
+    .expect(row0.exists).ok()
+    .expect(row0Name.exists).ok()
+    .expect(row0Ods.exists).ok()
+    .expect(await extractInnerText(row0Name)).eql(organisationsList.organisations[0].name)
+    .expect(await extractInnerText(row0Ods)).eql(organisationsList.organisations[0].odsCode)
+    .expect(row1.exists).ok()
+    .expect(row1Name.exists).ok()
+    .expect(row1Ods.exists).ok()
+    .expect(await extractInnerText(row1Name)).eql(organisationsList.organisations[1].name)
+    .expect(await extractInnerText(row1Ods)).eql(organisationsList.organisations[1].odsCode);
+});
+
+test('should navigate to the organisation page when an organisation name is clicked', async (t) => {
+  nock(organisationsApiLocalhost)
+    .get('/api/v1/Organisations/org-001')
+    .reply(200, {});
+  nock(organisationsApiLocalhost)
+    .get('/api/v1/Organisations/org-001/users')
+    .reply(200, {});
+
+  await pageSetup(t, true);
+  await t.navigateTo('http://localhost:1234/organisations');
+
+  const row0Name = Selector('div[data-test-id="table-row-0"] a');
+  const orgId = organisationsList.organisations[0].organisationId;
+  await t
+    .expect(row0Name.exists).ok()
+    .click(row0Name)
+    .expect(getLocation()).eql(`http://localhost:1234/organisations/${orgId}`);
 });

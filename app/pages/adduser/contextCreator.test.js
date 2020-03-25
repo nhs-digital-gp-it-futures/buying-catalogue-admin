@@ -25,4 +25,9 @@ describe('getContext', () => {
     expect(context.organisationId).toEqual(mockData.organisationId);
     expect(context.organisationName).toEqual(mockData.name);
   });
+
+  it('should construct backLinkHref from the data provided', () => {
+    const context = getContext(mockData);
+    expect(context.backLinkHref).toEqual(`/organisations/${mockData.organisationId}`);
+  });
 });

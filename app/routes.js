@@ -70,20 +70,19 @@ export const routes = (authProvider) => {
   router.post('/organisations/:organisationId/adduser', authProvider.authorise(), withCatch(authProvider, async (req, res) => {
     const { organisationId } = req.params;
     const response = await postAddUser({ organisationId, data: req.body, accessToken: extractAccessToken({ req, tokenType: 'access' }) });
-
     if (response.success) {
-      res.redirect(`/organisations/${organisationId}/adduser/confirmation`);
+      res.redirect(`/organisations/${organisationId}/adduser/confirmation?userAdded=${response.userAdded}`);
     } else res.send('Error adding user');
     // TODO: Implement with errors
     // const context = await getAddUserPageErrorContext({ validationErrors: response (etc) });
-
     //   return res.render('pages/adduser/template', context);
   }));
 
   router.get('/organisations/:organisationId/adduser/confirmation', authProvider.authorise(), withCatch(authProvider, async (req, res) => {
     const { organisationId } = req.params;
+    const { userAdded } = req.query;
     logger.info(`navigating to organisation: ${organisationId} add user confirmation page`);
-    const context = await getAddUserConfirmationContext(organisationId);
+    const context = await getAddUserConfirmationContext({ userAdded, organisationId });
     res.render('pages/adduser/confirmation/template.njk', addContext({ context, user: req.user }));
   }));
 

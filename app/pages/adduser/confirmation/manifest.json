@@ -1,5 +1,5 @@
 {
   "backLinkText": "Back to dashboard",
-  "title": "{{username}} account added",
+  "title": "{{userAdded}} account added",
   "description": "The user has been sent an email so they can set their password."
 }

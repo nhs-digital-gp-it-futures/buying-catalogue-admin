@@ -1,6 +1,8 @@
 import { createTestHarness } from '../../test-utils/testHarness';
 import context from './manifest.json';
 
+context.backLinkHref = '/';
+
 const setup = {
   template: {
     path: 'pages/dashboard/template.njk',

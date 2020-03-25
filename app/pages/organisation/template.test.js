@@ -46,6 +46,7 @@ const mockData = {
 const mockContext = {
   ...manifest,
   ...mockData,
+  backLinkHref: '/organisations',
 };
 
 describe('organisations dashboard page', () => {
