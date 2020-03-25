@@ -1,4 +1,5 @@
 import manifest from './manifest.json';
+import { baseUrl } from '../../config';
 
 export const getContext = ({ organisation }) => ({
   ...manifest,
@@ -28,4 +29,5 @@ export const getContext = ({ organisation }) => ({
       } : false,
     },
   ]) : [],
+  backLinkHref: `${baseUrl}/organisations`,
 });

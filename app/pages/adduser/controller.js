@@ -15,13 +15,15 @@ export const getAddUserContext = async ({ organisationId, accessToken }) => {
 
 export const postAddUser = async ({ organisationId, data, accessToken }) => {
   try {
-    await postData({
+    const response = await postData({
       endpointLocator: 'postAddUser',
       options: { organisationId },
       body: data,
       accessToken,
     });
-
+    if (response.errors) {
+      return { success: false, errors: response.errors };
+    }
     logger.info(`User added: ${JSON.stringify(data)}`);
     return { success: true, userAdded: `${data.firstName} ${data.lastName}` };
   } catch (err) {

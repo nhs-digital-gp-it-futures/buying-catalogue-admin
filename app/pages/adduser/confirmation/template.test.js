@@ -1,6 +1,8 @@
 import context from './manifest.json';
 import { createTestHarness } from '../../../test-utils/testHarness';
 
+context.backLinkHref = '/organisations/org1';
+
 const setup = {
   template: {
     path: 'pages/adduser/confirmation/template.njk',
@@ -13,7 +15,7 @@ describe('organisations add user confirmation page', () => {
       const addUserConfirmationBackLink = $('[data-test-id="go-back-link"]');
       expect(addUserConfirmationBackLink.length).toEqual(1);
       expect(addUserConfirmationBackLink.text().trim()).toEqual(context.backLinkText);
-      expect($(addUserConfirmationBackLink).find('a').attr('href')).toEqual('/organisations/{{organisationId}}');
+      expect($(addUserConfirmationBackLink).find('a').attr('href')).toEqual('/organisations/org1');
     });
   }));
 

@@ -1,6 +1,8 @@
 import { createTestHarness } from '../../test-utils/testHarness';
 import context from './manifest.json';
 
+context.backLinkHref = '/organisations/org1';
+
 const setup = {
   template: {
     path: 'pages/adduser/template.njk',
@@ -13,7 +15,7 @@ describe('organisations add user page', () => {
       const backLink = $('[data-test-id="go-back-link"]');
       expect(backLink.length).toEqual(1);
       expect(backLink.text().trim()).toEqual('Back');
-      expect($(backLink).find('a').attr('href')).toEqual('./');
+      expect($(backLink).find('a').attr('href')).toEqual('/organisations/org1');
     });
   }));
 
