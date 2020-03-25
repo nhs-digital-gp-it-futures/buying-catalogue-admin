@@ -8,6 +8,10 @@ describe('errorHandler', () => {
     }));
   });
 
+  it('should construct backLinkHref', () => {
+    expect(errorHandler().backLinkHref).toEqual('/');
+  });
+
   describe('when status or message is provided', () => {
     it('should change the message to the provided message', () => {
       expect(errorHandler({ message: 'a new message' })).toEqual(expect.objectContaining({
