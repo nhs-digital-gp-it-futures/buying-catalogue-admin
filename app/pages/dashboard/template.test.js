@@ -1,7 +1,6 @@
 import { createTestHarness } from '../../test-utils/testHarness';
 import context from './manifest.json';
-
-context.backLinkHref = '/';
+import { publicBrowseBaseUrl } from '../../config';
 
 const setup = {
   template: {
@@ -10,12 +9,12 @@ const setup = {
 };
 
 describe('organisations dashboard page', () => {
-  it('should render a backLink to the home page', createTestHarness(setup, (harness) => {
+  it.only('should render a backLink to public browse', createTestHarness(setup, (harness) => {
     harness.request(context, ($) => {
       const homepageBackLink = $('[data-test-id="go-back-link"]');
       expect(homepageBackLink.length).toEqual(1);
       expect(homepageBackLink.text().trim()).toEqual('Go back to previous page');
-      expect($(homepageBackLink).find('a').attr('href')).toEqual('/');
+      expect($(homepageBackLink).find('a').attr('href')).toEqual(publicBrowseBaseUrl);
     });
   }));
 
