@@ -1,6 +1,5 @@
 import manifest from './manifest.json';
 import { getContext, getErrorContext } from './contextCreator';
-import { errorMessages } from './errorStrings';
 
 const mockData = {
   organisationId: 'org1',
@@ -75,7 +74,7 @@ describe('adduser contextCreator', () => {
       expect(context.errors.length).toEqual(mockValidationErrors.length);
       context.errors.forEach((error, i) => {
         expect(error.href).toEqual(`#${mockValidationErrors[i].field[0].toLowerCase()}${mockValidationErrors[i].field.slice(1)}`);
-        expect(error.text).toEqual(errorMessages[mockValidationErrors[i].id]);
+        expect(error.text).toEqual(manifest.errorMessages[mockValidationErrors[i].id]);
       });
     });
   });

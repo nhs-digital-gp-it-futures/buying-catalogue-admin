@@ -12,7 +12,7 @@ export const getContext = orgData => ({
 export const getErrorContext = ({ orgData, validationErrors }) => {
   const formattedErrors = formatErrors(validationErrors);
   const allErrors = formatAllErrors(formattedErrors);
-  const manifestWithErrors = addErrorsToManifest({ manifest, errors: formattedErrors });
+  const manifestWithErrors = addErrorsToManifest({ errors: formattedErrors });
 
   return {
     ...manifestWithErrors,

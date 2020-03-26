@@ -1,5 +1,4 @@
 import { formatErrors, formatAllErrors, addErrorsToManifest } from './contextCreatorErrorHelper';
-import { errorMessages } from './errorStrings';
 import manifest from './manifest.json';
 
 const errors = [
@@ -12,22 +11,22 @@ describe('contextCreatorErrorHelper', () => {
   describe('formatErrors', () => {
     it('should create error object with field as key and array of messages for one error', () => {
       const formattedErrors = formatErrors([errors[0]]);
-      expect(formattedErrors).toEqual({ [errors[0].field]: [errorMessages[errors[0].id]] });
+      expect(formattedErrors).toEqual({ [errors[0].field]: [manifest.errorMessages[errors[0].id]] });
     });
 
     it('should create error object with field as key and array of messages for multiple errors', () => {
       const formattedErrors = formatErrors(errors);
       expect(formattedErrors.emailAddress).toEqual(
-        [errorMessages[errors[0].id], errorMessages[errors[1].id]],
+        [manifest.errorMessages[errors[0].id], manifest.errorMessages[errors[1].id]],
       );
-      expect(formattedErrors.lastName).toEqual([errorMessages[errors[2].id]]);
+      expect(formattedErrors.lastName).toEqual([manifest.errorMessages[errors[2].id]]);
     });
   });
 
   describe('addErrorsToManifest', () => {
     const formattedErrors = formatErrors(errors);
     it('should return the contents of the manifest', () => {
-      const manifestWithErrors = addErrorsToManifest({ manifest, errors: formattedErrors });
+      const manifestWithErrors = addErrorsToManifest({ errors: formattedErrors });
       expect(manifestWithErrors.title).toEqual(manifest.title);
       expect(manifestWithErrors.description).toEqual(manifest.description);
       expect(manifestWithErrors.orgNameSubheading).toEqual(manifest.orgNameSubheading);
@@ -40,7 +39,7 @@ describe('contextCreatorErrorHelper', () => {
     });
 
     it('should add the errors to the correct questions', () => {
-      const manifestWithErrors = addErrorsToManifest({ manifest, errors: formattedErrors });
+      const manifestWithErrors = addErrorsToManifest({ errors: formattedErrors });
       expect(manifestWithErrors.questions[3].error).toEqual({ message: formattedErrors.emailAddress.join(', ') });
       expect(manifestWithErrors.questions[1].error).toEqual({ message: formattedErrors.lastName.join(', ') });
     });

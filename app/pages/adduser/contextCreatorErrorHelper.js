@@ -1,13 +1,13 @@
-import { errorMessages } from './errorStrings';
+import manifest from './manifest.json';
 
 export const formatErrors = errors => errors.reduce((acc, error) => {
   const errorMessageLocator = `${error.field[0].toLowerCase()}${error.field.slice(1)}`;
-  if (acc[errorMessageLocator]) acc[errorMessageLocator].push(errorMessages[error.id]);
-  else acc[errorMessageLocator] = [errorMessages[error.id]];
+  if (acc[errorMessageLocator]) acc[errorMessageLocator].push(manifest.errorMessages[error.id]);
+  else acc[errorMessageLocator] = [manifest.errorMessages[error.id]];
   return acc;
 }, {});
 
-export const addErrorsToManifest = ({ manifest, errors }) => {
+export const addErrorsToManifest = ({ errors }) => {
   const questionsWithErrors = manifest.questions.map((question) => {
     const questionWithErrors = { ...question };
     if (errors[`${question.id[0].toLowerCase()}${question.id.slice(1)}`]) {
