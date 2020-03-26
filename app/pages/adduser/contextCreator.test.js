@@ -7,11 +7,11 @@ const mockData = {
 };
 
 const mockValidationErrors = [{
-  field: 'firstName',
-  id: 'FirstNameRequired',
+  field: 'LastName',
+  id: 'LastNameRequired',
 },
 {
-  field: 'firstName',
+  field: 'FirstName',
   id: 'FirstNameTooLong',
 }];
 
@@ -72,10 +72,10 @@ describe('adduser contextCreator', () => {
         validationErrors: mockValidationErrors,
       });
       expect(context.errors.length).toEqual(mockValidationErrors.length);
-      context.errors.forEach((error, i) => {
-        expect(error.href).toEqual(`#${mockValidationErrors[i].field[0].toLowerCase()}${mockValidationErrors[i].field.slice(1)}`);
-        expect(error.text).toEqual(manifest.errorMessages[mockValidationErrors[i].id]);
-      });
+      expect(context.errors[0].href).toEqual('#firstName');
+      expect(context.errors[0].text).toEqual('First name is too long');
+      expect(context.errors[1].href).toEqual('#lastName');
+      expect(context.errors[1].text).toEqual('Last name is required');
     });
   });
 });
