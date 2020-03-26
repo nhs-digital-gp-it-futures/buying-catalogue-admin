@@ -69,14 +69,15 @@ export const routes = (authProvider) => {
 
   router.post('/organisations/:organisationId/adduser', authProvider.authorise(), withCatch(authProvider, async (req, res) => {
     const { organisationId } = req.params;
-    const response = await postAddUser({ organisationId, data: req.body, accessToken: extractAccessToken({ req, tokenType: 'access' }) });
+    const accessToken = extractAccessToken({ req, tokenType: 'access' });
+    const response = await postAddUser({ organisationId, data: req.body, accessToken });
     if (response.success) {
       return res.redirect(`/organisations/${organisationId}/adduser/confirmation?userAdded=${response.userAdded}`);
     }
     const context = await getAddUserPageErrorContext({
       validationErrors: response.errors,
       organisationId,
-      accessToken: extractAccessToken({ req, tokenType: 'access' }),
+      accessToken,
     });
     return res.render('pages/adduser/template', context);
   }));

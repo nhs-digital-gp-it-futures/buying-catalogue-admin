@@ -280,8 +280,11 @@ describe('routes', () => {
     it('should return the correct status and text if response.success is false', async () => {
       addUserContext.postAddUser = jest.fn()
         .mockImplementation(() => Promise.resolve({ success: false }));
+
       addUserContext.getAddUserPageErrorContext = jest.fn()
-        .mockImplementation(() => Promise.resolve({}));
+        .mockImplementation(() => Promise.resolve({
+          errors: [{ text: 'Last name too long', href: '#lastName' }],
+        }));
       const { cookies, csrfToken } = await getCsrfTokenFromGet(setUpFakeApp(), '/organisations/org1/adduser', mockAuthorisedCookie);
 
       return request(setUpFakeApp())
@@ -295,6 +298,7 @@ describe('routes', () => {
         .expect(200)
         .then((res) => {
           expect(res.text.includes('data-test-id="add-user-page"')).toEqual(true);
+          expect(res.text.includes('data-test-id="error-summary"')).toEqual(true);
           expect(res.text.includes('data-test-id="error-page-title"')).toEqual(false);
           addUserContext.getAddUserPageErrorContext.mockReset();
         });
