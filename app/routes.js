@@ -82,6 +82,12 @@ export const routes = (authProvider) => {
     return res.render('pages/adduser/template', context);
   }));
 
+  router.get('/organisations/:organisationId/:userId', authProvider.authorise(), withCatch(authProvider, async (req, res) => {
+    const { organisationId, userId } = req.params;
+    logger.info(`navigating to organisation: ${organisationId} edit user: ${userId} page`);
+    res.send('edit user page');
+  }));
+
   router.get('/organisations/:organisationId/adduser/confirmation', authProvider.authorise(), withCatch(authProvider, async (req, res) => {
     const { organisationId } = req.params;
     const { userAdded } = req.query;

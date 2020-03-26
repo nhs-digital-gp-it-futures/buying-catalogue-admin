@@ -172,6 +172,30 @@ describe('routes', () => {
     });
   });
 
+  describe('GET /organisations/:organisationId/:userId', () => {
+    it('should redirect to the login page if the user is not logged in', () => (
+      checkAuthorisedRouteNotLoggedIn('/organisations/org1')
+    ));
+
+    it('should show the error page indicating the user is not authorised if the user is logged in but not authorised', () => (
+      checkAuthorisedRouteWithoutClaim('/organisations/org1')
+    ));
+
+    it('should return the correct status and text when the user is authorised', () => {
+      orgAccountsContext.getOrgAccountsContext = jest.fn()
+        .mockImplementation(() => {});
+
+      return request(setUpFakeApp())
+        .get('/organisations/org1/user1')
+        .set('Cookie', [mockAuthorisedCookie])
+        .expect(200)
+        .then((res) => {
+          expect(res.text.includes('edit user page')).toEqual(true);
+          expect(res.text.includes('data-test-id="error-page-title"')).toEqual(false);
+        });
+    });
+  });
+
   describe('GET /organisations/:organisationId/adduser', () => {
     it('should redirect to the login page if the user is not logged in', () => (
       checkAuthorisedRouteNotLoggedIn('/organisations/org1/adduser')
