@@ -21,5 +21,16 @@
       "mainAdvice": "Email address"
     }
   ],
-  "addUserButtonText": "Add user"
+  "addUserButtonText": "Add user",
+  "errorMessages": {
+    "EmailRequired": "Email address is required",
+    "EmailTooLong": "Email address is too long",
+    "EmailInvalidFormat": "Email address format is not valid",
+    "EmailAlreadyExists": "Email address already exists",
+    "PhoneNumberRequired": "Telephone number is required",
+    "LastNameRequired": "Last name is required",
+    "LastNameTooLong": "Last name is too long",
+    "FirstNameRequired": "First name is required",
+    "FirstNameTooLong": "First name is too long"
+  }
 }

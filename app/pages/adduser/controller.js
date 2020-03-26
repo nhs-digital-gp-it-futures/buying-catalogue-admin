@@ -1,5 +1,5 @@
 import { getData, postData } from '../../apiProvider';
-import { getContext } from './contextCreator';
+import { getContext, getErrorContext } from './contextCreator';
 import { logger } from '../../logger';
 
 export const getAddUserContext = async ({ organisationId, accessToken }) => {
@@ -8,6 +8,19 @@ export const getAddUserContext = async ({ organisationId, accessToken }) => {
   if (orgData) {
     logger.info(`Organisation ${organisationId} returned`);
     return getContext(orgData);
+  }
+
+  throw new Error('No data returned');
+};
+
+export const getAddUserPageErrorContext = async ({
+  organisationId, accessToken, validationErrors,
+}) => {
+  // Need to call getOrgById to get org name
+  const orgData = await getData({ endpointLocator: 'getOrgById', options: { organisationId }, accessToken });
+  if (orgData) {
+    logger.info(`Organisation ${organisationId} returned`);
+    return getErrorContext({ orgData, validationErrors });
   }
 
   throw new Error('No data returned');
@@ -22,6 +35,7 @@ export const postAddUser = async ({ organisationId, data, accessToken }) => {
       accessToken,
     });
     if (response.errors) {
+      logger.info(`Errors returned: ${JSON.stringify(response.errors)}`);
       return { success: false, errors: response.errors };
     }
     logger.info(`User added: ${JSON.stringify(data)}`);
