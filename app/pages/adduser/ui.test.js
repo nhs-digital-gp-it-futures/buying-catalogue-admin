@@ -210,7 +210,7 @@ test.only('should show validation errors if api returns them', async (t) => {
   };
   nock(organisationsApiLocalhost)
     .post('/api/v1/Organisations/org1/Users')
-    .reply(200, errorResponse);
+    .reply(400, errorResponse);
 
   nock(organisationsApiLocalhost)
     .get('/api/v1/Organisations/org1')
@@ -219,16 +219,18 @@ test.only('should show validation errors if api returns them', async (t) => {
   await pageSetup(t, true);
   await t.navigateTo('http://localhost:1234/organisations/org1/adduser');
 
-  const addUserPage = Selector('[data-test-id="add-user-page"]');
   const addUserButton = Selector('[data-test-id="add-user-button"] button');
+  const addUserPage = Selector('[data-test-id="add-user-page"]');
 
   await t
     .expect(addUserButton.exists).ok()
-    .click(addUserButton)
+    .click(addUserButton);
+
+  await t
     .expect(getLocation()).eql('http://localhost:1234/organisations/org1/adduser')
     .expect(addUserPage.find('[data-test-id="error-summary"]').count).eql(1)
     .expect(addUserPage.find('li a').count).eql(5)
-    .expect(addUserPage.find('#firstName-error').count).eql(1)
+    .expect(await extractInnerText(addUserPage.find('#firstName-error'))).contains('First name is required')
     .expect(addUserPage.find('#lastName-error').count).eql(1)
     .expect(addUserPage.find('#phoneNumber-error').count).eql(1)
     .expect(addUserPage.find('#emailAddress-error').count).eql(1);
