@@ -4,6 +4,7 @@ import content from './manifest.json';
 import { extractInnerText } from '../../test-utils/helper';
 import { organisationsApiLocalhost } from '../../test-utils/config';
 import organisationDetails from '../../test-utils/fixtures/organisationDetails.json';
+import addUserErrorResponse from '../../test-utils/fixtures/addUserErrorResponse.json';
 
 const setCookies = ClientFunction(() => {
   const cookieValue = JSON.stringify({
@@ -183,34 +184,10 @@ test('should navigate to confirmation page when form is filled out and addUser b
     .expect(getLocation()).eql('http://localhost:1234/organisations/org1/adduser/confirmation?userAdded=Peter%20Parker');
 });
 
-test('should show validation errors if api returns them', async (t) => {
-  const errorResponse = {
-    errors: [
-      {
-        field: 'EmailAddress',
-        id: 'EmailAlreadyExists',
-      },
-      {
-        field: 'EmailAddress',
-        id: 'EmailInvalidFormat',
-      },
-      {
-        field: 'PhoneNumber',
-        id: 'PhoneNumberRequired',
-      },
-      {
-        field: 'FirstName',
-        id: 'FirstNameRequired',
-      },
-      {
-        field: 'LastName',
-        id: 'LastNameTooLong',
-      },
-    ],
-  };
+test('should show the error summary when there are validation errors', async (t) => {
   nock(organisationsApiLocalhost)
     .post('/api/v1/Organisations/org1/Users')
-    .reply(400, errorResponse);
+    .reply(400, addUserErrorResponse);
 
   nock(organisationsApiLocalhost)
     .get('/api/v1/Organisations/org1')
@@ -219,8 +196,9 @@ test('should show validation errors if api returns them', async (t) => {
   await pageSetup(t, true);
   await t.navigateTo('http://localhost:1234/organisations/org1/adduser');
 
-  const addUserButton = Selector('[data-test-id="add-user-button"] button');
   const addUserPage = Selector('[data-test-id="add-user-page"]');
+  const addUserButton = Selector('[data-test-id="add-user-button"] button');
+  const errorSummary = addUserPage.find('[data-test-id="error-summary"]');
 
   await t
     .expect(addUserButton.exists).ok()
@@ -228,14 +206,11 @@ test('should show validation errors if api returns them', async (t) => {
 
   await t
     .expect(getLocation()).eql('http://localhost:1234/organisations/org1/adduser')
-    .expect(addUserPage.find('[data-test-id="error-summary"]').count).eql(1)
-    .expect(addUserPage.find('li a').count).eql(5)
-    .expect(await extractInnerText(addUserPage.find('#firstName-error'))).contains('First name is required')
-    .expect(addUserPage.find('#lastName-error').count).eql(1)
-    .expect(await extractInnerText(addUserPage.find('#lastName-error'))).contains('Last name is too long')
-    .expect(addUserPage.find('#phoneNumber-error').count).eql(1)
-    .expect(await extractInnerText(addUserPage.find('#phoneNumber-error'))).contains('Telephone number is required')
-    .expect(addUserPage.find('#emailAddress-error').count).eql(1)
-    .expect(await extractInnerText(addUserPage.find('#emailAddress-error'))).contains('Email address already exists')
-    .expect(await extractInnerText(addUserPage.find('#emailAddress-error'))).contains('Email address format is not valid');
+    .expect(errorSummary.exists).ok()
+    .expect(errorSummary.find('li a').count).eql(5)
+    .expect(await extractInnerText(errorSummary.find('li a').nth(0))).eql('First name is required')
+    .expect(await extractInnerText(errorSummary.find('li a').nth(1))).eql('Last name is too long')
+    .expect(await extractInnerText(errorSummary.find('li a').nth(2))).eql('Telephone number is required')
+    .expect(await extractInnerText(errorSummary.find('li a').nth(3))).eql('Email address already exists')
+    .expect(await extractInnerText(errorSummary.find('li a').nth(4))).eql('Email address format is not valid');
 });
