@@ -17,7 +17,7 @@ export const getContext = ({ organisation }) => ({
   users: organisation && organisation.users ? organisation.users.map(row => [
     {
       data: `${(`${row.firstName ? row.firstName : ''} ${row.lastName ? row.lastName : ''}`).trim()}` || '',
-      href: `/organisations/${organisation.organisationId}/${row.userId}` || '#',
+      href: `/organisations/${organisation.organisationId}/${row.userId}`,
     },
     { data: row.phoneNumber || '' },
     { data: row.emailAddress || '' },
