@@ -79,6 +79,7 @@ export const routes = (authProvider) => {
       validationErrors: response.errors,
       organisationId,
       accessToken,
+      data: req.body,
     });
     return res.render('pages/adduser/template', context);
   }));
