@@ -95,7 +95,7 @@ describe('viewuser page', () => {
     });
   }));
 
-  it('should render an edit user button', createTestHarness(setup, (harness) => {
+  it('should render a disable account button', createTestHarness(setup, (harness) => {
     harness.request(mockContext, ($) => {
       const disableAccountButton = $('[data-test-id="disable-account-button"] a');
       expect(disableAccountButton.length).toEqual(1);

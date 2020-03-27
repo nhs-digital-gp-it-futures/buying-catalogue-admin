@@ -284,7 +284,7 @@ test('should render the table with users', async (t) => {
     .expect(user2DisabledTag.exists).ok();
 });
 
-test('should navigate to edit user page when user name is clicked', async (t) => {
+test('should navigate to view user page when user name is clicked', async (t) => {
   await pageSetup(t, true);
   await t.navigateTo(pageUrl);
 

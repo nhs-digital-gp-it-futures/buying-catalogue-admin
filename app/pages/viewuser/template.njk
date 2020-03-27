@@ -22,16 +22,16 @@
     <h2 data-test-id="user-email-heading" class="nhsuk-heading-s nhsuk-u-margin-bottom-2">{{ emailAddressHeading }}</h2>
     <div data-test-id="user-email" class="nhsuk-u-font-size-19 nhsuk-u-margin-bottom-7">{{ emailAddress }}</div>
 
-    <div data-test-id="edit-user-button" class="nhsuk-grid-column-one-quarter nhsuk-u-padding-0">
-      {{ button({
-        text: editUserButtonText,
-        classes: "nhsuk-u-margin-bottom-9",
-        href: editUserButtonHref
-      }) }}
-    </div>
-
     <div class="nhsuk-grid-row">
-      <div data-test-id="disable-account-button" class="nhsuk-grid-column-one-quarter nhsuk-u-padding-0">
+      <div data-test-id="edit-user-button" class="nhsuk-grid-column-one-quarter">
+        {{ button({
+          text: editUserButtonText,
+          classes: "nhsuk-u-margin-bottom-9",
+          href: editUserButtonHref
+        }) }}
+      </div>
+
+      <div data-test-id="disable-account-button" class="nhsuk-grid-column-one-quarter">
         {{ button({
           text: disableAccountButtonText,
           classes: "nhsuk-u-margin-bottom-9",
