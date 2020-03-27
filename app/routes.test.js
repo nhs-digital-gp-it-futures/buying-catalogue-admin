@@ -191,7 +191,6 @@ describe('routes', () => {
         .set('Cookie', [mockAuthorisedCookie])
         .expect(200)
         .then((res) => {
-          console.log(res.text);
           expect(res.text.includes('data-test-id="view-user-page"')).toEqual(true);
           expect(res.text.includes('data-test-id="error-page-title"')).toEqual(false);
         });

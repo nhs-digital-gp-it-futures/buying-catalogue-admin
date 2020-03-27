@@ -87,7 +87,7 @@ export const routes = (authProvider) => {
     const { organisationId, userId } = req.params;
     logger.info(`navigating to organisation: ${organisationId} edit user: ${userId} page`);
     const context = await getViewUserContext({ organisationId, userId, accessToken: extractAccessToken({ req, tokenType: 'access' }) });
-    res.render('pages/viewUser/template', context);
+    res.render('pages/viewuser/template', context);
   }));
 
   router.get('/organisations/:organisationId/adduser/confirmation', authProvider.authorise(), withCatch(authProvider, async (req, res) => {
