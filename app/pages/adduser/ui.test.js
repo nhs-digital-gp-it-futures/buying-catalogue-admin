@@ -232,6 +232,10 @@ test.only('should show validation errors if api returns them', async (t) => {
     .expect(addUserPage.find('li a').count).eql(5)
     .expect(await extractInnerText(addUserPage.find('#firstName-error'))).contains('First name is required')
     .expect(addUserPage.find('#lastName-error').count).eql(1)
+    .expect(await extractInnerText(addUserPage.find('#lastName-error'))).contains('Last name is too long')
     .expect(addUserPage.find('#phoneNumber-error').count).eql(1)
-    .expect(addUserPage.find('#emailAddress-error').count).eql(1);
+    .expect(await extractInnerText(addUserPage.find('#phoneNumber-error'))).contains('Telephone number is required')
+    .expect(addUserPage.find('#emailAddress-error').count).eql(1)
+    .expect(await extractInnerText(addUserPage.find('#emailAddress-error'))).contains('Email address already exists')
+    .expect(await extractInnerText(addUserPage.find('#emailAddress-error'))).contains('Email address format is not valid');
 });
