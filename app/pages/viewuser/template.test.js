@@ -36,7 +36,7 @@ describe('viewuser page', () => {
 
   it('should render a title', createTestHarness(setup, (harness) => {
     harness.request(mockContext, ($) => {
-      const title = $('h1[data-test-id="org-page-title"]');
+      const title = $('h1[data-test-id="view-user-page-title"]');
       expect(title.length).toEqual(1);
       expect(title.text().trim()).toEqual(`${mockContext.userName} ${mockContext.title}`);
     });
