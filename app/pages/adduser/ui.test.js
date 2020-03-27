@@ -289,5 +289,5 @@ test('should anchor to the field when clicking on the error link in errorSummary
     .expect(getLocation()).eql('http://localhost:1234/organisations/org1/adduser#emailAddress')
 
     .click(errorSummary.find('li a').nth(4))
-    .expect(getLocation()).eql('http://localhost:1234/organisations/org1/adduser#emailAddress')
+    .expect(getLocation()).eql('http://localhost:1234/organisations/org1/adduser#emailAddress');
 });
