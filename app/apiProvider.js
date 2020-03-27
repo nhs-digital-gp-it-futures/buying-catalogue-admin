@@ -6,7 +6,8 @@ const endpoints = {
   // GET endpoints
   getOrganisations: () => `${organisationApiUrl}/api/v1/Organisations`,
   getOrgById: options => `${organisationApiUrl}/api/v1/Organisations/${options.organisationId}`,
-  getUsers: options => `${organisationApiUrl}/api/v1/Organisations/${options.organisationId}/users`,
+  getUsers: options => `${organisationApiUrl}/api/v1/Organisations/${options.organisationId}/Users`,
+  getUserById: options => `${organisationApiUrl}/api/v1/Users/${options.userId}`,
   // POST endpoints
   postAddUser: options => `${organisationApiUrl}/api/v1/Organisations/${options.organisationId}/Users`,
 };
