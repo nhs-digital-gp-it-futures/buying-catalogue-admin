@@ -1,0 +1,43 @@
+{% extends 'includes/layout.njk' %}
+{% from 'components/back-link/macro.njk' import backLink %}
+{% from 'components/button/macro.njk' import button %}
+
+
+{% block body %}
+  <div class="nhsuk-width-container" data-test-id="view-user-page">
+    <div data-test-id="go-back-link">
+      {{ backLink({
+        "href": backLinkHref,
+        "text": "Back"
+      }) }}
+    </div>
+  
+    <h1 data-test-id="view-user-page-title" class="">{{ userName }} {{ title }}</h1>
+    <h2 data-test-id="organisation-name-heading" class="nhsuk-heading-s nhsuk-u-margin-bottom-2">{{ orgHeading }}</h2>
+    <div data-test-id="organisation-name" class="nhsuk-u-font-size-19 nhsuk-u-margin-bottom-5">{{ organisationName }}</div>
+    <h2 data-test-id="user-name-heading" class="nhsuk-heading-s nhsuk-u-margin-bottom-2">{{ nameHeading }}</h2>
+    <div data-test-id="user-name" class="nhsuk-u-font-size-19 nhsuk-u-margin-bottom-5">{{ userName }}</div>
+    <h2 data-test-id="user-contact-details-heading" class="nhsuk-heading-s nhsuk-u-margin-bottom-2">{{ phoneNumberHeading }}</h2>
+    <div data-test-id="user-contact-details" class="nhsuk-u-font-size-19 nhsuk-u-margin-bottom-5">{{ phoneNumber }}</div>
+    <h2 data-test-id="user-email-heading" class="nhsuk-heading-s nhsuk-u-margin-bottom-2">{{ emailAddressHeading }}</h2>
+    <div data-test-id="user-email" class="nhsuk-u-font-size-19 nhsuk-u-margin-bottom-7">{{ emailAddress }}</div>
+
+    <div data-test-id="edit-user-button" class="nhsuk-grid-column-one-quarter nhsuk-u-padding-0">
+      {{ button({
+        text: editUserButtonText,
+        classes: "nhsuk-u-margin-bottom-9",
+        href: editUserButtonHref
+      }) }}
+    </div>
+
+    <div class="nhsuk-grid-row">
+      <div data-test-id="disable-account-button" class="nhsuk-grid-column-one-quarter nhsuk-u-padding-0">
+        {{ button({
+          text: disableAccountButtonText,
+          classes: "nhsuk-u-margin-bottom-9",
+          href: disableAccountButtonHref
+        }) }}
+      </div>
+    </div>
+  <div>
+{% endblock %}
