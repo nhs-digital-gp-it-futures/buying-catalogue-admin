@@ -6,6 +6,8 @@ import { organisationsApiLocalhost } from '../../test-utils/config';
 import organisationDetails from '../../test-utils/fixtures/organisationDetails.json';
 import usersData from '../../test-utils/fixtures/users.json';
 
+const pageUrl = 'http://localhost:1234/organisations/org1';
+
 const setCookies = ClientFunction(() => {
   const cookieValue = JSON.stringify({
     id: '88421113', name: 'Cool Dude', organisation: 'view',
@@ -19,7 +21,7 @@ const mocks = () => {
     .get('/api/v1/Organisations/org1')
     .reply(200, organisationDetails);
   nock(organisationsApiLocalhost)
-    .get('/api/v1/Organisations/org1/users')
+    .get('/api/v1/Organisations/org1/Users')
     .reply(200, usersData);
 };
 
@@ -49,7 +51,7 @@ test('when user is not authenticated - should navigate to the identity server lo
     .get('/login')
     .reply(200);
 
-  await t.navigateTo('http://localhost:1234/organisations/org1');
+  await t.navigateTo(pageUrl);
 
   await t
     .expect(getLocation()).eql('http://identity-server/login');
@@ -57,7 +59,7 @@ test('when user is not authenticated - should navigate to the identity server lo
 
 test('should render Organisation page', async (t) => {
   await pageSetup(t, true);
-  await t.navigateTo('http://localhost:1234/organisations/org1');
+  await t.navigateTo(pageUrl);
 
   const orgPage = Selector('[data-test-id="organisation"]');
 
@@ -71,7 +73,7 @@ test('should navigate to /organisations when click on Back', async (t) => {
     .reply(200, {});
 
   await pageSetup(t, true);
-  await t.navigateTo('http://localhost:1234/organisations/org1');
+  await t.navigateTo(pageUrl);
 
   const goBackLink = Selector('[data-test-id="go-back-link"] a');
 
@@ -83,7 +85,7 @@ test('should navigate to /organisations when click on Back', async (t) => {
 
 test('should render the title', async (t) => {
   await pageSetup(t, true);
-  await t.navigateTo('http://localhost:1234/organisations/org1');
+  await t.navigateTo(pageUrl);
 
   const title = Selector('h1[data-test-id="org-page-title"]');
 
@@ -94,7 +96,7 @@ test('should render the title', async (t) => {
 
 test('should render the description', async (t) => {
   await pageSetup(t, true);
-  await t.navigateTo('http://localhost:1234/organisations/org1');
+  await t.navigateTo(pageUrl);
 
   const description = Selector('h2[data-test-id="org-page-description"]');
 
@@ -105,7 +107,7 @@ test('should render the description', async (t) => {
 
 test('should render organisation details subheading', async (t) => {
   await pageSetup(t, true);
-  await t.navigateTo('http://localhost:1234/organisations/org1');
+  await t.navigateTo(pageUrl);
 
   const orgDetailsSubheading = Selector('h3[data-test-id="organisation-details-subheading"]');
 
@@ -116,7 +118,7 @@ test('should render organisation details subheading', async (t) => {
 
 test('should render edit org button', async (t) => {
   await pageSetup(t, true);
-  await t.navigateTo('http://localhost:1234/organisations/org1');
+  await t.navigateTo(pageUrl);
 
   const editOrgButton = Selector('[data-test-id="edit-org-button"] a');
 
@@ -131,7 +133,7 @@ test('should render edit org button', async (t) => {
 
 test('should render organisation ods code', async (t) => {
   await pageSetup(t, true);
-  await t.navigateTo('http://localhost:1234/organisations/org1');
+  await t.navigateTo(pageUrl);
 
   const odsCodeHeading = Selector('[data-test-id="org-page-ods-code-heading"]');
   const odsCodeText = Selector('[data-test-id="org-page-ods-code"]');
@@ -143,9 +145,9 @@ test('should render organisation ods code', async (t) => {
     .expect(await extractInnerText(odsCodeText)).eql(organisationDetails.odsCode);
 });
 
-test('should render organisation ods code', async (t) => {
+test('should render organisation primary role id', async (t) => {
   await pageSetup(t, true);
-  await t.navigateTo('http://localhost:1234/organisations/org1');
+  await t.navigateTo(pageUrl);
 
   const primaryRoleIdHeading = Selector('[data-test-id="org-page-primary-role-id-heading"]');
   const primaryRoleId = Selector('[data-test-id="org-page-primary-role-id"]');
@@ -159,7 +161,7 @@ test('should render organisation ods code', async (t) => {
 
 test('should render address', async (t) => {
   await pageSetup(t, true);
-  await t.navigateTo('http://localhost:1234/organisations/org1');
+  await t.navigateTo(pageUrl);
 
   const address = Object.keys(organisationDetails.address).reduce((acc, key) => {
     if (organisationDetails.address[key]) acc.push(organisationDetails.address[key]);
@@ -196,7 +198,7 @@ test('should render address', async (t) => {
 
 test('should render the agreement signed checked statement', async (t) => {
   await pageSetup(t, true);
-  await t.navigateTo('http://localhost:1234/organisations/org1');
+  await t.navigateTo(pageUrl);
 
   const agreementSignedCheckedStatement = Selector('[data-test-id="agreement-signed-checked-statement"]');
 
@@ -207,7 +209,7 @@ test('should render the agreement signed checked statement', async (t) => {
 
 test('should render user accounts subheading', async (t) => {
   await pageSetup(t, true);
-  await t.navigateTo('http://localhost:1234/organisations/org1');
+  await t.navigateTo(pageUrl);
 
   const accountsSubheading = Selector('h3[data-test-id="accounts-subheading"]');
 
@@ -218,7 +220,7 @@ test('should render user accounts subheading', async (t) => {
 
 test('should render add user button', async (t) => {
   await pageSetup(t, true);
-  await t.navigateTo('http://localhost:1234/organisations/org1');
+  await t.navigateTo(pageUrl);
 
   const addUserButton = Selector('[data-test-id="add-user-button"] a');
   const orgId = organisationDetails.organisationId;
@@ -232,7 +234,7 @@ test('should render add user button', async (t) => {
 
 test('should navigate to add user page when add user button is clicked', async (t) => {
   await pageSetup(t, true);
-  await t.navigateTo('http://localhost:1234/organisations/org1');
+  await t.navigateTo(pageUrl);
 
   const addUserButton = Selector('[data-test-id="add-user-button"] a');
   const orgId = organisationDetails.organisationId;
@@ -245,7 +247,7 @@ test('should navigate to add user page when add user button is clicked', async (
 
 test('should render the table with users', async (t) => {
   await pageSetup(t, true);
-  await t.navigateTo('http://localhost:1234/organisations/org1');
+  await t.navigateTo(pageUrl);
 
   const table = Selector('div[data-test-id="user-table"]');
   const tableHeadings = Selector('[data-test-id="table-headings"]');
@@ -280,6 +282,19 @@ test('should render the table with users', async (t) => {
     .expect(await extractInnerText(user2Phone)).eql(usersData.users[1].phoneNumber)
     .expect(await extractInnerText(user2Email)).eql(usersData.users[1].emailAddress)
     .expect(user2DisabledTag.exists).ok();
-  // TODO: Add click user name when API allows edit user
-  // .click()
+});
+
+test('should navigate to view user page when user name is clicked', async (t) => {
+  await pageSetup(t, true);
+  await t.navigateTo(pageUrl);
+
+  const orgId = organisationDetails.organisationId;
+
+  const user1Row = Selector('div[data-test-id="table-row-0"]');
+  const user1Name = user1Row.find('a');
+
+  await t
+    .expect(user1Name.exists).ok()
+    .click(user1Name)
+    .expect(getLocation()).eql(`http://localhost:1234/organisations/${orgId}/${usersData.users[0].userId}`);
 });

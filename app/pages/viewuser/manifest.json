@@ -1,0 +1,9 @@
+{
+  "title": "details",
+  "orgHeading": "Organisation name",
+  "nameHeading": "Name",
+  "phoneNumberHeading": "Contact details",
+  "emailAddressHeading": "Email address",
+  "editUserButtonText": "Edit account",
+  "disableAccountButtonText": "Disable account"
+}

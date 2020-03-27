@@ -6,6 +6,8 @@ import { organisationsApiLocalhost } from '../../test-utils/config';
 import organisationDetails from '../../test-utils/fixtures/organisationDetails.json';
 import addUserErrorResponse from '../../test-utils/fixtures/addUserErrorResponse.json';
 
+const pageUrl = 'http://localhost:1234/organisations/org1/adduser';
+
 const setCookies = ClientFunction(() => {
   const cookieValue = JSON.stringify({
     id: '88421113', name: 'Cool Dude', organisation: 'view',
@@ -47,7 +49,7 @@ test('when user is not authenticated - should navigate to the identity server lo
     .get('/login')
     .reply(200);
 
-  await t.navigateTo('http://localhost:1234/organisations/org1/adduser');
+  await t.navigateTo(pageUrl);
 
   await t
     .expect(getLocation()).eql('http://identity-server/login');
@@ -55,7 +57,7 @@ test('when user is not authenticated - should navigate to the identity server lo
 
 test('should render Add User page', async (t) => {
   await pageSetup(t, true);
-  await t.navigateTo('http://localhost:1234/organisations/org1/adduser');
+  await t.navigateTo(pageUrl);
 
   const orgPage = Selector('[data-test-id="add-user-page"]');
 
@@ -68,7 +70,7 @@ test('should navigate to /organisations/org when click on Back', async (t) => {
     .get('/api/v1/Organisations/org1')
     .reply(200, organisationDetails);
   await pageSetup(t, true);
-  await t.navigateTo('http://localhost:1234/organisations/org1/adduser');
+  await t.navigateTo(pageUrl);
 
   const goBackLink = Selector('[data-test-id="go-back-link"] a');
 
@@ -80,7 +82,7 @@ test('should navigate to /organisations/org when click on Back', async (t) => {
 
 test('should render the title', async (t) => {
   await pageSetup(t, true);
-  await t.navigateTo('http://localhost:1234/organisations/org1/adduser');
+  await t.navigateTo(pageUrl);
 
   const title = Selector('h1[data-test-id="add-user-page-title"]');
 
@@ -91,7 +93,7 @@ test('should render the title', async (t) => {
 
 test('should render the description', async (t) => {
   await pageSetup(t, true);
-  await t.navigateTo('http://localhost:1234/organisations/org1/adduser');
+  await t.navigateTo(pageUrl);
 
   const description = Selector('h2[data-test-id="add-user-page-description"]');
 
@@ -102,7 +104,7 @@ test('should render the description', async (t) => {
 
 test('should render organisation name subheading', async (t) => {
   await pageSetup(t, true);
-  await t.navigateTo('http://localhost:1234/organisations/org1/adduser');
+  await t.navigateTo(pageUrl);
 
   const orgDetailsSubheading = Selector('h3[data-test-id="org-name-subheading"]');
 
@@ -113,7 +115,7 @@ test('should render organisation name subheading', async (t) => {
 
 test('should render organisation name', async (t) => {
   await pageSetup(t, true);
-  await t.navigateTo('http://localhost:1234/organisations/org1/adduser');
+  await t.navigateTo(pageUrl);
 
   const organisationName = Selector('[data-test-id="org-name"]');
 
@@ -124,7 +126,7 @@ test('should render organisation name', async (t) => {
 
 test('should render a text field for each question', async (t) => {
   await pageSetup(t, true);
-  await t.navigateTo('http://localhost:1234/organisations/org1/adduser');
+  await t.navigateTo(pageUrl);
 
   const firstName = Selector('[data-test-id="question-firstName"]');
   const lastName = Selector('[data-test-id="question-lastName"]');
@@ -154,7 +156,7 @@ test('should render a text field for each question', async (t) => {
 
 test('should render add user button', async (t) => {
   await pageSetup(t, true);
-  await t.navigateTo('http://localhost:1234/organisations/org1/adduser');
+  await t.navigateTo(pageUrl);
 
   const addUserButton = Selector('[data-test-id="add-user-button"] button');
 
@@ -170,7 +172,7 @@ test('should navigate to confirmation page when form is filled out and addUser b
     .reply(200);
 
   await pageSetup(t, true);
-  await t.navigateTo('http://localhost:1234/organisations/org1/adduser');
+  await t.navigateTo(pageUrl);
 
   const firstName = Selector('[data-test-id="question-firstName"] input');
   const lastName = Selector('[data-test-id="question-lastName"] input');
@@ -181,7 +183,7 @@ test('should navigate to confirmation page when form is filled out and addUser b
     .typeText(firstName, 'Peter')
     .typeText(lastName, 'Parker')
     .click(addUserButton)
-    .expect(getLocation()).eql('http://localhost:1234/organisations/org1/adduser/confirmation?userAdded=Peter%20Parker');
+    .expect(getLocation()).eql(`${pageUrl}/confirmation?userAdded=Peter%20Parker`);
 });
 
 test('should show the error summary when there are validation errors', async (t) => {
@@ -194,7 +196,7 @@ test('should show the error summary when there are validation errors', async (t)
     .reply(200, organisationDetails);
 
   await pageSetup(t, true);
-  await t.navigateTo('http://localhost:1234/organisations/org1/adduser');
+  await t.navigateTo(pageUrl);
 
   const addUserButton = Selector('[data-test-id="add-user-button"] button');
   const errorSummary = Selector('[data-test-id="error-summary"]');
@@ -223,7 +225,7 @@ test('should show text fields as errors with error message when there are valida
     .reply(200, organisationDetails);
 
   await pageSetup(t, true);
-  await t.navigateTo('http://localhost:1234/organisations/org1/adduser');
+  await t.navigateTo(pageUrl);
 
   const addUserPage = Selector('[data-test-id="add-user-page"]');
   const addUserButton = Selector('[data-test-id="add-user-button"] button');
@@ -264,7 +266,7 @@ test('should anchor to the field when clicking on the error link in errorSummary
     .reply(200, organisationDetails);
 
   await pageSetup(t, true);
-  await t.navigateTo('http://localhost:1234/organisations/org1/adduser');
+  await t.navigateTo(pageUrl);
 
   const addUserButton = Selector('[data-test-id="add-user-button"] button');
   const errorSummary = Selector('[data-test-id="error-summary"]');
@@ -277,17 +279,17 @@ test('should anchor to the field when clicking on the error link in errorSummary
     .expect(errorSummary.exists).ok()
 
     .click(errorSummary.find('li a').nth(0))
-    .expect(getLocation()).eql('http://localhost:1234/organisations/org1/adduser#firstName')
+    .expect(getLocation()).eql(`${pageUrl}#firstName`)
 
     .click(errorSummary.find('li a').nth(1))
-    .expect(getLocation()).eql('http://localhost:1234/organisations/org1/adduser#lastName')
+    .expect(getLocation()).eql(`${pageUrl}#lastName`)
 
     .click(errorSummary.find('li a').nth(2))
-    .expect(getLocation()).eql('http://localhost:1234/organisations/org1/adduser#phoneNumber')
+    .expect(getLocation()).eql(`${pageUrl}#phoneNumber`)
 
     .click(errorSummary.find('li a').nth(3))
-    .expect(getLocation()).eql('http://localhost:1234/organisations/org1/adduser#emailAddress')
+    .expect(getLocation()).eql(`${pageUrl}#emailAddress`)
 
     .click(errorSummary.find('li a').nth(4))
-    .expect(getLocation()).eql('http://localhost:1234/organisations/org1/adduser#emailAddress');
+    .expect(getLocation()).eql(`${pageUrl}#emailAddress`);
 });

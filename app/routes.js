@@ -7,6 +7,7 @@ import { getOrgDashboardContext } from './pages/dashboard/controller';
 import { getAddUserContext, getAddUserPageErrorContext, postAddUser } from './pages/adduser/controller';
 import includesContext from './includes/manifest.json';
 import { getAddUserConfirmationContext } from './pages/adduser/confirmation/controller';
+import { getViewUserContext } from './pages/viewuser/controller';
 import config from './config';
 
 const addContext = ({ context, user, csrfToken }) => ({
@@ -85,7 +86,8 @@ export const routes = (authProvider) => {
   router.get('/organisations/:organisationId/:userId', authProvider.authorise(), withCatch(authProvider, async (req, res) => {
     const { organisationId, userId } = req.params;
     logger.info(`navigating to organisation: ${organisationId} edit user: ${userId} page`);
-    res.send('edit user page');
+    const context = await getViewUserContext({ organisationId, userId, accessToken: extractAccessToken({ req, tokenType: 'access' }) });
+    res.render('pages/viewuser/template', context);
   }));
 
   router.get('/organisations/:organisationId/adduser/confirmation', authProvider.authorise(), withCatch(authProvider, async (req, res) => {
