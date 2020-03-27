@@ -188,7 +188,7 @@ test('should render disable account button', async (t) => {
     .expect(disableAccountButton.getAttribute('href')).eql('#');
 });
 
-test('should call the api when edit disable account button is clicked', async (t) => {
+test('should navigate to the confirmation page when edit disable account button is clicked', async (t) => {
   await pageSetup(t, true);
   await t.navigateTo(pageUrl);
 
