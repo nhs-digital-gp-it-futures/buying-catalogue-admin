@@ -17,7 +17,7 @@
     "start": "cross-env NODE_ENV=production npm run build && cross-env NODE_ENV=production babel-node ./app/server",
     "test:ui": "cross-env NODE_ENV=test LOGGER_LEVEL=off babel-node testcafeRunner.js",
     "test:integration": "cross-env NODE_ENV=pipeline LOGGER_LEVEL=off babel-node testcafeRunner.js",
-    "test": "jest --coverage",
+    "test": "jest",
     "prewatch": "npm run build:css",
     "watch": "concurrently \"npm run watch:scss\" \"npm run watch:js\"  \"npm start:dev\"",
     "watch:scss": "npm run build:css -- -w",

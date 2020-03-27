@@ -90,12 +90,12 @@ describe('getOrganisationContext', () => {
   it('should transform user data into correct format if all data provided', () => {
     const { users } = getContext({ organisation: mockData });
     expect(users[0][0].data).toEqual(`${mockData.users[0].firstName} ${mockData.users[0].lastName}`);
-    expect(users[0][0].href).toEqual('#');
+    expect(users[0][0].href).toEqual(`/organisations/${mockData.organisationId}/${mockData.users[0].userId}`);
     expect(users[0][1].data).toEqual(mockData.users[0].phoneNumber);
     expect(users[0][2].data).toEqual(mockData.users[0].emailAddress);
     expect(users[0][3].tag).toEqual(false);
     expect(users[1][0].data).toEqual(`${mockData.users[1].firstName} ${mockData.users[1].lastName}`);
-    expect(users[1][0].href).toEqual('#');
+    expect(users[1][0].href).toEqual(`/organisations/${mockData.organisationId}/${mockData.users[1].userId}`);
     expect(users[1][1].data).toEqual(mockData.users[1].phoneNumber);
     expect(users[1][2].data).toEqual(mockData.users[1].emailAddress);
     expect(users[1][3].tag.dataTestId).toEqual(`account-disabled-tag-${mockData.users[1].userId}`);
@@ -120,12 +120,12 @@ describe('getOrganisationContext', () => {
 
     const { users } = getContext({ organisation: modifiedMockData });
     expect(users[0][0].data).toEqual('');
-    expect(users[0][0].href).toEqual('#');
+    expect(users[0][0].href).toEqual(`/organisations/${modifiedMockData.organisationId}/${modifiedMockData.users[0].userId}`);
     expect(users[0][1].data).toEqual('');
     expect(users[0][2].data).toEqual(mockData.users[0].emailAddress);
     expect(users[0][3].tag).toEqual(false);
     expect(users[1][0].data).toEqual(`${mockData.users[1].firstName} ${mockData.users[1].lastName}`);
-    expect(users[1][0].href).toEqual('#');
+    expect(users[1][0].href).toEqual(`/organisations/${modifiedMockData.organisationId}/${modifiedMockData.users[1].userId}`);
     expect(users[1][1].data).toEqual(mockData.users[1].phoneNumber);
     expect(users[1][2].data).toEqual('');
     expect(users[1][3].tag).toEqual(false);
