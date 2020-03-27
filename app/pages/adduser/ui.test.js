@@ -196,16 +196,14 @@ test('should show the error summary when there are validation errors', async (t)
   await pageSetup(t, true);
   await t.navigateTo('http://localhost:1234/organisations/org1/adduser');
 
-  const addUserPage = Selector('[data-test-id="add-user-page"]');
   const addUserButton = Selector('[data-test-id="add-user-button"] button');
-  const errorSummary = addUserPage.find('[data-test-id="error-summary"]');
+  const errorSummary = Selector('[data-test-id="error-summary"]');
 
   await t
-    .expect(addUserButton.exists).ok()
+    .expect(errorSummary.exists).notOk()
     .click(addUserButton);
 
   await t
-    .expect(getLocation()).eql('http://localhost:1234/organisations/org1/adduser')
     .expect(errorSummary.exists).ok()
     .expect(errorSummary.find('li a').count).eql(5)
     .expect(await extractInnerText(errorSummary.find('li a').nth(0))).eql('First name is required')
@@ -213,4 +211,45 @@ test('should show the error summary when there are validation errors', async (t)
     .expect(await extractInnerText(errorSummary.find('li a').nth(2))).eql('Telephone number is required')
     .expect(await extractInnerText(errorSummary.find('li a').nth(3))).eql('Email address already exists')
     .expect(await extractInnerText(errorSummary.find('li a').nth(4))).eql('Email address format is not valid');
+});
+
+test('should show text fields as errors with error message when there are validation errors', async (t) => {
+  nock(organisationsApiLocalhost)
+    .post('/api/v1/Organisations/org1/Users')
+    .reply(400, addUserErrorResponse);
+
+  nock(organisationsApiLocalhost)
+    .get('/api/v1/Organisations/org1')
+    .reply(200, organisationDetails);
+
+  await pageSetup(t, true);
+  await t.navigateTo('http://localhost:1234/organisations/org1/adduser');
+
+  const addUserPage = Selector('[data-test-id="add-user-page"]');
+  const addUserButton = Selector('[data-test-id="add-user-button"] button');
+  const firstNameField = addUserPage.find('[data-test-id="question-firstName"]');
+  const lastNameField = addUserPage.find('[data-test-id="question-lastName"]');
+  const phoneNumberField = addUserPage.find('[data-test-id="question-phoneNumber"]');
+  const emailAddressField = addUserPage.find('[data-test-id="question-emailAddress"]');
+
+
+  await t
+    .expect(firstNameField.find('[data-test-id="text-field-input-error"]').exists).notOk()
+    .expect(lastNameField.find('[data-test-id="text-field-input-error"]').exists).notOk()
+    .expect(phoneNumberField.find('[data-test-id="text-field-input-error"]').exists).notOk()
+    .expect(emailAddressField.find('[data-test-id="text-field-input-error"]').exists).notOk()
+    .click(addUserButton);
+
+  await t
+    .expect(firstNameField.find('[data-test-id="text-field-input-error"]').exists).ok()
+    .expect(await extractInnerText(firstNameField.find('#firstName-error'))).contains('First name is required')
+
+    .expect(lastNameField.find('[data-test-id="text-field-input-error"]').exists).ok()
+    .expect(await extractInnerText(lastNameField.find('#lastName-error'))).contains('Last name is too long')
+
+    .expect(phoneNumberField.find('[data-test-id="text-field-input-error"]').exists).ok()
+    .expect(await extractInnerText(phoneNumberField.find('#phoneNumber-error'))).contains('Telephone number is required')
+
+    .expect(emailAddressField.find('[data-test-id="text-field-input-error"]').exists).ok()
+    .expect(await extractInnerText(emailAddressField.find('#emailAddress-error'))).contains('Email address already exists, Email address format is not valid');
 });
