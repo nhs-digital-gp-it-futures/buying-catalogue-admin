@@ -253,3 +253,41 @@ test('should show text fields as errors with error message when there are valida
     .expect(emailAddressField.find('[data-test-id="text-field-input-error"]').exists).ok()
     .expect(await extractInnerText(emailAddressField.find('#emailAddress-error'))).contains('Email address already exists, Email address format is not valid');
 });
+
+test('should anchor to the field when clicking on the error link in errorSummary ', async (t) => {
+  nock(organisationsApiLocalhost)
+    .post('/api/v1/Organisations/org1/Users')
+    .reply(400, addUserErrorResponse);
+
+  nock(organisationsApiLocalhost)
+    .get('/api/v1/Organisations/org1')
+    .reply(200, organisationDetails);
+
+  await pageSetup(t, true);
+  await t.navigateTo('http://localhost:1234/organisations/org1/adduser');
+
+  const addUserButton = Selector('[data-test-id="add-user-button"] button');
+  const errorSummary = Selector('[data-test-id="error-summary"]');
+
+  await t
+    .expect(errorSummary.exists).notOk()
+    .click(addUserButton);
+
+  await t
+    .expect(errorSummary.exists).ok()
+
+    .click(errorSummary.find('li a').nth(0))
+    .expect(getLocation()).eql('http://localhost:1234/organisations/org1/adduser#firstName')
+
+    .click(errorSummary.find('li a').nth(1))
+    .expect(getLocation()).eql('http://localhost:1234/organisations/org1/adduser#lastName')
+
+    .click(errorSummary.find('li a').nth(2))
+    .expect(getLocation()).eql('http://localhost:1234/organisations/org1/adduser#phoneNumber')
+
+    .click(errorSummary.find('li a').nth(3))
+    .expect(getLocation()).eql('http://localhost:1234/organisations/org1/adduser#emailAddress')
+
+    .click(errorSummary.find('li a').nth(4))
+    .expect(getLocation()).eql('http://localhost:1234/organisations/org1/adduser#emailAddress')
+});
