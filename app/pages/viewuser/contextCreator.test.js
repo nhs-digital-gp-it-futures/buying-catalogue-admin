@@ -10,7 +10,7 @@ const mockData = {
   disabled: false,
 };
 
-describe('getUserContext', () => {
+describe('getViewUserContext', () => {
   it('should return the contents of the manfest', () => {
     const context = getContext({ user: {} });
     expect(context.title).toEqual(manifest.title);
