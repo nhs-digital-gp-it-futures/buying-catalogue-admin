@@ -5,6 +5,8 @@ import { extractInnerText } from '../../test-utils/helper';
 import { organisationsApiLocalhost } from '../../test-utils/config';
 import organisationsList from '../../test-utils/fixtures/organisationsList.json';
 
+const pageUrl = 'http://localhost:1234/organisations';
+
 const setCookies = ClientFunction(() => {
   const cookieValue = JSON.stringify({
     id: '88421113', name: 'Cool Dude', organisation: 'view',
@@ -43,7 +45,7 @@ test('when user is not authenticated - should navigate to the identity server lo
     .get('/login')
     .reply(200);
 
-  await t.navigateTo('http://localhost:1234/organisations');
+  await t.navigateTo(pageUrl);
 
   const getLocation = ClientFunction(() => document.location.href);
   await t
@@ -52,7 +54,7 @@ test('when user is not authenticated - should navigate to the identity server lo
 
 test('when user is authenticated - should display the logout link', async (t) => {
   await pageSetup(t, true);
-  await t.navigateTo('http://localhost:1234/organisations');
+  await t.navigateTo(pageUrl);
 
   const logoutComponent = Selector('[data-test-id="login-logout-component"] a');
   await t
@@ -74,7 +76,7 @@ fixture('Organisation Dashboard Page')
 
 test('should render Organisations dashboard page', async (t) => {
   await pageSetup(t, true);
-  await t.navigateTo('http://localhost:1234/organisations');
+  await t.navigateTo(pageUrl);
 
   const orgDashboardPage = Selector('[data-test-id="organisations"]');
 
@@ -84,7 +86,7 @@ test('should render Organisations dashboard page', async (t) => {
 
 test('should navigate to / when click Back', async (t) => {
   await pageSetup(t, true);
-  await t.navigateTo('http://localhost:1234/organisations');
+  await t.navigateTo(pageUrl);
 
   const goBackLink = Selector('[data-test-id="go-back-link"] a');
 
@@ -96,7 +98,7 @@ test('should navigate to / when click Back', async (t) => {
 
 test('should render the title', async (t) => {
   await pageSetup(t, true);
-  await t.navigateTo('http://localhost:1234/organisations');
+  await t.navigateTo(pageUrl);
 
   const title = Selector('h1[data-test-id="org-dashboard-title"]');
 
@@ -107,7 +109,7 @@ test('should render the title', async (t) => {
 
 test('should render the description', async (t) => {
   await pageSetup(t, true);
-  await t.navigateTo('http://localhost:1234/organisations');
+  await t.navigateTo(pageUrl);
 
   const description = Selector('h2[data-test-id="org-dashboard-description"]');
 
@@ -118,7 +120,7 @@ test('should render the description', async (t) => {
 
 test('should render add org button', async (t) => {
   await pageSetup(t, true);
-  await t.navigateTo('http://localhost:1234/organisations');
+  await t.navigateTo(pageUrl);
 
   const addOrgButton = Selector('[data-test-id="add-org-button"] a');
 
@@ -132,7 +134,7 @@ test('should render add org button', async (t) => {
 
 test('should render the table', async (t) => {
   await pageSetup(t, true);
-  await t.navigateTo('http://localhost:1234/organisations');
+  await t.navigateTo(pageUrl);
 
   const table = Selector('div[data-test-id="org-table"]');
   const tableHeadings = Selector('[data-test-id="table-headings"]');
@@ -149,7 +151,7 @@ test('should render the table', async (t) => {
 
 test('should render the table content', async (t) => {
   await pageSetup(t, true);
-  await t.navigateTo('http://localhost:1234/organisations');
+  await t.navigateTo(pageUrl);
 
   const row0 = Selector('div[data-test-id="table-row-0"]');
   const row0Name = row0.find('a');
@@ -176,11 +178,11 @@ test('should navigate to the organisation page when an organisation name is clic
     .get('/api/v1/Organisations/org-001')
     .reply(200, {});
   nock(organisationsApiLocalhost)
-    .get('/api/v1/Organisations/org-001/users')
+    .get('/api/v1/Organisations/org-001/Users')
     .reply(200, {});
 
   await pageSetup(t, true);
-  await t.navigateTo('http://localhost:1234/organisations');
+  await t.navigateTo(pageUrl);
 
   const row0Name = Selector('div[data-test-id="table-row-0"] a');
   const orgId = organisationsList.organisations[0].organisationId;
