@@ -6,6 +6,7 @@ import { getCsrfTokenFromGet, setFakeCookie } from './test-utils/helper';
 import * as orgDashboardContext from './pages/dashboard/controller';
 import * as orgAccountsContext from './pages/organisation/controller';
 import * as addUserContext from './pages/adduser/controller';
+import * as viewUserContext from './pages/viewuser/controller';
 
 jest.mock('./logger');
 
@@ -182,7 +183,7 @@ describe('routes', () => {
     ));
 
     it('should return the correct status and text when the user is authorised', () => {
-      orgAccountsContext.getOrgAccountsContext = jest.fn()
+      viewUserContext.getViewUserContext = jest.fn()
         .mockImplementation(() => {});
 
       return request(setUpFakeApp())
@@ -190,7 +191,7 @@ describe('routes', () => {
         .set('Cookie', [mockAuthorisedCookie])
         .expect(200)
         .then((res) => {
-          expect(res.text.includes('edit user page')).toEqual(true);
+          expect(res.text.includes('data-test-id="view-user-page"')).toEqual(true);
           expect(res.text.includes('data-test-id="error-page-title"')).toEqual(false);
         });
     });
