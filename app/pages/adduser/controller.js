@@ -34,9 +34,10 @@ export const postAddUser = async ({ organisationId, data, accessToken }) => {
       body: data,
       accessToken,
     });
-    if (response.errors) {
-      logger.info(`Errors returned: ${JSON.stringify(response.errors)}`);
-      return { success: false, errors: response.errors };
+
+    if (response.data && response.data.errors) {
+      logger.info(`Errors returned: ${JSON.stringify(response.data.errors)}`);
+      return { success: false, errors: response.data.errors };
     }
     logger.info(`User added: ${JSON.stringify(data)}`);
     return { success: true, userAdded: `${data.firstName} ${data.lastName}` };

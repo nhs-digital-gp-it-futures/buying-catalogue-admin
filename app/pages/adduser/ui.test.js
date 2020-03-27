@@ -4,6 +4,7 @@ import content from './manifest.json';
 import { extractInnerText } from '../../test-utils/helper';
 import { organisationsApiLocalhost } from '../../test-utils/config';
 import organisationDetails from '../../test-utils/fixtures/organisationDetails.json';
+import addUserErrorResponse from '../../test-utils/fixtures/addUserErrorResponse.json';
 
 const setCookies = ClientFunction(() => {
   const cookieValue = JSON.stringify({
@@ -173,17 +174,120 @@ test('should navigate to confirmation page when form is filled out and addUser b
 
   const firstName = Selector('[data-test-id="question-firstName"] input');
   const lastName = Selector('[data-test-id="question-lastName"] input');
-  const phoneNumber = Selector('[data-test-id="question-phoneNumber"] input');
-  const emailAddress = Selector('[data-test-id="question-emailAddress"] input');
   const addUserButton = Selector('[data-test-id="add-user-button"] button');
 
   await t
     .expect(addUserButton.exists).ok()
     .typeText(firstName, 'Peter')
     .typeText(lastName, 'Parker')
-    .typeText(phoneNumber, '07777777777')
-    .typeText(emailAddress, 'Peter@Parker.com')
     .click(addUserButton)
     .expect(getLocation()).eql('http://localhost:1234/organisations/org1/adduser/confirmation?userAdded=Peter%20Parker');
-  // Add tests for validation
+});
+
+test('should show the error summary when there are validation errors', async (t) => {
+  nock(organisationsApiLocalhost)
+    .post('/api/v1/Organisations/org1/Users')
+    .reply(400, addUserErrorResponse);
+
+  nock(organisationsApiLocalhost)
+    .get('/api/v1/Organisations/org1')
+    .reply(200, organisationDetails);
+
+  await pageSetup(t, true);
+  await t.navigateTo('http://localhost:1234/organisations/org1/adduser');
+
+  const addUserButton = Selector('[data-test-id="add-user-button"] button');
+  const errorSummary = Selector('[data-test-id="error-summary"]');
+
+  await t
+    .expect(errorSummary.exists).notOk()
+    .click(addUserButton);
+
+  await t
+    .expect(errorSummary.exists).ok()
+    .expect(errorSummary.find('li a').count).eql(5)
+    .expect(await extractInnerText(errorSummary.find('li a').nth(0))).eql('First name is required')
+    .expect(await extractInnerText(errorSummary.find('li a').nth(1))).eql('Last name is too long')
+    .expect(await extractInnerText(errorSummary.find('li a').nth(2))).eql('Telephone number is required')
+    .expect(await extractInnerText(errorSummary.find('li a').nth(3))).eql('Email address already exists')
+    .expect(await extractInnerText(errorSummary.find('li a').nth(4))).eql('Email address format is not valid');
+});
+
+test('should show text fields as errors with error message when there are validation errors', async (t) => {
+  nock(organisationsApiLocalhost)
+    .post('/api/v1/Organisations/org1/Users')
+    .reply(400, addUserErrorResponse);
+
+  nock(organisationsApiLocalhost)
+    .get('/api/v1/Organisations/org1')
+    .reply(200, organisationDetails);
+
+  await pageSetup(t, true);
+  await t.navigateTo('http://localhost:1234/organisations/org1/adduser');
+
+  const addUserPage = Selector('[data-test-id="add-user-page"]');
+  const addUserButton = Selector('[data-test-id="add-user-button"] button');
+  const firstNameField = addUserPage.find('[data-test-id="question-firstName"]');
+  const lastNameField = addUserPage.find('[data-test-id="question-lastName"]');
+  const phoneNumberField = addUserPage.find('[data-test-id="question-phoneNumber"]');
+  const emailAddressField = addUserPage.find('[data-test-id="question-emailAddress"]');
+
+
+  await t
+    .expect(firstNameField.find('[data-test-id="text-field-input-error"]').exists).notOk()
+    .expect(lastNameField.find('[data-test-id="text-field-input-error"]').exists).notOk()
+    .expect(phoneNumberField.find('[data-test-id="text-field-input-error"]').exists).notOk()
+    .expect(emailAddressField.find('[data-test-id="text-field-input-error"]').exists).notOk()
+    .click(addUserButton);
+
+  await t
+    .expect(firstNameField.find('[data-test-id="text-field-input-error"]').exists).ok()
+    .expect(await extractInnerText(firstNameField.find('#firstName-error'))).contains('First name is required')
+
+    .expect(lastNameField.find('[data-test-id="text-field-input-error"]').exists).ok()
+    .expect(await extractInnerText(lastNameField.find('#lastName-error'))).contains('Last name is too long')
+
+    .expect(phoneNumberField.find('[data-test-id="text-field-input-error"]').exists).ok()
+    .expect(await extractInnerText(phoneNumberField.find('#phoneNumber-error'))).contains('Telephone number is required')
+
+    .expect(emailAddressField.find('[data-test-id="text-field-input-error"]').exists).ok()
+    .expect(await extractInnerText(emailAddressField.find('#emailAddress-error'))).contains('Email address already exists, Email address format is not valid');
+});
+
+test('should anchor to the field when clicking on the error link in errorSummary ', async (t) => {
+  nock(organisationsApiLocalhost)
+    .post('/api/v1/Organisations/org1/Users')
+    .reply(400, addUserErrorResponse);
+
+  nock(organisationsApiLocalhost)
+    .get('/api/v1/Organisations/org1')
+    .reply(200, organisationDetails);
+
+  await pageSetup(t, true);
+  await t.navigateTo('http://localhost:1234/organisations/org1/adduser');
+
+  const addUserButton = Selector('[data-test-id="add-user-button"] button');
+  const errorSummary = Selector('[data-test-id="error-summary"]');
+
+  await t
+    .expect(errorSummary.exists).notOk()
+    .click(addUserButton);
+
+  await t
+    .expect(errorSummary.exists).ok()
+
+    .click(errorSummary.find('li a').nth(0))
+    .expect(getLocation()).eql('http://localhost:1234/organisations/org1/adduser#firstName')
+
+    .click(errorSummary.find('li a').nth(1))
+    .expect(getLocation()).eql('http://localhost:1234/organisations/org1/adduser#lastName')
+
+    .click(errorSummary.find('li a').nth(2))
+    .expect(getLocation()).eql('http://localhost:1234/organisations/org1/adduser#phoneNumber')
+
+    .click(errorSummary.find('li a').nth(3))
+    .expect(getLocation()).eql('http://localhost:1234/organisations/org1/adduser#emailAddress')
+
+    .click(errorSummary.find('li a').nth(4))
+    .expect(getLocation()).eql('http://localhost:1234/organisations/org1/adduser#emailAddress');
 });
