@@ -183,7 +183,7 @@ test('should navigate to confirmation page when form is filled out and addUser b
     .expect(getLocation()).eql('http://localhost:1234/organisations/org1/adduser/confirmation?userAdded=Peter%20Parker');
 });
 
-test.only('should show validation errors if api returns them', async (t) => {
+test('should show validation errors if api returns them', async (t) => {
   const errorResponse = {
     errors: [
       {
