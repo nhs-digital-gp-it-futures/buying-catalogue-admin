@@ -1,13 +1,19 @@
-import context from './manifest.json';
-import { createTestHarness } from '../../../test-utils/testHarness';
-
-context.backLinkHref = '/organisations/org1';
+import { createTestHarness } from '../../test-utils/testHarness';
 
 const setup = {
   template: {
-    path: 'pages/adduser/confirmation/template.njk',
+    path: 'common/pages/confirmation.njk',
   },
 };
+
+const context = {
+  backLinkText: 'Back to dashboard',
+  title: 'John Smith account added',
+  description: 'The user has been sent an email so they can set their password.',
+  dataTestId: 'add-user-confirmation',
+  backLinkHref: '/organisations/org1',
+};
+
 
 describe('organisations add user confirmation page', () => {
   it('should render a backLink', createTestHarness(setup, (harness) => {
