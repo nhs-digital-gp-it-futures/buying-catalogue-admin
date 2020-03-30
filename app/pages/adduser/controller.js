@@ -14,13 +14,13 @@ export const getAddUserContext = async ({ organisationId, accessToken }) => {
 };
 
 export const getAddUserPageErrorContext = async ({
-  organisationId, accessToken, validationErrors,
+  organisationId, accessToken, validationErrors = mockErrors, data,
 }) => {
   // Need to call getOrgById to get org name
   const orgData = await getData({ endpointLocator: 'getOrgById', options: { organisationId }, accessToken });
   if (orgData) {
     logger.info(`Organisation ${organisationId} returned`);
-    return getErrorContext({ orgData, validationErrors });
+    return getErrorContext({ orgData, validationErrors, data });
   }
 
   throw new Error('No data returned');
