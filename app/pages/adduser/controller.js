@@ -14,7 +14,7 @@ export const getAddUserContext = async ({ organisationId, accessToken }) => {
 };
 
 export const getAddUserPageErrorContext = async ({
-  organisationId, accessToken, validationErrors = mockErrors, data,
+  organisationId, accessToken, validationErrors, data,
 }) => {
   // Need to call getOrgById to get org name
   const orgData = await getData({ endpointLocator: 'getOrgById', options: { organisationId }, accessToken });
