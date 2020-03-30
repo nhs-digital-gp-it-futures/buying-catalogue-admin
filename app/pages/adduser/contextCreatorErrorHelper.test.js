@@ -51,7 +51,9 @@ describe('contextCreatorErrorHelper', () => {
         firstName: 'John',
         lastName: 'Smith',
       };
-      const manifestWithErrors = addErrorsAndDataToManifest({ manifest, errors: formattedErrors, data });
+      const manifestWithErrors = addErrorsAndDataToManifest({
+        manifest, errors: formattedErrors, data,
+      });
       expect(manifestWithErrors.questions[0].data).toEqual('John');
       expect(manifestWithErrors.questions[1].data).toEqual('Smith');
       expect(manifestWithErrors.questions[2].data).toEqual(undefined);
