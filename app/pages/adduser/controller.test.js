@@ -97,17 +97,21 @@ describe('adduser controller', () => {
 
     it('should call getErrorContext with the correct params when organisation data is returned by the apiProvider', async () => {
       const validationErrors = [];
+      const data = {};
       apiProvider.getData
         .mockResolvedValueOnce(mockedAddUserData);
       contextCreator.getErrorContext
         .mockResolvedValueOnce();
 
-      await getAddUserPageErrorContext({ organisationId: 1, accessToken: 'access_token', validationErrors });
+      await getAddUserPageErrorContext({
+        organisationId: 1, accessToken: 'access_token', validationErrors, data,
+      });
 
       expect(contextCreator.getErrorContext.mock.calls.length).toEqual(1);
       expect(contextCreator.getErrorContext).toHaveBeenCalledWith({
         orgData: mockedAddUserData,
         validationErrors,
+        data,
       });
     });
 

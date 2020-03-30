@@ -1,4 +1,4 @@
-import { formatErrors, formatAllErrors, addErrorsToManifest } from './contextCreatorErrorHelper';
+import { formatErrors, formatAllErrors, addErrorsAndDataToManifest } from './contextCreatorErrorHelper';
 import manifest from './manifest.json';
 
 const errors = [
@@ -10,12 +10,12 @@ const errors = [
 describe('contextCreatorErrorHelper', () => {
   describe('formatErrors', () => {
     it('should create error object with field as key and array of messages for one error', () => {
-      const formattedErrors = formatErrors([errors[0]]);
+      const formattedErrors = formatErrors({ manifest, errors: [errors[0]] });
       expect(formattedErrors).toEqual({ emailAddress: ['Email address is required'] });
     });
 
     it('should create error object with field as key and array of messages for multiple errors', () => {
-      const formattedErrors = formatErrors(errors);
+      const formattedErrors = formatErrors({ manifest, errors });
       expect(formattedErrors.emailAddress).toEqual(
         ['Email address is required', 'Email address is too long'],
       );
@@ -23,10 +23,10 @@ describe('contextCreatorErrorHelper', () => {
     });
   });
 
-  describe('addErrorsToManifest', () => {
-    const formattedErrors = formatErrors(errors);
+  describe('addErrorsAndDataToManifest', () => {
+    const formattedErrors = formatErrors({ manifest, errors });
     it('should return the contents of the manifest', () => {
-      const manifestWithErrors = addErrorsToManifest(formattedErrors);
+      const manifestWithErrors = addErrorsAndDataToManifest({ manifest, errors: formattedErrors });
       expect(manifestWithErrors.title).toEqual(manifest.title);
       expect(manifestWithErrors.description).toEqual(manifest.description);
       expect(manifestWithErrors.orgNameSubheading).toEqual(manifest.orgNameSubheading);
@@ -39,17 +39,31 @@ describe('contextCreatorErrorHelper', () => {
     });
 
     it('should add the errors to the correct questions', () => {
-      const manifestWithErrors = addErrorsToManifest(formattedErrors);
+      const manifestWithErrors = addErrorsAndDataToManifest({ manifest, errors: formattedErrors });
       expect(manifestWithErrors.questions[0].error).toEqual(undefined);
       expect(manifestWithErrors.questions[1].error).toEqual({ message: 'Last name is too long' });
       expect(manifestWithErrors.questions[2].error).toEqual(undefined);
       expect(manifestWithErrors.questions[3].error).toEqual({ message: 'Email address is required, Email address is too long' });
     });
+
+    it('should add the data to the correct questions', () => {
+      const data = {
+        firstName: 'John',
+        lastName: 'Smith',
+      };
+      const manifestWithErrors = addErrorsAndDataToManifest({
+        manifest, errors: formattedErrors, data,
+      });
+      expect(manifestWithErrors.questions[0].data).toEqual('John');
+      expect(manifestWithErrors.questions[1].data).toEqual('Smith');
+      expect(manifestWithErrors.questions[2].data).toEqual(undefined);
+      expect(manifestWithErrors.questions[3].data).toEqual(undefined);
+    });
   });
 
   describe('formatAllErrors', () => {
-    const formattedErrors = formatErrors(errors);
-    const manifestWithErrors = addErrorsToManifest(formattedErrors);
+    const formattedErrors = formatErrors({ manifest, errors });
+    const manifestWithErrors = addErrorsAndDataToManifest({ manifest, errors: formattedErrors });
     it('should return an array of error objects in the correct format', () => {
       const allErrors = formatAllErrors(manifestWithErrors.questions);
       expect(allErrors[0].href).toEqual('#lastName');
