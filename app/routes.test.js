@@ -13,6 +13,9 @@ jest.mock('./logger');
 
 const mockLogoutMethod = jest.fn().mockImplementation(() => Promise.resolve({}));
 
+userStatusContext.postUserStatus = jest.fn()
+  .mockImplementation(() => Promise.resolve({ success: true }));
+
 const mockAuthorisedJwtPayload = JSON.stringify({
   id: '88421113', name: 'Cool Dude', organisation: 'view',
 });
@@ -222,25 +225,14 @@ describe('routes', () => {
   });
 
   describe('POST /organisations/:organisationId/:userId/enable', () => {
-    afterEach(() => {
-      userStatusContext.postUserStatus.mockReset();
-    });
-
-    it('should return 403 forbidden if no csrf token is available', () => {
-      userStatusContext.postUserStatus = jest.fn()
-        .mockImplementation(() => Promise.resolve({ success: true }));
-
-      return request(setUpFakeApp())
-        .post('/organisations/org1/user2/enable')
-        .set('Cookie', [mockAuthorisedCookie])
-        .type('form')
-        .send({})
-        .expect(403);
-    });
+    it('should return 403 forbidden if no csrf token is available', () => request(setUpFakeApp())
+      .post('/organisations/org1/user2/enable')
+      .set('Cookie', [mockAuthorisedCookie])
+      .type('form')
+      .send({})
+      .expect(403));
 
     it('should redirect to the login page if the user is not logged in', async () => {
-      viewUserContext.getViewUserContext = jest.fn()
-        .mockImplementation(() => Promise.resolve(mockAddUserData));
       const { cookies, csrfToken } = await getCsrfTokenFromGet(setUpFakeApp(), '/organisations/org1/user2', mockAuthorisedCookie);
 
       return request(setUpFakeApp())
@@ -258,8 +250,6 @@ describe('routes', () => {
     });
 
     it('should show the error page indicating the user is not authorised if the user is logged in but not authorised', async () => {
-      viewUserContext.getViewUserContext = jest.fn()
-        .mockImplementation(() => Promise.resolve(mockAddUserData));
       const { cookies, csrfToken } = await getCsrfTokenFromGet(setUpFakeApp(), '/organisations/org1/user2', mockAuthorisedCookie);
 
       const mockUnauthorisedJwtPayload = JSON.stringify({
@@ -280,11 +270,6 @@ describe('routes', () => {
     });
 
     it('should return the correct status and text if response.success is true', async () => {
-      viewUserContext.getViewUserContext = jest.fn()
-        .mockImplementation(() => Promise.resolve(mockAddUserData));
-      addUserContext.postUserStatus = jest.fn()
-        .mockImplementation(() => Promise.resolve({ success: true, userAdded: 'Peter Parker' }));
-
       const { cookies, csrfToken } = await getCsrfTokenFromGet(setUpFakeApp(), '/organisations/org1/user2', mockAuthorisedCookie);
 
       return request(setUpFakeApp())
@@ -325,25 +310,14 @@ describe('routes', () => {
   });
 
   describe('POST /organisations/:organisationId/:userId/disable', () => {
-    afterEach(() => {
-      userStatusContext.postUserStatus.mockReset();
-    });
-
-    it('should return 403 forbidden if no csrf token is available', () => {
-      userStatusContext.postUserStatus = jest.fn()
-        .mockImplementation(() => Promise.resolve({ success: true }));
-
-      return request(setUpFakeApp())
-        .post('/organisations/org1/user2/disable')
-        .set('Cookie', [mockAuthorisedCookie])
-        .type('form')
-        .send({})
-        .expect(403);
-    });
+    it('should return 403 forbidden if no csrf token is available', () => request(setUpFakeApp())
+      .post('/organisations/org1/user2/disable')
+      .set('Cookie', [mockAuthorisedCookie])
+      .type('form')
+      .send({})
+      .expect(403));
 
     it('should redirect to the login page if the user is not logged in', async () => {
-      viewUserContext.getViewUserContext = jest.fn()
-        .mockImplementation(() => Promise.resolve(mockAddUserData));
       const { cookies, csrfToken } = await getCsrfTokenFromGet(setUpFakeApp(), '/organisations/org1/user2', mockAuthorisedCookie);
 
       return request(setUpFakeApp())
@@ -359,8 +333,6 @@ describe('routes', () => {
     });
 
     it('should show the error page indicating the user is not authorised if the user is logged in but not authorised', async () => {
-      viewUserContext.getViewUserContext = jest.fn()
-        .mockImplementation(() => Promise.resolve(mockAddUserData));
       const { cookies, csrfToken } = await getCsrfTokenFromGet(setUpFakeApp(), '/organisations/org1/user2', mockAuthorisedCookie);
 
       const mockUnauthorisedJwtPayload = JSON.stringify({
@@ -381,11 +353,6 @@ describe('routes', () => {
     });
 
     it('should return the correct status and text if response.success is true', async () => {
-      viewUserContext.getViewUserContext = jest.fn()
-        .mockImplementation(() => Promise.resolve(mockAddUserData));
-      addUserContext.postUserStatus = jest.fn()
-        .mockImplementation(() => Promise.resolve({ success: true, userAdded: 'Peter Parker' }));
-
       const { cookies, csrfToken } = await getCsrfTokenFromGet(setUpFakeApp(), '/organisations/org1/user2', mockAuthorisedCookie);
 
       return request(setUpFakeApp())
