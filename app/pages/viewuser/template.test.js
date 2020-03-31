@@ -15,13 +15,15 @@ const mockData = {
   emailAddress: 'John@Smith.com',
   accountDisabled: false,
   editUserButtonHref: '#',
-  disableAccountButtonHref: '#',
+  changeAccountStatusButtonText: 'Disable account',
+  changeAccountStatusFormAction: '/organisations/org1/user2/disable',
 };
 
 const mockContext = {
   ...manifest,
   ...mockData,
   backLinkHref: '/organisations/org1',
+  csrfToken: 'mockCsrfToken',
 };
 
 describe('viewuser page', () => {
@@ -95,12 +97,29 @@ describe('viewuser page', () => {
     });
   }));
 
-  it('should render a disable account button', createTestHarness(setup, (harness) => {
+  it('should render a change account status button', createTestHarness(setup, (harness) => {
     harness.request(mockContext, ($) => {
-      const disableAccountButton = $('[data-test-id="disable-account-button"] a');
-      expect(disableAccountButton.length).toEqual(1);
-      expect(disableAccountButton.text().trim()).toEqual(mockContext.disableAccountButtonText);
-      expect(disableAccountButton.attr('href')).toEqual('#');
+      const changeAccountStatusButton = $('[data-test-id="change-account-status-button"] button');
+      expect(changeAccountStatusButton.length).toEqual(1);
+      expect(changeAccountStatusButton.text().trim())
+        .toEqual(mockContext.changeAccountStatusButtonText);
+    });
+  }));
+
+  it('should create form element with correct action', createTestHarness(setup, (harness) => {
+    harness.request(mockContext, ($) => {
+      const formElement = $('form');
+      expect(formElement.length).toEqual(1);
+      expect(formElement.attr('action')).toEqual(mockContext.changeAccountStatusFormAction);
+    });
+  }));
+
+  it('should render hidden input with csrf token', createTestHarness(setup, (harness) => {
+    harness.request(mockContext, ($) => {
+      const formElement = $('input[name=_csrf]');
+      expect(formElement.length).toEqual(1);
+      expect(formElement.attr('type')).toEqual('hidden');
+      expect(formElement.attr('value')).toEqual(mockContext.csrfToken);
     });
   }));
 });

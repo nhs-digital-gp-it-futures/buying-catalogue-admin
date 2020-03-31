@@ -1,0 +1,14 @@
+{
+  "enable": {
+    "backLinkText": "Back to user",
+    "title": "{{userName}} account re-enabled",
+    "description": "The user account has been successfully rectivated.",
+    "dataTestId": "enable-user-confirmation"
+  },
+  "disable": {
+    "backLinkText": "Back to user",
+    "title": "{{userName}} account disabled",
+    "description": "This user account is no longer active.",
+    "dataTestId": "disable-user-confirmation"
+  }
+}

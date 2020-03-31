@@ -175,27 +175,29 @@ test('should navigate to edit user page when edit user button is clicked', async
     .expect(getLocation()).eql(`${pageUrl}#`);
 });
 
-test('should render disable account button', async (t) => {
+test('should render change account status button', async (t) => {
   await pageSetup(t, true);
   await t.navigateTo(pageUrl);
 
-  const disableAccountButton = Selector('[data-test-id="disable-account-button"] a');
+  const changeAccountStatusButton = Selector('[data-test-id="change-account-status-button"] button');
 
   await t
-    .expect(disableAccountButton.exists).ok()
-    .expect(await extractInnerText(disableAccountButton)).eql(content.disableAccountButtonText)
-    .expect(disableAccountButton.hasClass('nhsuk-u-margin-bottom-9')).ok()
-    .expect(disableAccountButton.getAttribute('href')).eql('#');
+    .expect(changeAccountStatusButton.exists).ok()
+    .expect(await extractInnerText(changeAccountStatusButton)).eql('Disable account');
 });
 
-test('should navigate to the confirmation page when edit disable account button is clicked', async (t) => {
+test('should navigate to the confirmation page when edit change account status button is clicked', async (t) => {
+  nock(organisationsApiLocalhost)
+    .post('/api/v1/Users/user1/disable')
+    .reply(200);
+
   await pageSetup(t, true);
   await t.navigateTo(pageUrl);
 
-  const disableAccountButton = Selector('[data-test-id="disable-account-button"] a');
+  const changeAccountStatusButton = Selector('[data-test-id="change-account-status-button"] button');
 
   await t
-    .expect(disableAccountButton.exists).ok()
-    .click(disableAccountButton)
-    .expect(getLocation()).eql(`${pageUrl}#`);
+    .expect(changeAccountStatusButton.exists).ok()
+    .click(changeAccountStatusButton)
+    .expect(getLocation()).eql(`${pageUrl}/disable`);
 });

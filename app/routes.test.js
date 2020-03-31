@@ -7,10 +7,14 @@ import * as orgDashboardContext from './pages/dashboard/controller';
 import * as orgAccountsContext from './pages/organisation/controller';
 import * as addUserContext from './pages/adduser/controller';
 import * as viewUserContext from './pages/viewuser/controller';
+import * as userStatusContext from './pages/viewuser/confirmation/controller';
 
 jest.mock('./logger');
 
 const mockLogoutMethod = jest.fn().mockImplementation(() => Promise.resolve({}));
+
+userStatusContext.postUserStatus = jest.fn()
+  .mockImplementation(() => Promise.resolve({ success: true }));
 
 const mockAuthorisedJwtPayload = JSON.stringify({
   id: '88421113', name: 'Cool Dude', organisation: 'view',
@@ -197,6 +201,174 @@ describe('routes', () => {
     });
   });
 
+  describe('GET /organisations/:organisationId/:userId/enable', () => {
+    it('should redirect to the login page if the user is not logged in', () => (
+      checkAuthorisedRouteNotLoggedIn('/organisations/org1')
+    ));
+
+    it('should show the error page indicating the user is not authorised if the user is logged in but not authorised', () => (
+      checkAuthorisedRouteWithoutClaim('/organisations/org1')
+    ));
+
+    it('should return the correct status and text when the user is authorised', () => {
+      userStatusContext.getUserStatusContext = jest.fn()
+        .mockImplementation(() => ({ dataTestId: 'mock-confirmation' }));
+      return request(setUpFakeApp())
+        .get('/organisations/org1/user1/enable')
+        .set('Cookie', [mockAuthorisedCookie])
+        .expect(200)
+        .then((res) => {
+          expect(res.text.includes('data-test-id="mock-confirmation-page"')).toEqual(true);
+          expect(res.text.includes('data-test-id="error-page-title"')).toEqual(false);
+        });
+    });
+  });
+
+  describe('POST /organisations/:organisationId/:userId/enable', () => {
+    it('should return 403 forbidden if no csrf token is available', () => request(setUpFakeApp())
+      .post('/organisations/org1/user2/enable')
+      .set('Cookie', [mockAuthorisedCookie])
+      .type('form')
+      .send({})
+      .expect(403));
+
+    it('should redirect to the login page if the user is not logged in', async () => {
+      const { cookies, csrfToken } = await getCsrfTokenFromGet(setUpFakeApp(), '/organisations/org1/user2', mockAuthorisedCookie);
+
+      return request(setUpFakeApp())
+        .post('/organisations/org1/user2/enable')
+        .type('form')
+        .set('Cookie', [cookies])
+        .send({
+          _csrf: csrfToken,
+        })
+        .expect(302)
+        .then((res) => {
+          expect(res.redirect).toEqual(true);
+          expect(res.headers.location).toEqual('http://identity-server/login');
+        });
+    });
+
+    it('should show the error page indicating the user is not authorised if the user is logged in but not authorised', async () => {
+      const { cookies, csrfToken } = await getCsrfTokenFromGet(setUpFakeApp(), '/organisations/org1/user2', mockAuthorisedCookie);
+
+      const mockUnauthorisedJwtPayload = JSON.stringify({
+        id: '88421113', name: 'Cool Dude',
+      });
+      const mockUnauthorisedCookie = `fakeToken=${mockUnauthorisedJwtPayload}`;
+
+      return request(setUpFakeApp())
+        .post('/organisations/org1/user2/enable')
+        .type('form')
+        .set('Cookie', [cookies, mockUnauthorisedCookie])
+        .send({ _csrf: csrfToken })
+        .expect(200)
+        .then((res) => {
+          expect(res.text.includes('data-test-id="error-page-title"')).toEqual(true);
+          expect(res.text.includes('Not authorised')).toEqual(true);
+        });
+    });
+
+    it('should return the correct status and text if response.success is true', async () => {
+      const { cookies, csrfToken } = await getCsrfTokenFromGet(setUpFakeApp(), '/organisations/org1/user2', mockAuthorisedCookie);
+
+      return request(setUpFakeApp())
+        .post('/organisations/org1/user2/enable')
+        .type('form')
+        .set('Cookie', [cookies, mockAuthorisedCookie])
+        .send({ _csrf: csrfToken })
+        .expect(302)
+        .then((res) => {
+          expect(res.redirect).toEqual(true);
+          expect(res.headers.location).toEqual('/organisations/org1/user2/enable');
+          expect(res.text.includes('data-test-id="error-page-title"')).toEqual(false);
+        });
+    });
+  });
+
+  describe('GET /organisations/:organisationId/:userId/disable', () => {
+    it('should redirect to the login page if the user is not logged in', () => (
+      checkAuthorisedRouteNotLoggedIn('/organisations/org1')
+    ));
+
+    it('should show the error page indicating the user is not authorised if the user is logged in but not authorised', () => (
+      checkAuthorisedRouteWithoutClaim('/organisations/org1')
+    ));
+
+    it('should return the correct status and text when the user is authorised', () => {
+      userStatusContext.getUserStatusContext = jest.fn()
+        .mockImplementation(() => ({ dataTestId: 'mock-confirmation' }));
+      return request(setUpFakeApp())
+        .get('/organisations/org1/user1/disable')
+        .set('Cookie', [mockAuthorisedCookie])
+        .expect(200)
+        .then((res) => {
+          expect(res.text.includes('data-test-id="mock-confirmation-page"')).toEqual(true);
+          expect(res.text.includes('data-test-id="error-page-title"')).toEqual(false);
+        });
+    });
+  });
+
+  describe('POST /organisations/:organisationId/:userId/disable', () => {
+    it('should return 403 forbidden if no csrf token is available', () => request(setUpFakeApp())
+      .post('/organisations/org1/user2/disable')
+      .set('Cookie', [mockAuthorisedCookie])
+      .type('form')
+      .send({})
+      .expect(403));
+
+    it('should redirect to the login page if the user is not logged in', async () => {
+      const { cookies, csrfToken } = await getCsrfTokenFromGet(setUpFakeApp(), '/organisations/org1/user2', mockAuthorisedCookie);
+
+      return request(setUpFakeApp())
+        .post('/organisations/org1/user2/disable')
+        .type('form')
+        .set('Cookie', [cookies])
+        .send({ _csrf: csrfToken })
+        .expect(302)
+        .then((res) => {
+          expect(res.redirect).toEqual(true);
+          expect(res.headers.location).toEqual('http://identity-server/login');
+        });
+    });
+
+    it('should show the error page indicating the user is not authorised if the user is logged in but not authorised', async () => {
+      const { cookies, csrfToken } = await getCsrfTokenFromGet(setUpFakeApp(), '/organisations/org1/user2', mockAuthorisedCookie);
+
+      const mockUnauthorisedJwtPayload = JSON.stringify({
+        id: '88421113', name: 'Cool Dude',
+      });
+      const mockUnauthorisedCookie = `fakeToken=${mockUnauthorisedJwtPayload}`;
+
+      return request(setUpFakeApp())
+        .post('/organisations/org1/user2/disable')
+        .type('form')
+        .set('Cookie', [cookies, mockUnauthorisedCookie])
+        .send({ _csrf: csrfToken })
+        .expect(200)
+        .then((res) => {
+          expect(res.text.includes('data-test-id="error-page-title"')).toEqual(true);
+          expect(res.text.includes('Not authorised')).toEqual(true);
+        });
+    });
+
+    it('should return the correct status and text if response.success is true', async () => {
+      const { cookies, csrfToken } = await getCsrfTokenFromGet(setUpFakeApp(), '/organisations/org1/user2', mockAuthorisedCookie);
+
+      return request(setUpFakeApp())
+        .post('/organisations/org1/user2/disable')
+        .type('form')
+        .set('Cookie', [cookies, mockAuthorisedCookie])
+        .send({ _csrf: csrfToken })
+        .expect(302)
+        .then((res) => {
+          expect(res.redirect).toEqual(true);
+          expect(res.headers.location).toEqual('/organisations/org1/user2/disable');
+          expect(res.text.includes('data-test-id="error-page-title"')).toEqual(false);
+        });
+    });
+  });
+
   describe('GET /organisations/:organisationId/adduser', () => {
     it('should redirect to the login page if the user is not logged in', () => (
       checkAuthorisedRouteNotLoggedIn('/organisations/org1/adduser')
@@ -241,7 +413,6 @@ describe('routes', () => {
 
     it('should redirect to the login page if the user is not logged in', async () => {
       const { cookies, csrfToken } = await getCsrfTokenFromGet(setUpFakeApp(), '/organisations/org1/adduser', mockAuthorisedCookie);
-
       return request(setUpFakeApp())
         .post('/organisations/:organisationId/adduser')
         .type('form')
@@ -341,14 +512,14 @@ describe('routes', () => {
 
     it('should return the correct status and text when the user is authorised', () => {
       orgDashboardContext.getOrgDashboardContext = jest.fn()
-        .mockImplementation(() => {});
+        .mockImplementation(() => ({ dataTestId: 'add-user-confirmation' }));
 
       return request(setUpFakeApp())
         .get('/organisations/org1/adduser/confirmation')
         .set('Cookie', [mockAuthorisedCookie])
         .expect(200)
         .then((res) => {
-          expect(res.text.includes('data-test-id="add-user-confirmation"')).toEqual(true);
+          expect(res.text.includes('data-test-id="add-user-confirmation-page"')).toEqual(true);
           expect(res.text.includes('data-test-id="error-page-title"')).toEqual(false);
         });
     });

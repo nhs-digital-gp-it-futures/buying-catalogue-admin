@@ -6,8 +6,9 @@ import { getOrgAccountsContext } from './pages/organisation/controller';
 import { getOrgDashboardContext } from './pages/dashboard/controller';
 import { getAddUserContext, getAddUserPageErrorContext, postAddUser } from './pages/adduser/controller';
 import includesContext from './includes/manifest.json';
-import { getAddUserConfirmationContext } from './pages/adduser/confirmation/controller';
+import { getAddUserConfirmationContext } from './pages/adduser/confirmation/contextCreator';
 import { getViewUserContext } from './pages/viewuser/controller';
+import { getUserStatusContext, postUserStatus } from './pages/viewuser/confirmation/controller';
 import config from './config';
 
 const addContext = ({ context, user, csrfToken }) => ({
@@ -81,14 +82,14 @@ export const routes = (authProvider) => {
       accessToken,
       data: req.body,
     });
-    return res.render('pages/adduser/template', context);
+    return res.render('pages/adduser/template', addContext({ context, user: req.user }));
   }));
 
   router.get('/organisations/:organisationId/:userId', authProvider.authorise(), withCatch(authProvider, async (req, res) => {
     const { organisationId, userId } = req.params;
     logger.info(`navigating to organisation: ${organisationId} edit user: ${userId} page`);
     const context = await getViewUserContext({ organisationId, userId, accessToken: extractAccessToken({ req, tokenType: 'access' }) });
-    res.render('pages/viewuser/template', context);
+    res.render('pages/viewuser/template', addContext({ context, user: req.user, csrfToken: req.csrfToken() }));
   }));
 
   router.get('/organisations/:organisationId/adduser/confirmation', authProvider.authorise(), withCatch(authProvider, async (req, res) => {
@@ -96,7 +97,40 @@ export const routes = (authProvider) => {
     const { userAdded } = req.query;
     logger.info(`navigating to organisation: ${organisationId} add user confirmation page`);
     const context = await getAddUserConfirmationContext({ userAdded, organisationId });
-    res.render('pages/adduser/confirmation/template.njk', addContext({ context, user: req.user }));
+    res.render('common/pages/confirmation.njk', addContext({ context, user: req.user }));
+  }));
+
+  router.get('/organisations/:organisationId/:userId/enable', authProvider.authorise(), withCatch(authProvider, async (req, res) => {
+    const { userId, organisationId } = req.params;
+    const context = await getUserStatusContext({
+      userId, organisationId, accessToken: extractAccessToken({ req, tokenType: 'access' }), status: 'enable',
+    });
+    res.render('common/pages/confirmation.njk', addContext({ context, user: req.user }));
+  }));
+
+  router.post('/organisations/:organisationId/:userId/enable', authProvider.authorise(), withCatch(authProvider, async (req, res) => {
+    const { userId, organisationId } = req.params;
+    const accessToken = extractAccessToken({ req, tokenType: 'access' });
+    await postUserStatus({ userId, accessToken, status: 'enable' });
+    logger.info(`navigating to enable user: ${userId} confirmation page`);
+    res.redirect(`/organisations/${organisationId}/${userId}/enable`);
+  }));
+
+  router.get('/organisations/:organisationId/:userId/disable', authProvider.authorise(), withCatch(authProvider, async (req, res) => {
+    const { userId, organisationId } = req.params;
+    const context = await getUserStatusContext({
+      userId, organisationId, accessToken: extractAccessToken({ req, tokenType: 'access' }), status: 'disable',
+    });
+
+    res.render('common/pages/confirmation.njk', addContext({ context, user: req.user }));
+  }));
+
+  router.post('/organisations/:organisationId/:userId/disable', authProvider.authorise(), withCatch(authProvider, async (req, res) => {
+    const { userId, organisationId } = req.params;
+    const accessToken = extractAccessToken({ req, tokenType: 'access' });
+    await postUserStatus({ userId, accessToken, status: 'disable' });
+    logger.info(`navigating to disable user: ${userId} confirmation page`);
+    res.redirect(`/organisations/${organisationId}/${userId}/disable`);
   }));
 
   router.get('*', (req, res, next) => next({

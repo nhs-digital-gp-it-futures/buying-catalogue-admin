@@ -19,7 +19,6 @@ describe('getViewUserContext', () => {
     expect(context.phoneNumberHeading).toEqual(manifest.phoneNumberHeading);
     expect(context.emailAddressHeading).toEqual(manifest.emailAddressHeading);
     expect(context.editUserButtonText).toEqual(manifest.editUserButtonText);
-    expect(context.disableAccountButtonText).toEqual(manifest.disableAccountButtonText);
   });
 
   it('should add userName, organisationName, phoneNumber, emailAddress, accountDisabled to the context if provided', () => {
@@ -41,8 +40,31 @@ describe('getViewUserContext', () => {
     expect(editUserButtonHref).toEqual('#');
   });
 
-  it('should construct disableAccountButtonHref', () => {
-    const { disableAccountButtonHref } = getContext({ user: mockData });
-    expect(disableAccountButtonHref).toEqual('#');
+  describe('user disabled is true', () => {
+    it('should construct correct changeAccountStatusButtonText', () => {
+      const { changeAccountStatusButtonText } = getContext({
+        user: { ...mockData, disabled: true },
+      });
+      expect(changeAccountStatusButtonText).toEqual('Re-enable account');
+    });
+
+    it('should construct correct changeAccountStatusFormAction', () => {
+      const { changeAccountStatusFormAction } = getContext({
+        user: { ...mockData, disabled: true },
+      });
+      expect(changeAccountStatusFormAction).toEqual(`/organisations/${mockData.organisationId}/${mockData.userId}/enable`);
+    });
+  });
+
+  describe('user disabled is false', () => {
+    it('should construct correct changeAccountStatusButtonText', () => {
+      const { changeAccountStatusButtonText } = getContext({ user: mockData });
+      expect(changeAccountStatusButtonText).toEqual('Disable account');
+    });
+
+    it('should construct correct changeAccountStatusFormAction', () => {
+      const { changeAccountStatusFormAction } = getContext({ user: { ...mockData } });
+      expect(changeAccountStatusFormAction).toEqual(`/organisations/${mockData.organisationId}/${mockData.userId}/disable`);
+    });
   });
 });
