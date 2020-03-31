@@ -111,7 +111,7 @@ export const routes = (authProvider) => {
   router.post('/organisations/:organisationId/:userId/enable', authProvider.authorise(), withCatch(authProvider, async (req, res) => {
     const { userId, organisationId } = req.params;
     const accessToken = extractAccessToken({ req, tokenType: 'access' });
-    await postUserStatus({ organisationId, accessToken, status: 'enable' });
+    await postUserStatus({ userId, accessToken, status: 'enable' });
     logger.info(`navigating to enable user: ${userId} confirmation page`);
     res.redirect(`/organisations/${organisationId}/${userId}/enable`);
   }));
@@ -128,7 +128,7 @@ export const routes = (authProvider) => {
   router.post('/organisations/:organisationId/:userId/disable', authProvider.authorise(), withCatch(authProvider, async (req, res) => {
     const { userId, organisationId } = req.params;
     const accessToken = extractAccessToken({ req, tokenType: 'access' });
-    await postUserStatus({ organisationId, accessToken, status: 'disable' });
+    await postUserStatus({ userId, accessToken, status: 'disable' });
     logger.info(`navigating to disable user: ${userId} confirmation page`);
     res.redirect(`/organisations/${organisationId}/${userId}/disable`);
   }));

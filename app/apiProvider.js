@@ -10,7 +10,7 @@ const endpoints = {
   getUserById: options => `${organisationApiUrl}/api/v1/Users/${options.userId}`,
   // POST endpoints
   postAddUser: options => `${organisationApiUrl}/api/v1/Organisations/${options.organisationId}/Users`,
-  postUserStatus: options => `${organisationApiUrl}/api/v1/Users/${options.userid}/${options.status}`,
+  postUserStatus: options => `${organisationApiUrl}/api/v1/Users/${options.userId}/${options.status}`,
 };
 
 const getHeaders = accessToken => (accessToken ? { headers: { Authorization: `Bearer ${accessToken}` } } : {});

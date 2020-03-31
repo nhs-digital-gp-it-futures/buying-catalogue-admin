@@ -97,11 +97,12 @@ describe('viewuser page', () => {
     });
   }));
 
-  it('should render a disable account button', createTestHarness(setup, (harness) => {
+  it('should render a change account status button', createTestHarness(setup, (harness) => {
     harness.request(mockContext, ($) => {
-      const disableAccountButton = $('[data-test-id="disable-account-button"]');
-      expect(disableAccountButton.length).toEqual(1);
-      expect(disableAccountButton.text().trim()).toEqual(mockContext.changeAccountStatusButtonText);
+      const changeAccountStatusButton = $('[data-test-id="change-account-status-button"]');
+      expect(changeAccountStatusButton.length).toEqual(1);
+      expect(changeAccountStatusButton.text().trim())
+        .toEqual(mockContext.changeAccountStatusButtonText);
     });
   }));
 

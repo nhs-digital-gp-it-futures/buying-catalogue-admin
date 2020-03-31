@@ -15,7 +15,7 @@ export const getUserStatusContext = async ({
   throw new Error(`No user data returned for id: ${userId}`);
 };
 
-export const postUserStatus = async ({ userId, status, accessToken }) => {
+export const postUserStatus = async ({ userId, accessToken, status }) => {
   try {
     await postData({ endpointLocator: 'postUserStatus', options: { userId, status }, accessToken });
 
