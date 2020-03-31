@@ -146,7 +146,7 @@ describe('user status controller', () => {
       try {
         await postUserStatus({ userId: 1, accessToken: 'access_token', status: 'enable' });
       } catch (err) {
-        expect(err).toEqual(new Error('Unable to update status for user id: 1'));
+        expect(err).toEqual(new Error('Error: Unable to update status for user id: 1'));
       }
     });
   });
