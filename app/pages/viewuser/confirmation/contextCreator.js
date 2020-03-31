@@ -2,7 +2,7 @@ import manifest from './manifest.json';
 import { baseUrl } from '../../../config';
 
 export const getContext = ({
-  user, organisationId = 1, status,
+  user, organisationId, status,
 }) => ({
   ...manifest[status],
   title: `${user.name}${manifest[status].title}`,
