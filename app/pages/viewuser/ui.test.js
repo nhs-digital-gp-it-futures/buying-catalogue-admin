@@ -186,7 +186,7 @@ test('should render change account status button', async (t) => {
     .expect(await extractInnerText(changeAccountStatusButton)).eql('Disable account');
 });
 
-test.only('should navigate to the confirmation page when edit change account status button is clicked', async (t) => {
+test('should navigate to the confirmation page when edit change account status button is clicked', async (t) => {
   nock(organisationsApiLocalhost)
     .post('/api/v1/Users/user1/disable')
     .reply(200);
@@ -196,7 +196,7 @@ test.only('should navigate to the confirmation page when edit change account sta
 
   const changeAccountStatusButton = Selector('[data-test-id="change-account-status-button"] button');
 
-  await t.debug()
+  await t
     .expect(changeAccountStatusButton.exists).ok()
     .click(changeAccountStatusButton)
     .expect(getLocation()).eql(`${pageUrl}/disable`);
