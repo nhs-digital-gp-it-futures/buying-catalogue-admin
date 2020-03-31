@@ -42,12 +42,16 @@ describe('getViewUserContext', () => {
 
   describe('user disabled is true', () => {
     it('should construct correct changeAccountStatusButtonText', () => {
-      const { changeAccountStatusButtonText } = getContext({ user: { ...mockData, disabled: true } });
+      const { changeAccountStatusButtonText } = getContext({
+        user: { ...mockData, disabled: true },
+      });
       expect(changeAccountStatusButtonText).toEqual('Re-enable account');
     });
 
     it('should construct correct changeAccountStatusFormAction', () => {
-      const { changeAccountStatusFormAction } = getContext({ user: { ...mockData, disabled: true } });
+      const { changeAccountStatusFormAction } = getContext({
+        user: { ...mockData, disabled: true },
+      });
       expect(changeAccountStatusFormAction).toEqual(`/organisations/${mockData.organisationId}/${mockData.userId}/enable`);
     });
   });
