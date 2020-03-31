@@ -99,7 +99,7 @@ describe('viewuser page', () => {
 
   it('should render a change account status button', createTestHarness(setup, (harness) => {
     harness.request(mockContext, ($) => {
-      const changeAccountStatusButton = $('[data-test-id="change-account-status-button"]');
+      const changeAccountStatusButton = $('[data-test-id="change-account-status-button"] button');
       expect(changeAccountStatusButton.length).toEqual(1);
       expect(changeAccountStatusButton.text().trim())
         .toEqual(mockContext.changeAccountStatusButtonText);

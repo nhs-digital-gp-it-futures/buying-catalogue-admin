@@ -33,7 +33,6 @@
       <form method="post" action="{{ changeAccountStatusFormAction }}">
         <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
         <div data-test-id="change-account-status-button" class="nhsuk-grid-column-one-quarter">
-        {{changeAccountStatusFormAction}}
           {{ button({
             text: changeAccountStatusButtonText,
             classes: "nhsuk-u-margin-bottom-9"
