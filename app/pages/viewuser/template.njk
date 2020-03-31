@@ -30,11 +30,11 @@
           href: editUserButtonHref
         }) }}
       </div>
-      <form method="post" action="{{ disableFormAction }}">
+      <form method="post" action="{{ changeAccountStatusFormAction }}">
         <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
         <div data-test-id="disable-account-button" class="nhsuk-grid-column-one-quarter">
           {{ button({
-            text: disableAccountButtonText,
+            text: changeAccountStatusButtonText,
             classes: "nhsuk-u-margin-bottom-9"
           }) }}
         </div>

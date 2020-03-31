@@ -15,8 +15,8 @@ const mockData = {
   emailAddress: 'John@Smith.com',
   accountDisabled: false,
   editUserButtonHref: '#',
-  disableAccountButtonText: 'Disable account',
-  disableFormAction: '/organisations/org1/user2/disable',
+  changeAccountStatusButtonText: 'Disable account',
+  changeAccountStatusFormAction: '/organisations/org1/user2/disable',
 };
 
 const mockContext = {
@@ -101,7 +101,7 @@ describe('viewuser page', () => {
     harness.request(mockContext, ($) => {
       const disableAccountButton = $('[data-test-id="disable-account-button"]');
       expect(disableAccountButton.length).toEqual(1);
-      expect(disableAccountButton.text().trim()).toEqual(mockContext.disableAccountButtonText);
+      expect(disableAccountButton.text().trim()).toEqual(mockContext.changeAccountStatusButtonText);
     });
   }));
 
@@ -109,7 +109,7 @@ describe('viewuser page', () => {
     harness.request(mockContext, ($) => {
       const formElement = $('form');
       expect(formElement.length).toEqual(1);
-      expect(formElement.attr('action')).toEqual(mockContext.disableFormAction);
+      expect(formElement.attr('action')).toEqual(mockContext.changeAccountStatusFormAction);
     });
   }));
 

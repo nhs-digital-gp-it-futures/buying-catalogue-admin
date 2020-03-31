@@ -183,7 +183,7 @@ test('should render disable account button', async (t) => {
 
   await t
     .expect(disableAccountButton.exists).ok()
-    .expect(await extractInnerText(disableAccountButton)).eql(content.disableAccountButtonText)
+    .expect(await extractInnerText(disableAccountButton)).eql(content.changeAccountStatusButtonText)
     .expect(disableAccountButton.hasClass('nhsuk-u-margin-bottom-9')).ok()
     .expect(disableAccountButton.getAttribute('href')).eql('#');
 });

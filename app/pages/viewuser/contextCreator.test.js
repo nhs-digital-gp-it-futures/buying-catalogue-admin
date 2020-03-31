@@ -41,26 +41,26 @@ describe('getViewUserContext', () => {
   });
 
   describe('user disabled is true', () => {
-    it('should construct correct disableAccountButtonText', () => {
-      const { disableAccountButtonText } = getContext({ user: { ...mockData, disabled: true } });
-      expect(disableAccountButtonText).toEqual('Re-enable account');
+    it('should construct correct changeAccountStatusButtonText', () => {
+      const { changeAccountStatusButtonText } = getContext({ user: { ...mockData, disabled: true } });
+      expect(changeAccountStatusButtonText).toEqual('Re-enable account');
     });
 
-    it('should construct correct disableFormAction', () => {
-      const { disableFormAction } = getContext({ user: { ...mockData, disabled: true } });
-      expect(disableFormAction).toEqual(`/organisations/${mockData.organisationId}/${mockData.userId}/enable`);
+    it('should construct correct changeAccountStatusFormAction', () => {
+      const { changeAccountStatusFormAction } = getContext({ user: { ...mockData, disabled: true } });
+      expect(changeAccountStatusFormAction).toEqual(`/organisations/${mockData.organisationId}/${mockData.userId}/enable`);
     });
   });
 
   describe('user disabled is false', () => {
-    it('should construct correct disableAccountButtonText', () => {
-      const { disableAccountButtonText } = getContext({ user: mockData });
-      expect(disableAccountButtonText).toEqual('Disable account');
+    it('should construct correct changeAccountStatusButtonText', () => {
+      const { changeAccountStatusButtonText } = getContext({ user: mockData });
+      expect(changeAccountStatusButtonText).toEqual('Disable account');
     });
 
-    it('should construct correct disableFormAction', () => {
-      const { disableFormAction } = getContext({ user: { ...mockData } });
-      expect(disableFormAction).toEqual(`/organisations/${mockData.organisationId}/${mockData.userId}/disable`);
+    it('should construct correct changeAccountStatusFormAction', () => {
+      const { changeAccountStatusFormAction } = getContext({ user: { ...mockData } });
+      expect(changeAccountStatusFormAction).toEqual(`/organisations/${mockData.organisationId}/${mockData.userId}/disable`);
     });
   });
 });
