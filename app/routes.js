@@ -74,9 +74,7 @@ export const routes = (authProvider) => {
     const accessToken = extractAccessToken({ req, tokenType: 'access' });
     const response = await postAddUser({ organisationId, data: req.body, accessToken });
     if (response.success) {
-      req.userAdded = response.userAdded;
-      res.userAdded = response.userAdded;
-      return res.redirect(302, `/organisations/${organisationId}/adduser/confirmation?userAdded=${response.userAdded}`);
+      return res.redirect(`/organisations/${organisationId}/adduser/confirmation?userAdded=${response.userAdded}`);
     }
     const context = await getAddUserPageErrorContext({
       validationErrors: response.errors,
