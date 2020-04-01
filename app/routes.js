@@ -63,7 +63,7 @@ export const routes = (authProvider) => {
     res.render('pages/organisation/template.njk', addContext({ context, user: req.user }));
   }));
 
-  router.post('/organisations/:organisationId', authProvider.authorise(), withCatch(authProvider, async (req, res) => {
+  router.post('/organisations/:organisationId', authProvider.authorise(), withCatch(authProvider, async (req) => {
     logger.info('POST /organisations/:organisationId', req.body);
   }));
 
