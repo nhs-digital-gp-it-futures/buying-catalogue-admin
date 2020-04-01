@@ -12,7 +12,6 @@ const mockData = {
   odsCode: 'X01',
   primaryRoleId: 'ID123',
   address: ['12 Station Road', 'Leeds', 'West Yorkshire', 'LS15 5FG'],
-  isCatalogueAgreementSigned: true,
   agreementSigned: true,
   addUserButtonHref: '/organisations/org1/adduser',
   users: [
@@ -41,6 +40,7 @@ const mockData = {
       },
     }],
   ],
+  editOrgButtonHref: '/organisations/org1/edit',
 };
 
 const mockContext = {
@@ -83,12 +83,12 @@ describe('organisations dashboard page', () => {
     });
   }));
 
-  it('should render a edit organisation button', createTestHarness(setup, (harness) => {
+  it('should render an edit organisation button', createTestHarness(setup, (harness) => {
     harness.request(mockContext, ($) => {
-      const addOrgButton = $('[data-test-id="edit-org-button"] a');
-      expect(addOrgButton.length).toEqual(1);
-      expect(addOrgButton.text().trim()).toEqual(mockContext.editOrgButtonText);
-      expect(addOrgButton.attr('href')).toEqual('#');
+      const editOrgButton = $('[data-test-id="edit-org-button"] a');
+      expect(editOrgButton.length).toEqual(1);
+      expect(editOrgButton.text().trim()).toEqual(mockContext.editOrgButtonText);
+      expect(editOrgButton.attr('href')).toEqual('/organisations/org1/edit');
     });
   }));
 

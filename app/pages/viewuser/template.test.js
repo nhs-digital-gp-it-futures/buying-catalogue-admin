@@ -77,7 +77,7 @@ describe('viewuser page', () => {
     });
   }));
 
-  it('should render contact details', createTestHarness(setup, (harness) => {
+  it('should render email address', createTestHarness(setup, (harness) => {
     harness.request(mockContext, ($) => {
       const heading = $('h2[data-test-id="user-email-heading"]');
       const emailAddress = $('div[data-test-id="user-email"]');

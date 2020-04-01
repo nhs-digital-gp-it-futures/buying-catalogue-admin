@@ -1,10 +1,11 @@
 import nock from 'nock';
 import { Selector, ClientFunction } from 'testcafe';
-import content from './manifest.json';
-import { extractInnerText } from '../../test-utils/helper';
 import { organisationsApiLocalhost } from '../../test-utils/config';
+import { extractInnerText } from '../../test-utils/helper';
+import { extractObjectValuesToArray } from '../../helpers/contextCreatorHelper';
 import organisationDetails from '../../test-utils/fixtures/organisationDetails.json';
 import usersData from '../../test-utils/fixtures/users.json';
+import content from './manifest.json';
 
 const pageUrl = 'http://localhost:1234/organisations/org1';
 
@@ -61,7 +62,7 @@ test('should render Organisation page', async (t) => {
   await pageSetup(t, true);
   await t.navigateTo(pageUrl);
 
-  const orgPage = Selector('[data-test-id="organisation"]');
+  const orgPage = Selector('[data-test-id="organisation-page"]');
 
   await t
     .expect(orgPage.exists).ok();
@@ -126,9 +127,20 @@ test('should render edit org button', async (t) => {
     .expect(editOrgButton.exists).ok()
     .expect(await extractInnerText(editOrgButton)).eql(content.editOrgButtonText)
     .expect(editOrgButton.hasClass('nhsuk-u-margin-bottom-9')).ok()
-    // TODO: Change when edit organisation implemented
-    .expect(editOrgButton.getAttribute('href')).eql('#');
-  // .click()
+    .expect(editOrgButton.getAttribute('href')).eql('/organisations/org1/edit');
+});
+
+test('should navigate to edit org page when add edit org button is clicked', async (t) => {
+  await pageSetup(t, true);
+  await t.navigateTo(pageUrl);
+
+  const editOrgButton = Selector('[data-test-id="edit-org-button"] a');
+  const orgId = organisationDetails.organisationId;
+
+  await t
+    .expect(editOrgButton.exists).ok()
+    .click(editOrgButton)
+    .expect(getLocation()).eql(`http://localhost:1234/organisations/${orgId}/edit`);
 });
 
 test('should render organisation ods code', async (t) => {
@@ -163,10 +175,7 @@ test('should render address', async (t) => {
   await pageSetup(t, true);
   await t.navigateTo(pageUrl);
 
-  const address = Object.keys(organisationDetails.address).reduce((acc, key) => {
-    if (organisationDetails.address[key]) acc.push(organisationDetails.address[key]);
-    return acc;
-  }, []);
+  const address = extractObjectValuesToArray(organisationDetails.address);
 
   const addressHeading = Selector('[data-test-id="org-page-address-heading"]');
   const addressTextLine1 = Selector('[data-test-id="org-page-address-1"]');

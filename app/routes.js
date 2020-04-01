@@ -8,7 +8,8 @@ import { getAddUserContext, getAddUserPageErrorContext, postAddUser } from './pa
 import includesContext from './includes/manifest.json';
 import { getAddUserConfirmationContext } from './pages/adduser/confirmation/contextCreator';
 import { getViewUserContext } from './pages/viewuser/controller';
-import { getUserStatusContext, postUserStatus } from './pages/viewuser/confirmation/controller';
+import { getUserStatusContext, postUserStatus } from './pages/viewuser/changeUserStatusConfirmation/controller';
+import { getEditOrgAccountContext } from './pages/editorg/controller';
 import config from './config';
 
 const addContext = ({ context, user, csrfToken }) => ({
@@ -60,6 +61,17 @@ export const routes = (authProvider) => {
     logger.info(`navigating to organisation: ${organisationId} account page`);
     const context = await getOrgAccountsContext({ organisationId, accessToken: extractAccessToken({ req, tokenType: 'access' }) });
     res.render('pages/organisation/template.njk', addContext({ context, user: req.user }));
+  }));
+
+  router.post('/organisations/:organisationId', authProvider.authorise(), withCatch(authProvider, async (req) => {
+    logger.info('POST /organisations/:organisationId', req.body);
+  }));
+
+  router.get('/organisations/:organisationId/edit', authProvider.authorise(), withCatch(authProvider, async (req, res) => {
+    const { organisationId } = req.params;
+    logger.info(`navigating to edit organisation: ${organisationId} page`);
+    const context = await getEditOrgAccountContext({ organisationId, accessToken: extractAccessToken({ req, tokenType: 'access' }) });
+    res.render('pages/editorg/template.njk', addContext({ context, user: req.user, csrfToken: req.csrfToken() }));
   }));
 
   router.get('/organisations/:organisationId/adduser', authProvider.authorise(), withCatch(authProvider, async (req, res) => {

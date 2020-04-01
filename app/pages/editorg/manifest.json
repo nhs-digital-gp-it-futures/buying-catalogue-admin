@@ -1,0 +1,9 @@
+{
+  "description": "Change the details for this organisation.",
+  "odsCodeHeading": "ODS code",
+  "organisationNameHeading": "Organisation name",
+  "primaryRoleIdHeading": "Primary Role ID",
+  "addressHeading": "Business address",
+  "catalogueAgreementCheckboxText": "Catalogue agreement has been signed",
+  "saveButtonText": "Save"
+}
