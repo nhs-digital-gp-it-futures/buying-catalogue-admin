@@ -127,7 +127,7 @@ test('should render edit org button', async (t) => {
     .expect(await extractInnerText(editOrgButton)).eql(content.editOrgButtonText)
     .expect(editOrgButton.hasClass('nhsuk-u-margin-bottom-9')).ok()
     .expect(editOrgButton.getAttribute('href')).eql('/organisations/org1/edit');
-    // TODO: click through
+  // TODO: click through
   // .click()
 });
 
