@@ -12,7 +12,6 @@ const mockData = {
   odsCode: 'X01',
   primaryRoleId: 'ID123',
   address: ['12 Station Road', 'Leeds', 'West Yorkshire', 'LS15 5FG'],
-  catalogueAgreementSigned: true,
   agreementSigned: true,
   addUserButtonHref: '/organisations/org1/adduser',
   users: [
