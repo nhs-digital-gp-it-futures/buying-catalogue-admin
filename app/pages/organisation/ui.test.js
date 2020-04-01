@@ -1,11 +1,11 @@
 import nock from 'nock';
 import { Selector, ClientFunction } from 'testcafe';
-import content from './manifest.json';
-import { extractInnerText } from '../../test-utils/helper';
 import { organisationsApiLocalhost } from '../../test-utils/config';
+import { extractInnerText } from '../../test-utils/helper';
+import { extractObjectValuesToArray } from '../../helpers/contextCreatorHelper';
 import organisationDetails from '../../test-utils/fixtures/organisationDetails.json';
 import usersData from '../../test-utils/fixtures/users.json';
-import { extractObjectValuesToArray } from '../../helpers/contextCreatorHelper';
+import content from './manifest.json';
 
 const pageUrl = 'http://localhost:1234/organisations/org1';
 
@@ -128,8 +128,19 @@ test('should render edit org button', async (t) => {
     .expect(await extractInnerText(editOrgButton)).eql(content.editOrgButtonText)
     .expect(editOrgButton.hasClass('nhsuk-u-margin-bottom-9')).ok()
     .expect(editOrgButton.getAttribute('href')).eql('/organisations/org1/edit');
-  // TODO: click through
-  // .click()
+});
+
+test('should navigate to edit org page when add edit org button is clicked', async (t) => {
+  await pageSetup(t, true);
+  await t.navigateTo(pageUrl);
+
+  const editOrgButton = Selector('[data-test-id="edit-org-button"] a');
+  const orgId = organisationDetails.organisationId;
+
+  await t
+    .expect(editOrgButton.exists).ok()
+    .click(editOrgButton)
+    .expect(getLocation()).eql(`http://localhost:1234/organisations/${orgId}/edit`);
 });
 
 test('should render organisation ods code', async (t) => {
