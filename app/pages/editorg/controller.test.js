@@ -35,7 +35,7 @@ describe('edit organisation controller', () => {
       contextCreator.getContext.mockReset();
     });
 
-    it('should call getData twice with the correct params', async () => {
+    it('should call getData once with the correct params', async () => {
       apiProvider.getData
         .mockResolvedValueOnce(mockOrganisationData);
 
