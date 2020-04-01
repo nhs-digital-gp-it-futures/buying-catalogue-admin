@@ -5,6 +5,7 @@ import { extractInnerText } from '../../test-utils/helper';
 import { organisationsApiLocalhost } from '../../test-utils/config';
 import organisationDetails from '../../test-utils/fixtures/organisationDetails.json';
 import usersData from '../../test-utils/fixtures/users.json';
+import { extractObjectValuesToArray } from '../../helpers/contextCreatorHelper';
 
 const pageUrl = 'http://localhost:1234/organisations/org1';
 
@@ -163,10 +164,7 @@ test('should render address', async (t) => {
   await pageSetup(t, true);
   await t.navigateTo(pageUrl);
 
-  const address = Object.keys(organisationDetails.address).reduce((acc, key) => {
-    if (organisationDetails.address[key]) acc.push(organisationDetails.address[key]);
-    return acc;
-  }, []);
+  const address = extractObjectValuesToArray(organisationDetails.address);
 
   const addressHeading = Selector('[data-test-id="org-page-address-heading"]');
   const addressTextLine1 = Selector('[data-test-id="org-page-address-1"]');

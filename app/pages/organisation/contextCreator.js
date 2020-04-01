@@ -1,5 +1,6 @@
 import manifest from './manifest.json';
 import { baseUrl } from '../../config';
+import { extractObjectValuesToArray } from '../../helpers/contextCreatorHelper';
 
 export const getContext = ({ organisation }) => ({
   ...manifest,
@@ -7,10 +8,7 @@ export const getContext = ({ organisation }) => ({
   organisationName: organisation.name,
   odsCode: organisation.odsCode,
   primaryRoleId: organisation.primaryRoleId,
-  address: organisation.address ? Object.keys(organisation.address).reduce((acc, key) => {
-    if (organisation.address[key]) acc.push(organisation.address[key]);
-    return acc;
-  }, []) : [],
+  address: organisation.address ? extractObjectValuesToArray(organisation.address) : [],
   agreementSigned: organisation.catalogueAgreementSigned,
   columnInfo: manifest.columnInfo ? manifest.columnInfo : [],
   addUserButtonHref: `/organisations/${organisation.organisationId}/adduser`,
