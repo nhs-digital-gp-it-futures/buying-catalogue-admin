@@ -134,9 +134,6 @@ describe('editorg page', () => {
       harness.request(agreementSignedMockContext, ($) => {
         const checkboxInput = $('input[data-test-id="catalogue-agreement-signed-checkbox"]');
         expect(checkboxInput.length).toEqual(1);
-        expect(checkboxInput.attr('id')).toEqual('catalogue-agreement-checkbox');
-        expect(checkboxInput.attr('name')).toEqual('catalogueagreementsigned');
-        expect(checkboxInput.attr('type')).toEqual('checkbox');
         expect(checkboxInput.attr('value')).toEqual('true');
       });
     }));
