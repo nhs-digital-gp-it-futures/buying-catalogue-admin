@@ -120,7 +120,7 @@ describe('editorg page', () => {
       });
     }));
 
-    it('should render a checkbox input for catalogue agreement signed', createTestHarness(setup, (harness) => {
+    it('should render a checkbox label for catalogue agreement signed', createTestHarness(setup, (harness) => {
       harness.request(mockContext, ($) => {
         const checkboxLabel = $('label[data-test-id="catalogue-agreement-signed-label"]');
         expect(checkboxLabel.length).toEqual(1);
