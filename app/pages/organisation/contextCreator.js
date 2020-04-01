@@ -11,7 +11,7 @@ export const getContext = ({ organisation }) => ({
     if (organisation.address[key]) acc.push(organisation.address[key]);
     return acc;
   }, []) : [],
-  agreementSigned: organisation.isCatalogueAgreementSigned,
+  agreementSigned: organisation.catalogueAgreementSigned,
   columnInfo: manifest.columnInfo ? manifest.columnInfo : [],
   addUserButtonHref: `/organisations/${organisation.organisationId}/adduser`,
   users: organisation && organisation.users ? organisation.users.map(row => [
@@ -30,4 +30,5 @@ export const getContext = ({ organisation }) => ({
     },
   ]) : [],
   backLinkHref: `${baseUrl}/organisations`,
+  editOrgButtonHref: `/organisations/${organisation.organisationId}/edit`,
 });

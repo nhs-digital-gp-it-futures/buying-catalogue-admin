@@ -31,7 +31,7 @@ const mockData = {
     emailAddress: 'daisy.chain@email.com',
     isDisabled: true,
   }],
-  isCatalogueAgreementSigned: true,
+  catalogueAgreementSigned: true,
 };
 
 describe('getOrganisationContext', () => {
@@ -56,7 +56,7 @@ describe('getOrganisationContext', () => {
     expect(context.organisationName).toEqual(mockData.name);
     expect(context.odsCode).toEqual(mockData.odsCode);
     expect(context.primaryRoleId).toEqual(mockData.primaryRoleId);
-    expect(context.agreementSigned).toEqual(mockData.isCatalogueAgreementSigned);
+    expect(context.agreementSigned).toEqual(mockData.catalogueAgreementSigned);
   });
 
   it('should add addUserButtonHref', () => {
