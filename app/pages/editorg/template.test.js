@@ -110,7 +110,7 @@ describe('editorg page', () => {
   describe('catalogue agreement signed checkbox', () => {
     it('should render a checkbox input for catalogue agreement signed', createTestHarness(setup, (harness) => {
       harness.request(mockContext, ($) => {
-        const checkboxInput = $('input[data-test-id="catalogue-agreement-signed-checkbox"]');
+        const checkboxInput = $('[data-test-id="catalogue-agreement-checkbox"] input');
         expect(checkboxInput.length).toEqual(1);
         expect(checkboxInput.attr('id')).toEqual('catalogue-agreement-checkbox');
         expect(checkboxInput.attr('name')).toEqual('catalogueagreementsigned');
@@ -122,7 +122,7 @@ describe('editorg page', () => {
 
     it('should render a checkbox label for catalogue agreement signed', createTestHarness(setup, (harness) => {
       harness.request(mockContext, ($) => {
-        const checkboxLabel = $('label[data-test-id="catalogue-agreement-signed-label"]');
+        const checkboxLabel = $('[data-test-id="catalogue-agreement-checkbox"] label');
         expect(checkboxLabel.length).toEqual(1);
         expect(checkboxLabel.attr('for')).toEqual('catalogue-agreement-checkbox');
         expect(checkboxLabel.text().trim()).toEqual(mockContext.catalogueAgreementCheckboxText);
@@ -132,7 +132,7 @@ describe('editorg page', () => {
     it('should check the checkbox if agreementSigned is true', createTestHarness(setup, (harness) => {
       const agreementSignedMockContext = { ...mockContext, agreementSigned: true };
       harness.request(agreementSignedMockContext, ($) => {
-        const checkboxInput = $('input[data-test-id="catalogue-agreement-signed-checkbox"]');
+        const checkboxInput = $('[data-test-id="catalogue-agreement-checkbox"] input');
         expect(checkboxInput.length).toEqual(1);
         expect(checkboxInput.attr('value')).toEqual('true');
       });

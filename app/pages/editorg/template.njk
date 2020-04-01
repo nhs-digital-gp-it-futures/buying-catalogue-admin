@@ -5,10 +5,6 @@
 {% from '../../common/components/table.njk' import table %}
 
 {% block body %}
-  {% if agreementSigned %}
-    {% set checkedValue %}checked{% endset %}
-  {% endif %}
-
   <div class="nhsuk-width-container" data-test-id="edit-organisation-page">
     <div data-test-id="go-back-link">
       {{ backLink({
@@ -36,11 +32,17 @@
     <form method="post" action="{{ saveCatalogueAgreementPostAction }}">
       <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
     
-      <div class="nhsuk-checkboxes__item nhsuk-u-margin-bottom-9">
-        <input data-test-id="catalogue-agreement-signed-checkbox" class="nhsuk-checkboxes__input" id="catalogue-agreement-checkbox" name="catalogueagreementsigned" type="checkbox" value="{{agreementSigned}}" {{ checkedValue }}>
-        <label data-test-id="catalogue-agreement-signed-label" class="nhsuk-label nhsuk-checkboxes__label" for="catalogue-agreement-checkbox">
-          {{ catalogueAgreementCheckboxText }}
-        </label>
+      <div data-test-id="catalogue-agreement-checkbox" class="nhsuk-u-margin-bottom-9">
+        {{ checkboxes({
+          checked: agreementSigned,
+          items: [{
+            id: "catalogue-agreement-checkbox",
+            name: "catalogueagreementsigned",
+            value: agreementSigned,
+            text: catalogueAgreementCheckboxText,
+            checked: agreementSigned
+          }]
+        }) }}
       </div>
 
       <div data-test-id="save-button">
