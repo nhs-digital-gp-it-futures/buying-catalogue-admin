@@ -61,7 +61,7 @@ test('should render Organisation page', async (t) => {
   await pageSetup(t, true);
   await t.navigateTo(pageUrl);
 
-  const orgPage = Selector('[data-test-id="organisation"]');
+  const orgPage = Selector('[data-test-id="organisation-page"]');
 
   await t
     .expect(orgPage.exists).ok();
@@ -126,8 +126,8 @@ test('should render edit org button', async (t) => {
     .expect(editOrgButton.exists).ok()
     .expect(await extractInnerText(editOrgButton)).eql(content.editOrgButtonText)
     .expect(editOrgButton.hasClass('nhsuk-u-margin-bottom-9')).ok()
-    // TODO: Change when edit organisation implemented
-    .expect(editOrgButton.getAttribute('href')).eql('#');
+    .expect(editOrgButton.getAttribute('href')).eql('/organisations/org1/edit');
+    // TODO: click through
   // .click()
 });
 
