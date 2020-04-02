@@ -35,25 +35,23 @@ const isIsapiReady = async ({
     }
   });
 
-  const canAppStart = await isIsapiReady({ attempt: 1, pollDuration: 1000 });
+  await isIsapiReady({ attempt: 1, pollDuration: 1000 });
 
-  if (canAppStart) {
-    // Routes
-    const authProvider = new AuthProvider();
-    const app = new App(authProvider).createApp();
-    app.use(config.baseUrl ? config.baseUrl : '/', routes(authProvider));
-    if (config.baseUrl) {
-      app.use('/', (req, res) => {
-        res.redirect(config.baseUrl);
-      });
-    }
-
-    // Run application on configured port
-    if (config.env === 'development') {
-      logger.info(`Buying Catalogue Admin - \x1b[35m${config.appBaseUri}${config.baseUrl}/organisations\x1b[0m`);
-    } else {
-      logger.info(`App listening on port ${config.port} - Buying Catalogue Admin`);
-    }
-    app.listen(config.port);
+  // Routes
+  const authProvider = new AuthProvider();
+  const app = new App(authProvider).createApp();
+  app.use(config.baseUrl ? config.baseUrl : '/', routes(authProvider));
+  if (config.baseUrl) {
+    app.use('/', (req, res) => {
+      res.redirect(config.baseUrl);
+    });
   }
+
+  // Run application on configured port
+  if (config.env === 'development') {
+    logger.info(`Buying Catalogue Admin - \x1b[35m${config.appBaseUri}${config.baseUrl}/organisations\x1b[0m`);
+  } else {
+    logger.info(`App listening on port ${config.port} - Buying Catalogue Admin`);
+  }
+  app.listen(config.port);
 })();
