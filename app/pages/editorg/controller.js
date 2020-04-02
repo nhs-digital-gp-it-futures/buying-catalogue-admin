@@ -16,7 +16,7 @@ export const getEditOrgAccountContext = async ({ organisationId, accessToken }) 
 export const putUpdateOrganisation = async ({ organisationId, body, accessToken }) => {
   const data = {
     ...body,
-    catalogueagreementsigned: !!body.catalogueagreementsigned,
+    catalogueAgreementSigned: !!body.catalogueAgreementSigned,
   };
 
   await putData({

@@ -80,22 +80,22 @@ describe('edit organisation controller', () => {
       apiProvider.putData.mockReset();
     });
 
-    it('should call putData once with the correct params when catalogueagreementsigned is in the body', async () => {
+    it('should call putData once with the correct params when catalogueAgreementSigned is in the body', async () => {
       apiProvider.putData
         .mockResolvedValueOnce({});
 
-      await putUpdateOrganisation({ organisationId: 1, body: { catalogueagreementsigned: 'true' }, accessToken: 'access_token' });
+      await putUpdateOrganisation({ organisationId: 1, body: { catalogueAgreementSigned: 'true' }, accessToken: 'access_token' });
 
       expect(apiProvider.putData.mock.calls.length).toEqual(1);
       expect(apiProvider.putData).toHaveBeenCalledWith({
         endpointLocator: 'putUpdateOrganisation',
-        body: { catalogueagreementsigned: true },
+        body: { catalogueAgreementSigned: true },
         options: { organisationId: 1 },
         accessToken: 'access_token',
       });
     });
 
-    it('should call putData once with the correct params when catalogueagreementsigned is not in the body', async () => {
+    it('should call putData once with the correct params when catalogueAgreementSigned is not in the body', async () => {
       apiProvider.putData
         .mockResolvedValueOnce({});
 
@@ -104,7 +104,7 @@ describe('edit organisation controller', () => {
       expect(apiProvider.putData.mock.calls.length).toEqual(1);
       expect(apiProvider.putData).toHaveBeenCalledWith({
         endpointLocator: 'putUpdateOrganisation',
-        body: { catalogueagreementsigned: false },
+        body: { catalogueAgreementSigned: false },
         options: { organisationId: 1 },
         accessToken: 'access_token',
       });
@@ -114,7 +114,7 @@ describe('edit organisation controller', () => {
       apiProvider.putData
         .mockResolvedValueOnce({});
 
-      const response = await putUpdateOrganisation({ organisationId: 1, body: { catalogueagreementsigned: 'true' }, accessToken: 'access_token' });
+      const response = await putUpdateOrganisation({ organisationId: 1, body: { catalogueAgreementSigned: 'true' }, accessToken: 'access_token' });
 
       expect(response.success).toEqual(true);
     });
