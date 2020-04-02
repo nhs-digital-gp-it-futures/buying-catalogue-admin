@@ -4,21 +4,21 @@ import { routes } from './routes';
 import { FakeAuthProvider } from './test-utils/FakeAuthProvider';
 import { getCsrfTokenFromGet, setFakeCookie } from './test-utils/helper';
 import * as orgDashboardContext from './pages/dashboard/controller';
-import * as orgAccountsContext from './pages/organisation/controller';
 import * as addUserContext from './pages/adduser/controller';
-import * as viewUserContext from './pages/viewuser/controller';
 import * as userStatusContext from './pages/viewuser/changeUserStatusConfirmation/controller';
-import * as editOrgContext from './pages/editorg/controller';
 
 jest.mock('./logger');
 
+jest.mock('./apiProvider', () => ({
+  getData: jest.fn()
+    .mockImplementation(() => Promise.resolve({})),
+  postData: jest.fn()
+    .mockImplementation(() => Promise.resolve({ success: true })),
+  putData: jest.fn()
+    .mockImplementation(() => Promise.resolve({ success: true })),
+}));
+
 const mockLogoutMethod = jest.fn().mockImplementation(() => Promise.resolve({}));
-
-userStatusContext.postUserStatus = jest.fn()
-  .mockImplementation(() => Promise.resolve({ success: true }));
-
-editOrgContext.getEditOrgAccountContext = jest.fn()
-  .mockImplementation(() => Promise.resolve({}));
 
 addUserContext.postAddUser = jest.fn()
   .mockImplementation(() => Promise.resolve({ success: true }));
@@ -198,19 +198,14 @@ describe('routes', () => {
       checkAuthorisedRouteWithoutClaim(path)
     ));
 
-    it('should return the correct status and text when the user is authorised', () => {
-      orgDashboardContext.getOrgDashboardContext = jest.fn()
-        .mockImplementation(() => {});
-
-      return request(setUpFakeApp())
-        .get(path)
-        .set('Cookie', [mockAuthorisedCookie])
-        .expect(200)
-        .then((res) => {
-          expect(res.text.includes('data-test-id="organisations"')).toEqual(true);
-          expect(res.text.includes('data-test-id="error-page-title"')).toEqual(false);
-        });
-    });
+    it('should return the correct status and text when the user is authorised', () => request(setUpFakeApp())
+      .get(path)
+      .set('Cookie', [mockAuthorisedCookie])
+      .expect(200)
+      .then((res) => {
+        expect(res.text.includes('data-test-id="organisations"')).toEqual(true);
+        expect(res.text.includes('data-test-id="error-page-title"')).toEqual(false);
+      }));
   });
 
   describe('GET /organisations/:organisationId', () => {
@@ -224,19 +219,14 @@ describe('routes', () => {
       checkAuthorisedRouteWithoutClaim(path)
     ));
 
-    it('should return the correct status and text when the user is authorised', () => {
-      orgAccountsContext.getOrgAccountsContext = jest.fn()
-        .mockImplementation(() => {});
-
-      return request(setUpFakeApp())
-        .get(path)
-        .set('Cookie', [mockAuthorisedCookie])
-        .expect(200)
-        .then((res) => {
-          expect(res.text.includes('data-test-id="org-page-title"')).toEqual(true);
-          expect(res.text.includes('data-test-id="error-page-title"')).toEqual(false);
-        });
-    });
+    it('should return the correct status and text when the user is authorised', () => request(setUpFakeApp())
+      .get(path)
+      .set('Cookie', [mockAuthorisedCookie])
+      .expect(200)
+      .then((res) => {
+        expect(res.text.includes('data-test-id="org-page-title"')).toEqual(true);
+        expect(res.text.includes('data-test-id="error-page-title"')).toEqual(false);
+      }));
   });
 
   describe('POST /organisations/:organisationId', () => {
@@ -284,19 +274,14 @@ describe('routes', () => {
       checkAuthorisedRouteWithoutClaim('/organisations/org1/edit')
     ));
 
-    it('should return the correct status and text when the user is authorised', () => {
-      viewUserContext.getViewUserContext = jest.fn()
-        .mockImplementation(() => {});
-
-      return request(setUpFakeApp())
-        .get('/organisations/org1/edit')
-        .set('Cookie', [mockAuthorisedCookie])
-        .expect(200)
-        .then((res) => {
-          expect(res.text.includes('data-test-id="edit-organisation-page"')).toEqual(true);
-          expect(res.text.includes('data-test-id="error-page-title"')).toEqual(false);
-        });
-    });
+    it('should return the correct status and text when the user is authorised', () => request(setUpFakeApp())
+      .get('/organisations/org1/edit')
+      .set('Cookie', [mockAuthorisedCookie])
+      .expect(200)
+      .then((res) => {
+        expect(res.text.includes('data-test-id="edit-organisation-page"')).toEqual(true);
+        expect(res.text.includes('data-test-id="error-page-title"')).toEqual(false);
+      }));
   });
 
   describe('GET /organisations/:organisationId/:userId', () => {
@@ -310,19 +295,14 @@ describe('routes', () => {
       checkAuthorisedRouteWithoutClaim(path)
     ));
 
-    it('should return the correct status and text when the user is authorised', () => {
-      viewUserContext.getViewUserContext = jest.fn()
-        .mockImplementation(() => {});
-
-      return request(setUpFakeApp())
-        .get(path)
-        .set('Cookie', [mockAuthorisedCookie])
-        .expect(200)
-        .then((res) => {
-          expect(res.text.includes('data-test-id="view-user-page"')).toEqual(true);
-          expect(res.text.includes('data-test-id="error-page-title"')).toEqual(false);
-        });
-    });
+    it('should return the correct status and text when the user is authorised', () => request(setUpFakeApp())
+      .get(path)
+      .set('Cookie', [mockAuthorisedCookie])
+      .expect(200)
+      .then((res) => {
+        expect(res.text.includes('data-test-id="view-user-page"')).toEqual(true);
+        expect(res.text.includes('data-test-id="error-page-title"')).toEqual(false);
+      }));
   });
 
   describe('GET /organisations/:organisationId/:userId/enable', () => {
@@ -456,18 +436,13 @@ describe('routes', () => {
       checkAuthorisedRouteWithoutClaim(path)
     ));
 
-    it('should return the correct status and text when the user is authorised', () => {
-      addUserContext.getAddUserContext = jest.fn()
-        .mockImplementation(() => {});
-
-      return request(setUpFakeApp())
-        .get(path)
-        .set('Cookie', [mockAuthorisedCookie])
-        .expect(200)
-        .then((res) => {
-          expect(res.text.includes('data-test-id="add-user-page"')).toEqual(true);
-        });
-    });
+    it('should return the correct status and text when the user is authorised', () => request(setUpFakeApp())
+      .get(path)
+      .set('Cookie', [mockAuthorisedCookie])
+      .expect(200)
+      .then((res) => {
+        expect(res.text.includes('data-test-id="add-user-page"')).toEqual(true);
+      }));
   });
 
   describe('POST /organisations/:organisationId/adduser', () => {
