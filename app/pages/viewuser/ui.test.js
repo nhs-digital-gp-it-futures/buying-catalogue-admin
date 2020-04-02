@@ -133,7 +133,7 @@ test('should render contact details heading', async (t) => {
     .expect(contactDetailsHeading.exists).ok()
     .expect(await extractInnerText(contactDetailsHeading)).eql(content.phoneNumberHeading)
     .expect(contactDetailsHeading.exists).ok()
-    .expect(await extractInnerText(contactDetails)).eql(userData.phonenumber);
+    .expect(await extractInnerText(contactDetails)).eql(userData.phoneNumber);
 });
 
 test('should render email address heading', async (t) => {
@@ -147,7 +147,7 @@ test('should render email address heading', async (t) => {
     .expect(emailHeading.exists).ok()
     .expect(await extractInnerText(emailHeading)).eql(content.emailAddressHeading)
     .expect(email.exists).ok()
-    .expect(await extractInnerText(email)).eql(userData.emailaddress);
+    .expect(await extractInnerText(email)).eql(userData.emailAddress);
 });
 
 test('should render edit user button', async (t) => {
