@@ -1,8 +1,8 @@
 {
   "userId": "user1",
   "name": "John Smith",
-  "phonenumber": "07777777777",
-  "emailaddress": "John@Smith.com",
+  "phoneNumber": "07777777777",
+  "emailAddress": "John@Smith.com",
   "disabled": false,
-  "primaryorganisationid": "primaryOrg1"
+  "primaryOrganisationId": "primaryOrg1"
 }

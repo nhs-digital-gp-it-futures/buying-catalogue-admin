@@ -5,8 +5,8 @@ const mockData = {
   organisationId: 'org1',
   organisationName: 'A lovely organisation',
   name: 'John Smith',
-  phonenumber: '07777777777',
-  emailaddress: 'John@Smith.com',
+  phoneNumber: '07777777777',
+  emailAddress: 'John@Smith.com',
   disabled: false,
 };
 
@@ -25,8 +25,8 @@ describe('getViewUserContext', () => {
     const context = getContext({ user: mockData });
     expect(context.organisationName).toEqual(mockData.organisationName);
     expect(context.userName).toEqual(mockData.name);
-    expect(context.phoneNumber).toEqual(mockData.phonenumber);
-    expect(context.emailAddress).toEqual(mockData.emailaddress);
+    expect(context.phoneNumber).toEqual(mockData.phoneNumber);
+    expect(context.emailAddress).toEqual(mockData.emailAddress);
     expect(context.accountDisabled).toEqual(mockData.disabled);
   });
 
