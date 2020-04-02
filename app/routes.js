@@ -9,7 +9,7 @@ import includesContext from './includes/manifest.json';
 import { getAddUserConfirmationContext } from './pages/adduser/confirmation/contextCreator';
 import { getViewUserContext } from './pages/viewuser/controller';
 import { getUserStatusContext, postUserStatus } from './pages/viewuser/changeUserStatusConfirmation/controller';
-import { getEditOrgAccountContext } from './pages/editorg/controller';
+import { getEditOrgAccountContext, putUpdateOrganisation } from './pages/editorg/controller';
 import config from './config';
 
 const addContext = ({ context, user, csrfToken }) => ({
@@ -63,8 +63,13 @@ export const routes = (authProvider) => {
     res.render('pages/organisation/template.njk', addContext({ context, user: req.user }));
   }));
 
-  router.post('/organisations/:organisationId', authProvider.authorise(), withCatch(authProvider, async (req) => {
-    logger.info('POST /organisations/:organisationId', req.body);
+  router.post('/organisations/:organisationId', authProvider.authorise(), withCatch(authProvider, async (req, res) => {
+    const { organisationId } = req.params;
+    const accessToken = extractAccessToken({ req, tokenType: 'access' });
+    await putUpdateOrganisation({ organisationId, body: req.body, accessToken });
+    logger.info(`redirecting to edit organisation: ${organisationId} confirmation page`);
+    // TODO: change to /organisations/${organisationId}/edit/confirmation when confirmation is done
+    res.redirect(`/organisations/${organisationId}`);
   }));
 
   router.get('/organisations/:organisationId/edit', authProvider.authorise(), withCatch(authProvider, async (req, res) => {
@@ -124,7 +129,6 @@ export const routes = (authProvider) => {
     const { userId, organisationId } = req.params;
     const accessToken = extractAccessToken({ req, tokenType: 'access' });
     await postUserStatus({ userId, accessToken, status: 'enable' });
-    logger.info(`navigating to enable user: ${userId} confirmation page`);
     res.redirect(`/organisations/${organisationId}/${userId}/enable`);
   }));
 
@@ -141,7 +145,6 @@ export const routes = (authProvider) => {
     const { userId, organisationId } = req.params;
     const accessToken = extractAccessToken({ req, tokenType: 'access' });
     await postUserStatus({ userId, accessToken, status: 'disable' });
-    logger.info(`navigating to disable user: ${userId} confirmation page`);
     res.redirect(`/organisations/${organisationId}/${userId}/disable`);
   }));
 

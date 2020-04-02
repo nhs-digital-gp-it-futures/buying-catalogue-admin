@@ -254,8 +254,8 @@ describe('routes', () => {
     it('should show the error page indicating the user is not authorised if the user is logged in but not authorised', async () => {
       await checkLoggedInNotAuthorised(csrfPagePath, path);
     });
-    // TODO: Remove skip and fix once POST request work has been done
-    it.skip('should return the correct status and text if response.success is true', async () => {
+
+    it('should return the correct status and text if response.success is true', async () => {
       const { cookies, csrfToken } = await getCsrfTokenFromGet(
         setUpFakeApp(), csrfPagePath, mockAuthorisedCookie,
       );
@@ -268,7 +268,8 @@ describe('routes', () => {
         .expect(302)
         .then((res) => {
           expect(res.redirect).toEqual(true);
-          expect(res.headers.location).toEqual('/organisations/org1/user2/enable');
+          // TODO: change to confirmation page when it is ready
+          expect(res.headers.location).toEqual('/organisations/org1');
           expect(res.text.includes('data-test-id="error-page-title"')).toEqual(false);
         });
     });
