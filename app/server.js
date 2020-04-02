@@ -9,26 +9,24 @@ const { logger } = require('./logger');
 
 const setTimeoutPromise = util.promisify(setTimeout);
 
-const determineCanAppStart = async ({
-  canStartApp, attempt, pollDuration,
+const isIsapiReady = async ({
+  isapiReady, attempt, pollDuration,
 }) => {
-  if (!canStartApp) {
+  if (!isapiReady) {
     try {
       await axios.get(`${config.oidcBaseUri}/.well-known/openid-configuration`);
-      return determineCanAppStart({
-        canStartApp: true, appType: 'auth', attempt, pollDuration,
-      });
+      return true;
     } catch (err) {
       const nextAttempt = attempt + 1;
       const nextPollDuration = nextAttempt * pollDuration;
       logger.error(`Isapi is not ready - will poll again in ${nextAttempt} seconds`);
-      return setTimeoutPromise(nextPollDuration).then(() => determineCanAppStart({
-        canStartApp: false, attempt: nextAttempt, pollDuration,
+      return setTimeoutPromise(nextPollDuration).then(() => isIsapiReady({
+        isapiReady: false, attempt: nextAttempt, pollDuration,
       }));
     }
   }
 
-  return canStartApp;
+  return isapiReady;
 };
 
 (async () => {
@@ -40,7 +38,7 @@ const determineCanAppStart = async ({
     }
   });
 
-  const canAppStart = await determineCanAppStart({
+  const canAppStart = await isIsapiReady({
     canStartApp: false, attempt: 1, pollDuration: 1000,
   });
 
