@@ -116,7 +116,7 @@ describe('editorg page', () => {
         expect(checkboxInput.attr('name')).toEqual('catalogueagreementsigned');
         expect(checkboxInput.attr('type')).toEqual('checkbox');
         expect(checkboxInput.attr('checked')).toEqual(undefined);
-        expect(checkboxInput.attr('value')).toEqual('false');
+        expect(checkboxInput.attr('value')).toEqual('true');
       });
     }));
 
