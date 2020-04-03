@@ -1,6 +1,6 @@
 {
   "backLinkText": "Back to dashboard",
-  "title": "{{orgName}} updated",
+  "title": "{{organisationName}} updated",
   "description": "This organisation's details have been updated.",
   "dataTestId": "edit-organisation-confirmation"
 }
