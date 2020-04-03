@@ -172,21 +172,17 @@ test('should render add user button', async (t) => {
 test('should navigate to confirmation page when form is filled out and addUser button is clicked', async (t) => {
   nock(organisationsApiLocalhost)
     .post('/api/v1/Organisations/org1/Users')
-    .reply(200);
+    .reply(200, { userId: 'user1' });
 
   await pageSetup(t, true);
   await t.navigateTo(pageUrl);
 
-  const firstName = Selector('[data-test-id="question-firstName"] input');
-  const lastName = Selector('[data-test-id="question-lastName"] input');
   const addUserButton = Selector('[data-test-id="add-user-button"] button');
 
   await t
     .expect(addUserButton.exists).ok()
-    .typeText(firstName, 'Peter')
-    .typeText(lastName, 'Parker')
     .click(addUserButton)
-    .expect(getLocation()).eql(`${pageUrl}/confirmation?userAdded=Peter%20Parker`);
+    .expect(getLocation()).eql(`${pageUrl}/confirmation?id=user1`);
 });
 
 test('should show the error summary when there are validation errors', async (t) => {

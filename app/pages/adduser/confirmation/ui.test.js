@@ -5,6 +5,8 @@ import { extractInnerText } from '../../../test-utils/helper';
 import { organisationsApiLocalhost } from '../../../test-utils/config';
 import organisationDetails from '../../../test-utils/fixtures/organisationDetails.json';
 
+const path = 'http://localhost:1234/organisations/org1/adduser/confirmation?id=user1';
+
 const setCookies = ClientFunction(() => {
   const cookieValue = JSON.stringify({
     id: '88421113', name: 'Cool Dude', organisation: 'view',
@@ -13,8 +15,15 @@ const setCookies = ClientFunction(() => {
   document.cookie = `fakeToken=${cookieValue}`;
 });
 
+const mocks = () => {
+  nock(organisationsApiLocalhost)
+    .get('/api/v1/Users/user1')
+    .reply(200, { name: 'Peter Parker' });
+};
+
 const pageSetup = async (t, withAuth = false) => {
   if (withAuth) {
+    mocks();
     await setCookies();
   }
 };
@@ -40,7 +49,7 @@ test('should navigate to /organisations/org1 when click on Back to dashboard', a
     .get('/api/v1/Organisations/org1/Users')
     .reply(200, {});
   await pageSetup(t, true);
-  await t.navigateTo('http://localhost:1234/organisations/org1/adduser/confirmation?userAdded=Peter%20Parker');
+  await t.navigateTo(path);
 
   const goBackLink = Selector('[data-test-id="go-back-link"] a');
 
@@ -52,7 +61,7 @@ test('should navigate to /organisations/org1 when click on Back to dashboard', a
 
 test('should render the title', async (t) => {
   await pageSetup(t, true);
-  await t.navigateTo('http://localhost:1234/organisations/org1/adduser/confirmation?userAdded=Peter%20Parker');
+  await t.navigateTo(path);
 
   const title = Selector('h1[data-test-id="add-user-confirmation-page-title"]');
 
@@ -63,7 +72,7 @@ test('should render the title', async (t) => {
 
 test('should render the description', async (t) => {
   await pageSetup(t, true);
-  await t.navigateTo('http://localhost:1234/organisations/org1/adduser/confirmation?userAdded=Peter%20Parker');
+  await t.navigateTo(path);
 
   const description = Selector('h2[data-test-id="add-user-confirmation-page-description"]');
 
