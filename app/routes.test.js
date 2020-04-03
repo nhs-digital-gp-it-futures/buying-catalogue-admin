@@ -120,16 +120,6 @@ const checkLoggedInNotAuthorised = async (csrfPagePath, postPath) => {
 };
 
 describe('routes', () => {
-  describe('GET /health/live', () => {
-    it('should return the correct status and text', () => (
-      request(setUpFakeApp())
-        .get('/health/live')
-        .expect(200)
-        .then((res) => {
-          expect(res.text).toBe('Buying Catalogue Admin app is running!');
-        })));
-  });
-
   describe('GET /login', () => {
     it('should return the correct status and redirect to the login page when not authenticated', () => (
       request(setUpFakeApp())
