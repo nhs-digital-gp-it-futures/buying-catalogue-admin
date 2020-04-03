@@ -1,0 +1,41 @@
+import { status } from '../status';
+import { getReadyStatus } from './getReadyStatus';
+import * as apiProvider from '../../../apiProvider';
+
+jest.mock('../../../apiProvider', () => ({
+  getData: jest.fn(),
+}));
+
+describe('getReadyStatus', () => {
+  afterEach(() => {
+    apiProvider.getData.mockReset();
+  });
+
+  it('should call getData twice with the correct params', async () => {
+    await getReadyStatus();
+    expect(apiProvider.getData.mock.calls.length).toEqual(1);
+    expect(apiProvider.getData).toHaveBeenNthCalledWith(1, { endpointLocator: 'getIdentityApiHealth' });
+  });
+
+  it('should return "Healthy" when IdentityApi is "Healthy"', async () => {
+    apiProvider.getData
+      .mockReturnValueOnce({ data: status.healthy.message });
+
+    expect(await getReadyStatus()).toBe(status.healthy);
+  });
+
+  it('should return "Degraded" when IdentityApi is "Degraded"', async () => {
+    apiProvider.getData
+      .mockReturnValueOnce({ data: status.degraded.message });
+
+    expect(await getReadyStatus()).toBe(status.degraded);
+  });
+
+  it('should return "Unhealthy" when IdentityApi is "Unhealthy"', async () => {
+    apiProvider.getData
+      .mockReturnValueOnce({ data: status.unhealthy.message })
+      .mockReturnValueOnce({ data: status.healthy.message });
+
+    expect(await getReadyStatus()).toBe(status.unhealthy);
+  });
+});
