@@ -66,6 +66,6 @@ describe('getEditOrganisationContext', () => {
 
   it('should construct saveCatalogueAgreementPostAction', () => {
     const context = getContext({ organisation: mockData });
-    expect(context.saveCatalogueAgreementPostAction).toEqual(`/organisations/${mockData.organisationId}`);
+    expect(context.saveCatalogueAgreementPostAction).toEqual(`/organisations/${mockData.organisationId}/edit`);
   });
 });

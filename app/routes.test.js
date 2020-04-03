@@ -229,25 +229,24 @@ describe('routes', () => {
       }));
   });
 
-  describe('POST /organisations/:organisationId', () => {
-    const path = '/organisations/org1';
-    const csrfPagePath = '/organisations/org1/edit';
+  describe('POST /organisations/:organisationId/edit', () => {
+    const path = '/organisations/org1/edit';
 
     it('should return 403 forbidden if no csrf token is available', async () => {
       await checkForbiddenNoCsrf(path);
     });
 
     it('should redirect to the login page if the user is not logged in', async () => {
-      await checkRedirectToLogin(csrfPagePath, path);
+      await checkRedirectToLogin(path, path);
     });
 
     it('should show the error page indicating the user is not authorised if the user is logged in but not authorised', async () => {
-      await checkLoggedInNotAuthorised(csrfPagePath, path);
+      await checkLoggedInNotAuthorised(path, path);
     });
 
     it('should return the correct status and text if response.success is true', async () => {
       const { cookies, csrfToken } = await getCsrfTokenFromGet(
-        setUpFakeApp(), csrfPagePath, mockAuthorisedCookie,
+        setUpFakeApp(), path, mockAuthorisedCookie,
       );
 
       return request(setUpFakeApp())
