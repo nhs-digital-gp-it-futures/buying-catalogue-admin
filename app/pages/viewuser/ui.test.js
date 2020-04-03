@@ -71,6 +71,9 @@ test('should navigate to organisation page when click on Back', async (t) => {
   nock(organisationsApiLocalhost)
     .get('/api/v1/Organisations/org1')
     .reply(200, {});
+  nock(organisationsApiLocalhost)
+    .get('/api/v1/Organisations/org1/Users')
+    .reply(200, {});
 
   await pageSetup(t, true);
   await t.navigateTo(pageUrl);
@@ -94,7 +97,7 @@ test('should render the title', async (t) => {
     .expect(await extractInnerText(title)).eql(`${userData.name} ${content.title}`);
 });
 
-test('should render organisation name heading', async (t) => {
+test('should render organisation name', async (t) => {
   await pageSetup(t, true);
   await t.navigateTo(pageUrl);
 
@@ -108,7 +111,7 @@ test('should render organisation name heading', async (t) => {
     .expect(await extractInnerText(orgName)).eql(organisationData.name);
 });
 
-test('should render user name heading', async (t) => {
+test('should render user name', async (t) => {
   await pageSetup(t, true);
   await t.navigateTo(pageUrl);
 
@@ -122,7 +125,7 @@ test('should render user name heading', async (t) => {
     .expect(await extractInnerText(userName)).eql(userData.name);
 });
 
-test('should render contact details heading', async (t) => {
+test('should render contact details', async (t) => {
   await pageSetup(t, true);
   await t.navigateTo(pageUrl);
 
@@ -136,7 +139,7 @@ test('should render contact details heading', async (t) => {
     .expect(await extractInnerText(contactDetails)).eql(userData.phoneNumber);
 });
 
-test('should render email address heading', async (t) => {
+test('should render email address', async (t) => {
   await pageSetup(t, true);
   await t.navigateTo(pageUrl);
 
@@ -150,7 +153,7 @@ test('should render email address heading', async (t) => {
     .expect(await extractInnerText(email)).eql(userData.emailAddress);
 });
 
-test('should render edit user button', async (t) => {
+test('should render edit account button', async (t) => {
   await pageSetup(t, true);
   await t.navigateTo(pageUrl);
 
@@ -189,7 +192,10 @@ test('should render change account status button', async (t) => {
 test('should navigate to the confirmation page when edit change account status button is clicked', async (t) => {
   nock(organisationsApiLocalhost)
     .post('/api/v1/Users/user1/disable')
-    .reply(200);
+    .reply(200, {});
+  nock(organisationsApiLocalhost)
+    .get('/api/v1/Users/user1')
+    .reply(200, {});
 
   await pageSetup(t, true);
   await t.navigateTo(pageUrl);

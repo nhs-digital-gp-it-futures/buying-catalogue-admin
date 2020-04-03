@@ -36,6 +36,9 @@ test('should navigate to /organisations/org1 when click on Back to dashboard', a
   nock(organisationsApiLocalhost)
     .get('/api/v1/Organisations/org1')
     .reply(200, organisationDetails);
+  nock(organisationsApiLocalhost)
+    .get('/api/v1/Organisations/org1/Users')
+    .reply(200, {});
   await pageSetup(t, true);
   await t.navigateTo('http://localhost:1234/organisations/org1/adduser/confirmation?userAdded=Peter%20Parker');
 

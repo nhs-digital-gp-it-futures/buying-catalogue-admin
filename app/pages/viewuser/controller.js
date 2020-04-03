@@ -10,6 +10,7 @@ export const getViewUserContext = async ({ organisationId, userId, accessToken }
     logger.info(`Organisation ${organisationId}: ${organisation.name} returned`);
     user.organisationName = organisation.name;
     user.organisationId = organisationId;
+    user.userId = userId;
     return getContext({ user });
   }
 
