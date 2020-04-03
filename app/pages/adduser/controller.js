@@ -40,7 +40,7 @@ export const postAddUser = async ({ organisationId, data, accessToken }) => {
       return { success: false, errors: response.data.errors };
     }
     logger.info(`User added: ${JSON.stringify(data)}`);
-    return { success: true, userAdded: `${data.firstName} ${data.lastName}` };
+    return { success: true, id: response.data.userId };
   } catch (err) {
     if (err.response && err.response.status === 400 && err.response.data) {
       return err.response.data;

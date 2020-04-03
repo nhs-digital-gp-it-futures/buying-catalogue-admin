@@ -134,7 +134,7 @@ describe('adduser controller', () => {
 
     it('should call postData once with the correct params', async () => {
       apiProvider.postData
-        .mockResolvedValueOnce({});
+        .mockResolvedValueOnce({ data: { userId: 'user1' } });
 
       await postAddUser({ organisationId: 1, data: { firstName: 'SomeName' }, accessToken: 'access_token' });
 
@@ -151,7 +151,7 @@ describe('adduser controller', () => {
 
     it('should return true if api request is successful', async () => {
       apiProvider.postData
-        .mockResolvedValueOnce({});
+        .mockResolvedValueOnce({ data: { userId: 'user1' } });
 
       const response = await postAddUser({ organisationId: 1, data: { firstName: 'SomeName' }, accessToken: 'access_token' });
 
