@@ -1,3 +1,4 @@
+import { baseUrl } from '../../config';
 import manifest from './manifest.json';
 
 export const getContext = ({ organisations }) => ({
@@ -5,7 +6,7 @@ export const getContext = ({ organisations }) => ({
   columnInfo: manifest.columnInfo ? manifest.columnInfo : [],
   organisations: organisations
     ? organisations.map(row => [
-      { data: row.name || '', href: row.organisationId ? `organisations/${row.organisationId}` : '#' },
+      { data: row.name || '', href: row.organisationId ? `${baseUrl}/organisations/${row.organisationId}` : '#' },
       { data: row.odsCode || '' },
     ])
     : [],
