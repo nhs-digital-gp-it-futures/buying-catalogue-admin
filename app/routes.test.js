@@ -6,6 +6,7 @@ import { getCsrfTokenFromGet, setFakeCookie } from './test-utils/helper';
 import * as orgDashboardContext from './pages/dashboard/controller';
 import * as addUserContext from './pages/adduser/controller';
 import * as userStatusContext from './pages/viewuser/changeUserStatusConfirmation/controller';
+import * as editOrgConfirmationContext from './pages/editorg/confirmation/controller';
 
 jest.mock('./logger');
 
@@ -257,8 +258,7 @@ describe('routes', () => {
         .expect(302)
         .then((res) => {
           expect(res.redirect).toEqual(true);
-          // TODO: change to confirmation page when it is ready
-          expect(res.headers.location).toEqual('/organisations/org1');
+          expect(res.headers.location).toEqual('/organisations/org1/edit/confirmation');
           expect(res.text.includes('data-test-id="error-page-title"')).toEqual(false);
         });
     });
@@ -281,6 +281,32 @@ describe('routes', () => {
         expect(res.text.includes('data-test-id="edit-organisation-page"')).toEqual(true);
         expect(res.text.includes('data-test-id="error-page-title"')).toEqual(false);
       }));
+  });
+
+  describe('GET /organisations/:organisationId/edit/confirmation', () => {
+    const path = '/organisations/org1/edit/confirmation';
+
+    it('should redirect to the login page if the user is not logged in', () => (
+      checkAuthorisedRouteNotLoggedIn(path)
+    ));
+
+    it('should show the error page indicating the user is not authorised if the user is logged in but not authorised', () => (
+      checkAuthorisedRouteWithoutClaim(path)
+    ));
+
+    it('should return the correct status and text when the user is authorised', () => {
+      editOrgConfirmationContext.getEditOrgConfirmationContext = jest.fn()
+        .mockImplementation(() => ({ dataTestId: 'edit-org-confirmation' }));
+
+      return request(setUpFakeApp())
+        .get(path)
+        .set('Cookie', [mockAuthorisedCookie])
+        .expect(200)
+        .then((res) => {
+          expect(res.text.includes('data-test-id="edit-org-confirmation-page"')).toEqual(true);
+          expect(res.text.includes('data-test-id="error-page-title"')).toEqual(false);
+        });
+    });
   });
 
   describe('GET /organisations/:organisationId/:userId', () => {

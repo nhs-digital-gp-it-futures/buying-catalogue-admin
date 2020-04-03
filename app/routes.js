@@ -9,7 +9,8 @@ import includesContext from './includes/manifest.json';
 import { getAddUserConfirmationContext } from './pages/adduser/confirmation/contextCreator';
 import { getViewUserContext } from './pages/viewuser/controller';
 import { getUserStatusContext, postUserStatus } from './pages/viewuser/changeUserStatusConfirmation/controller';
-import { getEditOrgAccountContext, putUpdateOrganisation } from './pages/editorg/controller';
+import { getEditOrgContext, putUpdateOrganisation } from './pages/editorg/controller';
+import { getEditOrgConfirmationContext } from './pages/editorg/confirmation/controller';
 import config from './config';
 
 const addContext = ({ context, user, csrfToken }) => ({
@@ -68,15 +69,21 @@ export const routes = (authProvider) => {
     const accessToken = extractAccessToken({ req, tokenType: 'access' });
     await putUpdateOrganisation({ organisationId, body: req.body, accessToken });
     logger.info(`redirecting to edit organisation: ${organisationId} confirmation page`);
-    // TODO: change to /organisations/${organisationId}/edit/confirmation when confirmation is done
-    res.redirect(`/organisations/${organisationId}`);
+    res.redirect(`/organisations/${organisationId}/edit/confirmation`);
   }));
 
   router.get('/organisations/:organisationId/edit', authProvider.authorise(), withCatch(authProvider, async (req, res) => {
     const { organisationId } = req.params;
     logger.info(`navigating to edit organisation: ${organisationId} page`);
-    const context = await getEditOrgAccountContext({ organisationId, accessToken: extractAccessToken({ req, tokenType: 'access' }) });
+    const context = await getEditOrgContext({ organisationId, accessToken: extractAccessToken({ req, tokenType: 'access' }) });
     res.render('pages/editorg/template.njk', addContext({ context, user: req.user, csrfToken: req.csrfToken() }));
+  }));
+
+  router.get('/organisations/:organisationId/edit/confirmation', authProvider.authorise(), withCatch(authProvider, async (req, res) => {
+    const { organisationId } = req.params;
+    logger.info(`navigating to edit organisation: ${organisationId} confirmation page`);
+    const context = await getEditOrgConfirmationContext({ organisationId, accessToken: extractAccessToken({ req, tokenType: 'access' }) });
+    res.render('common/pages/confirmation.njk', addContext({ context, user: req.user, csrfToken: req.csrfToken() }));
   }));
 
   router.get('/organisations/:organisationId/adduser', authProvider.authorise(), withCatch(authProvider, async (req, res) => {
