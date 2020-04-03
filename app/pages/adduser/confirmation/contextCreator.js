@@ -1,5 +1,5 @@
 import manifest from './manifest.json';
-import { addParamsToManifest } from '../../../common/helpers/addParamsToManifest';
+import { addParamsToManifest } from '../../../helpers/contextCreatorHelper';
 import { baseUrl } from '../../../config';
 
 export const getAddUserConfirmationContext = ({ userAdded, organisationId }) => ({
