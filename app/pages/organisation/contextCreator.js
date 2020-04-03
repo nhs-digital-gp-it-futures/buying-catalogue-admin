@@ -11,11 +11,11 @@ export const getContext = ({ organisation }) => ({
   address: organisation.address ? extractObjectValuesToArray(organisation.address) : [],
   agreementSigned: organisation.catalogueAgreementSigned,
   columnInfo: manifest.columnInfo ? manifest.columnInfo : [],
-  addUserButtonHref: `/organisations/${organisation.organisationId}/adduser`,
+  addUserButtonHref: `${baseUrl}/organisations/${organisation.organisationId}/adduser`,
   users: organisation && organisation.users ? organisation.users.map(row => [
     {
       data: `${(`${row.firstName ? row.firstName : ''} ${row.lastName ? row.lastName : ''}`).trim()}` || '',
-      href: `/organisations/${organisation.organisationId}/${row.userId}`,
+      href: `${baseUrl}/organisations/${organisation.organisationId}/${row.userId}`,
     },
     { data: row.phoneNumber || '' },
     { data: row.emailAddress || '' },
@@ -28,5 +28,5 @@ export const getContext = ({ organisation }) => ({
     },
   ]) : [],
   backLinkHref: `${baseUrl}/organisations`,
-  editOrgButtonHref: `/organisations/${organisation.organisationId}/edit`,
+  editOrgButtonHref: `${baseUrl}/organisations/${organisation.organisationId}/edit`,
 });

@@ -19,10 +19,10 @@ describe('getContext', () => {
     const mockOrganisations = [{ name: 'Greater Manchester CCG', odsCode: 'X01', organisationId: 'org1' }, { name: 'Hampshire CCG', odsCode: 'X02', organisationId: 'org2' }];
     const { organisations } = getContext({ organisations: mockOrganisations });
     expect(organisations[0][0].data).toEqual(mockOrganisations[0].name);
-    expect(organisations[0][0].href).toEqual(`organisations/${mockOrganisations[0].organisationId}`);
+    expect(organisations[0][0].href).toEqual(`/organisations/${mockOrganisations[0].organisationId}`);
     expect(organisations[0][1].data).toEqual(mockOrganisations[0].odsCode);
     expect(organisations[1][0].data).toEqual(mockOrganisations[1].name);
-    expect(organisations[1][0].href).toEqual(`organisations/${mockOrganisations[1].organisationId}`);
+    expect(organisations[1][0].href).toEqual(`/organisations/${mockOrganisations[1].organisationId}`);
     expect(organisations[1][1].data).toEqual(mockOrganisations[1].odsCode);
   });
 
@@ -35,10 +35,10 @@ describe('getContext', () => {
 
     const { organisations } = getContext({ organisations: mockOrganisations });
     expect(organisations[0][0].data).toEqual('');
-    expect(organisations[0][0].href).toEqual(`organisations/${mockOrganisations[0].organisationId}`);
+    expect(organisations[0][0].href).toEqual(`/organisations/${mockOrganisations[0].organisationId}`);
     expect(organisations[0][1].data).toEqual(mockOrganisations[0].odsCode);
     expect(organisations[1][0].data).toEqual(mockOrganisations[1].name);
-    expect(organisations[1][0].href).toEqual(`organisations/${mockOrganisations[1].organisationId}`);
+    expect(organisations[1][0].href).toEqual(`/organisations/${mockOrganisations[1].organisationId}`);
     expect(organisations[1][1].data).toEqual('');
     expect(organisations[2][0].data).toEqual(mockOrganisations[2].name);
     expect(organisations[2][0].href).toEqual('#');

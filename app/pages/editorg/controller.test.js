@@ -1,4 +1,4 @@
-import { getEditOrgAccountContext, putUpdateOrganisation } from './controller';
+import { getEditOrgContext, putUpdateOrganisation } from './controller';
 import * as apiProvider from '../../apiProvider';
 import * as contextCreator from './contextCreator';
 
@@ -30,7 +30,7 @@ const mockOrganisationData = {
 };
 
 describe('edit organisation controller', () => {
-  describe('getEditOrgAccountContext', () => {
+  describe('getEditOrgContext', () => {
     afterEach(() => {
       apiProvider.getData.mockReset();
       contextCreator.getContext.mockReset();
@@ -40,7 +40,7 @@ describe('edit organisation controller', () => {
       apiProvider.getData
         .mockResolvedValueOnce(mockOrganisationData);
 
-      await getEditOrgAccountContext({ organisationId: 1, accessToken: 'access_token' });
+      await getEditOrgContext({ organisationId: 1, accessToken: 'access_token' });
       expect(apiProvider.getData.mock.calls.length).toEqual(1);
       expect(apiProvider.getData).toHaveBeenCalledWith({
         endpointLocator: 'getOrgById',
@@ -55,7 +55,7 @@ describe('edit organisation controller', () => {
       contextCreator.getContext
         .mockResolvedValueOnce();
 
-      await getEditOrgAccountContext({ organisationId: 1, accessToken: 'access_token' });
+      await getEditOrgContext({ organisationId: 1, accessToken: 'access_token' });
 
       expect(contextCreator.getContext.mock.calls.length).toEqual(1);
       expect(contextCreator.getContext).toHaveBeenCalledWith({
@@ -68,7 +68,7 @@ describe('edit organisation controller', () => {
         .mockResolvedValueOnce();
 
       try {
-        await getEditOrgAccountContext({ organisationId: 1, accessToken: 'access_token' });
+        await getEditOrgContext({ organisationId: 1, accessToken: 'access_token' });
       } catch (err) {
         expect(err).toEqual(new Error('No organisation data returned for id: 1'));
       }

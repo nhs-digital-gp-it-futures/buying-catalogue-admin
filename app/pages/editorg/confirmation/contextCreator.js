@@ -1,8 +1,8 @@
-import manifest from './manifest.json';
 import { addParamsToManifest } from '../../../helpers/contextCreatorHelper';
+import manifest from './manifest.json';
 import { baseUrl } from '../../../config';
 
-export const getAddUserConfirmationContext = ({ userAdded, organisationId }) => ({
-  ...addParamsToManifest(manifest, { userAdded }),
+export const getContext = ({ organisationName, organisationId }) => ({
+  ...addParamsToManifest(manifest, { organisationName }),
   backLinkHref: `${baseUrl}/organisations/${organisationId}`,
 });
