@@ -69,6 +69,9 @@ test('should navigate to /organisations/org when click on Back', async (t) => {
   nock(organisationsApiLocalhost)
     .get('/api/v1/Organisations/org1')
     .reply(200, organisationDetails);
+  nock(organisationsApiLocalhost)
+    .get('/api/v1/Organisations/org1/Users')
+    .reply(200, {});
   await pageSetup(t, true);
   await t.navigateTo(pageUrl);
 
