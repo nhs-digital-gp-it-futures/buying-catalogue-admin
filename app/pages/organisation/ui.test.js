@@ -131,6 +131,10 @@ test('should render edit org button', async (t) => {
 });
 
 test('should navigate to edit org page when add edit org button is clicked', async (t) => {
+  nock(organisationsApiLocalhost)
+    .get('/api/v1/Organisations/org1')
+    .reply(200, organisationDetails);
+
   await pageSetup(t, true);
   await t.navigateTo(pageUrl);
 
@@ -242,6 +246,10 @@ test('should render add user button', async (t) => {
 });
 
 test('should navigate to add user page when add user button is clicked', async (t) => {
+  nock(organisationsApiLocalhost)
+    .get('/api/v1/Organisations/org1')
+    .reply(200, organisationDetails);
+
   await pageSetup(t, true);
   await t.navigateTo(pageUrl);
 
@@ -294,6 +302,13 @@ test('should render the table with users', async (t) => {
 });
 
 test('should navigate to view user page when user name is clicked', async (t) => {
+  nock(organisationsApiLocalhost)
+    .get(`/api/v1/Users/${usersData.users[0].userId}`)
+    .reply(200, organisationDetails);
+  nock(organisationsApiLocalhost)
+    .get('/api/v1/Organisations/org1')
+    .reply(200, organisationDetails);
+
   await pageSetup(t, true);
   await t.navigateTo(pageUrl);
 
