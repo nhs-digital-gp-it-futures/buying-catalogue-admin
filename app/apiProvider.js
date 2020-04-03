@@ -12,7 +12,7 @@ const endpoints = {
   postAddUser: options => `${organisationApiUrl}/api/v1/Organisations/${options.organisationId}/Users`,
   postUserStatus: options => `${organisationApiUrl}/api/v1/Users/${options.userId}/${options.status}`,
   // PUT endpoins
-  putUpdateOrganisation: options => `${organisationApiUrl}/api/v1/Organisations/${options.organisationid}`,
+  putUpdateOrganisation: options => `${organisationApiUrl}/api/v1/Organisations/${options.organisationId}`,
 };
 
 const getHeaders = accessToken => (accessToken ? { headers: { Authorization: `Bearer ${accessToken}` } } : {});
