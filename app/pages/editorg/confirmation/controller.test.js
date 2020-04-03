@@ -46,7 +46,7 @@ describe('edit org confirmation page controller', () => {
 
       expect(contextCreator.getContext.mock.calls.length).toEqual(1);
       expect(contextCreator.getContext).toHaveBeenCalledWith({
-        orgName: mockOrgData.name, organisationId,
+        organisationName: mockOrgData.name, organisationId,
       });
     });
 

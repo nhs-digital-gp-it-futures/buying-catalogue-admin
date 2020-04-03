@@ -3,7 +3,7 @@ import manifest from './manifest.json';
 
 describe('getContext', () => {
   it('should add manifest with parameters', () => {
-    const context = getContext({ orgName: 'A lovely organisation', organisationId: 'org1' });
+    const context = getContext({ organisationName: 'A lovely organisation', organisationId: 'org1' });
     expect(context.backLinkText).toEqual(manifest.backLinkText);
     expect(context.description).toEqual(manifest.description);
     expect(context.dataTestId).toEqual(manifest.dataTestId);
