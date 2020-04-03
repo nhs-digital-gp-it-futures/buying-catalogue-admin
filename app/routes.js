@@ -67,7 +67,7 @@ export const routes = (authProvider) => {
     const accessToken = extractAccessToken({ req, tokenType: 'access' });
     await putUpdateOrganisation({ organisationId, body: req.body, accessToken });
     logger.info(`redirecting to edit organisation: ${organisationId} confirmation page`);
-    res.redirect(`/organisations/${organisationId}/edit/confirmation`);
+    res.redirect(`${config.baseUrl}/organisations/${organisationId}/edit/confirmation`);
   }));
 
   router.get('/organisations/:organisationId/edit', authProvider.authorise(), withCatch(authProvider, async (req, res) => {
@@ -96,7 +96,7 @@ export const routes = (authProvider) => {
     const accessToken = extractAccessToken({ req, tokenType: 'access' });
     const response = await postAddUser({ organisationId, data: req.body, accessToken });
     if (response.success) {
-      return res.redirect(`/organisations/${organisationId}/adduser/confirmation?id=${response.id}`);
+      return res.redirect(`${config.baseUrl}/organisations/${organisationId}/adduser/confirmation?id=${response.id}`);
     }
     const context = await getAddUserPageErrorContext({
       validationErrors: response.errors,
@@ -134,7 +134,7 @@ export const routes = (authProvider) => {
     const { userId, organisationId } = req.params;
     const accessToken = extractAccessToken({ req, tokenType: 'access' });
     await postUserStatus({ userId, accessToken, status: 'enable' });
-    res.redirect(`/organisations/${organisationId}/${userId}/enable`);
+    res.redirect(`${config.baseUrl}/organisations/${organisationId}/${userId}/enable`);
   }));
 
   router.get('/organisations/:organisationId/:userId/disable', authProvider.authorise(), withCatch(authProvider, async (req, res) => {
@@ -150,7 +150,7 @@ export const routes = (authProvider) => {
     const { userId, organisationId } = req.params;
     const accessToken = extractAccessToken({ req, tokenType: 'access' });
     await postUserStatus({ userId, accessToken, status: 'disable' });
-    res.redirect(`/organisations/${organisationId}/${userId}/disable`);
+    res.redirect(`${config.baseUrl}/organisations/${organisationId}/${userId}/disable`);
   }));
 
   router.get('*', (req, res, next) => next({
