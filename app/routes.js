@@ -106,7 +106,7 @@ export const routes = (authProvider) => {
       accessToken,
       data: req.body,
     });
-    return res.render('pages/adduser/template', addContext({ context, user: req.user }));
+    return res.render('pages/adduser/template', addContext({ context, user: req.user, csrfToken: req.csrfToken() }));
   }));
 
   router.get('/organisations/:organisationId/:userId', authProvider.authorise(), withCatch(authProvider, async (req, res) => {
