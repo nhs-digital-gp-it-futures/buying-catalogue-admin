@@ -1,7 +1,7 @@
 require('dotenv').config();
 const util = require('util');
-const axios = require('axios');
 const config = require('./config');
+const { getData } = require('./apiProvider');
 const { App } = require('./app');
 const { AuthProvider } = require('./authProvider');
 const { routes } = require('./routes');
@@ -13,7 +13,7 @@ const isIsapiReady = async ({
   attempt, pollDuration,
 }) => {
   try {
-    await axios.get(`${config.oidcBaseUri}/.well-known/openid-configuration`);
+    await getData({ endpointLocator: 'getIdentityApiHealth' });
     logger.info('Isapi is now ready');
     return true;
   } catch (err) {
