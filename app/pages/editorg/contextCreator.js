@@ -10,5 +10,5 @@ export const getContext = ({ organisation }) => ({
   address: organisation.address ? extractObjectValuesToArray(organisation.address) : [],
   agreementSigned: organisation.catalogueAgreementSigned,
   backLinkHref: `${baseUrl}/organisations/${organisation.organisationId}`,
-  saveCatalogueAgreementPostAction: `${baseUrl}/organisations/${organisation.organisationId}`,
+  saveCatalogueAgreementPostAction: `${baseUrl}/organisations/${organisation.organisationId}/edit`,
 });

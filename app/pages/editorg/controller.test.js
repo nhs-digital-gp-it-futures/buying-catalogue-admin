@@ -1,9 +1,10 @@
-import { getEditOrgAccountContext } from './controller';
+import { getEditOrgAccountContext, putUpdateOrganisation } from './controller';
 import * as apiProvider from '../../apiProvider';
 import * as contextCreator from './contextCreator';
 
 jest.mock('../../apiProvider', () => ({
   getData: jest.fn(),
+  putData: jest.fn(),
 }));
 
 jest.mock('./contextCreator', () => ({
@@ -71,6 +72,51 @@ describe('edit organisation controller', () => {
       } catch (err) {
         expect(err).toEqual(new Error('No organisation data returned for id: 1'));
       }
+    });
+  });
+
+  describe('putUpdateOrganisation', () => {
+    afterEach(() => {
+      apiProvider.putData.mockReset();
+    });
+
+    it('should call putData once with the correct params when catalogueAgreementSigned is in the body', async () => {
+      apiProvider.putData
+        .mockResolvedValueOnce({});
+
+      await putUpdateOrganisation({ organisationId: 1, body: { catalogueAgreementSigned: 'true' }, accessToken: 'access_token' });
+
+      expect(apiProvider.putData.mock.calls.length).toEqual(1);
+      expect(apiProvider.putData).toHaveBeenCalledWith({
+        endpointLocator: 'putUpdateOrganisation',
+        body: { catalogueAgreementSigned: true },
+        options: { organisationId: 1 },
+        accessToken: 'access_token',
+      });
+    });
+
+    it('should call putData once with the correct params when catalogueAgreementSigned is not in the body', async () => {
+      apiProvider.putData
+        .mockResolvedValueOnce({});
+
+      await putUpdateOrganisation({ organisationId: 1, body: {}, accessToken: 'access_token' });
+
+      expect(apiProvider.putData.mock.calls.length).toEqual(1);
+      expect(apiProvider.putData).toHaveBeenCalledWith({
+        endpointLocator: 'putUpdateOrganisation',
+        body: { catalogueAgreementSigned: false },
+        options: { organisationId: 1 },
+        accessToken: 'access_token',
+      });
+    });
+
+    it('should return true if api request is successful', async () => {
+      apiProvider.putData
+        .mockResolvedValueOnce({});
+
+      const response = await putUpdateOrganisation({ organisationId: 1, body: { catalogueAgreementSigned: 'true' }, accessToken: 'access_token' });
+
+      expect(response.success).toEqual(true);
     });
   });
 });

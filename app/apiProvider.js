@@ -11,6 +11,8 @@ const endpoints = {
   // POST endpoints
   postAddUser: options => `${organisationApiUrl}/api/v1/Organisations/${options.organisationId}/Users`,
   postUserStatus: options => `${organisationApiUrl}/api/v1/Users/${options.userId}/${options.status}`,
+  // PUT endpoins
+  putUpdateOrganisation: options => `${organisationApiUrl}/api/v1/Organisations/${options.organisationid}`,
 };
 
 const getHeaders = accessToken => (accessToken ? { headers: { Authorization: `Bearer ${accessToken}` } } : {});
@@ -24,9 +26,18 @@ export const getData = async ({ endpointLocator, options, accessToken }) => {
 };
 
 export const postData = async ({
-  endpointLocator, options, body, accessToken,
+  endpointLocator, options, body = {}, accessToken,
 }) => {
   const endpoint = endpoints[endpointLocator](options);
   logger.info(`api called: [POST] ${endpoint}: ${JSON.stringify(body)}`);
   return axios.post(endpoint, body, getHeaders(accessToken));
+};
+
+export const putData = async ({
+  endpointLocator, options, body = {}, accessToken,
+}) => {
+  const endpoint = endpoints[endpointLocator](options);
+  logger.info(`api called: [PUT] ${endpoint}: ${JSON.stringify(body)}`);
+  await axios.put(endpoint, body, getHeaders(accessToken));
+  return true;
 };
