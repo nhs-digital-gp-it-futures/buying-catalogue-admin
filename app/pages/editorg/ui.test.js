@@ -66,7 +66,14 @@ test('should render Edit Organisation page', async (t) => {
     .expect(editOrgPage.exists).ok();
 });
 
-test('should navigate to /organisations/org when click on Back', async (t) => {
+test('should navigate to /organisations/org1 when click on Back', async (t) => {
+  nock(organisationsApiLocalhost)
+    .get('/api/v1/Organisations/org1')
+    .reply(200, organisationDetails);
+  nock(organisationsApiLocalhost)
+    .get('/api/v1/Organisations/org1/Users')
+    .reply(200, organisationDetails);
+
   await pageSetup(t, true);
   await t.navigateTo(pageUrl);
 
@@ -176,6 +183,23 @@ test('should render primary role id', async (t) => {
     .expect(await extractInnerText(primaryRoleId)).eql(organisationDetails.primaryRoleId);
 });
 
+test('should catalogue agreement signed checkbox', async (t) => {
+  await pageSetup(t, true);
+  await t.navigateTo(pageUrl);
+
+  const catalogueAgreementCheckboxInput = Selector('[data-test-id="catalogue-agreement-checkbox"] input');
+  const catalogueAgreementCheckboxLabel = Selector('[data-test-id="catalogue-agreement-checkbox"] label');
+
+  await t
+    .expect(catalogueAgreementCheckboxInput.exists).ok()
+    .expect(catalogueAgreementCheckboxInput.getAttribute('name')).eql('catalogueAgreementSigned')
+    .expect(catalogueAgreementCheckboxInput.getAttribute('id')).eql('catalogue-agreement-checkbox')
+    .expect(catalogueAgreementCheckboxInput.getAttribute('type')).eql('checkbox')
+    .expect(catalogueAgreementCheckboxLabel.exists).ok()
+    .expect(await extractInnerText(catalogueAgreementCheckboxLabel)).eql(content.catalogueAgreementCheckboxText)
+    .expect(catalogueAgreementCheckboxLabel.getAttribute('for')).eql('catalogue-agreement-checkbox');
+});
+
 test('should render save button', async (t) => {
   await pageSetup(t, true);
   await t.navigateTo(pageUrl);
@@ -191,7 +215,8 @@ test('should render save button', async (t) => {
 test('should navigate to confirmation page when save button is clicked', async (t) => {
   nock(organisationsApiLocalhost)
     .put('/api/v1/Organisations/org1')
-    .reply(200);
+    .reply(200, {});
+
   await pageSetup(t, true);
   await t.navigateTo(pageUrl);
 
@@ -236,7 +261,13 @@ test('should render Edit Organisation Confirmation page', async (t) => {
     .expect(editOrgComfirmationPage.exists).ok();
 });
 
-test('should navigate to /organisations/org when click on Back', async (t) => {
+test('should navigate to /organisations/org1 when click on Back', async (t) => {
+  nock(organisationsApiLocalhost)
+    .get('/api/v1/Organisations/org1')
+    .reply(200, organisationDetails);
+  nock(organisationsApiLocalhost)
+    .get('/api/v1/Organisations/org1/Users')
+    .reply(200, {});
   await pageSetup(t, true);
   await t.navigateTo(`${pageUrl}/confirmation`);
 
