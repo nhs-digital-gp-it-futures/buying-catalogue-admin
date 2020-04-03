@@ -1,20 +1,20 @@
 import express from 'express';
 import { logger } from '../../logger';
 import { getReadyStatus } from './ready/getReadyStatus';
-import { getLiveStatus } from './live/getLiveStatus';
+import { status } from './status';
 
 const router = express.Router();
 
 router.get('/live', (req, res) => {
   logger.info('navigating to health/live page');
-  const status = getLiveStatus();
-  res.status(status.code).send(status.message);
+  const liveStatus = status.healthy;
+  res.status(liveStatus.code).send(liveStatus.message);
 });
 
 router.get('/ready', async (req, res) => {
   logger.info('navigating to health/ready page');
-  const status = await getReadyStatus();
-  res.status(status.code).send(status.message);
+  const readyStatus = await getReadyStatus();
+  res.status(readyStatus.code).send(readyStatus.message);
 });
 
 module.exports = router;

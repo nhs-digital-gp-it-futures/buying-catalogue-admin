@@ -1,15 +1,11 @@
 import request from 'supertest';
 import { status } from './status';
-import * as liveControllers from './live/getLiveStatus';
 import * as readyControllers from './ready/getReadyStatus';
 import { App } from '../../app';
 import routes from './routes';
 
 describe('GET /health', () => {
   it('GET /live', () => {
-    liveControllers.getLiveStatus = jest.fn()
-      .mockImplementation(() => status.healthy);
-
     const app = new App().createApp();
     app.use('/health', routes);
 
