@@ -481,7 +481,7 @@ describe('routes', () => {
 
     it('should return the correct status and text if response.success is true', async () => {
       addUserContext.postAddUser = jest.fn()
-        .mockImplementation(() => Promise.resolve({ success: true, userAdded: 'Peter Parker' }));
+        .mockImplementation(() => Promise.resolve({ success: true, id: 'user1' }));
 
       const { cookies, csrfToken } = await getCsrfTokenFromGet(
         setUpFakeApp(), path, mockAuthorisedCookie,
@@ -498,7 +498,7 @@ describe('routes', () => {
         .expect(302)
         .then((res) => {
           expect(res.redirect).toEqual(true);
-          expect(res.headers.location).toEqual('/organisations/org1/adduser/confirmation?userAdded=Peter%20Parker');
+          expect(res.headers.location).toEqual('/organisations/org1/adduser/confirmation?id=user1');
           expect(res.text.includes('data-test-id="error-page-title"')).toEqual(false);
         });
     });

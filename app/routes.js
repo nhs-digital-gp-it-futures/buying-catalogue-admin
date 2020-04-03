@@ -6,7 +6,7 @@ import { getOrgAccountsContext } from './pages/organisation/controller';
 import { getOrgDashboardContext } from './pages/dashboard/controller';
 import { getAddUserContext, getAddUserPageErrorContext, postAddUser } from './pages/adduser/controller';
 import includesContext from './includes/manifest.json';
-import { getAddUserConfirmationContext } from './pages/adduser/confirmation/contextCreator';
+import { getAddUserConfirmationContext } from './pages/adduser/confirmation/controller';
 import { getViewUserContext } from './pages/viewuser/controller';
 import { getUserStatusContext, postUserStatus } from './pages/viewuser/changeUserStatusConfirmation/controller';
 import { getEditOrgContext, putUpdateOrganisation } from './pages/editorg/controller';
@@ -96,7 +96,7 @@ export const routes = (authProvider) => {
     const accessToken = extractAccessToken({ req, tokenType: 'access' });
     const response = await postAddUser({ organisationId, data: req.body, accessToken });
     if (response.success) {
-      return res.redirect(`/organisations/${organisationId}/adduser/confirmation?userAdded=${response.userAdded}`);
+      return res.redirect(`/organisations/${organisationId}/adduser/confirmation?id=${response.id}`);
     }
     const context = await getAddUserPageErrorContext({
       validationErrors: response.errors,
@@ -116,9 +116,9 @@ export const routes = (authProvider) => {
 
   router.get('/organisations/:organisationId/adduser/confirmation', authProvider.authorise(), withCatch(authProvider, async (req, res) => {
     const { organisationId } = req.params;
-    const { userAdded } = req.query;
+    const { id: userId } = req.query;
     logger.info(`navigating to organisation: ${organisationId} add user confirmation page`);
-    const context = await getAddUserConfirmationContext({ userAdded, organisationId });
+    const context = await getAddUserConfirmationContext({ userId, organisationId, accessToken: extractAccessToken({ req, tokenType: 'access' }) });
     res.render('common/pages/confirmation.njk', addContext({ context, user: req.user }));
   }));
 
