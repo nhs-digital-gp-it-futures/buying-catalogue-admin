@@ -7,7 +7,7 @@ export const getEditOrgConfirmationContext = async ({ organisationId, accessToke
   const organisation = await getData({ endpointLocator: 'getOrgById', options, accessToken });
   if (organisation) {
     logger.info(`Organisation ${organisation.name} (${organisationId}) returned`);
-    return getContext({ orgName: organisation.name, organisationId });
+    return getContext({ organisationName: organisation.name, organisationId });
   }
 
   throw new Error(`No organisation data returned for id: ${organisationId}`);
