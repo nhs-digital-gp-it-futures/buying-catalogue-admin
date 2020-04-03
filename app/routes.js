@@ -12,6 +12,7 @@ import { getUserStatusContext, postUserStatus } from './pages/viewuser/changeUse
 import { getEditOrgContext, putUpdateOrganisation } from './pages/editorg/controller';
 import { getEditOrgConfirmationContext } from './pages/editorg/confirmation/controller';
 import config from './config';
+import healthRoutes from './pages/health/routes';
 
 const addContext = ({ context, user, csrfToken }) => ({
   ...context,
@@ -24,10 +25,7 @@ const addContext = ({ context, user, csrfToken }) => ({
 export const routes = (authProvider) => {
   const router = express.Router();
 
-  router.get('/health/live', async (req, res) => {
-    logger.info('navigating to /health/live page');
-    res.send('Buying Catalogue Admin app is running!');
-  });
+  router.use('/health', healthRoutes);
 
   router.get('/login', authProvider.login());
 

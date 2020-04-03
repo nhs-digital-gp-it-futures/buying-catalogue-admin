@@ -1,9 +1,10 @@
 import axios from 'axios';
-import { organisationApiUrl } from './config';
+import { organisationApiUrl, oidcBaseUri } from './config';
 import { logger } from './logger';
 
 const endpoints = {
   // GET endpoints
+  getIdentityApiHealth: () => `${oidcBaseUri}/health/ready`,
   getOrganisations: () => `${organisationApiUrl}/api/v1/Organisations`,
   getOrgById: options => `${organisationApiUrl}/api/v1/Organisations/${options.organisationId}`,
   getUsers: options => `${organisationApiUrl}/api/v1/Organisations/${options.organisationId}/Users`,
