@@ -2,7 +2,7 @@ import { getData, putData } from '../../apiProvider';
 import { getContext } from './contextCreator';
 import { logger } from '../../logger';
 
-export const getEditOrgAccountContext = async ({ organisationId, accessToken }) => {
+export const getEditOrgContext = async ({ organisationId, accessToken }) => {
   const options = { organisationId };
   const organisation = await getData({ endpointLocator: 'getOrgById', options, accessToken });
   if (organisation) {
