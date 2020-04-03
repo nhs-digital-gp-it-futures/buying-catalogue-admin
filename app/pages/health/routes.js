@@ -5,9 +5,9 @@ import { getLiveStatus } from './live/getLiveStatus';
 
 const router = express.Router();
 
-router.get('/live', async (req, res) => {
+router.get('/live', (req, res) => {
   logger.info('navigating to health/live page');
-  const status = await getLiveStatus();
+  const status = getLiveStatus();
   res.status(status.code).send(status.message);
 });
 

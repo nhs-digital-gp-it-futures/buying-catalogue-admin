@@ -1,5 +1,3 @@
 import { status } from '../status';
 
-export async function getLiveStatus() {
-  return status.healthy;
-}
+export const getLiveStatus = () => status.healthy;

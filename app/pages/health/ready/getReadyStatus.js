@@ -1,7 +1,7 @@
 import { getData } from '../../../apiProvider';
 import { status } from '../status';
 
-export async function getReadyStatus() {
+export const getReadyStatus = async () => {
   let identityApi;
   try {
     identityApi = await getData({ endpointLocator: 'getIdentityApiHealth' });
@@ -9,8 +9,8 @@ export async function getReadyStatus() {
     identityApi = status.unhealthy.message;
   }
 
-  const isHealthy = Api => Api === status.healthy.message;
-  const isUnhealthy = Api => Api === status.unhealthy.message;
+  const isHealthy = healthcheckResponse => healthcheckResponse === status.healthy.message;
+  const isUnhealthy = healthcheckResponse => healthcheckResponse === status.unhealthy.message;
 
   if (isHealthy(identityApi)) {
     return status.healthy;
@@ -21,4 +21,4 @@ export async function getReadyStatus() {
   }
 
   return status.degraded;
-}
+};

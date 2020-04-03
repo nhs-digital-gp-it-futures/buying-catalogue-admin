@@ -8,7 +8,7 @@ import routes from './routes';
 describe('GET /health', () => {
   it('GET /live', () => {
     liveControllers.getLiveStatus = jest.fn()
-      .mockImplementation(() => Promise.resolve(status.healthy));
+      .mockImplementation(() => status.healthy);
 
     const app = new App().createApp();
     app.use('/health', routes);
