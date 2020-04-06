@@ -1,9 +1,10 @@
-import { getViewUserContext } from './controller';
+import { getViewUserContext, postUserStatus } from './controller';
 import * as apiProvider from '../../apiProvider';
 import * as contextCreator from './contextCreator';
 
 jest.mock('../../apiProvider', () => ({
   getData: jest.fn(),
+  postData: jest.fn(),
 }));
 
 jest.mock('./contextCreator', () => ({
@@ -85,6 +86,49 @@ describe('viewuser controller', () => {
         await getViewUserContext({ userId: 1, organisationId: 2, accessToken: 'access_token' });
       } catch (err) {
         expect(err).toEqual(new Error('No user data returned for id: 1'));
+      }
+    });
+  });
+
+  describe('postAddUser', () => {
+    afterEach(() => {
+      apiProvider.postData.mockReset();
+    });
+
+    it('should call postUserStatus once with the correct params', async () => {
+      apiProvider.postData
+        .mockResolvedValueOnce({});
+
+      await postUserStatus({ userId: 'user1', accessToken: 'access_token', status: 'enable' });
+
+      expect(apiProvider.postData.mock.calls.length).toEqual(1);
+      expect(apiProvider.postData).toHaveBeenCalledWith({
+        endpointLocator: 'postUserStatus',
+        options: {
+          userId: 'user1',
+          status: 'enable',
+        },
+        accessToken: 'access_token',
+      });
+    });
+
+    it('should return true if api request is successful', async () => {
+      apiProvider.postData
+        .mockResolvedValueOnce({});
+
+      const response = await postUserStatus({ userId: 1, accessToken: 'access_token', status: 'enable' });
+
+      expect(response.success).toEqual(true);
+    });
+
+    it('should throw an error if api request is unsuccessful', async () => {
+      apiProvider.postData
+        .mockRejectedValueOnce({ response: { status: 500 } });
+
+      try {
+        await postUserStatus({ userId: 1, accessToken: 'access_token', status: 'enable' });
+      } catch (err) {
+        expect(err).toEqual(new Error('Unable to update status for user id: 1'));
       }
     });
   });
