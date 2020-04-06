@@ -14,7 +14,7 @@ describe('organisations dashboard page', () => {
       const homepageBackLink = $('[data-test-id="go-back-link"]');
       expect(homepageBackLink.length).toEqual(1);
       expect(homepageBackLink.text().trim()).toEqual('Go back to previous page');
-      expect($(homepageBackLink).find('a').attr('href')).toEqual(publicBrowseBaseUrl);
+      expect($(homepageBackLink).find('a').attr('href')).toEqual(`${publicBrowseBaseUrl}back-from-admin`);
     });
   }));
 
