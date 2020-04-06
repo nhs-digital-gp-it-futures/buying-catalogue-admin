@@ -65,7 +65,7 @@ test('should render enable user confirmation page', async (t) => {
     .expect(page.exists).ok();
 });
 
-test('should navigate to organisation page when click on Back', async (t) => {
+test('should navigate to user page when click on Back', async (t) => {
   nock(organisationsApiLocalhost)
     .get('/api/v1/Organisations/org1')
     .reply(200, organisationData);
@@ -139,7 +139,7 @@ test('should render disable user confirmation page', async (t) => {
     .expect(page.exists).ok();
 });
 
-test('should navigate to organisation page when click on Back', async (t) => {
+test('should navigate to user page when click on Back', async (t) => {
   nock(organisationsApiLocalhost)
     .get('/api/v1/Organisations/org1')
     .reply(200, organisationData);
