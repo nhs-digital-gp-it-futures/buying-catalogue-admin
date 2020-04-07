@@ -28,7 +28,7 @@
     "EmailInvalidFormat": "Email address format is not valid",
     "EmailAlreadyExists": "Email address already exists",
     "PhoneNumberRequired": "Telephone number is required",
-    "PhoneNumberTooLong": "Phone number is too long",
+    "PhoneNumberTooLong": "Telephone number is too long",
     "LastNameRequired": "Last name is required",
     "LastNameTooLong": "Last name is too long",
     "FirstNameRequired": "First name is required",
