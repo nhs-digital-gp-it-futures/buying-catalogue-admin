@@ -10,7 +10,7 @@ describe('addorg contextCreator', () => {
       expect(context.questions.length).toEqual(manifest.questions.length);
       expect(context.questions[0].id).toEqual(manifest.questions[0].id);
       expect(context.questions[0].mainAdvice).toEqual(manifest.questions[0].mainAdvice);
-      expect(context.confirmButtonText).toEqual(manifest.confirmButtonText);
+      expect(context.continueButtonText).toEqual(manifest.continueButtonText);
     });
 
     it('should construct backLinkHref', () => {
