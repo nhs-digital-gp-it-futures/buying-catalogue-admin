@@ -1,7 +1,7 @@
 import manifest from './manifest.json';
 import { getContext } from './contextCreator';
 
-describe('addorg contextCreator', () => {
+describe('findorg contextCreator', () => {
   describe('getContext', () => {
     it('should return the contents of the manifest', () => {
       const context = getContext({});

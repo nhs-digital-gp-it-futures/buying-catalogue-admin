@@ -1,11 +1,11 @@
-import { createTestHarness } from '../../test-utils/testHarness';
+import { createTestHarness } from '../../../test-utils/testHarness';
 import context from './manifest.json';
 
 context.backLinkHref = '/organisations';
 
 const setup = {
   template: {
-    path: 'pages/addorg/template.njk',
+    path: 'pages/neworg/findorg/template.njk',
   },
 };
 
@@ -21,7 +21,7 @@ describe('add org page', () => {
 
   it('should render a title', createTestHarness(setup, (harness) => {
     harness.request(context, ($) => {
-      const title = $('h1[data-test-id="add-org-page-title"]');
+      const title = $('h1[data-test-id="find-org-page-title"]');
       expect(title.length).toEqual(1);
       expect(title.text().trim()).toEqual(context.title);
     });
@@ -29,7 +29,7 @@ describe('add org page', () => {
 
   it('should render a description', createTestHarness(setup, (harness) => {
     harness.request(context, ($) => {
-      const description = $('[data-test-id="add-org-page-description"]');
+      const description = $('[data-test-id="find-org-page-description"]');
       expect(description.length).toEqual(1);
       expect(description.text().trim()).toEqual(context.description);
     });

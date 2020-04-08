@@ -7,7 +7,7 @@ import * as orgDashboardContext from './pages/dashboard/controller';
 import * as addUserContext from './pages/adduser/controller';
 import * as userStatusContext from './pages/viewuser/changeUserStatusConfirmation/controller';
 import * as editOrgConfirmationContext from './pages/editorg/confirmation/controller';
-import * as addOrgContext from './pages/addorg/controller';
+import * as addOrgContext from './pages/neworg/findorg/controller';
 
 jest.mock('./logger');
 
@@ -200,8 +200,8 @@ describe('routes', () => {
       }));
   });
 
-  describe('GET /organisations/addorganisation', () => {
-    const path = '/organisations/addorganisation';
+  describe('GET /organisations/find', () => {
+    const path = '/organisations/find';
 
     it('should redirect to the login page if the user is not logged in', () => (
       checkAuthorisedRouteNotLoggedIn(path)
@@ -219,7 +219,7 @@ describe('routes', () => {
         .set('Cookie', [mockAuthorisedCookie])
         .expect(200)
         .then((res) => {
-          expect(res.text.includes('data-test-id="add-org-page"')).toEqual(true);
+          expect(res.text.includes('data-test-id="find-org-page"')).toEqual(true);
           expect(res.text.includes('data-test-id="error-page-title"')).toEqual(false);
         });
     });

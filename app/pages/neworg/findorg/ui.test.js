@@ -1,10 +1,10 @@
 import nock from 'nock';
 import { Selector, ClientFunction } from 'testcafe';
 import content from './manifest.json';
-import { extractInnerText } from '../../test-utils/helper';
-import { organisationsApiLocalhost } from '../../test-utils/config';
+import { extractInnerText } from '../../../test-utils/helper';
+import { organisationsApiLocalhost } from '../../../test-utils/config';
 
-const pageUrl = 'http://localhost:1234/organisations/addorganisation';
+const pageUrl = 'http://localhost:1234/organisations/find';
 
 const setCookies = ClientFunction(() => {
   const cookieValue = JSON.stringify({
@@ -22,7 +22,7 @@ const pageSetup = async (t, withAuth = false) => {
 
 const getLocation = ClientFunction(() => document.location.href);
 
-fixture('Add Org Page')
+fixture('find Org Page')
   .page('http://localhost:1234/some-fake-page')
   .afterEach(async (t) => {
     const isDone = nock.isDone();
@@ -45,11 +45,11 @@ test('when user is not authenticated - should navigate to the identity server lo
     .expect(getLocation()).eql('http://identity-server/login');
 });
 
-test('should render Add Org page', async (t) => {
+test('should render Find Org page', async (t) => {
   await pageSetup(t, true);
   await t.navigateTo(pageUrl);
 
-  const orgPage = Selector('[data-test-id="add-org-page"]');
+  const orgPage = Selector('[data-test-id="find-org-page"]');
 
   await t
     .expect(orgPage.exists).ok();
@@ -75,7 +75,7 @@ test('should render the title', async (t) => {
   await pageSetup(t, true);
   await t.navigateTo(pageUrl);
 
-  const title = Selector('h1[data-test-id="add-org-page-title"]');
+  const title = Selector('h1[data-test-id="find-org-page-title"]');
 
   await t
     .expect(title.exists).ok()
@@ -86,7 +86,7 @@ test('should render the description', async (t) => {
   await pageSetup(t, true);
   await t.navigateTo(pageUrl);
 
-  const description = Selector('h2[data-test-id="add-org-page-description"]');
+  const description = Selector('h2[data-test-id="find-org-page-description"]');
 
   await t
     .expect(description.exists).ok()
