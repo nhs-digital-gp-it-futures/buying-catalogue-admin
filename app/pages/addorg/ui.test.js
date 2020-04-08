@@ -3,8 +3,6 @@ import { Selector, ClientFunction } from 'testcafe';
 import content from './manifest.json';
 import { extractInnerText } from '../../test-utils/helper';
 import { organisationsApiLocalhost } from '../../test-utils/config';
-import organisationDetails from '../../test-utils/fixtures/organisationDetails.json';
-import addUserErrorResponse from '../../test-utils/fixtures/addUserErrorResponse.json';
 
 const pageUrl = 'http://localhost:1234/organisations/addorganisation';
 
