@@ -9,7 +9,7 @@ describe('addorg contextCreator', () => {
       expect(context.description).toEqual(manifest.description);
       expect(context.questions.length).toEqual(manifest.questions.length);
       expect(context.questions[0].id).toEqual(manifest.questions[0].id);
-      expect(context.questions[0].text).toEqual(manifest.questions[0].text);
+      expect(context.questions[0].mainAdvice).toEqual(manifest.questions[0].mainAdvice);
       expect(context.confirmButtonText).toEqual(manifest.confirmButtonText);
     });
 
