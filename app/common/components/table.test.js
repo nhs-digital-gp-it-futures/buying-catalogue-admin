@@ -32,10 +32,9 @@ describe('table', () => {
   it('should render the table headings with correct classes if columnInfo is passed in', createTestHarness(setup, (harness) => {
     harness.request(mockContext, ($) => {
       expect($('[data-test-id="table-headings"]').length).toEqual(1);
-      expect($('[data-test-id="column-heading"]').length).toEqual(mockContext.params.columnInfo.length);
       mockContext.params.columnInfo.forEach((heading, i) => {
-        expect($(`[data-test-id="column-heading"]:nth-child(${i + 1})`).text().trim()).toEqual(heading.data);
-        expect($(`[data-test-id="column-heading"]:nth-child(${i + 1})`).hasClass(mockContext.params.columnClass)).toEqual(true);
+        expect($(`[data-test-id="column-heading-${i}"]`).text().trim()).toEqual(heading.data);
+        expect($(`[data-test-id="column-heading-${i}"]`).hasClass(mockContext.params.columnClass)).toEqual(true);
       });
     });
   }));
