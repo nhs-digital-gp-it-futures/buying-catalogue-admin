@@ -158,10 +158,10 @@ describe('organisations dashboard page', () => {
 
   it('should render an add user button', createTestHarness(setup, (harness) => {
     harness.request(mockContext, ($) => {
-      const addOrgButton = $('[data-test-id="add-user-button"] a');
-      expect(addOrgButton.length).toEqual(1);
-      expect(addOrgButton.text().trim()).toEqual(mockContext.addUserButtonText);
-      expect(addOrgButton.attr('href')).toEqual(`/organisations/${mockContext.organisationId}/adduser`);
+      const button = $('[data-test-id="add-user-button"] a');
+      expect(button.length).toEqual(1);
+      expect(button.text().trim()).toEqual(mockContext.addUserButtonText);
+      expect(button.attr('href')).toEqual(`/organisations/${mockContext.organisationId}/adduser`);
     });
   }));
 

@@ -142,9 +142,9 @@ describe('organisations add user page', () => {
 
   it('should render a add user button', createTestHarness(setup, (harness) => {
     harness.request(context, ($) => {
-      const addOrgButton = $('[data-test-id="add-user-button"] button');
-      expect(addOrgButton.length).toEqual(1);
-      expect(addOrgButton.text().trim()).toEqual(context.addUserButtonText);
+      const button = $('[data-test-id="add-user-button"] button');
+      expect(button.length).toEqual(1);
+      expect(button.text().trim()).toEqual(context.addUserButtonText);
     });
   }));
 });
