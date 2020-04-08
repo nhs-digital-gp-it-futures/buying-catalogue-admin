@@ -1,7 +1,6 @@
 {
   "title": "Find an organisation",
   "description": "Enter the correct Organisation Data Service (ODS) code to find the organisation you're looking for.",
-  "isMultiQuestion": true,
   "questions": [
     {
       "id": "odsCode",
