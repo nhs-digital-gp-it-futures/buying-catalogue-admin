@@ -32,7 +32,7 @@ describe('adduser contextCreator', () => {
       expect(context.questions.length).toEqual(manifest.questions.length);
       context.questions.forEach((question, i) => {
         expect(question.id).toEqual(manifest.questions[i].id);
-        expect(question.text).toEqual(manifest.questions[i].text);
+        expect(question.mainAdvice).toEqual(manifest.questions[i].mainAdvice);
       });
       expect(context.addUserButtonText).toEqual(manifest.addUserButtonText);
     });

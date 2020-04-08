@@ -128,7 +128,7 @@ test('should render add org button', async (t) => {
     .expect(addOrgButton.exists).ok()
     .expect(await extractInnerText(addOrgButton)).eql(content.addOrgButtonText)
     .expect(addOrgButton.hasClass('nhsuk-u-margin-bottom-9')).ok()
-    .expect(addOrgButton.getAttribute('href')).eql('/organisations/addorganisation');
+    .expect(addOrgButton.getAttribute('href')).eql('/organisations/find');
 });
 
 test('should render the table', async (t) => {

@@ -17,5 +17,5 @@ export const getContext = ({ organisations }) => ({
       },
     ])
     : [],
-  addOrgButtonHref: `${baseUrl}/organisations/addorganisation`,
+  addOrgButtonHref: `${baseUrl}/organisations/find`,
 });

@@ -30,7 +30,7 @@ const context = {
       dataTestId: 'ods-code-org2',
     }],
   ],
-  addOrgButtonHref: '/organisations/addorganisation',
+  addOrgButtonHref: '/organisations/find',
 };
 
 describe('organisations dashboard page', () => {
@@ -61,10 +61,10 @@ describe('organisations dashboard page', () => {
 
   it('should render a add organisation button', createTestHarness(setup, (harness) => {
     harness.request(context, ($) => {
-      const addOrgButton = $('[data-test-id="add-org-button"] a');
-      expect(addOrgButton.length).toEqual(1);
-      expect(addOrgButton.text().trim()).toEqual(content.addOrgButtonText);
-      expect(addOrgButton.attr('href')).toEqual(context.addOrgButtonHref);
+      const button = $('[data-test-id="add-org-button"] a');
+      expect(button.length).toEqual(1);
+      expect(button.text().trim()).toEqual(content.addOrgButtonText);
+      expect(button.attr('href')).toEqual(context.addOrgButtonHref);
     });
   }));
 
