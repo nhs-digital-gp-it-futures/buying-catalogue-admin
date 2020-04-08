@@ -11,6 +11,7 @@ import { getViewUserContext, postUserStatus } from './pages/viewuser/controller'
 import { getUserStatusContext } from './pages/viewuser/changeUserStatusConfirmation/controller';
 import { getEditOrgContext, putUpdateOrganisation } from './pages/editorg/controller';
 import { getEditOrgConfirmationContext } from './pages/editorg/confirmation/controller';
+import { getAddOrgContext } from './pages/addorg/controller';
 import config from './config';
 import healthRoutes from './pages/health/routes';
 
@@ -57,7 +58,8 @@ export const routes = (authProvider) => {
 
   router.get('/organisations/addorganisation', authProvider.authorise(), withCatch(authProvider, async (req, res) => {
     logger.info('navigating to add organisations page');
-    res.send('add organisations page');
+    const context = await getAddOrgContext();
+    return res.render('pages/addorg/template', addContext({ context, user: req.user, csrfToken: req.csrfToken() }));
   }));
 
   router.get('/organisations/:organisationId', authProvider.authorise(), withCatch(authProvider, async (req, res) => {

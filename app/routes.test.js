@@ -7,6 +7,7 @@ import * as orgDashboardContext from './pages/dashboard/controller';
 import * as addUserContext from './pages/adduser/controller';
 import * as userStatusContext from './pages/viewuser/changeUserStatusConfirmation/controller';
 import * as editOrgConfirmationContext from './pages/editorg/confirmation/controller';
+import * as addOrgContext from './pages/addorg/controller';
 
 jest.mock('./logger');
 
@@ -210,14 +211,18 @@ describe('routes', () => {
       checkAuthorisedRouteWithoutClaim(path)
     ));
 
-    it('should return the correct status and text when the user is authorised', () => request(setUpFakeApp())
-      .get(path)
-      .set('Cookie', [mockAuthorisedCookie])
-      .expect(200)
-      .then((res) => {
-        expect(res.text.includes('add organisations page')).toEqual(true);
-        expect(res.text.includes('data-test-id="error-page-title"')).toEqual(false);
-      }));
+    it('should return the correct status and text when the user is authorised', () => {
+      addOrgContext.getAddOrgContext = jest.fn()
+        .mockImplementation(() => ({}));
+      return request(setUpFakeApp())
+        .get(path)
+        .set('Cookie', [mockAuthorisedCookie])
+        .expect(200)
+        .then((res) => {
+          expect(res.text.includes('data-test-id="add-org-page"')).toEqual(true);
+          expect(res.text.includes('data-test-id="error-page-title"')).toEqual(false);
+        });
+    });
   });
 
   describe('GET /organisations/:organisationId', () => {
