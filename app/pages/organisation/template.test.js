@@ -30,7 +30,7 @@ const mockData = {
     }],
     [{
       data: 'Daisy Chain',
-      href: '/organisations/org1/user1',
+      href: '/organisations/org1/user2',
       dataTestId: 'user-name-user2',
     }, {
       data: '07777777778',
@@ -195,22 +195,22 @@ describe('organisations dashboard page', () => {
       expect(columnHeading4.length).toEqual(1);
       expect(columnHeading4.text().trim()).toEqual('');
       expect(row1Name.length).toEqual(1);
-      expect(row1Name.text().trim()).toEqual(mockContext.users[0][0].data);
-      expect(row1Name.attr('href')).toEqual(mockContext.users[0][0].href);
+      expect(row1Name.text().trim()).toEqual('John Smith');
+      expect(row1Name.attr('href')).toEqual('/organisations/org1/user1');
       expect(row1Phone.length).toEqual(1);
-      expect(row1Phone.text().trim()).toEqual(mockContext.users[0][1].data);
+      expect(row1Phone.text().trim()).toEqual('07777777777');
       expect(row1Email.length).toEqual(1);
-      expect(row1Email.text().trim()).toEqual(mockContext.users[0][2].data);
+      expect(row1Email.text().trim()).toEqual('john.smith@email.com');
       expect(row1Tag.length).toEqual(0);
       expect(row2Name.length).toEqual(1);
-      expect(row2Name.text().trim()).toEqual(mockContext.users[1][0].data);
-      expect(row2Name.attr('href')).toEqual(mockContext.users[1][0].href);
+      expect(row2Name.text().trim()).toEqual('Daisy Chain');
+      expect(row2Name.attr('href')).toEqual('/organisations/org1/user2');
       expect(row2Phone.length).toEqual(1);
-      expect(row2Phone.text().trim()).toEqual(mockContext.users[1][1].data);
+      expect(row2Phone.text().trim()).toEqual('07777777778');
       expect(row2Email.length).toEqual(1);
-      expect(row2Email.text().trim()).toEqual(mockContext.users[1][2].data);
+      expect(row2Email.text().trim()).toEqual('daisy.chain@email.com');
       expect(row2Tag.length).toEqual(1);
-      expect(row2Tag.text().trim()).toEqual(mockContext.users[1][3].tag.text);
+      expect(row2Tag.text().trim()).toEqual('ACCOUNT DISABLED');
     });
   }));
 });
