@@ -55,6 +55,11 @@ export const routes = (authProvider) => {
     res.render('pages/dashboard/template.njk', addContext({ context, user: req.user }));
   }));
 
+  router.get('/organisations/addorganisation', authProvider.authorise(), withCatch(authProvider, async (req, res) => {
+    logger.info('navigating to add organisations page');
+    res.send('add organisations page');
+  }));
+
   router.get('/organisations/:organisationId', authProvider.authorise(), withCatch(authProvider, async (req, res) => {
     const { organisationId } = req.params;
     logger.info(`navigating to organisation: ${organisationId} account page`);

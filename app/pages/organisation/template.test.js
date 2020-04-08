@@ -17,21 +17,27 @@ const mockData = {
   users: [
     [{
       data: 'John Smith',
+      href: '/organisations/org1/user1',
+      dataTestId: 'user-name-user1',
     }, {
       data: '07777777777',
+      dataTestId: 'user-phone-user1',
     }, {
       data: 'john.smith@email.com',
+      dataTestId: 'user-email-user1',
     }, {
       tag: false,
     }],
     [{
-      userId: 'user2',
-    }, {
       data: 'Daisy Chain',
+      href: '/organisations/org1/user2',
+      dataTestId: 'user-name-user2',
     }, {
       data: '07777777778',
+      dataTestId: 'user-phone-user2',
     }, {
       data: 'daisy.chain@email.com',
+      dataTestId: 'user-email-user2',
     }, {
       tag: {
         dataTestId: 'account-disabled-tag-user2',
@@ -159,13 +165,52 @@ describe('organisations dashboard page', () => {
     });
   }));
 
-  it('should render the table component', createTestHarness(setup, (harness) => {
+  it('should render the table component with data', createTestHarness(setup, (harness) => {
     harness.request(mockContext, ($) => {
-      const orgTable = $('[data-test-id="user-table"]');
-      expect(orgTable.length).toEqual(1);
-      expect(orgTable.find('[data-test-id="table"]').length).toEqual(1);
-      expect(orgTable.find('[data-test-id="table-headings"]').length).toEqual(1);
-      expect(orgTable.find('[data-test-id="column-heading"]').length).toEqual(mockContext.columnInfo.length);
+      const userTable = $('[data-test-id="user-table"]');
+      const columnHeading1 = userTable.find('[data-test-id="column-heading-0"]');
+      const columnHeading2 = userTable.find('[data-test-id="column-heading-1"]');
+      const columnHeading3 = userTable.find('[data-test-id="column-heading-2"]');
+      const columnHeading4 = userTable.find('[data-test-id="column-heading-3"]');
+      const row1 = $('[data-test-id="table-row-0"]');
+      const row1Name = row1.find('a');
+      const row1Phone = row1.find('[data-test-id="user-phone-user1"]');
+      const row1Email = row1.find('[data-test-id="user-email-user1"]');
+      const row1Tag = row1.find('[data-test-id="account-disabled-tag-user1"]');
+      const row2 = $('[data-test-id="table-row-1"]');
+      const row2Name = row2.find('a');
+      const row2Phone = row2.find('[data-test-id="user-phone-user2"]');
+      const row2Email = row2.find('[data-test-id="user-email-user2"]');
+      const row2Tag = row2.find('[data-test-id="account-disabled-tag-user2"]');
+
+      expect(userTable.length).toEqual(1);
+      expect(userTable.find('[data-test-id="table"]').length).toEqual(1);
+      expect(userTable.find('[data-test-id="table-headings"]').length).toEqual(1);
+      expect(columnHeading1.length).toEqual(1);
+      expect(columnHeading1.text().trim()).toEqual(manifest.columnInfo[0].data);
+      expect(columnHeading2.length).toEqual(1);
+      expect(columnHeading2.text().trim()).toEqual(manifest.columnInfo[1].data);
+      expect(columnHeading3.length).toEqual(1);
+      expect(columnHeading3.text().trim()).toEqual(manifest.columnInfo[2].data);
+      expect(columnHeading4.length).toEqual(1);
+      expect(columnHeading4.text().trim()).toEqual('');
+      expect(row1Name.length).toEqual(1);
+      expect(row1Name.text().trim()).toEqual('John Smith');
+      expect(row1Name.attr('href')).toEqual('/organisations/org1/user1');
+      expect(row1Phone.length).toEqual(1);
+      expect(row1Phone.text().trim()).toEqual('07777777777');
+      expect(row1Email.length).toEqual(1);
+      expect(row1Email.text().trim()).toEqual('john.smith@email.com');
+      expect(row1Tag.length).toEqual(0);
+      expect(row2Name.length).toEqual(1);
+      expect(row2Name.text().trim()).toEqual('Daisy Chain');
+      expect(row2Name.attr('href')).toEqual('/organisations/org1/user2');
+      expect(row2Phone.length).toEqual(1);
+      expect(row2Phone.text().trim()).toEqual('07777777778');
+      expect(row2Email.length).toEqual(1);
+      expect(row2Email.text().trim()).toEqual('daisy.chain@email.com');
+      expect(row2Tag.length).toEqual(1);
+      expect(row2Tag.text().trim()).toEqual('ACCOUNT DISABLED');
     });
   }));
 });

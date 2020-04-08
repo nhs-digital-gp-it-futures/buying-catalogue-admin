@@ -199,6 +199,27 @@ describe('routes', () => {
       }));
   });
 
+  describe('GET /organisations/addorganisation', () => {
+    const path = '/organisations/addorganisation';
+
+    it('should redirect to the login page if the user is not logged in', () => (
+      checkAuthorisedRouteNotLoggedIn(path)
+    ));
+
+    it('should show the error page indicating the user is not authorised if the user is logged in but not authorised', () => (
+      checkAuthorisedRouteWithoutClaim(path)
+    ));
+
+    it('should return the correct status and text when the user is authorised', () => request(setUpFakeApp())
+      .get(path)
+      .set('Cookie', [mockAuthorisedCookie])
+      .expect(200)
+      .then((res) => {
+        expect(res.text.includes('add organisations page')).toEqual(true);
+        expect(res.text.includes('data-test-id="error-page-title"')).toEqual(false);
+      }));
+  });
+
   describe('GET /organisations/:organisationId', () => {
     const path = '/organisations/org1';
 

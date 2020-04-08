@@ -128,8 +128,7 @@ test('should render add org button', async (t) => {
     .expect(addOrgButton.exists).ok()
     .expect(await extractInnerText(addOrgButton)).eql(content.addOrgButtonText)
     .expect(addOrgButton.hasClass('nhsuk-u-margin-bottom-9')).ok()
-    // TODO: Change when add organisation implemented
-    .expect(addOrgButton.getAttribute('href')).eql('#');
+    .expect(addOrgButton.getAttribute('href')).eql('/organisations/addorganisation');
 });
 
 test('should render the table', async (t) => {
@@ -138,8 +137,8 @@ test('should render the table', async (t) => {
 
   const table = Selector('div[data-test-id="org-table"]');
   const tableHeadings = Selector('[data-test-id="table-headings"]');
-  const columnHeading1 = tableHeadings.find('[data-test-id="column-heading"]:nth-child(1)');
-  const columnHeading2 = tableHeadings.find('[data-test-id="column-heading"]:nth-child(2)');
+  const columnHeading1 = tableHeadings.find('[data-test-id="column-heading-0"]');
+  const columnHeading2 = tableHeadings.find('[data-test-id="column-heading-1"]');
 
   await t
     .expect(table.exists).ok()

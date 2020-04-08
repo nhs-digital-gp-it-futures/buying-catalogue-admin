@@ -16,9 +16,16 @@ export const getContext = ({ organisation }) => ({
     {
       data: `${(`${row.firstName ? row.firstName : ''} ${row.lastName ? row.lastName : ''}`).trim()}` || '',
       href: `${baseUrl}/organisations/${organisation.organisationId}/${row.userId}`,
+      dataTestId: `user-name-${row.userId}`,
     },
-    { data: row.phoneNumber || '' },
-    { data: row.emailAddress || '' },
+    {
+      data: row.phoneNumber || '',
+      dataTestId: `user-phone-${row.userId}`,
+    },
+    {
+      data: row.emailAddress || '',
+      dataTestId: `user-email-${row.userId}`,
+    },
     {
       tag: row.isDisabled ? {
         dataTestId: `account-disabled-tag-${row.userId}`,
