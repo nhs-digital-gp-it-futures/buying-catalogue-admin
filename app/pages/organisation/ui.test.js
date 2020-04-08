@@ -268,9 +268,9 @@ test('should render the table with users', async (t) => {
 
   const table = Selector('div[data-test-id="user-table"]');
   const tableHeadings = Selector('[data-test-id="table-headings"]');
-  const columnHeading1 = tableHeadings.find('[data-test-id="column-heading"]:nth-child(1)');
-  const columnHeading2 = tableHeadings.find('[data-test-id="column-heading"]:nth-child(2)');
-  const columnHeading3 = tableHeadings.find('[data-test-id="column-heading"]:nth-child(3)');
+  const columnHeading1 = tableHeadings.find('[data-test-id="column-heading-0"]');
+  const columnHeading2 = tableHeadings.find('[data-test-id="column-heading-1"]');
+  const columnHeading3 = tableHeadings.find('[data-test-id="column-heading-2"]');
 
   const user1Row = Selector('div[data-test-id="table-row-0"]');
   const user1Name = user1Row.find('a');
