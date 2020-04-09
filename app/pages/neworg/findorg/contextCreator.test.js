@@ -13,9 +13,20 @@ describe('findorg contextCreator', () => {
       expect(context.continueButtonText).toEqual(manifest.continueButtonText);
     });
 
+    it('should add data to the question in the manifest if odsCode is provided', () => {
+      const context = getContext({ odsCode: 'ABC1' });
+      expect(context.questions[0].data).toEqual('ABC1');
+    });
+
+    it('should not add data to the question in the manifest if odsCode is not provided', () => {
+      const context = getContext({});
+      expect(context.questions[0].data).toEqual(undefined);
+    });
+
     it('should construct backLinkHref', () => {
-      const context = getContext();
+      const context = getContext({});
       expect(context.backLinkHref).toEqual('/organisations');
     });
   });
 });
+
