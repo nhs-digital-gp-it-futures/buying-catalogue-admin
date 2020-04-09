@@ -251,4 +251,63 @@ describe('routes', () => {
         });
     });
   });
+
+  describe('POST /organisations/find/select/create', () => {
+    const path = '/organisations/find/select/create';
+
+    it('should return 403 forbidden if no csrf token is available', async () => {
+      await checkForbiddenNoCsrf(path);
+    });
+
+    it('should redirect to the login page if the user is not logged in', async () => {
+      await checkRedirectToLogin(path, path);
+    });
+
+    it('should show the error page indicating the user is not authorised if the user is logged in but not authorised', async () => {
+      await checkLoggedInNotAuthorised(path, path);
+    });
+
+    it('should return the correct status and text if response.success is true', async () => {
+      const { cookies, csrfToken } = await getCsrfTokenFromGet(
+        setUpFakeApp(), path, mockAuthorisedCookie,
+      );
+
+      return request(setUpFakeApp())
+        .post(path)
+        .type('form')
+        .set('Cookie', [cookies, mockAuthorisedCookie])
+        .send({ _csrf: csrfToken })
+        .expect(302)
+        .then((res) => {
+          expect(res.redirect).toEqual(true);
+          expect(res.headers.location).toEqual('/organisations/find/select/create/confirmation');
+          expect(res.text.includes('data-test-id="error-page-title"')).toEqual(false);
+        });
+    });
+  });
+
+  describe('GET /organisations/find/select/create/confirmation', () => {
+    const path = '/organisations/find/select/create/confirmation';
+
+    it('should redirect to the login page if the user is not logged in', () => (
+      checkAuthorisedRouteNotLoggedIn(path)
+    ));
+
+    it('should show the error page indicating the user is not authorised if the user is logged in but not authorised', () => (
+      checkAuthorisedRouteWithoutClaim(path)
+    ));
+
+    it('should return the correct status and text when the user is authorised', () => {
+      selectOrgContext.getSelectOrgContext = jest.fn()
+        .mockImplementation(() => ({}));
+      return request(setUpFakeApp())
+        .get(path)
+        .set('Cookie', [mockAuthorisedCookie])
+        .expect(200)
+        .then((res) => {
+          expect(res.text.includes('data-test-id="create-org-confirmation-page"')).toEqual(true);
+          expect(res.text.includes('data-test-id="error-page-title"')).toEqual(false);
+        });
+    });
+  });
 });
