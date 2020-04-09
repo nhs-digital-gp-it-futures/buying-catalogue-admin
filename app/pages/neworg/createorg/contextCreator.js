@@ -8,5 +8,5 @@ export const getContext = () => ({
   ...manifest,
   ...mockOrgDetails,
   address: mockOrgDetails.address ? extractObjectValuesToArray(mockOrgDetails.address) : [],
-  backLinkHref: `${baseUrl}/organisations/find?ods=${mockOrgDetails.odsCode}`,
+  backLinkHref: `${baseUrl}/organisations/find/select?ods=${mockOrgDetails.odsCode}`,
 });
