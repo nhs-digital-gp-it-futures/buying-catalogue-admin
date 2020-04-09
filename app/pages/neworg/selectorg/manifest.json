@@ -1,0 +1,9 @@
+{
+  "title": "Confirm organisation",
+  "description": "Confirm this is the organisation you are looking for or go back and enter a different ODS code.",
+  "organisationNameHeading": "Organisation name",
+  "odsCodeHeading": "ODS code",
+  "addressHeading": "Address",
+  "primaryRoleIdHeading": "Primary Role ID",
+  "selectOrgButtonText": "Select this organisation"
+}
