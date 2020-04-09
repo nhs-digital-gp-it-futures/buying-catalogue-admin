@@ -226,7 +226,7 @@ describe('routes', () => {
     });
   });
 
-  describe('POST /organisations/:organisationId/edit', () => {
+  describe('POST /organisations/find', () => {
     const path = '/organisations/find';
 
     it('should return 403 forbidden if no csrf token is available', async () => {
