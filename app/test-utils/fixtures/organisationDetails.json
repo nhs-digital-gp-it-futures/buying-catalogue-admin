@@ -1,6 +1,7 @@
 {
   "organisationId": "org1",
   "name": "Greater Manchester CCG",
+  "organisationName": "Greater Manchester CCG",
   "odsCode": "X01",
   "primaryRoleId": "ID123",
   "address": {

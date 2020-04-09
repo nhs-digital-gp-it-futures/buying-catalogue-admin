@@ -12,6 +12,7 @@ import { getUserStatusContext } from './pages/viewuser/changeUserStatusConfirmat
 import { getEditOrgContext, putUpdateOrganisation } from './pages/editorg/controller';
 import { getEditOrgConfirmationContext } from './pages/editorg/confirmation/controller';
 import { getFindOrgContext } from './pages/neworg/findorg/controller';
+import { getSelectOrgContext } from './pages/neworg/selectorg/controller';
 import config from './config';
 import healthRoutes from './pages/health/routes';
 
@@ -57,9 +58,20 @@ export const routes = (authProvider) => {
   }));
 
   router.get('/organisations/find', authProvider.authorise(), withCatch(authProvider, async (req, res) => {
-    logger.info('navigating to add organisations page');
-    const context = await getFindOrgContext();
+    const odsCode = req.query.ods;
+    logger.info('navigating to find organisations page');
+    const context = await getFindOrgContext({ odsCode });
     return res.render('pages/neworg/findorg/template', addContext({ context, user: req.user, csrfToken: req.csrfToken() }));
+  }));
+
+  router.post('/organisations/find', authProvider.authorise(), withCatch(authProvider, async (req, res) => {
+    res.redirect(`${config.baseUrl}/organisations/find/select`);
+  }));
+
+  router.get('/organisations/find/select', authProvider.authorise(), withCatch(authProvider, async (req, res) => {
+    logger.info('navigating to select organisations page');
+    const context = await getSelectOrgContext();
+    return res.render('pages/neworg/selectorg/template', addContext({ context, user: req.user, csrfToken: req.csrfToken() }));
   }));
 
   router.get('/organisations/:organisationId', authProvider.authorise(), withCatch(authProvider, async (req, res) => {
