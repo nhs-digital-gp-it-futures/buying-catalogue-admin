@@ -3,7 +3,7 @@ module.exports = {
   appName: 'NHSD Buying Catalogue Admin',
 
   // Base URL
-  baseUrl: process.env.BASE_URL || '/admin',
+  baseUrl: process.env.BASE_URL || '',
 
   // Public browse base URL
   publicBrowseBaseUrl: process.env.PUBLIC_BROWSE_BASE_URL || '/',
