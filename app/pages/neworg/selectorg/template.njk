@@ -27,12 +27,14 @@
         </div>
         <h3 data-test-id="organisation-primary-role-id-heading" class="nhsuk-heading-s nhsuk-u-margin-bottom-2">{{ primaryRoleIdHeading }}</h3>
         <div data-test-id="organisation-primary-role-id" class="nhsuk-u-font-size-19 nhsuk-u-margin-bottom-5">{{ primaryRoleId }}</div>
-
-        <div data-test-id="select-org-button">
-          {{ button({
-            text: selectOrgButtonText,
-            classes: "nhsuk-u-margin-bottom-9"
-          }) }}
+        <form method="post">
+          <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
+          <div data-test-id="select-org-button">
+            {{ button({
+              text: selectOrgButtonText,
+              classes: "nhsuk-u-margin-bottom-9"
+            }) }}
+          </div>
         </div>
       </div>
     </div>
