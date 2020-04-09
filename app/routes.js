@@ -13,6 +13,7 @@ import { getEditOrgContext, putUpdateOrganisation } from './pages/editorg/contro
 import { getEditOrgConfirmationContext } from './pages/editorg/confirmation/controller';
 import { getFindOrgContext } from './pages/neworg/findorg/controller';
 import { getSelectOrgContext } from './pages/neworg/selectorg/controller';
+import { getCreateOrgContext } from './pages/neworg/createorg/controller';
 import config from './config';
 import healthRoutes from './pages/health/routes';
 
@@ -59,7 +60,7 @@ export const routes = (authProvider) => {
 
   router.get('/organisations/find', authProvider.authorise(), withCatch(authProvider, async (req, res) => {
     const odsCode = req.query.ods;
-    logger.info('navigating to find organisations page');
+    logger.info('navigating to find organisation page');
     const context = await getFindOrgContext({ odsCode });
     return res.render('pages/neworg/findorg/template', addContext({ context, user: req.user, csrfToken: req.csrfToken() }));
   }));
@@ -69,9 +70,19 @@ export const routes = (authProvider) => {
   }));
 
   router.get('/organisations/find/select', authProvider.authorise(), withCatch(authProvider, async (req, res) => {
-    logger.info('navigating to select organisations page');
+    logger.info('navigating to select organisation page');
     const context = await getSelectOrgContext();
     return res.render('pages/neworg/selectorg/template', addContext({ context, user: req.user, csrfToken: req.csrfToken() }));
+  }));
+
+  router.post('/organisations/find/select', authProvider.authorise(), withCatch(authProvider, async (req, res) => {
+    res.redirect(`${config.baseUrl}/organisations/find/select/create`);
+  }));
+
+  router.get('/organisations/find/select/create', authProvider.authorise(), withCatch(authProvider, async (req, res) => {
+    logger.info('navigating to create organisation page');
+    const context = await getCreateOrgContext();
+    return res.render('pages/neworg/createorg/template', addContext({ context, user: req.user, csrfToken: req.csrfToken() }));
   }));
 
   router.get('/organisations/:organisationId', authProvider.authorise(), withCatch(authProvider, async (req, res) => {
