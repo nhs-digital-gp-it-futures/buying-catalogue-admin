@@ -1,0 +1,6 @@
+{
+  "backLinkText": "Back to dashboard",
+  "title": "{{orgName}} created",
+  "description": "This organisation has been created on the Buying Catalogue.",
+  "dataTestId": "create-org-confirmation"
+}
