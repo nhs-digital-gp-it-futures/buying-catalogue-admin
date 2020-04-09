@@ -2,7 +2,7 @@ import manifest from './manifest.json';
 import { baseUrl } from '../../../config';
 import { extractObjectValuesToArray } from '../../../helpers/contextCreatorHelper';
 // TODO: remove import below when api is hooked up
-import mockOrgDetails from '../../../test-utils/fixtures/organisationDetails.json';
+import mockOrgDetails from '../organisationDetails.json';
 
 export const getContext = () => ({
   ...manifest,
