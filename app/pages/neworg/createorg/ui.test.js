@@ -56,7 +56,7 @@ test('should render Create Org page', async (t) => {
     .expect(page.exists).ok();
 });
 
-test('should navigate to /organisations/find when click on Back', async (t) => {
+test('should navigate to /organisations/find/select when click on Back', async (t) => {
   await pageSetup(t, true);
   await t.navigateTo(pageUrl);
 
