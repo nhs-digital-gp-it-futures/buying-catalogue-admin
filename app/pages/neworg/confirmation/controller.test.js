@@ -14,7 +14,7 @@ const mockOrg = {
   name: 'A lovely organisation',
 };
 
-describe('add org confirmation page controller', () => {
+describe('create org confirmation page controller', () => {
   describe('getCreateOrgConfirmationContext', () => {
     const accessToken = 'access_token';
     const organisationId = 'org1';
