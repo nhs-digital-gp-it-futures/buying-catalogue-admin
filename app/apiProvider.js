@@ -9,9 +9,11 @@ const endpoints = {
   getOrgById: options => `${organisationApiUrl}/api/v1/Organisations/${options.organisationId}`,
   getUsers: options => `${organisationApiUrl}/api/v1/Organisations/${options.organisationId}/Users`,
   getUserById: options => `${organisationApiUrl}/api/v1/Users/${options.userId}`,
+  getOrgByOdsCode: options => `${organisationApiUrl}/api/v1/ods/${options.odsCode}`,
   // POST endpoints
   postAddUser: options => `${organisationApiUrl}/api/v1/Organisations/${options.organisationId}/Users`,
   postUserStatus: options => `${organisationApiUrl}/api/v1/Users/${options.userId}/${options.status}`,
+  postAddOrg: () => `${organisationApiUrl}/api/v1/organisations`,
   // PUT endpoins
   putUpdateOrganisation: options => `${organisationApiUrl}/api/v1/Organisations/${options.organisationId}`,
 };

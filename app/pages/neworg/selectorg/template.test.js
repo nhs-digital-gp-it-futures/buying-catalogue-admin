@@ -15,6 +15,7 @@ const mockContext = {
   ...context,
   ...mockOrgDetails,
   address: extractObjectValuesToArray(mockOrgDetails.address),
+  csrfToken: 'mockCsrfToken',
 };
 
 describe('select org page', () => {
@@ -98,6 +99,24 @@ describe('select org page', () => {
       expect(heading.text().trim()).toEqual(mockContext.primaryRoleIdHeading);
       expect(primaryRoleID.length).toEqual(1);
       expect(primaryRoleID.text().trim()).toEqual(mockContext.primaryRoleId);
+    });
+  }));
+
+  it('should render hidden input with csrf token', createTestHarness(setup, (harness) => {
+    harness.request(mockContext, ($) => {
+      const formElement = $('input[name=_csrf]');
+      expect(formElement.length).toEqual(1);
+      expect(formElement.attr('type')).toEqual('hidden');
+      expect(formElement.attr('value')).toEqual(mockContext.csrfToken);
+    });
+  }));
+
+  it('should render hidden input with odsCode', createTestHarness(setup, (harness) => {
+    harness.request(mockContext, ($) => {
+      const formElement = $('input[name=odsCode]');
+      expect(formElement.length).toEqual(1);
+      expect(formElement.attr('type')).toEqual('hidden');
+      expect(formElement.attr('value')).toEqual(mockContext.odsCode);
     });
   }));
 

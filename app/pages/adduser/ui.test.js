@@ -16,7 +16,6 @@ const setCookies = ClientFunction(() => {
   document.cookie = `fakeToken=${cookieValue}`;
 });
 
-
 const mocks = () => {
   nock(organisationsApiLocalhost)
     .get('/api/v1/Organisations/org1')
