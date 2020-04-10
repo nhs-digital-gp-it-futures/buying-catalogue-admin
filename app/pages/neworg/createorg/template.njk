@@ -31,7 +31,8 @@
 
         <form method="post" action="{{ saveCatalogueAgreementPostAction }}">
           <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
-      
+          <input type="hidden" name="odsCode" value="{{ odsCode }}" />
+          
           <div data-test-id="catalogue-agreement-checkbox" class="nhsuk-u-margin-bottom-9">
             {{ checkboxes({
               checked: agreementSigned,
