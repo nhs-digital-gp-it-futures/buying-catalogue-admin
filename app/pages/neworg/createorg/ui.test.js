@@ -4,6 +4,7 @@ import content from './manifest.json';
 import { extractInnerText } from '../../../test-utils/helper';
 import mockOrg from '../../../test-utils/fixtures/organisationDetails.json';
 import { extractObjectValuesToArray } from '../../../helpers/contextCreatorHelper';
+import { organisationsApiLocalhost } from '../../../test-utils/config';
 
 const pageUrl = 'http://localhost:1234/organisations/find/select/create';
 
@@ -15,8 +16,15 @@ const setCookies = ClientFunction(() => {
   document.cookie = `fakeToken=${cookieValue}`;
 });
 
+const mocks = () => {
+  nock(organisationsApiLocalhost)
+    .get('/api/v1/ods/undefined')
+    .reply(200, mockOrg);
+};
+
 const pageSetup = async (t, withAuth = false) => {
   if (withAuth) {
+    mocks();
     await setCookies();
   }
 };
