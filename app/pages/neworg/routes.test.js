@@ -12,7 +12,7 @@ jest.mock('../../apiProvider', () => ({
   getData: jest.fn()
     .mockImplementation(() => Promise.resolve({})),
   postData: jest.fn()
-    .mockImplementation(() => Promise.resolve({ success: true })),
+    .mockImplementation(() => Promise.resolve({ success: true, data: {} })),
   putData: jest.fn()
     .mockImplementation(() => Promise.resolve({ success: true })),
 }));
@@ -158,18 +158,18 @@ describe('routes', () => {
         .post(path)
         .type('form')
         .set('Cookie', [cookies, mockAuthorisedCookie])
-        .send({ _csrf: csrfToken })
+        .send({ _csrf: csrfToken, odsCode: 'abc' })
         .expect(302)
         .then((res) => {
           expect(res.redirect).toEqual(true);
-          expect(res.headers.location).toEqual('/organisations/find/select');
+          expect(res.headers.location).toEqual('/organisations/find/select?ods=abc');
           expect(res.text.includes('data-test-id="error-page-title"')).toEqual(false);
         });
     });
   });
 
   describe('GET /organisations/find/select', () => {
-    const path = '/organisations/find/select';
+    const path = '/organisations/find/select?ods=abc';
 
     it('should redirect to the login page if the user is not logged in', () => (
       checkAuthorisedRouteNotLoggedIn(path)
@@ -194,7 +194,7 @@ describe('routes', () => {
   });
 
   describe('POST /organisations/find/select', () => {
-    const path = '/organisations/find/select';
+    const path = '/organisations/find/select?ods=abc';
 
     it('should return 403 forbidden if no csrf token is available', async () => {
       await checkForbiddenNoCsrf(path);
@@ -217,18 +217,18 @@ describe('routes', () => {
         .post(path)
         .type('form')
         .set('Cookie', [cookies, mockAuthorisedCookie])
-        .send({ _csrf: csrfToken })
+        .send({ _csrf: csrfToken, odsCode: 'abc' })
         .expect(302)
         .then((res) => {
           expect(res.redirect).toEqual(true);
-          expect(res.headers.location).toEqual('/organisations/find/select/create');
+          expect(res.headers.location).toEqual('/organisations/find/select/create?ods=abc');
           expect(res.text.includes('data-test-id="error-page-title"')).toEqual(false);
         });
     });
   });
 
   describe('GET /organisations/find/select/create', () => {
-    const path = '/organisations/find/select/create';
+    const path = '/organisations/find/select/create?ods=abc';
 
     it('should redirect to the login page if the user is not logged in', () => (
       checkAuthorisedRouteNotLoggedIn(path)
@@ -276,18 +276,18 @@ describe('routes', () => {
         .post(path)
         .type('form')
         .set('Cookie', [cookies, mockAuthorisedCookie])
-        .send({ _csrf: csrfToken })
+        .send({ _csrf: csrfToken, odsCode: 'abc' })
         .expect(302)
         .then((res) => {
           expect(res.redirect).toEqual(true);
-          expect(res.headers.location).toEqual('/organisations/find/select/create/confirmation');
+          expect(res.headers.location).toEqual('/organisations/find/select/create/confirmation?id=undefined');
           expect(res.text.includes('data-test-id="error-page-title"')).toEqual(false);
         });
     });
   });
 
   describe('GET /organisations/find/select/create/confirmation', () => {
-    const path = '/organisations/find/select/create/confirmation';
+    const path = '/organisations/find/select/create/confirmation?id=org1';
 
     it('should redirect to the login page if the user is not logged in', () => (
       checkAuthorisedRouteNotLoggedIn(path)
