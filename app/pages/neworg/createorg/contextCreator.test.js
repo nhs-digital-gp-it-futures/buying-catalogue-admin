@@ -33,7 +33,7 @@ describe('createorg contextCreator', () => {
       expect(context.selectOrgButtonText).toEqual(manifest.selectOrgButtonText);
     });
 
-    it('should formet the address', () => {
+    it('should format the address', () => {
       const formattedAddress = extractObjectValuesToArray(mockOrgData.address);
       const context = getContext({ orgData: mockOrgData });
       expect(context.address).toEqual(formattedAddress);
