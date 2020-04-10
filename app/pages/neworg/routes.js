@@ -17,9 +17,9 @@ export const newOrgRoutes = (authProvider, addContext) => {
     return res.render('pages/neworg/findorg/template', addContext({ context, user: req.user, csrfToken: req.csrfToken() }));
   }));
 
-  router.post('/', authProvider.authorise(), withCatch(authProvider, async (req, res) => {
-    return res.redirect(`${config.baseUrl}/organisations/find/select?ods=${req.body.odsCode}`);
-  }));
+  router.post('/', authProvider.authorise(), withCatch(authProvider, async (req, res) => res.redirect(
+    `${config.baseUrl}/organisations/find/select?ods=${req.body.odsCode}`,
+  )));
 
   router.get('/select', authProvider.authorise(), withCatch(authProvider, async (req, res) => {
     const odsCode = req.query.ods;
