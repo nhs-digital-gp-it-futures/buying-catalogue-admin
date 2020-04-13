@@ -1,3 +1,3 @@
 import { getContext } from './contextCreator';
 
-export const getFindOrgContext = async ({ odsCode }) => getContext({ odsCode });
+export const getFindOrgContext = params => getContext(params);
