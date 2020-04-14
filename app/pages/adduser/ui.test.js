@@ -6,7 +6,7 @@ import { organisationsApiLocalhost } from '../../test-utils/config';
 import organisationDetails from '../../test-utils/fixtures/organisationDetails.json';
 import addUserErrorResponse from '../../test-utils/fixtures/addUserErrorResponse.json';
 
-const pageUrl = 'http://localhost:1234/organisations/org1/adduser';
+const pageUrl = 'http://localhost:1234/admin/organisations/org1/adduser';
 
 const setCookies = ClientFunction(() => {
   const cookieValue = JSON.stringify({
@@ -64,7 +64,7 @@ test('should render Add User page', async (t) => {
     .expect(orgPage.exists).ok();
 });
 
-test('should navigate to /organisations/org when click on Back', async (t) => {
+test('should navigate to /admin/organisations/org when click on Back', async (t) => {
   nock(organisationsApiLocalhost)
     .get('/api/v1/Organisations/org1')
     .reply(200, organisationDetails);
@@ -79,7 +79,7 @@ test('should navigate to /organisations/org when click on Back', async (t) => {
   await t
     .expect(goBackLink.exists).ok()
     .click(goBackLink)
-    .expect(getLocation()).eql('http://localhost:1234/organisations/org1');
+    .expect(getLocation()).eql('http://localhost:1234/admin/organisations/org1');
 });
 
 test('should render the title', async (t) => {
