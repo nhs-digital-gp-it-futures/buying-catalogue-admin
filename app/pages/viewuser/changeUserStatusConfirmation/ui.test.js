@@ -6,8 +6,8 @@ import { organisationsApiLocalhost } from '../../../test-utils/config';
 import userData from '../../../test-utils/fixtures/userData.json';
 import organisationData from '../../../test-utils/fixtures/organisationDetails.json';
 
-const enablePageUrl = 'http://localhost:1234/organisations/org1/user1/enable';
-const disablePageUrl = 'http://localhost:1234/organisations/org1/user1/disable';
+const enablePageUrl = 'http://localhost:1234/admin/organisations/org1/user1/enable';
+const disablePageUrl = 'http://localhost:1234/admin/organisations/org1/user1/disable';
 
 const setCookies = ClientFunction(() => {
   const cookieValue = JSON.stringify({
@@ -81,7 +81,7 @@ test('should navigate to user page when click on Back', async (t) => {
   await t
     .expect(goBackLink.exists).ok()
     .click(goBackLink)
-    .expect(getLocation()).eql('http://localhost:1234/organisations/org1/user1');
+    .expect(getLocation()).eql('http://localhost:1234/admin/organisations/org1/user1');
 });
 
 test('should render the title', async (t) => {
@@ -155,7 +155,7 @@ test('should navigate to user page when click on Back', async (t) => {
   await t
     .expect(goBackLink.exists).ok()
     .click(goBackLink)
-    .expect(getLocation()).eql('http://localhost:1234/organisations/org1/user1');
+    .expect(getLocation()).eql('http://localhost:1234/admin/organisations/org1/user1');
 });
 
 test('should render the title', async (t) => {
