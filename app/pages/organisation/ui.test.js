@@ -7,7 +7,7 @@ import organisationDetails from '../../test-utils/fixtures/organisationDetails.j
 import usersData from '../../test-utils/fixtures/users.json';
 import content from './manifest.json';
 
-const pageUrl = 'http://localhost:1234/organisations/org1';
+const pageUrl = 'http://localhost:1234/admin/organisations/org1';
 
 const setCookies = ClientFunction(() => {
   const cookieValue = JSON.stringify({
@@ -68,7 +68,7 @@ test('should render Organisation page', async (t) => {
     .expect(orgPage.exists).ok();
 });
 
-test('should navigate to /organisations when click on Back', async (t) => {
+test('should navigate to /admin/organisations when click on Back', async (t) => {
   nock(organisationsApiLocalhost)
     .get('/api/v1/Organisations')
     .reply(200, {});
@@ -81,7 +81,7 @@ test('should navigate to /organisations when click on Back', async (t) => {
   await t
     .expect(goBackLink.exists).ok()
     .click(goBackLink)
-    .expect(getLocation()).eql('http://localhost:1234/organisations');
+    .expect(getLocation()).eql('http://localhost:1234/admin/organisations');
 });
 
 test('should render the title', async (t) => {
@@ -127,7 +127,7 @@ test('should render edit org button', async (t) => {
     .expect(editOrgButton.exists).ok()
     .expect(await extractInnerText(editOrgButton)).eql(content.editOrgButtonText)
     .expect(editOrgButton.hasClass('nhsuk-u-margin-bottom-9')).ok()
-    .expect(editOrgButton.getAttribute('href')).eql('/organisations/org1/edit');
+    .expect(editOrgButton.getAttribute('href')).eql('/admin/organisations/org1/edit');
 });
 
 test('should navigate to edit org page when add edit org button is clicked', async (t) => {
@@ -144,7 +144,7 @@ test('should navigate to edit org page when add edit org button is clicked', asy
   await t
     .expect(editOrgButton.exists).ok()
     .click(editOrgButton)
-    .expect(getLocation()).eql(`http://localhost:1234/organisations/${orgId}/edit`);
+    .expect(getLocation()).eql(`http://localhost:1234/admin/organisations/${orgId}/edit`);
 });
 
 test('should render organisation ods code', async (t) => {
@@ -242,7 +242,7 @@ test('should render add user button', async (t) => {
     .expect(addUserButton.exists).ok()
     .expect(await extractInnerText(addUserButton)).eql(content.addUserButtonText)
     .expect(addUserButton.hasClass('nhsuk-u-margin-bottom-9')).ok()
-    .expect(addUserButton.getAttribute('href')).eql(`/organisations/${orgId}/adduser`);
+    .expect(addUserButton.getAttribute('href')).eql(`/admin/organisations/${orgId}/adduser`);
 });
 
 test('should navigate to add user page when add user button is clicked', async (t) => {
@@ -259,7 +259,7 @@ test('should navigate to add user page when add user button is clicked', async (
   await t
     .expect(addUserButton.exists).ok()
     .click(addUserButton)
-    .expect(getLocation()).eql(`http://localhost:1234/organisations/${orgId}/adduser`);
+    .expect(getLocation()).eql(`http://localhost:1234/admin/organisations/${orgId}/adduser`);
 });
 
 test('should render the table with users', async (t) => {
@@ -320,5 +320,5 @@ test('should navigate to view user page when user name is clicked', async (t) =>
   await t
     .expect(user1Name.exists).ok()
     .click(user1Name)
-    .expect(getLocation()).eql(`http://localhost:1234/organisations/${orgId}/${usersData.users[0].userId}`);
+    .expect(getLocation()).eql(`http://localhost:1234/admin/organisations/${orgId}/${usersData.users[0].userId}`);
 });
