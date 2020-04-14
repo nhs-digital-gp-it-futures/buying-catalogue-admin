@@ -6,7 +6,7 @@ import mockOrg from '../../../test-utils/fixtures/organisationDetails.json';
 import { extractObjectValuesToArray } from '../../../helpers/contextCreatorHelper';
 import { organisationsApiLocalhost } from '../../../test-utils/config';
 
-const pageUrl = `http://localhost:1234/organisations/find/select/create?ods=${mockOrg.odsCode}`;
+const pageUrl = `http://localhost:1234/admin/organisations/find/select/create?ods=${mockOrg.odsCode}`;
 
 const setCookies = ClientFunction(() => {
   const cookieValue = JSON.stringify({
@@ -64,7 +64,7 @@ test('should render Create Org page', async (t) => {
     .expect(page.exists).ok();
 });
 
-test('should navigate to /organisations/find/select when click on Back', async (t) => {
+test('should navigate to /admin/organisations/find/select when click on Back', async (t) => {
   await pageSetup(t, true);
   await t.navigateTo(pageUrl);
 
@@ -73,7 +73,7 @@ test('should navigate to /organisations/find/select when click on Back', async (
   await t
     .expect(goBackLink.exists).ok()
     .click(goBackLink)
-    .expect(getLocation()).eql(`http://localhost:1234/organisations/find/select?ods=${mockOrg.odsCode}`);
+    .expect(getLocation()).eql(`http://localhost:1234/admin/organisations/find/select?ods=${mockOrg.odsCode}`);
 });
 
 test('should render the title', async (t) => {
@@ -222,5 +222,5 @@ test('should navigate to confirmation page when save button is clicked with no e
   await t
     .expect(saveButton.exists).ok()
     .click(saveButton)
-    .expect(getLocation()).eql(`http://localhost:1234/organisations/find/select/create/confirmation?id=${mockOrg.organisationId}`);
+    .expect(getLocation()).eql(`http://localhost:1234/admin/organisations/find/select/create/confirmation?id=${mockOrg.organisationId}`);
 });

@@ -4,7 +4,7 @@ import content from './manifest.json';
 import { extractInnerText } from '../../../test-utils/helper';
 import { organisationsApiLocalhost } from '../../../test-utils/config';
 
-const pageUrl = 'http://localhost:1234/organisations/find';
+const pageUrl = 'http://localhost:1234/admin/organisations/find';
 
 const setCookies = ClientFunction(() => {
   const cookieValue = JSON.stringify({
@@ -55,7 +55,7 @@ test('should render Find Organisation page', async (t) => {
     .expect(orgPage.exists).ok();
 });
 
-test('should navigate to /organisations when click on Back', async (t) => {
+test('should navigate to /admin/organisations when click on Back', async (t) => {
   nock(organisationsApiLocalhost)
     .get('/api/v1/Organisations')
     .reply(200, {});
@@ -68,7 +68,7 @@ test('should navigate to /organisations when click on Back', async (t) => {
   await t
     .expect(goBackLink.exists).ok()
     .click(goBackLink)
-    .expect(getLocation()).eql('http://localhost:1234/organisations');
+    .expect(getLocation()).eql('http://localhost:1234/admin/organisations');
 });
 
 test('should render the title', async (t) => {
@@ -134,5 +134,5 @@ test('should navigate to select organisation page when continue button is presse
     .typeText(odsCodeInput, 'abc')
     .expect(button.exists).ok()
     .click(button)
-    .expect(getLocation()).eql('http://localhost:1234/organisations/find/select?ods=abc');
+    .expect(getLocation()).eql('http://localhost:1234/admin/organisations/find/select?ods=abc');
 });

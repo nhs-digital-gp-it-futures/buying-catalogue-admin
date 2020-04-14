@@ -6,7 +6,7 @@ import { organisationsApiLocalhost } from '../../../test-utils/config';
 import mockOrg from '../../../test-utils/fixtures/organisationDetails.json';
 import mockOrgList from '../../../test-utils/fixtures/organisationsList.json';
 
-const path = `http://localhost:1234/organisations/find/select/create/confirmation?id=${mockOrg.organisationId}`;
+const path = `http://localhost:1234/admin/organisations/find/select/create/confirmation?id=${mockOrg.organisationId}`;
 
 const setCookies = ClientFunction(() => {
   const cookieValue = JSON.stringify({
@@ -42,7 +42,7 @@ fixture('Create Organisation Confirmation Page')
     await t.expect(isDone).ok('Not all nock interceptors were used!');
   });
 
-test('should navigate to /organisations when click on Back to dashboard', async (t) => {
+test('should navigate to /admin/organisations when click on Back to dashboard', async (t) => {
   nock(organisationsApiLocalhost)
     .get('/api/v1/Organisations')
     .reply(200, mockOrgList);
@@ -55,7 +55,7 @@ test('should navigate to /organisations when click on Back to dashboard', async 
   await t
     .expect(goBackLink.exists).ok()
     .click(goBackLink)
-    .expect(getLocation()).eql('http://localhost:1234/organisations');
+    .expect(getLocation()).eql('http://localhost:1234/admin/organisations');
 });
 
 test('should render the title', async (t) => {
