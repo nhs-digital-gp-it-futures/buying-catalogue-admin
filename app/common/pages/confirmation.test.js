@@ -15,7 +15,7 @@ const context = {
 };
 
 
-describe('organisations add user confirmation page', () => {
+describe('confirmation page', () => {
   it('should render a backLink', createTestHarness(setup, (harness) => {
     harness.request(context, ($) => {
       const addUserConfirmationBackLink = $('[data-test-id="go-back-link"]');
