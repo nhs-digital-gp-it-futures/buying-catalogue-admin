@@ -45,7 +45,7 @@ test('when user is not authenticated - should navigate to the identity server lo
     .expect(getLocation()).eql('http://identity-server/login');
 });
 
-test('should render Find Org page', async (t) => {
+test('should render Find Organisation page', async (t) => {
   await pageSetup(t, true);
   await t.navigateTo(pageUrl);
 
@@ -116,4 +116,23 @@ test('should render continue button', async (t) => {
     .expect(button.exists).ok()
     .expect(await extractInnerText(button)).eql(content.continueButtonText)
     .expect(button.hasClass('nhsuk-u-margin-bottom-9')).ok();
+});
+
+test('should navigate to select organisation page when continue button is pressed and no errors', async (t) => {
+  nock(organisationsApiLocalhost)
+    .get('/api/v1/ods/abc')
+    .reply(200, {});
+
+  await pageSetup(t, true);
+  await t.navigateTo(pageUrl);
+
+  const button = Selector('[data-test-id="continue-button"] button');
+  const odsCodeInput = Selector('[data-test-id="question-odsCode"] input');
+
+  await t
+    .expect(odsCodeInput.exists).ok()
+    .typeText(odsCodeInput, 'abc')
+    .expect(button.exists).ok()
+    .click(button)
+    .expect(getLocation()).eql('http://localhost:1234/organisations/find/select?ods=abc');
 });

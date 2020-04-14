@@ -13,7 +13,7 @@ const endpoints = {
   // POST endpoints
   postAddUser: options => `${organisationApiUrl}/api/v1/Organisations/${options.organisationId}/Users`,
   postUserStatus: options => `${organisationApiUrl}/api/v1/Users/${options.userId}/${options.status}`,
-  postAddOrg: () => `${organisationApiUrl}/api/v1/organisations`,
+  postAddOrg: () => `${organisationApiUrl}/api/v1/Organisations`,
   // PUT endpoins
   putUpdateOrganisation: options => `${organisationApiUrl}/api/v1/Organisations/${options.organisationId}`,
 };
