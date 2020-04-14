@@ -1,4 +1,5 @@
 import { getContext } from './contextCreator';
+import { baseUrl } from '../../../config';
 import manifest from './manifest.json';
 
 describe('getContext', () => {
@@ -12,6 +13,6 @@ describe('getContext', () => {
 
   it('should construct backLink', () => {
     const context = getContext({ orgName: 'A lovely organisation', organisationId: 'org1' });
-    expect(context.backLinkHref).toEqual('/organisations/org1');
+    expect(context.backLinkHref).toEqual(`${baseUrl}/organisations/org1`);
   });
 });

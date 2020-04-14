@@ -1,6 +1,7 @@
 import request from 'supertest';
 import { App } from './app';
 import { routes } from './routes';
+import { baseUrl } from './config';
 import { FakeAuthProvider } from './test-utils/FakeAuthProvider';
 import { getCsrfTokenFromGet, setFakeCookie } from './test-utils/helper';
 import * as orgDashboardContext from './pages/dashboard/controller';
@@ -273,7 +274,7 @@ describe('routes', () => {
         .expect(302)
         .then((res) => {
           expect(res.redirect).toEqual(true);
-          expect(res.headers.location).toEqual('/organisations/org1/user2/enable');
+          expect(res.headers.location).toEqual(`${baseUrl}/organisations/org1/user2/enable`);
           expect(res.text.includes('data-test-id="error-page-title"')).toEqual(false);
         });
     });
@@ -333,7 +334,7 @@ describe('routes', () => {
         .expect(302)
         .then((res) => {
           expect(res.redirect).toEqual(true);
-          expect(res.headers.location).toEqual('/organisations/org1/user2/disable');
+          expect(res.headers.location).toEqual(`${baseUrl}/organisations/org1/user2/disable`);
           expect(res.text.includes('data-test-id="error-page-title"')).toEqual(false);
         });
     });
@@ -397,7 +398,7 @@ describe('routes', () => {
         .expect(302)
         .then((res) => {
           expect(res.redirect).toEqual(true);
-          expect(res.headers.location).toEqual('/organisations/org1/adduser/confirmation?id=user1');
+          expect(res.headers.location).toEqual(`${baseUrl}/organisations/org1/adduser/confirmation?id=user1`);
           expect(res.text.includes('data-test-id="error-page-title"')).toEqual(false);
         });
     });

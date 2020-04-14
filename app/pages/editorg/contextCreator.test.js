@@ -1,4 +1,5 @@
 import manifest from './manifest.json';
+import { baseUrl } from '../../config';
 import { getContext } from './contextCreator';
 
 const mockData = {
@@ -43,7 +44,7 @@ describe('getEditOrganisationContext', () => {
 
   it('should add backLinkHref', () => {
     const { backLinkHref } = getContext({ organisation: mockData });
-    expect(backLinkHref).toEqual(`/organisations/${mockData.organisationId}`);
+    expect(backLinkHref).toEqual(`${baseUrl}/organisations/${mockData.organisationId}`);
   });
 
   it('should transform address object into array of data strings if provided', () => {
@@ -66,6 +67,6 @@ describe('getEditOrganisationContext', () => {
 
   it('should construct saveCatalogueAgreementPostAction', () => {
     const context = getContext({ organisation: mockData });
-    expect(context.saveCatalogueAgreementPostAction).toEqual(`/organisations/${mockData.organisationId}/edit`);
+    expect(context.saveCatalogueAgreementPostAction).toEqual(`${baseUrl}/organisations/${mockData.organisationId}/edit`);
   });
 });
