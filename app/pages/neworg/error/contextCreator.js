@@ -6,6 +6,6 @@ const getErrorMessage = ({ errorsString, odsCode }) => (errorsString.split('+').
 
 export const getContext = params => ({
   ...manifest,
-  errorMessage: getErrorMessage(params),
+  description: getErrorMessage(params),
   backLinkHref: `${baseUrl}/organisations/find`,
 });
