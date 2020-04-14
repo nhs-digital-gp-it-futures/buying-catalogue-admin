@@ -92,7 +92,7 @@ describe('create org confirmation page controller', () => {
       apiProvider.getData
         .mockResolvedValueOnce(mockOrgData);
       apiProvider.postData
-        .mockResolvedValueOnce({ data: { organisationId: 'org1' } });
+        .mockResolvedValueOnce({ data: { id: 'org1' } });
 
       await postAddOrg({ odsCode, data: { odsCode, catalogueAgreementSigned: 'catalogueAgreementSigned' }, accessToken });
 
@@ -111,7 +111,7 @@ describe('create org confirmation page controller', () => {
 
     it('should return success as true and the orgId if api request is successful', async () => {
       apiProvider.postData
-        .mockResolvedValueOnce({ data: { organisationId: 'org1' } });
+        .mockResolvedValueOnce({ data: { id: 'org1' } });
 
       const response = await postAddOrg({ odsCode, data: { odsCode }, accessToken });
 

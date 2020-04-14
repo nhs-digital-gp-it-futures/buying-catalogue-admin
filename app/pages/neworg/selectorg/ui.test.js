@@ -6,7 +6,7 @@ import mockOrg from '../../../test-utils/fixtures/organisationDetails.json';
 import { extractObjectValuesToArray } from '../../../helpers/contextCreatorHelper';
 import { organisationsApiLocalhost } from '../../../test-utils/config';
 
-const pageUrl = 'http://localhost:1234/organisations/find/select';
+const pageUrl = `http://localhost:1234/organisations/find/select?ods=${mockOrg.odsCode}`;
 
 const setCookies = ClientFunction(() => {
   const cookieValue = JSON.stringify({
@@ -18,7 +18,7 @@ const setCookies = ClientFunction(() => {
 
 const mocks = () => {
   nock(organisationsApiLocalhost)
-    .get('/api/v1/ods/undefined')
+    .get(`/api/v1/ods/${mockOrg.odsCode}`)
     .reply(200, mockOrg);
 };
 
@@ -54,7 +54,7 @@ test('when user is not authenticated - should navigate to the identity server lo
     .expect(getLocation()).eql('http://identity-server/login');
 });
 
-test('should render Select Org page', async (t) => {
+test('should render Select Organisation page', async (t) => {
   await pageSetup(t, true);
   await t.navigateTo(pageUrl);
 
@@ -184,4 +184,16 @@ test('should render select org button', async (t) => {
     .expect(button.exists).ok()
     .expect(await extractInnerText(button)).eql(content.selectOrgButtonText)
     .expect(button.hasClass('nhsuk-u-margin-bottom-9')).ok();
+});
+
+test('should navigate to create organisation page when select button is pressed and no errors', async (t) => {
+  await pageSetup(t, true);
+  await t.navigateTo(pageUrl);
+
+  const button = Selector('[data-test-id="select-org-button"] button');
+
+  await t
+    .expect(button.exists).ok()
+    .click(button)
+    .expect(getLocation()).eql(`http://localhost:1234/organisations/find/select/create?ods=${mockOrg.odsCode}`);
 });

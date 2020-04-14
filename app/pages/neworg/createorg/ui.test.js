@@ -6,7 +6,7 @@ import mockOrg from '../../../test-utils/fixtures/organisationDetails.json';
 import { extractObjectValuesToArray } from '../../../helpers/contextCreatorHelper';
 import { organisationsApiLocalhost } from '../../../test-utils/config';
 
-const pageUrl = 'http://localhost:1234/organisations/find/select/create';
+const pageUrl = `http://localhost:1234/organisations/find/select/create?ods=${mockOrg.odsCode}`;
 
 const setCookies = ClientFunction(() => {
   const cookieValue = JSON.stringify({
@@ -18,7 +18,7 @@ const setCookies = ClientFunction(() => {
 
 const mocks = () => {
   nock(organisationsApiLocalhost)
-    .get('/api/v1/ods/undefined')
+    .get(`/api/v1/ods/${mockOrg.odsCode}`)
     .reply(200, mockOrg);
 };
 
@@ -201,4 +201,26 @@ test('should render save button', async (t) => {
     .expect(saveButton.exists).ok()
     .expect(await extractInnerText(saveButton)).eql(content.saveButtonText)
     .expect(saveButton.hasClass('nhsuk-u-margin-bottom-9')).ok();
+});
+
+test('should navigate to confirmation page when save button is clicked with no errors', async (t) => {
+  nock(organisationsApiLocalhost)
+    .post('/api/v1/Organisations')
+    .reply(200, { id: mockOrg.organisationId });
+  nock(organisationsApiLocalhost)
+    .get(`/api/v1/ods/${mockOrg.odsCode}`)
+    .reply(200, mockOrg);
+  nock(organisationsApiLocalhost)
+    .get(`/api/v1/Organisations/${mockOrg.organisationId}`)
+    .reply(200, mockOrg);
+
+  await pageSetup(t, true);
+  await t.navigateTo(pageUrl);
+
+  const saveButton = Selector('[data-test-id="save-button"] button');
+
+  await t
+    .expect(saveButton.exists).ok()
+    .click(saveButton)
+    .expect(getLocation()).eql(`http://localhost:1234/organisations/find/select/create/confirmation?id=${mockOrg.organisationId}`);
 });
