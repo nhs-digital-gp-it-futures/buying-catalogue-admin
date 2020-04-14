@@ -1,4 +1,5 @@
 import manifest from './manifest.json';
+import { baseUrl } from '../../../config';
 import { getContext } from './contextCreator';
 
 describe('findorg contextCreator', () => {
@@ -25,7 +26,7 @@ describe('findorg contextCreator', () => {
 
     it('should construct backLinkHref', () => {
       const context = getContext({});
-      expect(context.backLinkHref).toEqual('/organisations');
+      expect(context.backLinkHref).toEqual(`${baseUrl}/organisations`);
     });
   });
 });

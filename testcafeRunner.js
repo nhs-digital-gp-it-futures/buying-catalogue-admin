@@ -1,14 +1,19 @@
 import createTestcafe from 'testcafe';
 import { App } from './app/app';
 import { routes } from './app/routes';
-import { env } from './app/config';
+import { env, baseUrl } from './app/config';
 import { FakeAuthProvider } from './app/test-utils/FakeAuthProvider';
 
 let testcafe;
 
 const authProvider = new FakeAuthProvider();
 const app = new App(authProvider).createApp();
-app.use('/', routes(authProvider));
+app.use(baseUrl || '/', routes(authProvider));
+if (baseUrl) {
+  app.use('/', (req, res) => {
+    res.redirect(baseUrl);
+  });
+}
 const server = app.listen('1234');
 
 const browserFromArgs = process.argv.slice(2, 3);

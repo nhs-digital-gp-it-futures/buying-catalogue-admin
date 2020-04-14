@@ -6,7 +6,7 @@ import mockOrg from '../../../test-utils/fixtures/organisationDetails.json';
 import { extractObjectValuesToArray } from '../../../helpers/contextCreatorHelper';
 import { organisationsApiLocalhost } from '../../../test-utils/config';
 
-const pageUrl = `http://localhost:1234/organisations/find/select?ods=${mockOrg.odsCode}`;
+const pageUrl = `http://localhost:1234/admin/organisations/find/select?ods=${mockOrg.odsCode}`;
 
 const setCookies = ClientFunction(() => {
   const cookieValue = JSON.stringify({
@@ -64,7 +64,7 @@ test('should render Select Organisation page', async (t) => {
     .expect(page.exists).ok();
 });
 
-test('should navigate to /organisations/find when click on Back', async (t) => {
+test('should navigate to /admin/organisations/find when click on Back', async (t) => {
   await pageSetup(t, true);
   await t.navigateTo(pageUrl);
 
@@ -73,7 +73,7 @@ test('should navigate to /organisations/find when click on Back', async (t) => {
   await t
     .expect(goBackLink.exists).ok()
     .click(goBackLink)
-    .expect(getLocation()).eql(`http://localhost:1234/organisations/find?ods=${mockOrg.odsCode}`);
+    .expect(getLocation()).eql(`http://localhost:1234/admin/organisations/find?ods=${mockOrg.odsCode}`);
 });
 
 test('should render the title', async (t) => {
@@ -195,5 +195,5 @@ test('should navigate to create organisation page when select button is pressed 
   await t
     .expect(button.exists).ok()
     .click(button)
-    .expect(getLocation()).eql(`http://localhost:1234/organisations/find/select/create?ods=${mockOrg.odsCode}`);
+    .expect(getLocation()).eql(`http://localhost:1234/admin/organisations/find/select/create?ods=${mockOrg.odsCode}`);
 });

@@ -1,4 +1,5 @@
 import manifest from './manifest.json';
+import { baseUrl } from '../../config';
 import { getContext } from './contextCreator';
 
 const mockData = {
@@ -32,7 +33,7 @@ describe('getViewUserContext', () => {
 
   it('should construct backLinkHref', () => {
     const { backLinkHref } = getContext({ user: mockData });
-    expect(backLinkHref).toEqual(`/organisations/${mockData.organisationId}`);
+    expect(backLinkHref).toEqual(`${baseUrl}/organisations/${mockData.organisationId}`);
   });
 
   it('should construct editUserButtonHref', () => {
@@ -52,7 +53,7 @@ describe('getViewUserContext', () => {
       const { changeAccountStatusFormAction } = getContext({
         user: { ...mockData, disabled: true },
       });
-      expect(changeAccountStatusFormAction).toEqual(`/organisations/${mockData.organisationId}/${mockData.userId}/enable`);
+      expect(changeAccountStatusFormAction).toEqual(`${baseUrl}/organisations/${mockData.organisationId}/${mockData.userId}/enable`);
     });
   });
 
@@ -64,7 +65,7 @@ describe('getViewUserContext', () => {
 
     it('should construct correct changeAccountStatusFormAction', () => {
       const { changeAccountStatusFormAction } = getContext({ user: { ...mockData } });
-      expect(changeAccountStatusFormAction).toEqual(`/organisations/${mockData.organisationId}/${mockData.userId}/disable`);
+      expect(changeAccountStatusFormAction).toEqual(`${baseUrl}/organisations/${mockData.organisationId}/${mockData.userId}/disable`);
     });
   });
 });

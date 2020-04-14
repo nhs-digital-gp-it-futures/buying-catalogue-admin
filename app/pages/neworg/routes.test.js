@@ -1,6 +1,7 @@
 import request from 'supertest';
 import { App } from '../../app';
 import { routes } from '../../routes';
+import { baseUrl } from '../../config';
 import { FakeAuthProvider } from '../../test-utils/FakeAuthProvider';
 import { getCsrfTokenFromGet } from '../../test-utils/helper';
 import * as addOrgContext from './findorg/controller';
@@ -162,7 +163,7 @@ describe('routes', () => {
         .expect(302)
         .then((res) => {
           expect(res.redirect).toEqual(true);
-          expect(res.headers.location).toEqual('/organisations/find/select?ods=abc');
+          expect(res.headers.location).toEqual(`${baseUrl}/organisations/find/select?ods=abc`);
           expect(res.text.includes('data-test-id="error-page-title"')).toEqual(false);
         });
     });
@@ -221,7 +222,7 @@ describe('routes', () => {
         .expect(302)
         .then((res) => {
           expect(res.redirect).toEqual(true);
-          expect(res.headers.location).toEqual('/organisations/find/select/create?ods=abc');
+          expect(res.headers.location).toEqual(`${baseUrl}/organisations/find/select/create?ods=abc`);
           expect(res.text.includes('data-test-id="error-page-title"')).toEqual(false);
         });
     });
@@ -280,7 +281,7 @@ describe('routes', () => {
         .expect(302)
         .then((res) => {
           expect(res.redirect).toEqual(true);
-          expect(res.headers.location).toEqual('/organisations/find/select/create/confirmation?id=undefined');
+          expect(res.headers.location).toEqual(`${baseUrl}/organisations/find/select/create/confirmation?id=undefined`);
           expect(res.text.includes('data-test-id="error-page-title"')).toEqual(false);
         });
     });

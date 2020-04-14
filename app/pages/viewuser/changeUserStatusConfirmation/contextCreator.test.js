@@ -1,4 +1,5 @@
 import { getContext } from './contextCreator';
+import { baseUrl } from '../../../config';
 import manifest from './manifest.json';
 
 describe('get Enable/Disable User Confirmation Context', () => {
@@ -13,7 +14,7 @@ describe('get Enable/Disable User Confirmation Context', () => {
 
     it('should construct backLink', () => {
       const context = getContext({ user: { name: 'John Smith', userId: 'user2' }, organisationId: 'org1', status: 'enable' });
-      expect(context.backLinkHref).toEqual('/organisations/org1/user2');
+      expect(context.backLinkHref).toEqual(`${baseUrl}/organisations/org1/user2`);
     });
   });
 
@@ -28,7 +29,7 @@ describe('get Enable/Disable User Confirmation Context', () => {
 
     it('should construct backLink', () => {
       const context = getContext({ user: { name: 'John Smith', userId: 'user2' }, organisationId: 'org1', status: 'disable' });
-      expect(context.backLinkHref).toEqual('/organisations/org1/user2');
+      expect(context.backLinkHref).toEqual(`${baseUrl}/organisations/org1/user2`);
     });
   });
 });

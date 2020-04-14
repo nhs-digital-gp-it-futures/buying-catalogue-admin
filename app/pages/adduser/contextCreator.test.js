@@ -1,5 +1,6 @@
 import manifest from './manifest.json';
 import { getContext, getErrorContext } from './contextCreator';
+import { baseUrl } from '../../config';
 import * as contextCrErrHelper from './contextCreatorErrorHelper';
 
 jest.mock('./contextCreatorErrorHelper', () => ({
@@ -45,7 +46,7 @@ describe('adduser contextCreator', () => {
 
     it('should construct backLinkHref from the data provided', () => {
       const context = getContext(mockData);
-      expect(context.backLinkHref).toEqual(`/organisations/${mockData.organisationId}`);
+      expect(context.backLinkHref).toEqual(`${baseUrl}/organisations/${mockData.organisationId}`);
     });
   });
 
@@ -81,7 +82,7 @@ describe('adduser contextCreator', () => {
 
     it('should construct backLinkHref from the data provided', () => {
       const context = getErrorContext({ orgData: mockData, validationErrors: [] });
-      expect(context.backLinkHref).toEqual(`/organisations/${mockData.organisationId}`);
+      expect(context.backLinkHref).toEqual(`${baseUrl}/organisations/${mockData.organisationId}`);
     });
 
     it('should construct errors array from the data provided', () => {
