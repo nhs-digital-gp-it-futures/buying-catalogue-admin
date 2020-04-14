@@ -16,25 +16,25 @@ describe('getContext for create org comfirmation', () => {
     expect(context.backLinkHref).toEqual(`${baseUrl}/organisations/find`);
   });
 
-  describe('errorMessage', () => {
-    it('should construct correct errorMessage when only error is OrganisationAlreadyExists', () => {
+  describe('description', () => {
+    it('should construct correct description when only error is OrganisationAlreadyExists', () => {
       const context = getContext({ errorsString: 'OrganisationAlreadyExists', odsCode });
-      expect(context.errorMessage).toEqual(`The organisation with ODS code ${odsCode} already exists.`);
+      expect(context.description).toEqual(`The organisation with ODS code ${odsCode} already exists.`);
     });
 
-    it('should construct correct errorMessage when errors includes OrganisationAlreadyExists', () => {
+    it('should construct correct description when errors includes OrganisationAlreadyExists', () => {
       const context = getContext({ errorsString: 'OrganisationAlreadyExists+AnotherError', odsCode });
-      expect(context.errorMessage).toEqual(`The organisation with ODS code ${odsCode} already exists.`);
+      expect(context.description).toEqual(`The organisation with ODS code ${odsCode} already exists.`);
     });
 
-    it('should construct correct errorMessage when only error is not OrganisationAlreadyExists', () => {
+    it('should construct correct description when only error is not OrganisationAlreadyExists', () => {
       const context = getContext({ errorsString: 'OneError', odsCode });
-      expect(context.errorMessage).toEqual('Something went wrong.');
+      expect(context.description).toEqual('Something went wrong.');
     });
 
-    it('should construct correct errorMessage when errors do not include OrganisationAlreadyExists', () => {
+    it('should construct correct description when errors do not include OrganisationAlreadyExists', () => {
       const context = getContext({ errorsString: 'OneError+AnotherError', odsCode });
-      expect(context.errorMessage).toEqual('Something went wrong.');
+      expect(context.description).toEqual('Something went wrong.');
     });
   });
 });
