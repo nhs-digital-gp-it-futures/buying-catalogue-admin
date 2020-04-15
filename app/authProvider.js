@@ -4,7 +4,7 @@ import { Strategy, Issuer } from 'openid-client';
 import session from 'express-session';
 import redis from 'redis';
 import connectRedis from 'connect-redis';
-import config from 'config';
+import config from './config';
 
 export class AuthProvider {
   constructor() {
