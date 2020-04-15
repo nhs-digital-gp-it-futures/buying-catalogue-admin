@@ -45,5 +45,5 @@ module.exports = {
   cookieSecret: process.env.COOKIE_SECRET,
 
   // The url in which redis is running
-  redisUrl: process.env.REDIS_URL || 'http://localhost:6379',
+  redisUrl: process.env.REDIS_URL || 'redis://localhost:6379',
 };
