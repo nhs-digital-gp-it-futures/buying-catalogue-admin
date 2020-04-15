@@ -4,24 +4,22 @@ import { Strategy, Issuer } from 'openid-client';
 import session from 'express-session';
 import redis from 'redis';
 import connectRedis from 'connect-redis';
-import {
-  oidcBaseUri, baseUrl, oidcClientId, oidcClientSecret, appBaseUri, maxCookieAge, cookieSecret, redisUrl,
-} from './config';
+import config from 'config';
 
 export class AuthProvider {
   constructor() {
     this.passport = passport;
 
-    Issuer.discover(oidcBaseUri)
+    Issuer.discover(config.oidcBaseUri)
       .then((issuer) => {
         this.client = new issuer.Client({
-          client_id: oidcClientId,
-          client_secret: oidcClientSecret,
+          client_id: config.oidcClientId,
+          client_secret: config.oidcClientSecret,
         });
 
         const params = {
-          client_id: oidcClientId,
-          redirect_uri: `${appBaseUri}${baseUrl}/oauth/callback`,
+          client_id: config.oidcClientId,
+          redirect_uri: `${config.appBaseUri}${config.baseUrl}/oauth/callback`,
           scope: 'openid profile Organisation',
         };
 
@@ -53,15 +51,15 @@ export class AuthProvider {
 
   setup(app) {
     const RedisStore = connectRedis(session);
-    const redisClient = redis.createClient(redisUrl);
+    const redisClient = redis.createClient(config.redisUrl);
 
     app.use(session({
       store: new RedisStore({ client: redisClient }),
       name: 'token',
-      secret: cookieSecret,
+      secret: config.cookieSecret,
       resave: false,
       saveUninitialized: true,
-      maxAge: maxCookieAge,
+      maxAge: config.maxCookieAge,
     }));
 
     app.use(this.passport.initialize());
@@ -93,7 +91,7 @@ export class AuthProvider {
   logout({ idToken }) {
     return this.client.endSessionUrl({
       id_token_hint: idToken,
-      post_logout_redirect_uri: `${appBaseUri}${baseUrl}/signout-callback-oidc`,
+      post_logout_redirect_uri: `${config.appBaseUri}${config.baseUrl}/signout-callback-oidc`,
     });
   }
 
