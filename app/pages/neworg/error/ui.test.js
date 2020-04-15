@@ -3,7 +3,7 @@ import { Selector, ClientFunction } from 'testcafe';
 import content from './manifest.json';
 import { extractInnerText } from '../../../test-utils/helper';
 
-const path = 'http://localhost:1234/organisations/find/select/create/error?ods=abc&errors=OrganisationAlreadyExists';
+const path = 'http://localhost:1234/admin/organisations/find/select/create/error?ods=abc&errors=OrganisationAlreadyExists';
 const setCookies = ClientFunction(() => {
   const cookieValue = JSON.stringify({
     id: '88421113', name: 'Cool Dude', organisation: 'view',
@@ -41,7 +41,7 @@ test('should navigate to /organisations/find when click on Back to dashboard', a
     .expect(goBackLink.exists).ok()
     .expect(await extractInnerText(goBackLink)).eql(content.backLinkText)
     .click(goBackLink)
-    .expect(getLocation()).eql('http://localhost:1234/organisations/find');
+    .expect(getLocation()).eql('http://localhost:1234/admin/organisations/find');
 });
 
 test('should render the title', async (t) => {
