@@ -120,14 +120,14 @@ describe('create org confirmation page controller', () => {
     });
 
     it('should return success as false with errors if api request is unsuccessful', async () => {
-      const mockError = { error: 'error' };
+      const mockError = { id: 'error' };
       apiProvider.postData
         .mockResolvedValueOnce({ data: { errors: [mockError] } });
 
       const response = await postAddOrg({ odsCode, data: { odsCode }, accessToken });
 
       expect(response.success).toEqual(false);
-      expect(response.errors).toEqual([mockError]);
+      expect(response.errorString).toEqual(mockError.error);
     });
 
     it('should throw an error if api request is unsuccessful', async () => {
@@ -137,7 +137,7 @@ describe('create org confirmation page controller', () => {
       try {
         await postAddOrg({ odsCode, data: { odsCode }, accessToken });
       } catch (err) {
-        expect(err).toEqual(new Error('500 response data'));
+        expect(err).toEqual(new Error({ status: 500, data: '500 response data' }));
       }
     });
   });

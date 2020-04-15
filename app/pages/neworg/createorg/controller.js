@@ -25,11 +25,17 @@ export const postAddOrg = async ({ odsCode, data, accessToken }) => {
 
     if (response.data && response.data.errors) {
       logger.info(`Errors returned: ${JSON.stringify(response.data.errors)}`);
-      return { success: false, errors: response.data.errors };
+      const errorsString = response.data.errors
+        ? response.data.errors.reduce((arr, error) => {
+          arr.push(error.id);
+          return arr;
+        }, []).join('+')
+        : undefined;
+      return { success: false, errorsString };
     }
     logger.info(`Organisation added: ${JSON.stringify(data)}`);
     return { success: true, orgId: response.data.id };
   } catch (err) {
-    throw new Error(err.response.data);
+    throw new Error(err.response);
   }
 };
