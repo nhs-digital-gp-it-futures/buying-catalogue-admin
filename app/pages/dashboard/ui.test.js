@@ -5,7 +5,7 @@ import { extractInnerText } from '../../test-utils/helper';
 import { organisationsApiLocalhost } from '../../test-utils/config';
 import organisationsList from '../../test-utils/fixtures/organisationsList.json';
 
-const pageUrl = 'http://localhost:1234/organisations';
+const pageUrl = 'http://localhost:1234/admin/organisations';
 
 const setCookies = ClientFunction(() => {
   const cookieValue = JSON.stringify({
@@ -92,8 +92,7 @@ test('should navigate to /back-from-admin when click Back', async (t) => {
 
   await t
     .expect(goBackLink.exists).ok()
-    .click(goBackLink)
-    .expect(getLocation()).eql('http://localhost:1234/back-from-admin');
+    .expect(goBackLink.getAttribute('href')).eql('http://localhost:3000/back-from-admin');
 });
 
 test('should render the title', async (t) => {
@@ -128,7 +127,7 @@ test('should render add org button', async (t) => {
     .expect(addOrgButton.exists).ok()
     .expect(await extractInnerText(addOrgButton)).eql(content.addOrgButtonText)
     .expect(addOrgButton.hasClass('nhsuk-u-margin-bottom-9')).ok()
-    .expect(addOrgButton.getAttribute('href')).eql('/organisations/find');
+    .expect(addOrgButton.getAttribute('href')).eql('/admin/organisations/find');
 });
 
 test('should render the table', async (t) => {
@@ -188,5 +187,5 @@ test('should navigate to the organisation page when an organisation name is clic
   await t
     .expect(row0Name.exists).ok()
     .click(row0Name)
-    .expect(getLocation()).eql(`http://localhost:1234/organisations/${orgId}`);
+    .expect(getLocation()).eql(`http://localhost:1234/admin/organisations/${orgId}`);
 });

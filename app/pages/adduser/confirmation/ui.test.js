@@ -5,7 +5,7 @@ import { extractInnerText } from '../../../test-utils/helper';
 import { organisationsApiLocalhost } from '../../../test-utils/config';
 import organisationDetails from '../../../test-utils/fixtures/organisationDetails.json';
 
-const path = 'http://localhost:1234/organisations/org1/adduser/confirmation?id=user1';
+const path = 'http://localhost:1234/admin/organisations/org1/adduser/confirmation?id=user1';
 
 const setCookies = ClientFunction(() => {
   const cookieValue = JSON.stringify({
@@ -41,7 +41,7 @@ fixture('Add User Confirmation Page')
     await t.expect(isDone).ok('Not all nock interceptors were used!');
   });
 
-test('should navigate to /organisations/org1 when click on Back to dashboard', async (t) => {
+test('should navigate to /admin/organisations/org1 when click on Back to dashboard', async (t) => {
   nock(organisationsApiLocalhost)
     .get('/api/v1/Organisations/org1')
     .reply(200, organisationDetails);
@@ -56,7 +56,7 @@ test('should navigate to /organisations/org1 when click on Back to dashboard', a
   await t
     .expect(goBackLink.exists).ok()
     .click(goBackLink)
-    .expect(getLocation()).eql('http://localhost:1234/organisations/org1');
+    .expect(getLocation()).eql('http://localhost:1234/admin/organisations/org1');
 });
 
 test('should render the title', async (t) => {

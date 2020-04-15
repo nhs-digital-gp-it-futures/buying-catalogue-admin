@@ -6,7 +6,7 @@ import { organisationsApiLocalhost } from '../../test-utils/config';
 import userData from '../../test-utils/fixtures/userData.json';
 import organisationData from '../../test-utils/fixtures/organisationDetails.json';
 
-const pageUrl = 'http://localhost:1234/organisations/org1/user1';
+const pageUrl = 'http://localhost:1234/admin/organisations/org1/user1';
 
 const setCookies = ClientFunction(() => {
   const cookieValue = JSON.stringify({
@@ -83,7 +83,7 @@ test('should navigate to organisation page when click on Back', async (t) => {
   await t
     .expect(goBackLink.exists).ok()
     .click(goBackLink)
-    .expect(getLocation()).eql('http://localhost:1234/organisations/org1');
+    .expect(getLocation()).eql('http://localhost:1234/admin/organisations/org1');
 });
 
 test('should render the title', async (t) => {

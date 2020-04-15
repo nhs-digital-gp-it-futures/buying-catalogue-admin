@@ -1,4 +1,5 @@
 import manifest from './manifest.json';
+import { baseUrl } from '../../../config';
 import { getContext } from './contextCreator';
 import { extractObjectValuesToArray } from '../../../helpers/contextCreatorHelper';
 
@@ -41,7 +42,7 @@ describe('createorg contextCreator', () => {
 
     it('should construct backLinkHref', () => {
       const context = getContext({ orgData: mockOrgData });
-      expect(context.backLinkHref).toEqual('/organisations/find/select?ods=X01');
+      expect(context.backLinkHref).toEqual(`${baseUrl}/organisations/find/select?ods=X01`);
     });
   });
 });
