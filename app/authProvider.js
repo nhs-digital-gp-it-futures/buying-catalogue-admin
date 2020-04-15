@@ -2,6 +2,8 @@ import url from 'url';
 import passport from 'passport';
 import { Strategy, Issuer } from 'openid-client';
 import session from 'express-session';
+import redis from 'redis';
+import connectRedis from 'connect-redis';
 import {
   oidcBaseUri, baseUrl, oidcClientId, oidcClientSecret, appBaseUri, maxCookieAge, cookieSecret,
 } from './config';
@@ -50,7 +52,11 @@ export class AuthProvider {
   }
 
   setup(app) {
+    const RedisStore = connectRedis(session);
+    const redisClient = redis.createClient();
+
     app.use(session({
+      store: new RedisStore({ client: redisClient }),
       name: 'token',
       secret: cookieSecret,
       resave: false,
