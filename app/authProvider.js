@@ -5,7 +5,7 @@ import session from 'express-session';
 import redis from 'redis';
 import connectRedis from 'connect-redis';
 import {
-  oidcBaseUri, baseUrl, oidcClientId, oidcClientSecret, appBaseUri, maxCookieAge, cookieSecret,
+  oidcBaseUri, baseUrl, oidcClientId, oidcClientSecret, appBaseUri, maxCookieAge, cookieSecret, redisUrl,
 } from './config';
 
 export class AuthProvider {
@@ -53,7 +53,7 @@ export class AuthProvider {
 
   setup(app) {
     const RedisStore = connectRedis(session);
-    const redisClient = redis.createClient();
+    const redisClient = redis.createClient(redisUrl);
 
     app.use(session({
       store: new RedisStore({ client: redisClient }),
