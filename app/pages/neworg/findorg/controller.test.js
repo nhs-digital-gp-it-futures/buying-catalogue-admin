@@ -10,18 +10,7 @@ jest.mock('../../../apiProvider', () => ({
 jest.mock('./contextCreator', () => ({
   getContext: jest.fn(),
 }));
-// export const getFindOrgByOds = async ({ odsCode, accessToken }) => {
-//   try {
-//     await getData({ endpointLocator: 'getOrgByOdsCode', options: { odsCode }, accessToken });
 
-//     return { success: true };
-//   } catch (err) {
-//     if (err.status === 404 || err.status === 406) {
-//       return { success: false, errorStatus: err.status };
-//     }
-//     throw Error(err);
-//   }
-// };
 describe('', () => {
   describe('getFindOrgByOds', () => {
     const accessToken = 'access_token';
