@@ -203,7 +203,7 @@ describe('routes', () => {
         .expect(302)
         .then((res) => {
           expect(res.redirect).toEqual(true);
-          expect(res.headers.location).toEqual('/organisations/find?ods=abc&error=404');
+          expect(res.headers.location).toEqual(`${baseUrl}/organisations/find?ods=abc&error=404`);
           expect(res.text.includes('data-test-id="error-page-title"')).toEqual(false);
         });
     });
@@ -224,7 +224,7 @@ describe('routes', () => {
         .expect(302)
         .then((res) => {
           expect(res.redirect).toEqual(true);
-          expect(res.headers.location).toEqual('/organisations/find?ods=abc&error=406');
+          expect(res.headers.location).toEqual(`${baseUrl}/organisations/find?ods=abc&error=406`);
           expect(res.text.includes('data-test-id="error-page-title"')).toEqual(false);
         });
     });
@@ -347,7 +347,7 @@ describe('routes', () => {
         .expect(302)
         .then((res) => {
           expect(res.redirect).toEqual(true);
-          expect(res.headers.location).toEqual('/organisations/find/select/create/confirmation?id=org1');
+          expect(res.headers.location).toEqual(`${baseUrl}/organisations/find/select/create/confirmation?id=org1`);
           expect(res.text.includes('data-test-id="error-page-title"')).toEqual(false);
         });
     });
