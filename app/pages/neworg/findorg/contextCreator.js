@@ -1,11 +1,9 @@
 import manifest from './manifest.json';
 import { baseUrl } from '../../../config';
 
-const getErrorMessage = ({ errorCode }) => {
-  let message;
-  if (errorCode === '404') message = 'Organisation not found';
-  if (errorCode === '406') message = 'Not a buyer organisation';
-  return message;
+const errorMessages = {
+  404: 'Organisation not found',
+  406: 'Not a buyer organisation',
 };
 
 export const getContext = ({ odsCode, errorCode }) => ({
@@ -13,9 +11,9 @@ export const getContext = ({ odsCode, errorCode }) => ({
   questions: manifest.questions.map((question) => {
     const questionWithData = { ...question };
     if (odsCode && question.id === 'odsCode') questionWithData.data = odsCode;
-    if (errorCode) questionWithData.error = { message: getErrorMessage({ errorCode }) };
+    if (errorCode) questionWithData.error = { message: errorMessages[errorCode] || 'Something went wrong' };
     return questionWithData;
   }),
-  errors: errorCode ? [{ href: '#odsCode', text: getErrorMessage({ errorCode }) }] : undefined,
+  errors: errorCode ? [{ href: '#odsCode', text: errorMessages[errorCode] || 'Something went wrong' }] : undefined,
   backLinkHref: `${baseUrl}/organisations`,
 });
