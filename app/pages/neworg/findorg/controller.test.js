@@ -11,7 +11,7 @@ jest.mock('./contextCreator', () => ({
   getContext: jest.fn(),
 }));
 
-describe('', () => {
+describe('findorg controller', () => {
   describe('getFindOrgByOds', () => {
     const accessToken = 'access_token';
     const odsCode = 'abc';
