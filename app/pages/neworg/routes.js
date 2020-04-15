@@ -1,37 +1,35 @@
 import express from 'express';
 import { logger } from '../../logger';
 import { withCatch, extractAccessToken } from '../../helpers/routerHelper';
-import { getFindOrgContext } from './findorg/controller';
+import { getFindOrgContext, getFindOrgByOds } from './findorg/controller';
 import { getSelectOrgContext } from './selectorg/controller';
 import { getCreateOrgContext, postAddOrg } from './createorg/controller';
 import { getCreateOrgConfirmationContext } from './confirmation/controller';
+import { getCreateOrgErrorContext } from './error/controller';
 import config from '../../config';
 
 const router = express.Router();
 
 export const newOrgRoutes = (authProvider, addContext) => {
   router.get('/', authProvider.authorise(), withCatch(authProvider, async (req, res) => {
-    const { ods: odsCode, error, errors } = req.query;
+    const { ods: odsCode, error: errorCode } = req.query;
     logger.info('navigating to find organisation page');
-    const context = await getFindOrgContext({ odsCode, error, errors });
+    const context = await getFindOrgContext({ odsCode, errorCode });
     return res.render('pages/neworg/findorg/template', addContext({ context, user: req.user, csrfToken: req.csrfToken() }));
   }));
 
-  router.post('/', authProvider.authorise(), withCatch(authProvider, async (req, res) => res.redirect(
-    `${config.baseUrl}/organisations/find/select?ods=${req.body.odsCode}`,
-  )));
+  router.post('/', authProvider.authorise(), withCatch(authProvider, async (req, res) => {
+    const { odsCode } = req.body;
+    const response = await getFindOrgByOds({ odsCode, accessToken: extractAccessToken({ req, tokenType: 'access' }) });
+    if (response.success) return res.redirect(`${config.baseUrl}/organisations/find/select?ods=${odsCode}`);
+    return res.redirect(`${config.baseUrl}/organisations/find?ods=${odsCode}&error=${response.errorStatus}`);
+  }));
 
   router.get('/select', authProvider.authorise(), withCatch(authProvider, async (req, res) => {
     const odsCode = req.query.ods;
     logger.info('navigating to select organisation page');
-    try {
-      const context = await getSelectOrgContext({ odsCode, accessToken: extractAccessToken({ req, tokenType: 'access' }) });
-      return res.render('pages/neworg/selectorg/template', addContext({ context, user: req.user, csrfToken: req.csrfToken() }));
-    } catch (err) {
-      // Error code needs adding to error
-      const errorCode = err.statusCode;
-      return res.redirect(`${config.baseUrl}/organisations/find?ods=${odsCode}&error=${errorCode}`);
-    }
+    const context = await getSelectOrgContext({ odsCode, accessToken: extractAccessToken({ req, tokenType: 'access' }) });
+    return res.render('pages/neworg/selectorg/template', addContext({ context, user: req.user, csrfToken: req.csrfToken() }));
   }));
 
   router.post('/select', authProvider.authorise(), withCatch(authProvider, async (req, res) => {
@@ -42,13 +40,8 @@ export const newOrgRoutes = (authProvider, addContext) => {
   router.get('/select/create', authProvider.authorise(), withCatch(authProvider, async (req, res) => {
     const odsCode = req.query.ods;
     logger.info('navigating to create organisation page');
-    try {
-      const context = await getCreateOrgContext({ odsCode, accessToken: extractAccessToken({ req, tokenType: 'access' }) });
-      return res.render('pages/neworg/createorg/template', addContext({ context, user: req.user, csrfToken: req.csrfToken() }));
-    } catch (err) {
-      const errorCode = err.statusCode;
-      return res.redirect(`${config.baseUrl}/organisations/find?ods=${odsCode}&error=${errorCode}`);
-    }
+    const context = await getCreateOrgContext({ odsCode, accessToken: extractAccessToken({ req, tokenType: 'access' }) });
+    return res.render('pages/neworg/createorg/template', addContext({ context, user: req.user, csrfToken: req.csrfToken() }));
   }));
 
   router.post('/select/create', authProvider.authorise(), withCatch(authProvider, async (req, res) => {
@@ -58,19 +51,20 @@ export const newOrgRoutes = (authProvider, addContext) => {
     if (response.success) {
       return res.redirect(`${config.baseUrl}/organisations/find/select/create/confirmation?id=${response.orgId}`);
     }
-    if (response.errors) {
-      const errorString = response.errors.reduce((arr, error) => {
-        arr.push(error.id);
-        return arr;
-      }, []).join('+');
-      return res.redirect(`${config.baseUrl}/organisations/find?ods=${odsCode}&errors=${errorString}`);
-    }
+    return res.redirect(`${config.baseUrl}/organisations/find/select/create/error?ods=${odsCode}&errors=${response.errorsString}`);
   }));
 
   router.get('/select/create/confirmation', authProvider.authorise(), withCatch(authProvider, async (req, res) => {
     const organisationId = req.query.id;
     logger.info('navigating to create organisation confirmation page');
     const context = await getCreateOrgConfirmationContext({ organisationId, accessToken: extractAccessToken({ req, tokenType: 'access' }) });
+    return res.render('common/pages/confirmation.njk', addContext({ context, user: req.user }));
+  }));
+
+  router.get('/select/create/error', authProvider.authorise(), withCatch(authProvider, async (req, res) => {
+    const { ods: odsCode, errors: errorsString } = req.query;
+    logger.info('navigating to create organisation error page');
+    const context = await getCreateOrgErrorContext({ odsCode, errorsString });
     return res.render('common/pages/confirmation.njk', addContext({ context, user: req.user }));
   }));
 
