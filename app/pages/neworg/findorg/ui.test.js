@@ -127,12 +127,80 @@ test('should navigate to select organisation page when continue button is presse
   await t.navigateTo(pageUrl);
 
   const button = Selector('[data-test-id="continue-button"] button');
-  const odsCodeInput = Selector('[data-test-id="question-odsCode"] input');
+  const odsCodeInput = Selector('[data-test-id="question-odsCode"]');
 
   await t
     .expect(odsCodeInput.exists).ok()
-    .typeText(odsCodeInput, 'abc')
+    .typeText(odsCodeInput.find('input'), 'abc')
     .expect(button.exists).ok()
     .click(button)
     .expect(getLocation()).eql('http://localhost:1234/admin/organisations/find/select?ods=abc');
+});
+
+test('should show the error summary when there are validation errors', async (t) => {
+  nock(organisationsApiLocalhost)
+    .get('/api/v1/ods/abc')
+    .reply(404, {});
+
+  await pageSetup(t, true);
+  await t.navigateTo(pageUrl);
+
+  const continueButton = Selector('[data-test-id="continue-button"] button');
+  const odsCodeInput = Selector('[data-test-id="question-odsCode"]');
+  const errorSummary = Selector('[data-test-id="error-summary"]');
+
+  await t
+    .expect(errorSummary.exists).notOk()
+    .typeText(odsCodeInput.find('input'), 'abc')
+    .click(continueButton);
+
+  await t
+    .expect(errorSummary.exists).ok()
+    .expect(errorSummary.find('li a').count).eql(1)
+    .expect(await extractInnerText(errorSummary.find('li a').nth(0))).eql('Organisation not found');
+});
+
+test('should show text fields as errors with error message when there are validation errors', async (t) => {
+  nock(organisationsApiLocalhost)
+    .get('/api/v1/ods/abc')
+    .reply(404, {});
+
+  await pageSetup(t, true);
+  await t.navigateTo(pageUrl);
+
+  const continueButton = Selector('[data-test-id="continue-button"] button');
+  const odsCodeInput = Selector('[data-test-id="question-odsCode"]');
+
+  await t
+    .expect(odsCodeInput.find('[data-test-id="text-field-input-error"]').exists).notOk()
+    .typeText(odsCodeInput.find('input'), 'abc')
+    .click(continueButton);
+
+  await t
+    .expect(odsCodeInput.find('[data-test-id="text-field-input-error"]').exists).ok()
+    .expect(await extractInnerText(odsCodeInput.find('#odsCode-error'))).contains('Organisation not found');
+});
+
+test('should anchor to the field when clicking on the error link in errorSummary ', async (t) => {
+  nock(organisationsApiLocalhost)
+    .get('/api/v1/ods/abc')
+    .reply(404, {});
+
+  await pageSetup(t, true);
+  await t.navigateTo(pageUrl);
+
+  const continueButton = Selector('[data-test-id="continue-button"] button');
+  const odsCodeInput = Selector('[data-test-id="question-odsCode"]');
+  const errorSummary = Selector('[data-test-id="error-summary"]');
+
+  await t
+    .expect(errorSummary.exists).notOk()
+    .typeText(odsCodeInput.find('input'), 'abc')
+    .click(continueButton);
+
+  await t
+    .expect(errorSummary.exists).ok()
+
+    .click(errorSummary.find('li a').nth(0))
+    .expect(getLocation()).eql(`${pageUrl}?ods=abc&error=404#odsCode`);
 });
