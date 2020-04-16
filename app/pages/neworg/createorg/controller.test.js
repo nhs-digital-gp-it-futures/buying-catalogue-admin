@@ -111,7 +111,7 @@ describe('create org confirmation page controller', () => {
 
     it('should return success as true and the orgId if api request is successful', async () => {
       apiProvider.postData
-        .mockResolvedValueOnce({ data: { id: 'org1' } });
+        .mockResolvedValueOnce({ data: { organisationId: 'org1' } });
 
       const response = await postAddOrg({ odsCode, data: { odsCode }, accessToken });
 

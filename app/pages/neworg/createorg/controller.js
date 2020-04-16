@@ -34,7 +34,7 @@ export const postAddOrg = async ({ odsCode, data, accessToken }) => {
       return { success: false, errorsString };
     }
     logger.info(`Organisation added: ${JSON.stringify(data)}`);
-    return { success: true, orgId: response.data.id };
+    return { success: true, orgId: response.data.organisationId };
   } catch (err) {
     throw new Error(err.response);
   }
