@@ -43,4 +43,7 @@ module.exports = {
 
   // The secret needed for encoding and decoding the cookie
   cookieSecret: process.env.COOKIE_SECRET,
+
+  // The url in which redis is running
+  redisUrl: process.env.REDIS_URL || 'redis://localhost:6379',
 };
