@@ -88,7 +88,8 @@ export class AuthProvider {
     };
   }
 
-  logout({ idToken }) {
+  logout({ req, idToken }) {
+    req.session.destroy();
     return this.client.endSessionUrl({
       id_token_hint: idToken,
       post_logout_redirect_uri: `${config.appBaseUri}${config.baseUrl}/signout-callback-oidc`,

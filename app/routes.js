@@ -33,7 +33,7 @@ export const routes = (authProvider) => {
   router.get('/oauth/callback', authProvider.loginCallback());
 
   router.get('/logout', async (req, res) => {
-    const url = await authProvider.logout({ idToken: extractAccessToken({ req, tokenType: 'id' }) });
+    const url = await authProvider.logout({ req, idToken: extractAccessToken({ req, tokenType: 'id' }) });
     res.redirect(url);
   });
 
