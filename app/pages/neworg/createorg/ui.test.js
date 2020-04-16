@@ -224,3 +224,22 @@ test('should navigate to confirmation page when save button is clicked with no e
     .click(saveButton)
     .expect(getLocation()).eql(`http://localhost:1234/admin/organisations/find/select/create/confirmation?id=${mockOrg.organisationId}`);
 });
+
+test('should navigate to the error page when they are validation errors when creating the org', async (t) => {
+  nock(organisationsApiLocalhost)
+    .post('/api/v1/Organisations')
+    .reply(400, { errors: [{ id: 'OrganisationAlreadyExists' }, { id: 'AnotherError' }] });
+  nock(organisationsApiLocalhost)
+    .get(`/api/v1/ods/${mockOrg.odsCode}`)
+    .reply(200, mockOrg);
+
+  await pageSetup(t, true);
+  await t.navigateTo(pageUrl);
+
+  const saveButton = Selector('[data-test-id="save-button"] button');
+
+  await t
+    .expect(saveButton.exists).ok()
+    .click(saveButton)
+    .expect(getLocation()).eql('http://localhost:1234/admin/organisations/find/select/create/error?ods=X01&errors=OrganisationAlreadyExists%25AnotherError');
+});
