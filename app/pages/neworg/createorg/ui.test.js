@@ -206,7 +206,7 @@ test('should render save button', async (t) => {
 test('should navigate to confirmation page when save button is clicked with no errors', async (t) => {
   nock(organisationsApiLocalhost)
     .post('/api/v1/Organisations')
-    .reply(200, { id: mockOrg.organisationId });
+    .reply(200, { organisationId: mockOrg.organisationId });
   nock(organisationsApiLocalhost)
     .get(`/api/v1/ods/${mockOrg.odsCode}`)
     .reply(200, mockOrg);

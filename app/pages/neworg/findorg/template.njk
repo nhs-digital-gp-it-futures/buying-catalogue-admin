@@ -28,9 +28,10 @@
         <form method="post">
           <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
           <div class="nhsuk-grid-row">
-            <div class="nhsuk-grid-column-one-third">
+            <div class="nhsuk-grid-column-two-thirds">
               {{ textField({
-                question: questions[0]
+                question: questions[0],
+                classes: "nhsuk-input--width-10"
               }) }}
             </div>
           </div>

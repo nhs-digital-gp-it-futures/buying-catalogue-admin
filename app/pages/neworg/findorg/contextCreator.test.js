@@ -14,19 +14,51 @@ describe('findorg contextCreator', () => {
       expect(context.continueButtonText).toEqual(manifest.continueButtonText);
     });
 
-    it('should add data to the question in the manifest if odsCode is provided', () => {
+    it('should add data to the question if odsCode is provided', () => {
       const context = getContext({ odsCode: 'ABC1' });
       expect(context.questions[0].data).toEqual('ABC1');
     });
 
-    it('should not add data to the question in the manifest if odsCode is not provided', () => {
+    it('should not add data to the question if odsCode is not provided', () => {
       const context = getContext({});
       expect(context.questions[0].data).toEqual(undefined);
+    });
+
+    it('should not add error to the question if error is not provided', () => {
+      const context = getContext({});
+      expect(context.questions[0].error).toEqual(undefined);
+    });
+
+    it('should not add errors key to the context if error is not provided', () => {
+      const context = getContext({});
+      expect(context.errors).toEqual(undefined);
     });
 
     it('should construct backLinkHref', () => {
       const context = getContext({});
       expect(context.backLinkHref).toEqual(`${baseUrl}/organisations`);
+    });
+
+    describe('with Errors', () => {
+      it('should add correct error to the question if 404 error is provided', () => {
+        const context = getContext({ errorCode: '404' });
+        expect(context.questions[0].error.message).toEqual('Organisation not found');
+      });
+
+      it('should add errors to the context if error if 404 error is provided', () => {
+        const context = getContext({ errorCode: '404' });
+        expect(context.errors).toEqual([{ href: '#odsCode', text: 'Organisation not found' }]);
+      });
+
+      it('should add correct error to the question if 406 error is provided', () => {
+        const context = getContext({ errorCode: '406' });
+        expect(context.questions[0].error.message).toEqual('Not a buyer organisation');
+      });
+
+      it('should add errors to the context if error if 406 error is provided', () => {
+        const context = getContext({ errorCode: '406' });
+        expect(context.errors).toEqual([{ href: '#odsCode', text: 'Not a buyer organisation' }]);
+      });
     });
   });
 });
