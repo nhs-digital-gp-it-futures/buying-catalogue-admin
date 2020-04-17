@@ -40,7 +40,7 @@ describe('findorg controller', () => {
 
     it('should return errorStatus if api call returns 404 error', async () => {
       apiProvider.getData
-        .mockRejectedValueOnce({ status: 404 });
+        .mockRejectedValueOnce({ response: { status: 404 } });
 
       const response = await getFindOrgByOds({ odsCode, accessToken });
 
@@ -50,7 +50,7 @@ describe('findorg controller', () => {
 
     it('should return errorStatus if api call returns 406 error', async () => {
       apiProvider.getData
-        .mockRejectedValueOnce({ status: 406 });
+        .mockRejectedValueOnce({ response: { status: 406 } });
 
       const response = await getFindOrgByOds({ odsCode, accessToken });
 
@@ -60,7 +60,7 @@ describe('findorg controller', () => {
 
     it('should throw if api call returns non 404/406 error', async () => {
       apiProvider.getData
-        .mockRejectedValueOnce({ status: 500 });
+        .mockRejectedValueOnce({ response: { status: 500 } });
       try {
         await getFindOrgByOds({ odsCode, accessToken });
       } catch (err) {

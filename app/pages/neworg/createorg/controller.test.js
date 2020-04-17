@@ -122,7 +122,7 @@ describe('create org confirmation page controller', () => {
     it('should return success as false with errors if api request is unsuccessful', async () => {
       const mockError = { id: 'error' };
       apiProvider.postData
-        .mockResolvedValueOnce({ data: { errors: [mockError] } });
+        .mockRejectedValueOnce({ response: { status: 400, data: { errors: [mockError] } } });
 
       const response = await postAddOrg({ odsCode, data: { odsCode }, accessToken });
       expect(response.success).toEqual(false);

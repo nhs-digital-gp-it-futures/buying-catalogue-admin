@@ -9,8 +9,8 @@ export const getFindOrgByOds = async ({ odsCode, accessToken }) => {
 
     return { success: true };
   } catch (err) {
-    if (err.status === 404 || err.status === 406) {
-      return { success: false, errorStatus: err.status };
+    if (err.response.status === 404 || err.response.status === 406) {
+      return { success: false, errorStatus: err.response.status };
     }
     throw new Error(err);
   }
