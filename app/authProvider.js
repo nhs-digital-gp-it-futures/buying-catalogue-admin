@@ -51,7 +51,10 @@ export class AuthProvider {
 
   setup(app) {
     const RedisStore = connectRedis(session);
-    const redisClient = redis.createClient(config.redisUrl);
+    const redisTlsConfig = config.redisTls === 'true'
+      ? { auth_pass: config.redisPass, tls: { servername: config.redisUrl } }
+      : undefined;
+    const redisClient = redis.createClient(config.redisPort, config.redisUrl, redisTlsConfig);
 
     app.use(session({
       store: new RedisStore({ client: redisClient }),
