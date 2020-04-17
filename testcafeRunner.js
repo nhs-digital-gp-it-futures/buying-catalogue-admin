@@ -1,8 +1,8 @@
 import createTestcafe from 'testcafe';
+import { FakeAuthProvider } from 'buying-catalogue-components/library';
 import { App } from './app/app';
 import { routes } from './app/routes';
 import { env, baseUrl } from './app/config';
-import { FakeAuthProvider } from './app/test-utils/FakeAuthProvider';
 
 let testcafe;
 
@@ -22,7 +22,7 @@ const browserToRun = browserFromArgs.length > 0 ? browserFromArgs : 'chrome:head
 const testFromArgs = process.argv.slice(3, 4);
 const testsToRun = testFromArgs ? `**/*${testFromArgs}*/ui.test.js` : '**/*ui.test.js';
 
-let concurrency = 4;
+let concurrency = 1;
 let stopOnFirstFail = true;
 let quarantineMode = true;
 if (env === 'pipeline' || browserFromArgs.length > 0) {

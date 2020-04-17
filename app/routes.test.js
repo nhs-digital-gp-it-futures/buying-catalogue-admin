@@ -1,8 +1,8 @@
 import request from 'supertest';
+import { FakeAuthProvider } from 'buying-catalogue-components/library';
 import { App } from './app';
 import { routes } from './routes';
 import { baseUrl } from './config';
-import { FakeAuthProvider } from './test-utils/FakeAuthProvider';
 import { getCsrfTokenFromGet, setFakeCookie } from './test-utils/helper';
 import * as orgDashboardContext from './pages/dashboard/controller';
 import * as addUserContext from './pages/adduser/controller';
