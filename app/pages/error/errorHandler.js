@@ -1,5 +1,3 @@
-import { baseUrl } from '../../config';
-
 export const errorHandler = (err) => {
   const formattedError = {
     status: err && err.status ? err.status : 400,
@@ -12,7 +10,7 @@ export const errorHandler = (err) => {
     formattedError.status = err.response.status;
     formattedError.message = `${err.response.data.errors[0]} ${err.response.statusText}`;
   }
-  formattedError.backLinkHref = `${baseUrl}/`;
+  formattedError.backLinkHref = '/';
 
   return formattedError;
 };
