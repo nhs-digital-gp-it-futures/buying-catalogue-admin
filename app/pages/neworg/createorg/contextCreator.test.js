@@ -32,12 +32,19 @@ describe('createorg contextCreator', () => {
       expect(context.addressHeading).toEqual(manifest.addressHeading);
       expect(context.primaryRoleIdHeading).toEqual(manifest.primaryRoleIdHeading);
       expect(context.selectOrgButtonText).toEqual(manifest.selectOrgButtonText);
+      expect(context.organisationDetailsHeading).toEqual(manifest.organisationDetailsHeading);
+      expect(context.changeOrgLinkText).toEqual(manifest.changeOrgLinkText);
     });
 
     it('should format the address', () => {
       const formattedAddress = extractObjectValuesToArray(mockOrgData.address);
       const context = getContext({ orgData: mockOrgData });
       expect(context.address).toEqual(formattedAddress);
+    });
+
+    it('should construct changeOrgLinkHref', () => {
+      const context = getContext({ orgData: mockOrgData });
+      expect(context.changeOrgLinkHref).toEqual(`${baseUrl}/organisations/find?ods=X01`);
     });
 
     it('should construct backLinkHref', () => {

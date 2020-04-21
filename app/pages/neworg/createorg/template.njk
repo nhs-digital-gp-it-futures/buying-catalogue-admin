@@ -15,18 +15,22 @@
       <div class="nhsuk-grid-column-two-thirds">
         <h1 data-test-id="create-org-page-title" class="nhsuk-u-margin-top-7 nhsuk-u-margin-bottom-3">{{ title }}</h1>
         <h2 data-test-id="create-org-page-description" class="nhsuk-u-font-size-22 nhsuk-u-margin-bottom-9">{{ description }}</h2>
+        <div class="nhsuk-grid-row nhsuk-u-margin-bottom-4">
+          <h3 data-test-id="organisation-details-heading" class="nhsuk-grid-column-one-half">{{ organisationDetailsHeading }}</h3>
+          <a data-test-id="change-org-link" href="{{ changeOrgLinkHref }}" class="nhsuk-grid-column-one-half nhsuk-u-font-size-19">{{ changeOrgLinkText }}</a>
+        </div>
 
-        <h3 data-test-id="organisation-ods-code-heading" class="nhsuk-heading-s nhsuk-u-margin-bottom-3">{{ odsCodeHeading }}</h3>
+        <h4 data-test-id="organisation-ods-code-heading" class="nhsuk-heading-s nhsuk-u-margin-bottom-3">{{ odsCodeHeading }}</h4>
         <div data-test-id="organisation-ods-code" class="nhsuk-u-font-size-19 nhsuk-u-margin-bottom-5">{{ odsCode }}</div>
-        <h3 data-test-id="organisation-name-heading" class="nhsuk-heading-s nhsuk-u-margin-bottom-3">{{ organisationNameHeading }}</h3>
+        <h4 data-test-id="organisation-name-heading" class="nhsuk-heading-s nhsuk-u-margin-bottom-3">{{ organisationNameHeading }}</h4>
         <div data-test-id="organisation-name" class="nhsuk-u-font-size-19 nhsuk-u-margin-bottom-5">{{ organisationName }}</div>
-        <h3 data-test-id="organisation-address-heading" class="nhsuk-heading-s nhsuk-u-margin-bottom-3">{{ addressHeading }}</h3>
+        <h4 data-test-id="organisation-address-heading" class="nhsuk-heading-s nhsuk-u-margin-bottom-3">{{ addressHeading }}</h4>
         <div data-test-id="organisation-address" class="nhsuk-u-margin-bottom-5">
           {% for line in address %}
             <div data-test-id="organisation-address-{{ loop.index }}" class="nhsuk-u-font-size-19">{{ line }}</div>
           {% endfor %}
         </div>
-        <h3 data-test-id="organisation-primary-role-id-heading" class="nhsuk-heading-s nhsuk-u-margin-bottom-2">{{ primaryRoleIdHeading }}</h3>
+        <h4 data-test-id="organisation-primary-role-id-heading" class="nhsuk-heading-s nhsuk-u-margin-bottom-2">{{ primaryRoleIdHeading }}</h4>
         <div data-test-id="organisation-primary-role-id" class="nhsuk-u-font-size-19 nhsuk-u-margin-bottom-5">{{ primaryRoleId }}</div>
 
         <form method="post">
