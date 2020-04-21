@@ -2,7 +2,7 @@ import nock from 'nock';
 import { Selector, ClientFunction } from 'testcafe';
 import content from './manifest.json';
 import { extractInnerText } from '../../test-utils/helper';
-import { organisationsApiLocalhost } from '../../test-utils/config';
+import { organisationsApiLocalhost, identityApiLocalhost } from '../../test-utils/config';
 import userData from '../../test-utils/fixtures/userData.json';
 import organisationData from '../../test-utils/fixtures/organisationDetails.json';
 
@@ -17,7 +17,7 @@ const setCookies = ClientFunction(() => {
 });
 
 const mocks = () => {
-  nock(organisationsApiLocalhost)
+  nock(identityApiLocalhost)
     .get('/api/v1/Users/user1')
     .reply(200, userData);
   nock(organisationsApiLocalhost)
@@ -39,6 +39,8 @@ fixture('View user Page')
   .afterEach(async (t) => {
     const isDone = nock.isDone();
     if (!isDone) {
+      // eslint-disable-next-line no-console
+      console.log(`pending mocks: ${nock.pendingMocks()}`);
       nock.cleanAll();
     }
 
@@ -71,7 +73,7 @@ test('should navigate to organisation page when click on Back', async (t) => {
   nock(organisationsApiLocalhost)
     .get('/api/v1/Organisations/org1')
     .reply(200, {});
-  nock(organisationsApiLocalhost)
+  nock(identityApiLocalhost)
     .get('/api/v1/Organisations/org1/Users')
     .reply(200, {});
 
@@ -190,10 +192,10 @@ test('should render change account status button', async (t) => {
 });
 
 test('should navigate to the confirmation page when edit change account status button is clicked', async (t) => {
-  nock(organisationsApiLocalhost)
+  nock(identityApiLocalhost)
     .post('/api/v1/Users/user1/disable')
     .reply(200, {});
-  nock(organisationsApiLocalhost)
+  nock(identityApiLocalhost)
     .get('/api/v1/Users/user1')
     .reply(200, {});
 

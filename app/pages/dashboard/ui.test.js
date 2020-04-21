@@ -2,7 +2,7 @@ import nock from 'nock';
 import { Selector, ClientFunction } from 'testcafe';
 import content from './manifest.json';
 import { extractInnerText } from '../../test-utils/helper';
-import { organisationsApiLocalhost } from '../../test-utils/config';
+import { organisationsApiLocalhost, identityApiLocalhost } from '../../test-utils/config';
 import organisationsList from '../../test-utils/fixtures/organisationsList.json';
 
 const pageUrl = 'http://localhost:1234/admin/organisations';
@@ -33,6 +33,8 @@ fixture('Header')
   .afterEach(async (t) => {
     const isDone = nock.isDone();
     if (!isDone) {
+      // eslint-disable-next-line no-console
+      console.log(`pending mocks: ${nock.pendingMocks()}`);
       nock.cleanAll();
     }
 
@@ -68,6 +70,8 @@ fixture('Organisation Dashboard Page')
   .afterEach(async (t) => {
     const isDone = nock.isDone();
     if (!isDone) {
+      // eslint-disable-next-line no-console
+      console.log(`pending mocks: ${nock.pendingMocks()}`);
       nock.cleanAll();
     }
 
@@ -175,7 +179,7 @@ test('should navigate to the organisation page when an organisation name is clic
   nock(organisationsApiLocalhost)
     .get('/api/v1/Organisations/org-001')
     .reply(200, {});
-  nock(organisationsApiLocalhost)
+  nock(identityApiLocalhost)
     .get('/api/v1/Organisations/org-001/Users')
     .reply(200, {});
 

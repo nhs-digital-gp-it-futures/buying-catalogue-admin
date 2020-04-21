@@ -1,6 +1,6 @@
 import nock from 'nock';
 import { Selector, ClientFunction } from 'testcafe';
-import { organisationsApiLocalhost } from '../../test-utils/config';
+import { organisationsApiLocalhost, identityApiLocalhost } from '../../test-utils/config';
 import { extractInnerText } from '../../test-utils/helper';
 import { extractObjectValuesToArray } from '../../helpers/contextCreatorHelper';
 import organisationDetails from '../../test-utils/fixtures/organisationDetails.json';
@@ -21,7 +21,7 @@ const mocks = () => {
   nock(organisationsApiLocalhost)
     .get('/api/v1/Organisations/org1')
     .reply(200, organisationDetails);
-  nock(organisationsApiLocalhost)
+  nock(identityApiLocalhost)
     .get('/api/v1/Organisations/org1/Users')
     .reply(200, usersData);
 };
@@ -40,6 +40,8 @@ fixture('Organisation Page')
   .afterEach(async (t) => {
     const isDone = nock.isDone();
     if (!isDone) {
+      // eslint-disable-next-line no-console
+      console.log(`pending mocks: ${nock.pendingMocks()}`);
       nock.cleanAll();
     }
 
@@ -302,7 +304,7 @@ test('should render the table with users', async (t) => {
 });
 
 test('should navigate to view user page when user name is clicked', async (t) => {
-  nock(organisationsApiLocalhost)
+  nock(identityApiLocalhost)
     .get(`/api/v1/Users/${usersData.users[0].userId}`)
     .reply(200, organisationDetails);
   nock(organisationsApiLocalhost)
