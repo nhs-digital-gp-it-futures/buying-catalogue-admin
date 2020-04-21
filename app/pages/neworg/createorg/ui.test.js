@@ -100,11 +100,45 @@ test('should render the description', async (t) => {
     .expect(await extractInnerText(description)).eql(content.description);
 });
 
+test('should render the organisation details heading', async (t) => {
+  await pageSetup(t, true);
+  await t.navigateTo(pageUrl);
+
+  const heading = Selector('h3[data-test-id="organisation-details-heading"]');
+
+  await t
+    .expect(heading.exists).ok()
+    .expect(await extractInnerText(heading)).eql(content.organisationDetailsHeading);
+});
+
+test('should render the change organisation link', async (t) => {
+  await pageSetup(t, true);
+  await t.navigateTo(pageUrl);
+
+  const link = Selector('a[data-test-id="change-org-link"]');
+
+  await t
+    .expect(link.exists).ok()
+    .expect(await extractInnerText(link)).eql(content.changeOrgLinkText);
+});
+
+test('should navigate to the find page if the change organisation link is clicked', async (t) => {
+  await pageSetup(t, true);
+  await t.navigateTo(pageUrl);
+
+  const link = Selector('a[data-test-id="change-org-link"]');
+
+  await t
+    .expect(link.exists).ok()
+    .click(link)
+    .expect(getLocation()).eql(`http://localhost:1234/admin/organisations/find?ods=${mockOrg.odsCode}`);
+});
+
 test('should render organisation ods code', async (t) => {
   await pageSetup(t, true);
   await t.navigateTo(pageUrl);
 
-  const odsCodeHeading = Selector('h3[data-test-id="organisation-ods-code-heading"]');
+  const odsCodeHeading = Selector('h4[data-test-id="organisation-ods-code-heading"]');
   const odsCode = Selector('div[data-test-id="organisation-ods-code"]');
 
   await t
@@ -118,7 +152,7 @@ test('should render organisation name', async (t) => {
   await pageSetup(t, true);
   await t.navigateTo(pageUrl);
 
-  const orgNameHeading = Selector('h3[data-test-id="organisation-name-heading"]');
+  const orgNameHeading = Selector('h4[data-test-id="organisation-name-heading"]');
   const orgName = Selector('div[data-test-id="organisation-name"]');
 
   await t
@@ -166,7 +200,7 @@ test('should render primary role id', async (t) => {
   await pageSetup(t, true);
   await t.navigateTo(pageUrl);
 
-  const primaryRoleIdHeading = Selector('h3[data-test-id="organisation-primary-role-id-heading"]');
+  const primaryRoleIdHeading = Selector('h4[data-test-id="organisation-primary-role-id-heading"]');
   const primaryRoleId = Selector('div[data-test-id="organisation-primary-role-id"]');
 
   await t

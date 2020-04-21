@@ -4,6 +4,7 @@ import mockOrgDetails from '../../../test-utils/fixtures/organisationDetails.jso
 import { extractObjectValuesToArray } from '../../../helpers/contextCreatorHelper';
 
 context.backLinkHref = '/organisations/find/select?ods=ABC1';
+context.changeOrgLinkHref = '/organisations/find';
 
 const setup = {
   template: {
@@ -44,9 +45,26 @@ describe('create org page', () => {
     });
   }));
 
+  it('should render organisation details heading', createTestHarness(setup, (harness) => {
+    harness.request(context, ($) => {
+      const heading = $('[data-test-id="organisation-details-heading"]');
+      expect(heading.length).toEqual(1);
+      expect(heading.text().trim()).toEqual(context.organisationDetailsHeading);
+    });
+  }));
+
+  it('should render change organisation link', createTestHarness(setup, (harness) => {
+    harness.request(context, ($) => {
+      const link = $('[data-test-id="change-org-link"]');
+      expect(link.length).toEqual(1);
+      expect(link.text().trim()).toEqual(context.changeOrgLinkText);
+      expect(link.attr('href')).toEqual('/organisations/find');
+    });
+  }));
+
   it('should render organisation ods code', createTestHarness(setup, (harness) => {
     harness.request(mockContext, ($) => {
-      const heading = $('h3[data-test-id="organisation-ods-code-heading"]');
+      const heading = $('h4[data-test-id="organisation-ods-code-heading"]');
       const odsCode = $('div[data-test-id="organisation-ods-code"]');
       expect(heading.length).toEqual(1);
       expect(heading.text().trim()).toEqual(mockContext.odsCodeHeading);
@@ -57,7 +75,7 @@ describe('create org page', () => {
 
   it('should render organisation name', createTestHarness(setup, (harness) => {
     harness.request(mockContext, ($) => {
-      const heading = $('h3[data-test-id="organisation-name-heading"]');
+      const heading = $('h4[data-test-id="organisation-name-heading"]');
       const orgName = $('div[data-test-id="organisation-name"]');
       expect(heading.length).toEqual(1);
       expect(heading.text().trim()).toEqual(mockContext.organisationNameHeading);
@@ -68,7 +86,7 @@ describe('create org page', () => {
 
   it('should render address', createTestHarness(setup, (harness) => {
     harness.request(mockContext, ($) => {
-      const heading = $('h3[data-test-id="organisation-address-heading"]');
+      const heading = $('h4[data-test-id="organisation-address-heading"]');
       const address = $('div[data-test-id="organisation-address"]');
       const addressLines = address.find('div');
       const address1 = $('[data-test-id="organisation-address-1"]');
@@ -93,7 +111,7 @@ describe('create org page', () => {
 
   it('should render organisation primary role id', createTestHarness(setup, (harness) => {
     harness.request(mockContext, ($) => {
-      const heading = $('h3[data-test-id="organisation-primary-role-id-heading"]');
+      const heading = $('h4[data-test-id="organisation-primary-role-id-heading"]');
       const primaryRoleID = $('div[data-test-id="organisation-primary-role-id"]');
       expect(heading.length).toEqual(1);
       expect(heading.text().trim()).toEqual(mockContext.primaryRoleIdHeading);
