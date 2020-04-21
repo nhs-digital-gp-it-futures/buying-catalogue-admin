@@ -1,4 +1,5 @@
 import { errorHandler } from './errorHandler';
+import { publicBrowseBaseUrl } from '../../config';
 
 describe('errorHandler', () => {
   it('should return the default formatted error when no error is provided', () => {
@@ -9,7 +10,7 @@ describe('errorHandler', () => {
   });
 
   it('should construct backLinkHref', () => {
-    expect(errorHandler().backLinkHref).toEqual('/');
+    expect(errorHandler().backLinkHref).toEqual(publicBrowseBaseUrl);
   });
 
   describe('when status or message is provided', () => {
