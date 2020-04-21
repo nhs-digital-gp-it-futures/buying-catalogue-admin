@@ -1,5 +1,4 @@
 import { errorHandler } from './errorHandler';
-import { baseUrl } from '../../config';
 
 describe('errorHandler', () => {
   it('should return the default formatted error when no error is provided', () => {
@@ -10,7 +9,7 @@ describe('errorHandler', () => {
   });
 
   it('should construct backLinkHref', () => {
-    expect(errorHandler().backLinkHref).toEqual(`${baseUrl}/`);
+    expect(errorHandler().backLinkHref).toEqual('/');
   });
 
   describe('when status or message is provided', () => {
