@@ -25,6 +25,8 @@ fixture('Create Organisation Error Page')
   .afterEach(async (t) => {
     const isDone = nock.isDone();
     if (!isDone) {
+      // eslint-disable-next-line no-console
+      console.log(`pending mocks: ${nock.pendingMocks()}`);
       nock.cleanAll();
     }
 
