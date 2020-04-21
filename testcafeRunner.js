@@ -8,12 +8,7 @@ let testcafe;
 
 const authProvider = new FakeAuthProvider();
 const app = new App(authProvider).createApp();
-app.use(baseUrl || '/', routes(authProvider));
-if (baseUrl) {
-  app.use('/', (req, res) => {
-    res.redirect(baseUrl);
-  });
-}
+app.use(baseUrl, routes(authProvider));
 const server = app.listen('1234');
 
 const browserFromArgs = process.argv.slice(2, 3);

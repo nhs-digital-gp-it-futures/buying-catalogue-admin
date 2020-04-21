@@ -3,7 +3,7 @@ import { Selector, ClientFunction } from 'testcafe';
 import content from './manifest.json';
 import confirmationContent from './confirmation/manifest.json';
 import { extractInnerText } from '../../test-utils/helper';
-import { organisationsApiLocalhost } from '../../test-utils/config';
+import { organisationsApiLocalhost, identityApiLocalhost } from '../../test-utils/config';
 import organisationDetails from '../../test-utils/fixtures/organisationDetails.json';
 import { extractObjectValuesToArray } from '../../helpers/contextCreatorHelper';
 
@@ -38,6 +38,8 @@ fixture('Edit Organisation Page')
   .afterEach(async (t) => {
     const isDone = nock.isDone();
     if (!isDone) {
+      // eslint-disable-next-line no-console
+      console.log(`pending mocks: ${nock.pendingMocks()}`);
       nock.cleanAll();
     }
 
@@ -70,7 +72,7 @@ test('should navigate to /admin/organisations/org1 when click on Back', async (t
   nock(organisationsApiLocalhost)
     .get('/api/v1/Organisations/org1')
     .reply(200, organisationDetails);
-  nock(organisationsApiLocalhost)
+  nock(identityApiLocalhost)
     .get('/api/v1/Organisations/org1/Users')
     .reply(200, organisationDetails);
 
@@ -233,6 +235,8 @@ fixture('Edit Organisation Confirmation Page')
   .afterEach(async (t) => {
     const isDone = nock.isDone();
     if (!isDone) {
+      // eslint-disable-next-line no-console
+      console.log(`pending mocks: ${nock.pendingMocks()}`);
       nock.cleanAll();
     }
 
@@ -265,7 +269,7 @@ test('should navigate to /admin/organisations/org1 when click on Back', async (t
   nock(organisationsApiLocalhost)
     .get('/api/v1/Organisations/org1')
     .reply(200, organisationDetails);
-  nock(organisationsApiLocalhost)
+  nock(identityApiLocalhost)
     .get('/api/v1/Organisations/org1/Users')
     .reply(200, {});
   await pageSetup(t, true);

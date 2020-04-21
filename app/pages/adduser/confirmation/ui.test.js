@@ -2,7 +2,7 @@ import nock from 'nock';
 import { Selector, ClientFunction } from 'testcafe';
 import content from './manifest.json';
 import { extractInnerText } from '../../../test-utils/helper';
-import { organisationsApiLocalhost } from '../../../test-utils/config';
+import { organisationsApiLocalhost, identityApiLocalhost } from '../../../test-utils/config';
 import organisationDetails from '../../../test-utils/fixtures/organisationDetails.json';
 
 const path = 'http://localhost:1234/admin/organisations/org1/adduser/confirmation?id=user1';
@@ -16,7 +16,7 @@ const setCookies = ClientFunction(() => {
 });
 
 const mocks = () => {
-  nock(organisationsApiLocalhost)
+  nock(identityApiLocalhost)
     .get('/api/v1/Users/user1')
     .reply(200, { name: 'Peter Parker' });
 };
@@ -35,6 +35,8 @@ fixture('Add User Confirmation Page')
   .afterEach(async (t) => {
     const isDone = nock.isDone();
     if (!isDone) {
+      // eslint-disable-next-line no-console
+      console.log(`pending mocks: ${nock.pendingMocks()}`);
       nock.cleanAll();
     }
 
@@ -45,7 +47,7 @@ test('should navigate to /admin/organisations/org1 when click on Back to dashboa
   nock(organisationsApiLocalhost)
     .get('/api/v1/Organisations/org1')
     .reply(200, organisationDetails);
-  nock(organisationsApiLocalhost)
+  nock(identityApiLocalhost)
     .get('/api/v1/Organisations/org1/Users')
     .reply(200, {});
   await pageSetup(t, true);

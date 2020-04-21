@@ -18,7 +18,7 @@ module.exports = {
   appBaseUri: process.env.APP_BASE_URI || 'http://localhost:3005',
 
   // IDENTITY_SERVER
-  identityServer: process.env.IDENTITY_SERVER || 'http://localhost:5102',
+  identityServerUrl: process.env.IDENTITY_SERVER || 'http://localhost:5102/identity',
 
   // ORGANISATION_API_URL
   organisationApiUrl: process.env.ORGANISATION_API_URL || 'http://localhost:8075',
@@ -27,7 +27,7 @@ module.exports = {
   loggerLevel: process.env.LOGGER_LEVEL || 'error',
 
   // The base uri of identity service
-  oidcBaseUri: process.env.OIDC_BASE_URI || 'http://localhost:5102',
+  oidcBaseUri: process.env.OIDC_BASE_URI || 'http://localhost:5102/identity',
 
   // The client id to be sent to identity service
   oidcClientId: process.env.OIDC_CLIENT_ID || 'SampleClient',

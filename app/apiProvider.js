@@ -1,19 +1,24 @@
 import axios from 'axios';
-import { organisationApiUrl, oidcBaseUri } from './config';
+import { identityServerUrl, organisationApiUrl, oidcBaseUri } from './config';
 import { logger } from './logger';
 
 const endpoints = {
   // GET endpoints
   getIdentityApiHealth: () => `${oidcBaseUri}/health/ready`,
+
   getOrganisations: () => `${organisationApiUrl}/api/v1/Organisations`,
   getOrgById: options => `${organisationApiUrl}/api/v1/Organisations/${options.organisationId}`,
-  getUsers: options => `${organisationApiUrl}/api/v1/Organisations/${options.organisationId}/Users`,
-  getUserById: options => `${organisationApiUrl}/api/v1/Users/${options.userId}`,
   getOrgByOdsCode: options => `${organisationApiUrl}/api/v1/ods/${options.odsCode}`,
+
+  getUsers: options => `${identityServerUrl}/api/v1/Organisations/${options.organisationId}/Users`,
+  getUserById: options => `${identityServerUrl}/api/v1/Users/${options.userId}`,
+
   // POST endpoints
-  postAddUser: options => `${organisationApiUrl}/api/v1/Organisations/${options.organisationId}/Users`,
-  postUserStatus: options => `${organisationApiUrl}/api/v1/Users/${options.userId}/${options.status}`,
   postAddOrg: () => `${organisationApiUrl}/api/v1/Organisations`,
+
+  postAddUser: options => `${identityServerUrl}/api/v1/Organisations/${options.organisationId}/Users`,
+  postUserStatus: options => `${identityServerUrl}/api/v1/Users/${options.userId}/${options.status}`,
+
   // PUT endpoins
   putUpdateOrganisation: options => `${organisationApiUrl}/api/v1/Organisations/${options.organisationId}`,
 };
