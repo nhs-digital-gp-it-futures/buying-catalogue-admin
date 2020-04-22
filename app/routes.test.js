@@ -1,5 +1,5 @@
 import request from 'supertest';
-import { FakeAuthProvider } from 'buying-catalogue-components/library';
+import { FakeAuthProvider } from 'buying-catalogue-library';
 import { App } from './app';
 import { routes } from './routes';
 import { baseUrl } from './config';
