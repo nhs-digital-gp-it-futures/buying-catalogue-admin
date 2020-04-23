@@ -1,5 +1,5 @@
 import createTestcafe from 'testcafe';
-import { FakeAuthProvider } from 'buying-catalogue-components/library';
+import { FakeAuthProvider } from 'buying-catalogue-library';
 import { App } from './app/app';
 import { routes } from './app/routes';
 import { env, baseUrl } from './app/config';

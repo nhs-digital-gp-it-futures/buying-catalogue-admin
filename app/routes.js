@@ -50,7 +50,7 @@ export const routes = (authProvider) => {
     res.redirect(config.logoutRedirectPath);
   });
 
-  router.get('/organisations', authProvider.authorise(), withCatch(authProvider, async (req, res) => {
+  router.get('/organisations', authProvider.authorise({ claim: 'organisation' }), withCatch(authProvider, async (req, res) => {
     logger.info('navigating to organisations page');
     const context = await getOrgDashboardContext({ accessToken: extractAccessToken({ req, tokenType: 'access' }) });
     res.render('pages/dashboard/template.njk', addContext({ context, user: req.user }));
@@ -58,14 +58,14 @@ export const routes = (authProvider) => {
 
   router.use('/organisations/find', newOrgRoutes(authProvider, addContext));
 
-  router.get('/organisations/:organisationId', authProvider.authorise(), withCatch(authProvider, async (req, res) => {
+  router.get('/organisations/:organisationId', authProvider.authorise({ claim: 'organisation' }), withCatch(authProvider, async (req, res) => {
     const { organisationId } = req.params;
     logger.info(`navigating to organisation: ${organisationId} account page`);
     const context = await getOrgAccountsContext({ organisationId, accessToken: extractAccessToken({ req, tokenType: 'access' }) });
     res.render('pages/organisation/template.njk', addContext({ context, user: req.user }));
   }));
 
-  router.post('/organisations/:organisationId/edit', authProvider.authorise(), withCatch(authProvider, async (req, res) => {
+  router.post('/organisations/:organisationId/edit', authProvider.authorise({ claim: 'organisation' }), withCatch(authProvider, async (req, res) => {
     const { organisationId } = req.params;
     const accessToken = extractAccessToken({ req, tokenType: 'access' });
     await putUpdateOrganisation({ organisationId, body: req.body, accessToken });
@@ -73,28 +73,28 @@ export const routes = (authProvider) => {
     res.redirect(`${config.baseUrl}/organisations/${organisationId}/edit/confirmation`);
   }));
 
-  router.get('/organisations/:organisationId/edit', authProvider.authorise(), withCatch(authProvider, async (req, res) => {
+  router.get('/organisations/:organisationId/edit', authProvider.authorise({ claim: 'organisation' }), withCatch(authProvider, async (req, res) => {
     const { organisationId } = req.params;
     logger.info(`navigating to edit organisation: ${organisationId} page`);
     const context = await getEditOrgContext({ organisationId, accessToken: extractAccessToken({ req, tokenType: 'access' }) });
     res.render('pages/editorg/template.njk', addContext({ context, user: req.user, csrfToken: req.csrfToken() }));
   }));
 
-  router.get('/organisations/:organisationId/edit/confirmation', authProvider.authorise(), withCatch(authProvider, async (req, res) => {
+  router.get('/organisations/:organisationId/edit/confirmation', authProvider.authorise({ claim: 'organisation' }), withCatch(authProvider, async (req, res) => {
     const { organisationId } = req.params;
     logger.info(`navigating to edit organisation: ${organisationId} confirmation page`);
     const context = await getEditOrgConfirmationContext({ organisationId, accessToken: extractAccessToken({ req, tokenType: 'access' }) });
     res.render('common/pages/confirmation.njk', addContext({ context, user: req.user, csrfToken: req.csrfToken() }));
   }));
 
-  router.get('/organisations/:organisationId/adduser', authProvider.authorise(), withCatch(authProvider, async (req, res) => {
+  router.get('/organisations/:organisationId/adduser', authProvider.authorise({ claim: 'organisation' }), withCatch(authProvider, async (req, res) => {
     const { organisationId } = req.params;
     logger.info(`navigating to organisation: ${organisationId} add user page`);
     const context = await getAddUserContext({ organisationId, accessToken: extractAccessToken({ req, tokenType: 'access' }) });
     res.render('pages/adduser/template.njk', addContext({ context, user: req.user, csrfToken: req.csrfToken() }));
   }));
 
-  router.post('/organisations/:organisationId/adduser', authProvider.authorise(), withCatch(authProvider, async (req, res) => {
+  router.post('/organisations/:organisationId/adduser', authProvider.authorise({ claim: 'organisation' }), withCatch(authProvider, async (req, res) => {
     const { organisationId } = req.params;
     const accessToken = extractAccessToken({ req, tokenType: 'access' });
     const response = await postAddUser({ organisationId, data: req.body, accessToken });
@@ -110,14 +110,14 @@ export const routes = (authProvider) => {
     return res.render('pages/adduser/template', addContext({ context, user: req.user, csrfToken: req.csrfToken() }));
   }));
 
-  router.get('/organisations/:organisationId/:userId', authProvider.authorise(), withCatch(authProvider, async (req, res) => {
+  router.get('/organisations/:organisationId/:userId', authProvider.authorise({ claim: 'organisation' }), withCatch(authProvider, async (req, res) => {
     const { organisationId, userId } = req.params;
     logger.info(`navigating to organisation: ${organisationId} edit user: ${userId} page`);
     const context = await getViewUserContext({ organisationId, userId, accessToken: extractAccessToken({ req, tokenType: 'access' }) });
     res.render('pages/viewuser/template', addContext({ context, user: req.user, csrfToken: req.csrfToken() }));
   }));
 
-  router.get('/organisations/:organisationId/adduser/confirmation', authProvider.authorise(), withCatch(authProvider, async (req, res) => {
+  router.get('/organisations/:organisationId/adduser/confirmation', authProvider.authorise({ claim: 'organisation' }), withCatch(authProvider, async (req, res) => {
     const { organisationId } = req.params;
     const { id: userId } = req.query;
     logger.info(`navigating to organisation: ${organisationId} add user confirmation page`);
@@ -125,7 +125,7 @@ export const routes = (authProvider) => {
     res.render('common/pages/confirmation.njk', addContext({ context, user: req.user }));
   }));
 
-  router.get('/organisations/:organisationId/:userId/enable', authProvider.authorise(), withCatch(authProvider, async (req, res) => {
+  router.get('/organisations/:organisationId/:userId/enable', authProvider.authorise({ claim: 'organisation' }), withCatch(authProvider, async (req, res) => {
     const { userId, organisationId } = req.params;
     const context = await getUserStatusContext({
       userId, organisationId, accessToken: extractAccessToken({ req, tokenType: 'access' }), status: 'enable',
@@ -133,14 +133,14 @@ export const routes = (authProvider) => {
     res.render('common/pages/confirmation.njk', addContext({ context, user: req.user }));
   }));
 
-  router.post('/organisations/:organisationId/:userId/enable', authProvider.authorise(), withCatch(authProvider, async (req, res) => {
+  router.post('/organisations/:organisationId/:userId/enable', authProvider.authorise({ claim: 'organisation' }), withCatch(authProvider, async (req, res) => {
     const { userId, organisationId } = req.params;
     const accessToken = extractAccessToken({ req, tokenType: 'access' });
     await postUserStatus({ userId, accessToken, status: 'enable' });
     res.redirect(`${config.baseUrl}/organisations/${organisationId}/${userId}/enable`);
   }));
 
-  router.get('/organisations/:organisationId/:userId/disable', authProvider.authorise(), withCatch(authProvider, async (req, res) => {
+  router.get('/organisations/:organisationId/:userId/disable', authProvider.authorise({ claim: 'organisation' }), withCatch(authProvider, async (req, res) => {
     const { userId, organisationId } = req.params;
     const context = await getUserStatusContext({
       userId, organisationId, accessToken: extractAccessToken({ req, tokenType: 'access' }), status: 'disable',
@@ -149,7 +149,7 @@ export const routes = (authProvider) => {
     res.render('common/pages/confirmation.njk', addContext({ context, user: req.user }));
   }));
 
-  router.post('/organisations/:organisationId/:userId/disable', authProvider.authorise(), withCatch(authProvider, async (req, res) => {
+  router.post('/organisations/:organisationId/:userId/disable', authProvider.authorise({ claim: 'organisation' }), withCatch(authProvider, async (req, res) => {
     const { userId, organisationId } = req.params;
     const accessToken = extractAccessToken({ req, tokenType: 'access' });
     await postUserStatus({ userId, accessToken, status: 'disable' });
