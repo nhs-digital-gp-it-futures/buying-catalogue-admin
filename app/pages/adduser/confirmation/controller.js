@@ -1,3 +1,4 @@
+import { ErrorContext } from 'buying-catalogue-library';
 import { getData } from '../../../apiProvider';
 import { getContext } from './contextCreator';
 import { logger } from '../../../logger';
@@ -8,5 +9,8 @@ export const getAddUserConfirmationContext = async ({ userId, organisationId, ac
     logger.info(`User ${user.userId}: ${user.name} found`);
     return getContext({ userAdded: user.name, organisationId });
   }
-  throw new Error(`No user data returned for id: ${userId}`);
+  throw new ErrorContext({
+    status: 404,
+    description: `No user data returned for id: ${userId}`,
+  });
 };

@@ -1,3 +1,4 @@
+import { ErrorContext } from 'buying-catalogue-library';
 import { getData } from '../../../apiProvider';
 import { getContext } from './contextCreator';
 import { logger } from '../../../logger';
@@ -13,5 +14,8 @@ export const getUserStatusContext = async ({
       user, status, organisationId,
     });
   }
-  throw new Error(`No user data returned for id: ${userId}`);
+  throw new ErrorContext({
+    status: 404,
+    description: `No user data returned for id: ${userId}`,
+  });
 };

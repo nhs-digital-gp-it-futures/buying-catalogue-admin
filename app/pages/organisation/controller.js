@@ -1,3 +1,4 @@
+import { ErrorContext } from 'buying-catalogue-library';
 import { getData } from '../../apiProvider';
 import { getContext } from './contextCreator';
 import { logger } from '../../logger';
@@ -12,6 +13,8 @@ export const getOrgAccountsContext = async ({ organisationId, accessToken }) => 
     organisation.users = users.users;
     return getContext({ organisation });
   }
-
-  throw new Error(`No organisation data returned for id: ${organisationId}`);
+  throw new ErrorContext({
+    status: 404,
+    description: `No organisation data returned for id: ${organisationId}`,
+  });
 };

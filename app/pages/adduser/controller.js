@@ -1,3 +1,4 @@
+import { ErrorContext } from 'buying-catalogue-library';
 import { getData, postData } from '../../apiProvider';
 import { getContext, getErrorContext } from './contextCreator';
 import { logger } from '../../logger';
@@ -9,8 +10,10 @@ export const getAddUserContext = async ({ organisationId, accessToken }) => {
     logger.info(`Organisation ${organisationId} returned`);
     return getContext(orgData);
   }
-
-  throw new Error('No data returned');
+  throw new ErrorContext({
+    status: 404,
+    description: 'No data returned',
+  });
 };
 
 export const getAddUserPageErrorContext = async ({
@@ -22,8 +25,10 @@ export const getAddUserPageErrorContext = async ({
     logger.info(`Organisation ${organisationId} returned`);
     return getErrorContext({ orgData, validationErrors, data });
   }
-
-  throw new Error('No data returned');
+  throw new ErrorContext({
+    status: 404,
+    description: 'No data returned',
+  });
 };
 
 export const postAddUser = async ({ organisationId, data, accessToken }) => {
@@ -45,7 +50,8 @@ export const postAddUser = async ({ organisationId, data, accessToken }) => {
     if (err.response && err.response.status === 400 && err.response.data) {
       return err.response.data;
     }
-
-    throw new Error(err.response.data);
+    throw new ErrorContext({
+      status: err.response.status,
+    });
   }
 };

@@ -1,3 +1,4 @@
+import { ErrorContext } from 'buying-catalogue-library';
 import { getCreateOrgContext, postAddOrg } from './controller';
 import * as apiProvider from '../../../apiProvider';
 import * as contextCreator from './contextCreator';
@@ -66,7 +67,10 @@ describe('create org confirmation page controller', () => {
       try {
         await getCreateOrgContext({ odsCode, accessToken });
       } catch (err) {
-        expect(err).toEqual(new Error('No organisation data returned for odsCode: abc'));
+        expect(err).toEqual(new ErrorContext({
+          status: 404,
+          description: 'No organisation data returned for odsCode: abc',
+        }));
       }
     });
   });
@@ -136,7 +140,9 @@ describe('create org confirmation page controller', () => {
       try {
         await postAddOrg({ odsCode, data: { odsCode }, accessToken });
       } catch (err) {
-        expect(err).toEqual(new Error({ status: 500, data: '500 response data' }));
+        expect(err).toEqual(new ErrorContext({
+          status: 500,
+        }));
       }
     });
   });
