@@ -52,7 +52,6 @@ export const postAddUser = async ({ organisationId, data, accessToken }) => {
     }
     throw new ErrorContext({
       status: err.response.status,
-      description: err.response.data,
     });
   }
 };

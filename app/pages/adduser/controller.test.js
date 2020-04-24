@@ -182,7 +182,6 @@ describe('adduser controller', () => {
         await postAddUser({ organisationId: 1, data: { firstName: 'SomeName' }, accessToken: 'access_token' });
       } catch (err) {
         expect(err).toEqual(new ErrorContext({
-          description: '500 response data',
           status: 500,
         }));
       }
