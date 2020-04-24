@@ -73,8 +73,8 @@ describe('adduser controller', () => {
         await getAddUserContext({ organisationId: 1, accessToken: 'access_token' });
       } catch (err) {
         expect(err).toEqual(new ErrorContext({
-          description: 'No data returned',
           status: 404,
+          description: 'No data returned',
         }));
       }
     });
@@ -127,8 +127,8 @@ describe('adduser controller', () => {
         await getAddUserPageErrorContext({ organisationId: 1, accessToken: 'access_token', validationErrors: [] });
       } catch (err) {
         expect(err).toEqual(new ErrorContext({
-          description: 'No data returned',
           status: 404,
+          description: 'No data returned',
         }));
       }
     });

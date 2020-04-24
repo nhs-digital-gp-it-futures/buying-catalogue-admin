@@ -68,8 +68,8 @@ describe('create org confirmation page controller', () => {
         await getSelectOrgContext({ odsCode, accessToken });
       } catch (err) {
         expect(err).toEqual(new ErrorContext({
-          description: 'No organisation data returned for odsCode: abc',
           status: 404,
+          description: 'No organisation data returned for odsCode: abc',
         }));
       }
     });

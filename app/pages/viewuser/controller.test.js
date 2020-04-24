@@ -87,8 +87,8 @@ describe('viewuser controller', () => {
         await getViewUserContext({ userId: 1, organisationId: 2, accessToken: 'access_token' });
       } catch (err) {
         expect(err).toEqual(new ErrorContext({
-          description: 'No user data returned for id: 1',
           status: 404,
+          description: 'No user data returned for id: 1',
         }));
       }
     });

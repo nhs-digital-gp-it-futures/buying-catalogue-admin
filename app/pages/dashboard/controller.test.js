@@ -70,8 +70,8 @@ describe('dashboard controller', () => {
         await getOrgDashboardContext({ organisationId: 1, accessToken: 'access_token' });
       } catch (err) {
         expect(err).toEqual(new ErrorContext({
-          description: 'No organisations data returned',
           status: 404,
+          description: 'No organisations data returned',
         }));
       }
     });

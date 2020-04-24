@@ -72,8 +72,8 @@ describe('edit organisation controller', () => {
         await getEditOrgContext({ organisationId: 1, accessToken: 'access_token' });
       } catch (err) {
         expect(err).toEqual(new ErrorContext({
-          description: 'No organisation data returned for id: 1',
           status: 404,
+          description: 'No organisation data returned for id: 1',
         }));
       }
     });

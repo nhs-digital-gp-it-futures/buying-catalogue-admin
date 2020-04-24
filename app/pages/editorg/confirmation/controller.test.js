@@ -59,8 +59,8 @@ describe('edit org confirmation page controller', () => {
         await getEditOrgConfirmationContext({ organisationId, accessToken });
       } catch (err) {
         expect(err).toEqual(new ErrorContext({
-          description: 'No organisation data returned for id: org1',
           status: 404,
+          description: 'No organisation data returned for id: org1',
         }));
       }
     });

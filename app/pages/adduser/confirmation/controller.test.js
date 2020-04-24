@@ -60,8 +60,8 @@ describe('add user confirmation page controller', () => {
         await getAddUserConfirmationContext({ organisationId, userId, accessToken });
       } catch (err) {
         expect(err).toEqual(new ErrorContext({
-          description: 'No user data returned for id: user1',
           status: 404,
+          description: 'No user data returned for id: user1',
         }));
       }
     });
