@@ -1,3 +1,4 @@
+import { ErrorContext } from 'buying-catalogue-library';
 import url from 'url';
 import passport from 'passport';
 import { Strategy, Issuer } from 'openid-client';
@@ -107,7 +108,12 @@ export class AuthProvider {
       } else if (req.user && claim && req.user[claim]) {
         next();
       } else {
-        throw new Error('Not authorised matey');
+        throw new ErrorContext({
+          status: 401,
+          title: 'You\'re not authorised to view this page',
+          description: 'You must be logged in as an admin to access Buying Catalogue admin.',
+          backLinkHref: config.publicBrowseBaseUrl,
+        });
       }
     };
   }

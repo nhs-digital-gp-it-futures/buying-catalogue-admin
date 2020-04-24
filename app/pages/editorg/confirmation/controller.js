@@ -1,3 +1,4 @@
+import { ErrorContext } from 'buying-catalogue-library';
 import { getContext } from './contextCreator';
 import { getData } from '../../../apiProvider';
 import { logger } from '../../../logger';
@@ -9,6 +10,8 @@ export const getEditOrgConfirmationContext = async ({ organisationId, accessToke
     logger.info(`Organisation ${organisation.name} (${organisationId}) returned`);
     return getContext({ organisationName: organisation.name, organisationId });
   }
-
-  throw new Error(`No organisation data returned for id: ${organisationId}`);
+  throw new ErrorContext({
+    status: 404,
+    description: `No organisation data returned for id: ${organisationId}`,
+  });
 };

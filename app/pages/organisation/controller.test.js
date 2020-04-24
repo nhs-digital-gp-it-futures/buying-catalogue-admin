@@ -1,3 +1,4 @@
+import { ErrorContext } from 'buying-catalogue-library';
 import { getOrgAccountsContext } from './controller';
 import * as apiProvider from '../../apiProvider';
 import * as contextCreator from './contextCreator';
@@ -90,7 +91,10 @@ describe('organisation controller', () => {
       try {
         await getOrgAccountsContext({ organisationId: 1, accessToken: 'access_token' });
       } catch (err) {
-        expect(err).toEqual(new Error('No organisation data returned for id: 1'));
+        expect(err).toEqual(new ErrorContext({
+          description: 'No organisation data returned for id: 1',
+          status: 404,
+        }));
       }
     });
   });

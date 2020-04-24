@@ -64,8 +64,8 @@ const checkAuthorisedRouteWithoutClaim = (path) => {
     .set('Cookie', [mockUnauthorisedCookie])
     .expect(200)
     .then((res) => {
-      expect(res.text.includes('data-test-id="error-page-title"')).toEqual(true);
-      expect(res.text.includes('Not authorised')).toEqual(true);
+      expect(res.text.includes('data-test-id="error-title"')).toEqual(true);
+      expect(res.text.includes('You are not authorised to view this page')).toEqual(true);
     });
 };
 
@@ -115,8 +115,8 @@ const checkLoggedInNotAuthorised = async (csrfPagePath, postPath) => {
     .send({ _csrf: csrfToken })
     .expect(200)
     .then((res) => {
-      expect(res.text.includes('data-test-id="error-page-title"')).toEqual(true);
-      expect(res.text.includes('Not authorised')).toEqual(true);
+      expect(res.text.includes('data-test-id="error-title"')).toEqual(true);
+      expect(res.text.includes('You are not authorised to view this page')).toEqual(true);
     });
 };
 
@@ -195,7 +195,7 @@ describe('routes', () => {
       .expect(200)
       .then((res) => {
         expect(res.text.includes('data-test-id="organisations"')).toEqual(true);
-        expect(res.text.includes('data-test-id="error-page-title"')).toEqual(false);
+        expect(res.text.includes('data-test-id="error-title"')).toEqual(false);
       }));
   });
 
@@ -216,7 +216,7 @@ describe('routes', () => {
       .expect(200)
       .then((res) => {
         expect(res.text.includes('data-test-id="view-user-page"')).toEqual(true);
-        expect(res.text.includes('data-test-id="error-page-title"')).toEqual(false);
+        expect(res.text.includes('data-test-id="error-title"')).toEqual(false);
       }));
   });
 
@@ -240,7 +240,7 @@ describe('routes', () => {
         .expect(200)
         .then((res) => {
           expect(res.text.includes('data-test-id="mock-confirmation-page"')).toEqual(true);
-          expect(res.text.includes('data-test-id="error-page-title"')).toEqual(false);
+          expect(res.text.includes('data-test-id="error-title"')).toEqual(false);
         });
     });
   });
@@ -275,7 +275,7 @@ describe('routes', () => {
         .then((res) => {
           expect(res.redirect).toEqual(true);
           expect(res.headers.location).toEqual(`${baseUrl}/organisations/org1/user2/enable`);
-          expect(res.text.includes('data-test-id="error-page-title"')).toEqual(false);
+          expect(res.text.includes('data-test-id="error-title"')).toEqual(false);
         });
     });
   });
@@ -300,7 +300,7 @@ describe('routes', () => {
         .expect(200)
         .then((res) => {
           expect(res.text.includes('data-test-id="mock-confirmation-page"')).toEqual(true);
-          expect(res.text.includes('data-test-id="error-page-title"')).toEqual(false);
+          expect(res.text.includes('data-test-id="error-title"')).toEqual(false);
         });
     });
   });
@@ -335,7 +335,7 @@ describe('routes', () => {
         .then((res) => {
           expect(res.redirect).toEqual(true);
           expect(res.headers.location).toEqual(`${baseUrl}/organisations/org1/user2/disable`);
-          expect(res.text.includes('data-test-id="error-page-title"')).toEqual(false);
+          expect(res.text.includes('data-test-id="error-title"')).toEqual(false);
         });
     });
   });
@@ -399,7 +399,7 @@ describe('routes', () => {
         .then((res) => {
           expect(res.redirect).toEqual(true);
           expect(res.headers.location).toEqual(`${baseUrl}/organisations/org1/adduser/confirmation?id=user1`);
-          expect(res.text.includes('data-test-id="error-page-title"')).toEqual(false);
+          expect(res.text.includes('data-test-id="error-title"')).toEqual(false);
         });
     });
 
@@ -427,7 +427,7 @@ describe('routes', () => {
         .then((res) => {
           expect(res.text.includes('data-test-id="add-user-page"')).toEqual(true);
           expect(res.text.includes('data-test-id="error-summary"')).toEqual(true);
-          expect(res.text.includes('data-test-id="error-page-title"')).toEqual(false);
+          expect(res.text.includes('data-test-id="error-title"')).toEqual(false);
           addUserContext.getAddUserPageErrorContext.mockReset();
         });
     });
@@ -454,7 +454,7 @@ describe('routes', () => {
         .expect(200)
         .then((res) => {
           expect(res.text.includes('data-test-id="add-user-confirmation-page"')).toEqual(true);
-          expect(res.text.includes('data-test-id="error-page-title"')).toEqual(false);
+          expect(res.text.includes('data-test-id="error-title"')).toEqual(false);
         });
     });
   });
@@ -464,7 +464,8 @@ describe('routes', () => {
       .get('/aaaa')
       .expect(200)
       .then((res) => {
-        expect(res.text.includes('<h1 class="nhsuk-heading-l nhsuk-u-padding-left-3" data-test-id="error-page-title">Error: Incorrect url /aaaa - please check it is valid and try again</h1>')).toEqual(true);
+        expect(res.text.includes('<h1 class="nhsuk-heading-l nhsuk-u-margin-top-5" data-test-id="error-title">Incorrect url /aaaa</h1>')).toEqual(true);
+        expect(res.text.includes('<p data-test-id="error-description">Please check it is valid and try again</p>')).toEqual(true);
         done();
       }));
   });

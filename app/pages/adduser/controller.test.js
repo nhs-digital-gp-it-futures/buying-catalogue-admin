@@ -1,3 +1,4 @@
+import { ErrorContext } from 'buying-catalogue-library';
 import { getAddUserContext, getAddUserPageErrorContext, postAddUser } from './controller';
 import * as apiProvider from '../../apiProvider';
 import * as contextCreator from './contextCreator';
@@ -71,7 +72,10 @@ describe('adduser controller', () => {
       try {
         await getAddUserContext({ organisationId: 1, accessToken: 'access_token' });
       } catch (err) {
-        expect(err).toEqual(new Error('No data returned'));
+        expect(err).toEqual(new ErrorContext({
+          description: 'No data returned',
+          status: 404,
+        }));
       }
     });
   });
@@ -122,7 +126,10 @@ describe('adduser controller', () => {
       try {
         await getAddUserPageErrorContext({ organisationId: 1, accessToken: 'access_token', validationErrors: [] });
       } catch (err) {
-        expect(err).toEqual(new Error('No data returned'));
+        expect(err).toEqual(new ErrorContext({
+          description: 'No data returned',
+          status: 404,
+        }));
       }
     });
   });
@@ -174,7 +181,10 @@ describe('adduser controller', () => {
       try {
         await postAddUser({ organisationId: 1, data: { firstName: 'SomeName' }, accessToken: 'access_token' });
       } catch (err) {
-        expect(err).toEqual(new Error('500 response data'));
+        expect(err).toEqual(new ErrorContext({
+          description: '500 response data',
+          status: 500,
+        }));
       }
     });
   });

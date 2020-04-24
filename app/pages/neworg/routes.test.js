@@ -1,5 +1,5 @@
 import request from 'supertest';
-import { FakeAuthProvider } from 'buying-catalogue-components/library';
+import { FakeAuthProvider } from 'buying-catalogue-library';
 import { App } from '../../app';
 import { routes } from '../../routes';
 import { baseUrl } from '../../config';
@@ -56,8 +56,8 @@ const checkAuthorisedRouteWithoutClaim = (path) => {
     .set('Cookie', [mockUnauthorisedCookie])
     .expect(200)
     .then((res) => {
-      expect(res.text.includes('data-test-id="error-page-title"')).toEqual(true);
-      expect(res.text.includes('Not authorised')).toEqual(true);
+      expect(res.text.includes('data-test-id="error-title"')).toEqual(true);
+      expect(res.text.includes('You are not authorised to view this page')).toEqual(true);
     });
 };
 
@@ -107,8 +107,8 @@ const checkLoggedInNotAuthorised = async (csrfPagePath, postPath) => {
     .send({ _csrf: csrfToken })
     .expect(200)
     .then((res) => {
-      expect(res.text.includes('data-test-id="error-page-title"')).toEqual(true);
-      expect(res.text.includes('Not authorised')).toEqual(true);
+      expect(res.text.includes('data-test-id="error-title"')).toEqual(true);
+      expect(res.text.includes('You are not authorised to view this page')).toEqual(true);
     });
 };
 
@@ -125,7 +125,7 @@ describe('routes', () => {
     ));
 
     it('should return the correct status and text when the user is authorised', () => {
-      findOrgContext.getAddOrgContext = jest.fn()
+      findOrgContext.getFindOrgContext = jest.fn()
         .mockImplementation(() => ({}));
       return request(setUpFakeApp())
         .get(path)
@@ -133,21 +133,7 @@ describe('routes', () => {
         .expect(200)
         .then((res) => {
           expect(res.text.includes('data-test-id="find-org-page"')).toEqual(true);
-          expect(res.text.includes('data-test-id="error-page-title"')).toEqual(false);
-        });
-    });
-
-    it('should extract errorCode from url and return the correct status and text when error is present', () => {
-      findOrgContext.getAddOrgContext = jest.fn()
-        .mockImplementation(() => ({}));
-      return request(setUpFakeApp())
-        .get(`${path}?odsCode=abc&error=404`)
-        .set('Cookie', [mockAuthorisedCookie])
-        .expect(200)
-        .then((res) => {
-          expect(res.text.includes('data-test-id="find-org-page"')).toEqual(true);
-          expect(res.text.includes('data-test-id="error-summary"')).toEqual(true);
-          expect(res.text.includes('data-test-id="error-page-title"')).toEqual(false);
+          expect(res.text.includes('data-test-id="error-title"')).toEqual(false);
         });
     });
   });
@@ -183,7 +169,7 @@ describe('routes', () => {
         .then((res) => {
           expect(res.redirect).toEqual(true);
           expect(res.headers.location).toEqual(`${baseUrl}/organisations/find/select?ods=abc`);
-          expect(res.text.includes('data-test-id="error-page-title"')).toEqual(false);
+          expect(res.text.includes('data-test-id="error-title"')).toEqual(false);
         });
     });
 
@@ -204,7 +190,7 @@ describe('routes', () => {
         .then((res) => {
           expect(res.redirect).toEqual(true);
           expect(res.headers.location).toEqual(`${baseUrl}/organisations/find?ods=abc&error=404`);
-          expect(res.text.includes('data-test-id="error-page-title"')).toEqual(false);
+          expect(res.text.includes('data-test-id="error-title"')).toEqual(false);
         });
     });
 
@@ -225,7 +211,7 @@ describe('routes', () => {
         .then((res) => {
           expect(res.redirect).toEqual(true);
           expect(res.headers.location).toEqual(`${baseUrl}/organisations/find?ods=abc&error=406`);
-          expect(res.text.includes('data-test-id="error-page-title"')).toEqual(false);
+          expect(res.text.includes('data-test-id="error-title"')).toEqual(false);
         });
     });
   });
@@ -250,7 +236,7 @@ describe('routes', () => {
         .expect(200)
         .then((res) => {
           expect(res.text.includes('data-test-id="select-org-page"')).toEqual(true);
-          expect(res.text.includes('data-test-id="error-page-title"')).toEqual(false);
+          expect(res.text.includes('data-test-id="error-title"')).toEqual(false);
         });
     });
   });
@@ -286,7 +272,7 @@ describe('routes', () => {
         .then((res) => {
           expect(res.redirect).toEqual(true);
           expect(res.headers.location).toEqual(`${baseUrl}/organisations/find/select/create?ods=abc`);
-          expect(res.text.includes('data-test-id="error-page-title"')).toEqual(false);
+          expect(res.text.includes('data-test-id="error-title"')).toEqual(false);
         });
     });
   });
@@ -311,7 +297,7 @@ describe('routes', () => {
         .expect(200)
         .then((res) => {
           expect(res.text.includes('data-test-id="create-org-page"')).toEqual(true);
-          expect(res.text.includes('data-test-id="error-page-title"')).toEqual(false);
+          expect(res.text.includes('data-test-id="error-title"')).toEqual(false);
         });
     });
   });
@@ -348,7 +334,7 @@ describe('routes', () => {
         .then((res) => {
           expect(res.redirect).toEqual(true);
           expect(res.headers.location).toEqual(`${baseUrl}/organisations/find/select/create/confirmation?id=org1`);
-          expect(res.text.includes('data-test-id="error-page-title"')).toEqual(false);
+          expect(res.text.includes('data-test-id="error-title"')).toEqual(false);
         });
     });
 
@@ -369,7 +355,7 @@ describe('routes', () => {
         .then((res) => {
           expect(res.redirect).toEqual(true);
           expect(res.headers.location).toEqual(`${baseUrl}/organisations/find/select/create/error?ods=abc&errors=AnErrorId+ASecondErrorId`);
-          expect(res.text.includes('data-test-id="error-page-title"')).toEqual(false);
+          expect(res.text.includes('data-test-id="error-title"')).toEqual(false);
         });
     });
   });
@@ -394,7 +380,7 @@ describe('routes', () => {
         .expect(200)
         .then((res) => {
           expect(res.text.includes('data-test-id="create-org-confirmation-page"')).toEqual(true);
-          expect(res.text.includes('data-test-id="error-page-title"')).toEqual(false);
+          expect(res.text.includes('data-test-id="error-title"')).toEqual(false);
         });
     });
   });
@@ -419,7 +405,7 @@ describe('routes', () => {
         .expect(200)
         .then((res) => {
           expect(res.text.includes('data-test-id="create-org-error-page"')).toEqual(true);
-          expect(res.text.includes('data-test-id="error-page-title"')).toEqual(false);
+          expect(res.text.includes('data-test-id="error-title"')).toEqual(false);
         });
     });
   });

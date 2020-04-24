@@ -1,3 +1,4 @@
+import { ErrorContext } from 'buying-catalogue-library';
 import { getSelectOrgContext } from './controller';
 import * as apiProvider from '../../../apiProvider';
 import * as contextCreator from './contextCreator';
@@ -66,7 +67,10 @@ describe('create org confirmation page controller', () => {
       try {
         await getSelectOrgContext({ odsCode, accessToken });
       } catch (err) {
-        expect(err).toEqual(new Error('No organisation data returned for odsCode: abc'));
+        expect(err).toEqual(new ErrorContext({
+          description: 'No organisation data returned for odsCode: abc',
+          status: 404,
+        }));
       }
     });
   });
