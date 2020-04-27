@@ -1,4 +1,4 @@
-import { createTestHarness } from '../../test-utils/testHarness';
+import { componentTester } from '../../test-utils/componentTester';
 import context from './manifest.json';
 
 context.backLinkHref = '/organisations/org1';
@@ -50,7 +50,7 @@ const contextWithErrors = {
 };
 
 describe('organisations add user page', () => {
-  it('should render a backLink', createTestHarness(setup, (harness) => {
+  it('should render a backLink', componentTester(setup, (harness) => {
     harness.request(context, ($) => {
       const backLink = $('[data-test-id="go-back-link"]');
       expect(backLink.length).toEqual(1);
@@ -59,7 +59,7 @@ describe('organisations add user page', () => {
     });
   }));
 
-  it('should render error summary with correct error text and hrefs if there are errors', createTestHarness(setup, (harness) => {
+  it('should render error summary with correct error text and hrefs if there are errors', componentTester(setup, (harness) => {
     harness.request(contextWithErrors, ($) => {
       const errorSummary = $('[data-test-id="error-summary"]');
       const errorArray = $('[data-test-id="error-summary"] li a');
@@ -72,7 +72,7 @@ describe('organisations add user page', () => {
     });
   }));
 
-  it('should render a title', createTestHarness(setup, (harness) => {
+  it('should render a title', componentTester(setup, (harness) => {
     harness.request(context, ($) => {
       const title = $('h1[data-test-id="add-user-page-title"]');
       expect(title.length).toEqual(1);
@@ -80,7 +80,7 @@ describe('organisations add user page', () => {
     });
   }));
 
-  it('should render a description', createTestHarness(setup, (harness) => {
+  it('should render a description', componentTester(setup, (harness) => {
     harness.request(context, ($) => {
       const description = $('[data-test-id="add-user-page-description"]');
       expect(description.length).toEqual(1);
@@ -88,7 +88,7 @@ describe('organisations add user page', () => {
     });
   }));
 
-  it('should render a organisation name subheading', createTestHarness(setup, (harness) => {
+  it('should render a organisation name subheading', componentTester(setup, (harness) => {
     harness.request(context, ($) => {
       const subheading = $('h3[data-test-id="org-name-subheading"]');
       expect(subheading.length).toEqual(1);
@@ -96,7 +96,7 @@ describe('organisations add user page', () => {
     });
   }));
 
-  it('should render the organisation name', createTestHarness(setup, (harness) => {
+  it('should render the organisation name', componentTester(setup, (harness) => {
     const modifiedContext = { ...context, organisationName: 'a lovely org name' };
     harness.request(modifiedContext, ($) => {
       const organisationName = $('[data-test-id="org-name"]');
@@ -106,7 +106,7 @@ describe('organisations add user page', () => {
   }));
 
   describe('form fields', () => {
-    it('should render a label for each question', createTestHarness(setup, (harness) => {
+    it('should render a label for each question', componentTester(setup, (harness) => {
       harness.request(context, ($) => {
         const labels = $('label');
         expect(labels.length).toEqual(context.questions.length);
@@ -117,7 +117,7 @@ describe('organisations add user page', () => {
       });
     }));
 
-    it('should render a textField for each question', createTestHarness(setup, (harness) => {
+    it('should render a textField for each question', componentTester(setup, (harness) => {
       harness.request(context, ($) => {
         const inputs = $('input:not([name=_csrf])');
         expect(inputs.length).toEqual(context.questions.length);
@@ -129,7 +129,7 @@ describe('organisations add user page', () => {
       });
     }));
 
-    it('should render errors for each question if there are errors', createTestHarness(setup, (harness) => {
+    it('should render errors for each question if there are errors', componentTester(setup, (harness) => {
       harness.request(contextWithErrors, ($) => {
         contextWithErrors.questions.forEach((question) => {
           const renderedQuestion = $(`div[data-test-id="question-${question.id}"]`);
@@ -140,7 +140,7 @@ describe('organisations add user page', () => {
     }));
   });
 
-  it('should render a add user button', createTestHarness(setup, (harness) => {
+  it('should render a add user button', componentTester(setup, (harness) => {
     harness.request(context, ($) => {
       const button = $('[data-test-id="add-user-button"] button');
       expect(button.length).toEqual(1);

@@ -1,4 +1,4 @@
-import { createTestHarness } from '../../test-utils/testHarness';
+import { componentTester } from '../../test-utils/componentTester';
 import content from './manifest.json';
 import { publicBrowseBaseUrl } from '../../config';
 
@@ -34,7 +34,7 @@ const context = {
 };
 
 describe('organisations dashboard page', () => {
-  it('should render a backLink to public browse', createTestHarness(setup, (harness) => {
+  it('should render a backLink to public browse', componentTester(setup, (harness) => {
     harness.request(context, ($) => {
       const homepageBackLink = $('[data-test-id="go-back-link"]');
       expect(homepageBackLink.length).toEqual(1);
@@ -43,7 +43,7 @@ describe('organisations dashboard page', () => {
     });
   }));
 
-  it('should render a title', createTestHarness(setup, (harness) => {
+  it('should render a title', componentTester(setup, (harness) => {
     harness.request(context, ($) => {
       const title = $('h1[data-test-id="org-dashboard-title"]');
       expect(title.length).toEqual(1);
@@ -51,7 +51,7 @@ describe('organisations dashboard page', () => {
     });
   }));
 
-  it('should render a description', createTestHarness(setup, (harness) => {
+  it('should render a description', componentTester(setup, (harness) => {
     harness.request(context, ($) => {
       const description = $('[data-test-id="org-dashboard-description"]');
       expect(description.length).toEqual(1);
@@ -59,7 +59,7 @@ describe('organisations dashboard page', () => {
     });
   }));
 
-  it('should render a add organisation button', createTestHarness(setup, (harness) => {
+  it('should render a add organisation button', componentTester(setup, (harness) => {
     harness.request(context, ($) => {
       const button = $('[data-test-id="add-org-button"] a');
       expect(button.length).toEqual(1);
@@ -68,7 +68,7 @@ describe('organisations dashboard page', () => {
     });
   }));
 
-  it('should render the table component with data', createTestHarness(setup, (harness) => {
+  it('should render the table component with data', componentTester(setup, (harness) => {
     harness.request(context, ($) => {
       const orgTable = $('[data-test-id="org-table"]');
       const columnHeading1 = orgTable.find('[data-test-id="column-heading-0"]');

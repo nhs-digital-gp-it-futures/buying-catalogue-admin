@@ -1,4 +1,4 @@
-import { createTestHarness } from '../../test-utils/testHarness';
+import { componentTester } from '../../test-utils/componentTester';
 
 const setup = {
   component: {
@@ -23,13 +23,13 @@ const mockContext = {
 };
 
 describe('table', () => {
-  it('should render the table', createTestHarness(setup, (harness) => {
+  it('should render the table', componentTester(setup, (harness) => {
     harness.request(mockContext, ($) => {
       expect($('[data-test-id="table"]').length).toEqual(1);
     });
   }));
 
-  it('should render the table headings with correct classes if columnInfo is passed in', createTestHarness(setup, (harness) => {
+  it('should render the table headings with correct classes if columnInfo is passed in', componentTester(setup, (harness) => {
     harness.request(mockContext, ($) => {
       expect($('[data-test-id="table-headings"]').length).toEqual(1);
       mockContext.params.columnInfo.forEach((heading, i) => {
@@ -39,7 +39,7 @@ describe('table', () => {
     });
   }));
 
-  it('should not render the table headings if no data is passed in', createTestHarness(setup, (harness) => {
+  it('should not render the table headings if no data is passed in', componentTester(setup, (harness) => {
     const context = { params: { ...mockContext.params } };
     delete context.params.columnInfo;
 
@@ -49,7 +49,7 @@ describe('table', () => {
     });
   }));
 
-  it('should render the table rows with text and classes if data is passed in', createTestHarness(setup, (harness) => {
+  it('should render the table rows with text and classes if data is passed in', componentTester(setup, (harness) => {
     const context = { params: { ...mockContext.params } };
     harness.request(context, ($) => {
       context.params.data.forEach((row, rowIndex) => {
@@ -61,7 +61,7 @@ describe('table', () => {
     });
   }));
 
-  it('should not render the table rows if no data is passed in', createTestHarness(setup, (harness) => {
+  it('should not render the table rows if no data is passed in', componentTester(setup, (harness) => {
     const context = { params: { ...mockContext.params } };
     delete context.params.data;
 
@@ -70,7 +70,7 @@ describe('table', () => {
     });
   }));
 
-  it('should render <div> for data with no href property', createTestHarness(setup, (harness) => {
+  it('should render <div> for data with no href property', componentTester(setup, (harness) => {
     const context = {
       params: {
         ...mockContext.params,
@@ -93,7 +93,7 @@ describe('table', () => {
     });
   }));
 
-  it('should render <a> for data with href property', createTestHarness(setup, (harness) => {
+  it('should render <a> for data with href property', componentTester(setup, (harness) => {
     const context = {
       params: {
         ...mockContext.params,
@@ -123,7 +123,7 @@ describe('table', () => {
     });
   }));
 
-  it('should render tag component for columns with tag property', createTestHarness(setup, (harness) => {
+  it('should render tag component for columns with tag property', componentTester(setup, (harness) => {
     const context = {
       params: {
         ...mockContext.params,

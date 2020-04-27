@@ -1,4 +1,4 @@
-import { createTestHarness } from '../../test-utils/testHarness';
+import { componentTester } from '../../test-utils/componentTester';
 
 const setup = {
   template: {
@@ -16,7 +16,7 @@ const context = {
 
 
 describe('confirmation page', () => {
-  it('should render a backLink', createTestHarness(setup, (harness) => {
+  it('should render a backLink', componentTester(setup, (harness) => {
     harness.request(context, ($) => {
       const addUserConfirmationBackLink = $('[data-test-id="go-back-link"]');
       expect(addUserConfirmationBackLink.length).toEqual(1);
@@ -25,7 +25,7 @@ describe('confirmation page', () => {
     });
   }));
 
-  it('should render a title', createTestHarness(setup, (harness) => {
+  it('should render a title', componentTester(setup, (harness) => {
     harness.request(context, ($) => {
       const addUserConfirmationTitle = $('h1[data-test-id="add-user-confirmation-page-title"]');
       expect(addUserConfirmationTitle.length).toEqual(1);
@@ -33,7 +33,7 @@ describe('confirmation page', () => {
     });
   }));
 
-  it('should render a description', createTestHarness(setup, (harness) => {
+  it('should render a description', componentTester(setup, (harness) => {
     harness.request(context, ($) => {
       const addUserConfirmationDescription = $('[data-test-id="add-user-confirmation-page-description"]');
       expect(addUserConfirmationDescription.length).toEqual(1);

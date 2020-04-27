@@ -1,4 +1,4 @@
-import { createTestHarness } from '../../test-utils/testHarness';
+import { componentTester } from '../../test-utils/componentTester';
 import manifest from './manifest.json';
 
 const setup = {
@@ -56,7 +56,7 @@ const mockContext = {
 };
 
 describe('organisations dashboard page', () => {
-  it('should render a backLink to the dashboard page', createTestHarness(setup, (harness) => {
+  it('should render a backLink to the dashboard page', componentTester(setup, (harness) => {
     harness.request(mockContext, ($) => {
       const homepageBackLink = $('[data-test-id="go-back-link"]');
       expect(homepageBackLink.length).toEqual(1);
@@ -65,7 +65,7 @@ describe('organisations dashboard page', () => {
     });
   }));
 
-  it('should render a title', createTestHarness(setup, (harness) => {
+  it('should render a title', componentTester(setup, (harness) => {
     harness.request(mockContext, ($) => {
       const title = $('h1[data-test-id="org-page-title"]');
       expect(title.length).toEqual(1);
@@ -73,7 +73,7 @@ describe('organisations dashboard page', () => {
     });
   }));
 
-  it('should render a description', createTestHarness(setup, (harness) => {
+  it('should render a description', componentTester(setup, (harness) => {
     harness.request(mockContext, ($) => {
       const description = $('[data-test-id="org-page-description"]');
       expect(description.length).toEqual(1);
@@ -81,7 +81,7 @@ describe('organisations dashboard page', () => {
     });
   }));
 
-  it('should render a organisation details subheading', createTestHarness(setup, (harness) => {
+  it('should render a organisation details subheading', componentTester(setup, (harness) => {
     harness.request(mockContext, ($) => {
       const subheading = $('h3[data-test-id="organisation-details-subheading"]');
       expect(subheading.length).toEqual(1);
@@ -89,7 +89,7 @@ describe('organisations dashboard page', () => {
     });
   }));
 
-  it('should render an edit organisation button', createTestHarness(setup, (harness) => {
+  it('should render an edit organisation button', componentTester(setup, (harness) => {
     harness.request(mockContext, ($) => {
       const editOrgButton = $('[data-test-id="edit-org-button"] a');
       expect(editOrgButton.length).toEqual(1);
@@ -98,7 +98,7 @@ describe('organisations dashboard page', () => {
     });
   }));
 
-  it('should render ods code', createTestHarness(setup, (harness) => {
+  it('should render ods code', componentTester(setup, (harness) => {
     harness.request(mockContext, ($) => {
       const odsCodeHeading = $('[data-test-id="org-page-ods-code-heading"]');
       const odsCode = $('[data-test-id="org-page-ods-code"]');
@@ -109,7 +109,7 @@ describe('organisations dashboard page', () => {
     });
   }));
 
-  it('should render primary role id', createTestHarness(setup, (harness) => {
+  it('should render primary role id', componentTester(setup, (harness) => {
     harness.request(mockContext, ($) => {
       const primaryRoleIdHeading = $('[data-test-id="org-page-primary-role-id-heading"]');
       const primaryRoleId = $('[data-test-id="org-page-primary-role-id"]');
@@ -120,7 +120,7 @@ describe('organisations dashboard page', () => {
     });
   }));
 
-  it('should render address', createTestHarness(setup, (harness) => {
+  it('should render address', componentTester(setup, (harness) => {
     harness.request(mockContext, ($) => {
       const addressHeading = $('[data-test-id="org-page-address-heading"]');
       const address1 = $('[data-test-id="org-page-address-1"]');
@@ -140,7 +140,7 @@ describe('organisations dashboard page', () => {
     });
   }));
 
-  it('should render a agreement signed checked statement', createTestHarness(setup, (harness) => {
+  it('should render a agreement signed checked statement', componentTester(setup, (harness) => {
     harness.request(mockContext, ($) => {
       const agreementSigned = $('[data-test-id="agreement-signed-checked-statement"]');
       expect(agreementSigned.length).toEqual(1);
@@ -148,7 +148,7 @@ describe('organisations dashboard page', () => {
     });
   }));
 
-  it('should render an accounts subheading with org name', createTestHarness(setup, (harness) => {
+  it('should render an accounts subheading with org name', componentTester(setup, (harness) => {
     harness.request(mockContext, ($) => {
       const subheading = $('h3[data-test-id="accounts-subheading"]');
       expect(subheading.length).toEqual(1);
@@ -156,7 +156,7 @@ describe('organisations dashboard page', () => {
     });
   }));
 
-  it('should render an add user button', createTestHarness(setup, (harness) => {
+  it('should render an add user button', componentTester(setup, (harness) => {
     harness.request(mockContext, ($) => {
       const button = $('[data-test-id="add-user-button"] a');
       expect(button.length).toEqual(1);
@@ -165,7 +165,7 @@ describe('organisations dashboard page', () => {
     });
   }));
 
-  it('should render the table component with data', createTestHarness(setup, (harness) => {
+  it('should render the table component with data', componentTester(setup, (harness) => {
     harness.request(mockContext, ($) => {
       const userTable = $('[data-test-id="user-table"]');
       const columnHeading1 = userTable.find('[data-test-id="column-heading-0"]');

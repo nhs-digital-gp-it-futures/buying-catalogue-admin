@@ -1,4 +1,4 @@
-import { createTestHarness } from '../../test-utils/testHarness';
+import { componentTester } from '../../test-utils/componentTester';
 import manifest from './manifest.json';
 
 const setup = {
@@ -24,7 +24,7 @@ const mockContext = {
 };
 
 describe('editorg page', () => {
-  it('should render a backLink to the organisation page', createTestHarness(setup, (harness) => {
+  it('should render a backLink to the organisation page', componentTester(setup, (harness) => {
     harness.request(mockContext, ($) => {
       const homepageBackLink = $('[data-test-id="go-back-link"]');
       expect(homepageBackLink.length).toEqual(1);
@@ -33,7 +33,7 @@ describe('editorg page', () => {
     });
   }));
 
-  it('should render a title', createTestHarness(setup, (harness) => {
+  it('should render a title', componentTester(setup, (harness) => {
     harness.request(mockContext, ($) => {
       const title = $('h1[data-test-id="edit-org-page-title"]');
       expect(title.length).toEqual(1);
@@ -41,7 +41,7 @@ describe('editorg page', () => {
     });
   }));
 
-  it('should render a description', createTestHarness(setup, (harness) => {
+  it('should render a description', componentTester(setup, (harness) => {
     harness.request(mockContext, ($) => {
       const description = $('h2[data-test-id="edit-org-page-description"]');
       expect(description.length).toEqual(1);
@@ -49,7 +49,7 @@ describe('editorg page', () => {
     });
   }));
 
-  it('should render organisation ods code', createTestHarness(setup, (harness) => {
+  it('should render organisation ods code', componentTester(setup, (harness) => {
     harness.request(mockContext, ($) => {
       const heading = $('h3[data-test-id="organisation-ods-code-heading"]');
       const odsCode = $('div[data-test-id="organisation-ods-code"]');
@@ -60,7 +60,7 @@ describe('editorg page', () => {
     });
   }));
 
-  it('should render organisation name', createTestHarness(setup, (harness) => {
+  it('should render organisation name', componentTester(setup, (harness) => {
     harness.request(mockContext, ($) => {
       const heading = $('h3[data-test-id="organisation-name-heading"]');
       const orgName = $('div[data-test-id="organisation-name"]');
@@ -71,7 +71,7 @@ describe('editorg page', () => {
     });
   }));
 
-  it('should render address', createTestHarness(setup, (harness) => {
+  it('should render address', componentTester(setup, (harness) => {
     harness.request(mockContext, ($) => {
       const heading = $('h3[data-test-id="organisation-address-heading"]');
       const address = $('div[data-test-id="organisation-address"]');
@@ -96,7 +96,7 @@ describe('editorg page', () => {
     });
   }));
 
-  it('should render organisation primary role id', createTestHarness(setup, (harness) => {
+  it('should render organisation primary role id', componentTester(setup, (harness) => {
     harness.request(mockContext, ($) => {
       const heading = $('h3[data-test-id="organisation-primary-role-id-heading"]');
       const primaryRoleID = $('div[data-test-id="organisation-primary-role-id"]');
@@ -108,7 +108,7 @@ describe('editorg page', () => {
   }));
 
   describe('catalogue agreement signed checkbox', () => {
-    it('should render a checkbox input for catalogue agreement signed', createTestHarness(setup, (harness) => {
+    it('should render a checkbox input for catalogue agreement signed', componentTester(setup, (harness) => {
       harness.request(mockContext, ($) => {
         const checkboxInput = $('[data-test-id="catalogue-agreement-checkbox"] input');
         expect(checkboxInput.length).toEqual(1);
@@ -120,7 +120,7 @@ describe('editorg page', () => {
       });
     }));
 
-    it('should render a checkbox label for catalogue agreement signed', createTestHarness(setup, (harness) => {
+    it('should render a checkbox label for catalogue agreement signed', componentTester(setup, (harness) => {
       harness.request(mockContext, ($) => {
         const checkboxLabel = $('[data-test-id="catalogue-agreement-checkbox"] label');
         expect(checkboxLabel.length).toEqual(1);
@@ -129,7 +129,7 @@ describe('editorg page', () => {
       });
     }));
 
-    it('should check the checkbox if agreementSigned is true', createTestHarness(setup, (harness) => {
+    it('should check the checkbox if agreementSigned is true', componentTester(setup, (harness) => {
       const agreementSignedMockContext = { ...mockContext, agreementSigned: true };
       harness.request(agreementSignedMockContext, ($) => {
         const checkboxInput = $('[data-test-id="catalogue-agreement-checkbox"] input');
@@ -139,7 +139,7 @@ describe('editorg page', () => {
     }));
   });
 
-  it('should render save button', createTestHarness(setup, (harness) => {
+  it('should render save button', componentTester(setup, (harness) => {
     harness.request(mockContext, ($) => {
       const saveButton = $('[data-test-id="save-button"] button');
       expect(saveButton.length).toEqual(1);
@@ -148,7 +148,7 @@ describe('editorg page', () => {
     });
   }));
 
-  it('should create form element with correct action', createTestHarness(setup, (harness) => {
+  it('should create form element with correct action', componentTester(setup, (harness) => {
     harness.request(mockContext, ($) => {
       const formElement = $('form');
       expect(formElement.length).toEqual(1);
@@ -156,7 +156,7 @@ describe('editorg page', () => {
     });
   }));
 
-  it('should render hidden input with csrf token', createTestHarness(setup, (harness) => {
+  it('should render hidden input with csrf token', componentTester(setup, (harness) => {
     harness.request(mockContext, ($) => {
       const formElement = $('input[name=_csrf]');
       expect(formElement.length).toEqual(1);

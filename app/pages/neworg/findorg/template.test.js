@@ -1,4 +1,4 @@
-import { createTestHarness } from '../../../test-utils/testHarness';
+import { componentTester } from '../../../test-utils/componentTester';
 import context from './manifest.json';
 
 context.backLinkHref = '/organisations';
@@ -15,7 +15,7 @@ const mockContext = {
 };
 
 describe('add org page', () => {
-  it('should render a backLink', createTestHarness(setup, (harness) => {
+  it('should render a backLink', componentTester(setup, (harness) => {
     harness.request(mockContext, ($) => {
       const backLink = $('[data-test-id="go-back-link"]');
       expect(backLink.length).toEqual(1);
@@ -24,7 +24,7 @@ describe('add org page', () => {
     });
   }));
 
-  it('should render a title', createTestHarness(setup, (harness) => {
+  it('should render a title', componentTester(setup, (harness) => {
     harness.request(mockContext, ($) => {
       const title = $('h1[data-test-id="find-org-page-title"]');
       expect(title.length).toEqual(1);
@@ -32,7 +32,7 @@ describe('add org page', () => {
     });
   }));
 
-  it('should render a description', createTestHarness(setup, (harness) => {
+  it('should render a description', componentTester(setup, (harness) => {
     harness.request(mockContext, ($) => {
       const description = $('[data-test-id="find-org-page-description"]');
       expect(description.length).toEqual(1);
@@ -41,7 +41,7 @@ describe('add org page', () => {
   }));
 
   describe('form field', () => {
-    it('should render a label', createTestHarness(setup, (harness) => {
+    it('should render a label', componentTester(setup, (harness) => {
       harness.request(mockContext, ($) => {
         const label = $('label');
         expect(label[0].attribs.for).toEqual(mockContext.questions[0].id);
@@ -49,7 +49,7 @@ describe('add org page', () => {
       });
     }));
 
-    it('should render a textField', createTestHarness(setup, (harness) => {
+    it('should render a textField', componentTester(setup, (harness) => {
       harness.request(mockContext, ($) => {
         const input = $('input:not([name=_csrf])');
         expect(input[0].attribs.id).toEqual(mockContext.questions[0].id);
@@ -59,7 +59,7 @@ describe('add org page', () => {
     }));
   });
 
-  it('should render hidden input with csrf token', createTestHarness(setup, (harness) => {
+  it('should render hidden input with csrf token', componentTester(setup, (harness) => {
     harness.request(mockContext, ($) => {
       const formElement = $('input[name=_csrf]');
       expect(formElement.length).toEqual(1);
@@ -68,7 +68,7 @@ describe('add org page', () => {
     });
   }));
 
-  it('should render a continue button', createTestHarness(setup, (harness) => {
+  it('should render a continue button', componentTester(setup, (harness) => {
     harness.request(mockContext, ($) => {
       const button = $('[data-test-id="continue-button"] button');
       expect(button.length).toEqual(1);
