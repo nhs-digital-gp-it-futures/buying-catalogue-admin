@@ -1,4 +1,4 @@
-import { createTestHarness } from '../../../test-utils/testHarness';
+import { componentTester } from '../../../test-utils/componentTester';
 import context from './manifest.json';
 import mockOrgDetails from '../../../test-utils/fixtures/organisationDetails.json';
 import { extractObjectValuesToArray } from '../../../helpers/contextCreatorHelper';
@@ -19,7 +19,7 @@ const mockContext = {
 };
 
 describe('select org page', () => {
-  it('should render a backLink', createTestHarness(setup, (harness) => {
+  it('should render a backLink', componentTester(setup, (harness) => {
     harness.request(context, ($) => {
       const backLink = $('[data-test-id="go-back-link"]');
       expect(backLink.length).toEqual(1);
@@ -28,7 +28,7 @@ describe('select org page', () => {
     });
   }));
 
-  it('should render a title', createTestHarness(setup, (harness) => {
+  it('should render a title', componentTester(setup, (harness) => {
     harness.request(context, ($) => {
       const title = $('h1[data-test-id="select-org-page-title"]');
       expect(title.length).toEqual(1);
@@ -36,7 +36,7 @@ describe('select org page', () => {
     });
   }));
 
-  it('should render a description', createTestHarness(setup, (harness) => {
+  it('should render a description', componentTester(setup, (harness) => {
     harness.request(context, ($) => {
       const description = $('[data-test-id="select-org-page-description"]');
       expect(description.length).toEqual(1);
@@ -44,7 +44,7 @@ describe('select org page', () => {
     });
   }));
 
-  it('should render organisation ods code', createTestHarness(setup, (harness) => {
+  it('should render organisation ods code', componentTester(setup, (harness) => {
     harness.request(mockContext, ($) => {
       const heading = $('h3[data-test-id="organisation-ods-code-heading"]');
       const odsCode = $('div[data-test-id="organisation-ods-code"]');
@@ -55,7 +55,7 @@ describe('select org page', () => {
     });
   }));
 
-  it('should render organisation name', createTestHarness(setup, (harness) => {
+  it('should render organisation name', componentTester(setup, (harness) => {
     harness.request(mockContext, ($) => {
       const heading = $('h3[data-test-id="organisation-name-heading"]');
       const orgName = $('div[data-test-id="organisation-name"]');
@@ -66,7 +66,7 @@ describe('select org page', () => {
     });
   }));
 
-  it('should render address', createTestHarness(setup, (harness) => {
+  it('should render address', componentTester(setup, (harness) => {
     harness.request(mockContext, ($) => {
       const heading = $('h3[data-test-id="organisation-address-heading"]');
       const address = $('div[data-test-id="organisation-address"]');
@@ -91,7 +91,7 @@ describe('select org page', () => {
     });
   }));
 
-  it('should render organisation primary role id', createTestHarness(setup, (harness) => {
+  it('should render organisation primary role id', componentTester(setup, (harness) => {
     harness.request(mockContext, ($) => {
       const heading = $('h3[data-test-id="organisation-primary-role-id-heading"]');
       const primaryRoleID = $('div[data-test-id="organisation-primary-role-id"]');
@@ -102,7 +102,7 @@ describe('select org page', () => {
     });
   }));
 
-  it('should render hidden input with csrf token', createTestHarness(setup, (harness) => {
+  it('should render hidden input with csrf token', componentTester(setup, (harness) => {
     harness.request(mockContext, ($) => {
       const formElement = $('input[name=_csrf]');
       expect(formElement.length).toEqual(1);
@@ -111,7 +111,7 @@ describe('select org page', () => {
     });
   }));
 
-  it('should render hidden input with odsCode', createTestHarness(setup, (harness) => {
+  it('should render hidden input with odsCode', componentTester(setup, (harness) => {
     harness.request(mockContext, ($) => {
       const formElement = $('input[name=odsCode]');
       expect(formElement.length).toEqual(1);
@@ -120,7 +120,7 @@ describe('select org page', () => {
     });
   }));
 
-  it('should render a select org button', createTestHarness(setup, (harness) => {
+  it('should render a select org button', componentTester(setup, (harness) => {
     harness.request(context, ($) => {
       const button = $('[data-test-id="select-org-button"] button');
       expect(button.length).toEqual(1);

@@ -1,4 +1,4 @@
-import { createTestHarness } from '../../test-utils/testHarness';
+import { componentTester } from '../../test-utils/componentTester';
 import manifest from './manifest.json';
 
 const setup = {
@@ -27,7 +27,7 @@ const mockContext = {
 };
 
 describe('viewuser page', () => {
-  it('should render a backLink to the organisation page', createTestHarness(setup, (harness) => {
+  it('should render a backLink to the organisation page', componentTester(setup, (harness) => {
     harness.request(mockContext, ($) => {
       const homepageBackLink = $('[data-test-id="go-back-link"]');
       expect(homepageBackLink.length).toEqual(1);
@@ -36,7 +36,7 @@ describe('viewuser page', () => {
     });
   }));
 
-  it('should render a title', createTestHarness(setup, (harness) => {
+  it('should render a title', componentTester(setup, (harness) => {
     harness.request(mockContext, ($) => {
       const title = $('h1[data-test-id="view-user-page-title"]');
       expect(title.length).toEqual(1);
@@ -44,7 +44,7 @@ describe('viewuser page', () => {
     });
   }));
 
-  it('should render organisation name', createTestHarness(setup, (harness) => {
+  it('should render organisation name', componentTester(setup, (harness) => {
     harness.request(mockContext, ($) => {
       const heading = $('h2[data-test-id="organisation-name-heading"]');
       const orgName = $('div[data-test-id="organisation-name"]');
@@ -55,7 +55,7 @@ describe('viewuser page', () => {
     });
   }));
 
-  it('should render user name', createTestHarness(setup, (harness) => {
+  it('should render user name', componentTester(setup, (harness) => {
     harness.request(mockContext, ($) => {
       const heading = $('h2[data-test-id="user-name-heading"]');
       const userName = $('div[data-test-id="user-name"]');
@@ -66,7 +66,7 @@ describe('viewuser page', () => {
     });
   }));
 
-  it('should render contact details', createTestHarness(setup, (harness) => {
+  it('should render contact details', componentTester(setup, (harness) => {
     harness.request(mockContext, ($) => {
       const heading = $('h2[data-test-id="user-contact-details-heading"]');
       const contactDetails = $('div[data-test-id="user-contact-details"]');
@@ -77,7 +77,7 @@ describe('viewuser page', () => {
     });
   }));
 
-  it('should render email address', createTestHarness(setup, (harness) => {
+  it('should render email address', componentTester(setup, (harness) => {
     harness.request(mockContext, ($) => {
       const heading = $('h2[data-test-id="user-email-heading"]');
       const emailAddress = $('div[data-test-id="user-email"]');
@@ -88,7 +88,7 @@ describe('viewuser page', () => {
     });
   }));
 
-  it('should render an edit user button', createTestHarness(setup, (harness) => {
+  it('should render an edit user button', componentTester(setup, (harness) => {
     harness.request(mockContext, ($) => {
       const editUserButton = $('[data-test-id="edit-user-button"] a');
       expect(editUserButton.length).toEqual(1);
@@ -97,7 +97,7 @@ describe('viewuser page', () => {
     });
   }));
 
-  it('should render a change account status button', createTestHarness(setup, (harness) => {
+  it('should render a change account status button', componentTester(setup, (harness) => {
     harness.request(mockContext, ($) => {
       const changeAccountStatusButton = $('[data-test-id="change-account-status-button"] button');
       expect(changeAccountStatusButton.length).toEqual(1);
@@ -106,7 +106,7 @@ describe('viewuser page', () => {
     });
   }));
 
-  it('should create form element with correct action', createTestHarness(setup, (harness) => {
+  it('should create form element with correct action', componentTester(setup, (harness) => {
     harness.request(mockContext, ($) => {
       const formElement = $('form');
       expect(formElement.length).toEqual(1);
@@ -114,7 +114,7 @@ describe('viewuser page', () => {
     });
   }));
 
-  it('should render hidden input with csrf token', createTestHarness(setup, (harness) => {
+  it('should render hidden input with csrf token', componentTester(setup, (harness) => {
     harness.request(mockContext, ($) => {
       const formElement = $('input[name=_csrf]');
       expect(formElement.length).toEqual(1);
