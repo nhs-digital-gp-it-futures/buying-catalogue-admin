@@ -2,7 +2,7 @@ import { ErrorContext, getData, putData } from 'buying-catalogue-library';
 import { getEditOrgContext, putUpdateOrganisation } from './controller';
 import * as contextCreator from './contextCreator';
 import { logger } from '../../logger';
-import { identityServerUrl, organisationApiUrl } from '../../config';
+import { organisationApiUrl } from '../../config';
 
 
 jest.mock('buying-catalogue-library');

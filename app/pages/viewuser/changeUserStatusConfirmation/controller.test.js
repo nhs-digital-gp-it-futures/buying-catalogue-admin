@@ -2,7 +2,7 @@ import { getData } from 'buying-catalogue-library';
 import { getUserStatusContext } from './controller';
 import * as contextCreator from './contextCreator';
 import { logger } from '../../../logger';
-import { identityServerUrl, organisationApiUrl } from '../../../config';
+import { identityServerUrl } from '../../../config';
 
 
 jest.mock('buying-catalogue-library');

@@ -298,16 +298,14 @@ describe('routes', () => {
       checkAuthorisedRouteWithoutClaim(path)
     ));
 
-    it('should return the correct status and text when the user is authorised', () => {
-      return request(setUpFakeApp())
-        .get(path)
-        .set('Cookie', [mockAuthorisedCookie])
-        .expect(200)
-        .then((res) => {
-          expect(res.text.includes('data-test-id="mock-confirmation-page"')).toEqual(true);
-          expect(res.text.includes('data-test-id="error-title"')).toEqual(false);
-        });
-    });
+    it('should return the correct status and text when the user is authorised', () => request(setUpFakeApp())
+      .get(path)
+      .set('Cookie', [mockAuthorisedCookie])
+      .expect(200)
+      .then((res) => {
+        expect(res.text.includes('data-test-id="mock-confirmation-page"')).toEqual(true);
+        expect(res.text.includes('data-test-id="error-title"')).toEqual(false);
+      }));
   });
 
   describe('POST /organisations/:organisationId/:userId/disable', () => {
