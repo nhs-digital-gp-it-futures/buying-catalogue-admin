@@ -1,13 +1,12 @@
-import { ErrorContext } from 'buying-catalogue-library';
+import { ErrorContext, getData } from 'buying-catalogue-library';
 import { getSelectOrgContext } from './controller';
-import * as apiProvider from '../../../apiProvider';
 import * as contextCreator from './contextCreator';
+import { logger } from '../../../logger';
+import { organisationApiUrl } from '../../../config';
+
 
 jest.mock('../../../logger');
-jest.mock('../../../apiProvider', () => ({
-  getData: jest.fn(),
-  postData: jest.fn(),
-}));
+jest.mock('buying-catalogue-library');
 
 jest.mock('./contextCreator', () => ({
   getContext: jest.fn(),
@@ -37,20 +36,20 @@ describe('create org confirmation page controller', () => {
     const odsCode = 'abc';
 
     afterEach(() => {
-      apiProvider.getData.mockReset();
+      getData.mockReset();
       contextCreator.getContext.mockReset();
     });
 
     it('should call getData once with the correct params', async () => {
-      apiProvider.getData
+      getData
         .mockResolvedValueOnce(mockOrgData);
       await getSelectOrgContext({ odsCode, accessToken });
-      expect(apiProvider.getData.mock.calls.length).toEqual(1);
-      expect(apiProvider.getData).toHaveBeenCalledWith({ endpointLocator: 'getOrgByOdsCode', options: { odsCode }, accessToken });
+      expect(getData.mock.calls.length).toEqual(1);
+      expect(getData).toHaveBeenCalledWith({ endpoint: `${organisationApiUrl}/api/v1/ods/abc`, accessToken, logger });
     });
 
     it('should call getContext with the correct params when user data is returned by the apiProvider', async () => {
-      apiProvider.getData
+      getData
         .mockResolvedValueOnce(mockOrgData);
       contextCreator.getContext
         .mockResolvedValueOnce();
@@ -62,7 +61,7 @@ describe('create org confirmation page controller', () => {
     });
 
     it('should throw an error when no user data is returned from the apiProvider', async () => {
-      apiProvider.getData
+      getData
         .mockResolvedValueOnce();
       try {
         await getSelectOrgContext({ odsCode, accessToken });

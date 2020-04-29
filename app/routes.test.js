@@ -4,25 +4,36 @@ import { App } from './app';
 import { routes } from './routes';
 import { baseUrl } from './config';
 import { getCsrfTokenFromGet, setFakeCookie } from './test-utils/helper';
-import * as orgDashboardContext from './pages/dashboard/controller';
-import * as addUserContext from './pages/adduser/controller';
-import * as userStatusContext from './pages/viewuser/changeUserStatusConfirmation/controller';
+import * as addUserConfirmationController from './pages/adduser/confirmation/controller';
+import * as addUserController from './pages/adduser/controller';
+import * as userStatusController from './pages/viewuser/changeUserStatusConfirmation/controller';
+import * as dashboardController from './pages/dashboard/controller';
+import * as viewUserController from './pages/viewuser/controller';
 
 jest.mock('./logger');
 
-jest.mock('./apiProvider', () => ({
-  getData: jest.fn()
-    .mockImplementation(() => Promise.resolve({})),
-  postData: jest.fn()
-    .mockImplementation(() => Promise.resolve({ success: true })),
-  putData: jest.fn()
-    .mockImplementation(() => Promise.resolve({ success: true })),
-}));
-
 const mockLogoutMethod = jest.fn().mockImplementation(() => Promise.resolve({}));
 
-addUserContext.postAddUser = jest.fn()
-  .mockImplementation(() => Promise.resolve({ success: true }));
+userStatusController.getUserStatusContext = jest.fn()
+  .mockResolvedValue({ dataTestId: 'mock-confirmation' });
+
+addUserController.postAddUser = jest.fn()
+  .mockResolvedValue({ success: true });
+
+addUserController.getAddUserContext = jest.fn()
+  .mockResolvedValue({});
+
+addUserConfirmationController.getAddUserConfirmationContext = jest.fn()
+  .mockResolvedValue({ dataTestId: 'add-user-confirmation' });
+
+dashboardController.getOrgDashboardContext = jest.fn()
+  .mockResolvedValue({});
+
+viewUserController.postUserStatus = jest.fn()
+  .mockResolvedValue({ success: true });
+
+viewUserController.getViewUserContext = jest.fn()
+  .mockResolvedValue({});
 
 const mockAuthorisedJwtPayload = JSON.stringify({
   id: '88421113', name: 'Cool Dude', organisation: 'view',
@@ -231,18 +242,14 @@ describe('routes', () => {
       checkAuthorisedRouteWithoutClaim(path)
     ));
 
-    it('should return the correct status and text when the user is authorised', () => {
-      userStatusContext.getUserStatusContext = jest.fn()
-        .mockImplementation(() => ({ dataTestId: 'mock-confirmation' }));
-      return request(setUpFakeApp())
-        .get(path)
-        .set('Cookie', [mockAuthorisedCookie])
-        .expect(200)
-        .then((res) => {
-          expect(res.text.includes('data-test-id="mock-confirmation-page"')).toEqual(true);
-          expect(res.text.includes('data-test-id="error-title"')).toEqual(false);
-        });
-    });
+    it('should return the correct status and text when the user is authorised', () => request(setUpFakeApp())
+      .get(path)
+      .set('Cookie', [mockAuthorisedCookie])
+      .expect(200)
+      .then((res) => {
+        expect(res.text.includes('data-test-id="mock-confirmation-page"')).toEqual(true);
+        expect(res.text.includes('data-test-id="error-title"')).toEqual(false);
+      }));
   });
 
   describe('POST /organisations/:organisationId/:userId/enable', () => {
@@ -292,8 +299,6 @@ describe('routes', () => {
     ));
 
     it('should return the correct status and text when the user is authorised', () => {
-      userStatusContext.getUserStatusContext = jest.fn()
-        .mockImplementation(() => ({ dataTestId: 'mock-confirmation' }));
       return request(setUpFakeApp())
         .get(path)
         .set('Cookie', [mockAuthorisedCookie])
@@ -364,7 +369,7 @@ describe('routes', () => {
     const path = '/organisations/org1/adduser';
 
     afterEach(() => {
-      addUserContext.postAddUser.mockReset();
+      addUserController.postAddUser.mockReset();
     });
 
     it('should return 403 forbidden if no csrf token is available', async () => {
@@ -380,7 +385,7 @@ describe('routes', () => {
     });
 
     it('should return the correct status and text if response.success is true', async () => {
-      addUserContext.postAddUser = jest.fn()
+      addUserController.postAddUser = jest.fn()
         .mockImplementation(() => Promise.resolve({ success: true, id: 'user1' }));
 
       const { cookies, csrfToken } = await getCsrfTokenFromGet(
@@ -404,10 +409,10 @@ describe('routes', () => {
     });
 
     it('should return the correct status and text if response.success is false', async () => {
-      addUserContext.postAddUser = jest.fn()
+      addUserController.postAddUser = jest.fn()
         .mockImplementation(() => Promise.resolve({ success: false }));
 
-      addUserContext.getAddUserPageErrorContext = jest.fn()
+      addUserController.getAddUserPageErrorContext = jest.fn()
         .mockImplementation(() => Promise.resolve({
           errors: [{ text: 'Last name too long', href: '#lastName' }],
         }));
@@ -428,7 +433,7 @@ describe('routes', () => {
           expect(res.text.includes('data-test-id="add-user-page"')).toEqual(true);
           expect(res.text.includes('data-test-id="error-summary"')).toEqual(true);
           expect(res.text.includes('data-test-id="error-title"')).toEqual(false);
-          addUserContext.getAddUserPageErrorContext.mockReset();
+          addUserController.getAddUserPageErrorContext.mockReset();
         });
     });
   });
@@ -444,19 +449,14 @@ describe('routes', () => {
       checkAuthorisedRouteWithoutClaim(path)
     ));
 
-    it('should return the correct status and text when the user is authorised', () => {
-      orgDashboardContext.getOrgDashboardContext = jest.fn()
-        .mockImplementation(() => ({ dataTestId: 'add-user-confirmation' }));
-
-      return request(setUpFakeApp())
-        .get(path)
-        .set('Cookie', [mockAuthorisedCookie])
-        .expect(200)
-        .then((res) => {
-          expect(res.text.includes('data-test-id="add-user-confirmation-page"')).toEqual(true);
-          expect(res.text.includes('data-test-id="error-title"')).toEqual(false);
-        });
-    });
+    it('should return the correct status and text when the user is authorised', () => request(setUpFakeApp())
+      .get(path)
+      .set('Cookie', [mockAuthorisedCookie])
+      .expect(200)
+      .then((res) => {
+        expect(res.text.includes('data-test-id="add-user-confirmation-page"')).toEqual(true);
+        expect(res.text.includes('data-test-id="error-title"')).toEqual(false);
+      }));
   });
 
   describe('GET *', () => {

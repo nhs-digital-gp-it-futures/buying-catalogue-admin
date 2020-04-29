@@ -1,13 +1,13 @@
-import { ErrorContext } from 'buying-catalogue-library';
+import { ErrorContext, getData, postData } from 'buying-catalogue-library';
 import { getCreateOrgContext, postAddOrg } from './controller';
-import * as apiProvider from '../../../apiProvider';
 import * as contextCreator from './contextCreator';
+import { logger } from '../../../logger';
+import { organisationApiUrl } from '../../../config';
+
 
 jest.mock('../../../logger');
-jest.mock('../../../apiProvider', () => ({
-  getData: jest.fn(),
-  postData: jest.fn(),
-}));
+
+jest.mock('buying-catalogue-library');
 
 jest.mock('./contextCreator', () => ({
   getContext: jest.fn(),
@@ -37,20 +37,20 @@ describe('create org confirmation page controller', () => {
     const odsCode = 'abc';
 
     afterEach(() => {
-      apiProvider.getData.mockReset();
+      getData.mockReset();
       contextCreator.getContext.mockReset();
     });
 
     it('should call getData once with the correct params', async () => {
-      apiProvider.getData
+      getData
         .mockResolvedValueOnce(mockOrgData);
       await getCreateOrgContext({ odsCode, accessToken });
-      expect(apiProvider.getData.mock.calls.length).toEqual(1);
-      expect(apiProvider.getData).toHaveBeenCalledWith({ endpointLocator: 'getOrgByOdsCode', options: { odsCode }, accessToken });
+      expect(getData.mock.calls.length).toEqual(1);
+      expect(getData).toHaveBeenCalledWith({ endpoint: `${organisationApiUrl}/api/v1/ods/abc`, accessToken, logger });
     });
 
     it('should call getContext with the correct params when user data is returned by the apiProvider', async () => {
-      apiProvider.getData
+      getData
         .mockResolvedValueOnce(mockOrgData);
       contextCreator.getContext
         .mockResolvedValueOnce();
@@ -62,7 +62,7 @@ describe('create org confirmation page controller', () => {
     });
 
     it('should throw an error when no user data is returned from the apiProvider', async () => {
-      apiProvider.getData
+      getData
         .mockResolvedValueOnce();
       try {
         await getCreateOrgContext({ odsCode, accessToken });
@@ -80,41 +80,42 @@ describe('create org confirmation page controller', () => {
     const odsCode = 'abc';
 
     afterEach(() => {
-      apiProvider.getData.mockReset();
-      apiProvider.postData.mockReset();
+      getData.mockReset();
+      postData.mockReset();
     });
 
     it('should call getData once with the correct params', async () => {
-      apiProvider.getData
+      getData
         .mockResolvedValueOnce(mockOrgData);
       await getCreateOrgContext({ odsCode, accessToken });
-      expect(apiProvider.getData.mock.calls.length).toEqual(1);
-      expect(apiProvider.getData).toHaveBeenCalledWith({ endpointLocator: 'getOrgByOdsCode', options: { odsCode }, accessToken });
+      expect(getData.mock.calls.length).toEqual(1);
+      expect(getData).toHaveBeenCalledWith({ endpoint: `${organisationApiUrl}/api/v1/ods/abc`, accessToken, logger });
     });
 
     it('should call postData once with the correct params when catalogue agreement is signed', async () => {
-      apiProvider.getData
+      getData
         .mockResolvedValueOnce(mockOrgData);
-      apiProvider.postData
+      postData
         .mockResolvedValueOnce({ data: { id: 'org1' } });
 
       await postAddOrg({ odsCode, data: { odsCode, catalogueAgreementSigned: 'catalogueAgreementSigned' }, accessToken });
 
-      expect(apiProvider.getData.mock.calls.length).toEqual(1);
-      expect(apiProvider.getData).toHaveBeenCalledWith({ endpointLocator: 'getOrgByOdsCode', options: { odsCode }, accessToken });
-      expect(apiProvider.postData.mock.calls.length).toEqual(1);
-      expect(apiProvider.postData).toHaveBeenCalledWith({
-        endpointLocator: 'postAddOrg',
+      expect(getData.mock.calls.length).toEqual(1);
+      expect(getData).toHaveBeenCalledWith({ endpoint: `${organisationApiUrl}/api/v1/ods/abc`, accessToken, logger });
+      expect(postData.mock.calls.length).toEqual(1);
+      expect(postData).toHaveBeenCalledWith({
+        endpoint: `${organisationApiUrl}/api/v1/Organisations`,
         body: {
           ...mockOrgData,
           catalogueAgreementSigned: true,
         },
         accessToken,
+        logger,
       });
     });
 
     it('should return success as true and the orgId if api request is successful', async () => {
-      apiProvider.postData
+      postData
         .mockResolvedValueOnce({ data: { organisationId: 'org1' } });
 
       const response = await postAddOrg({ odsCode, data: { odsCode }, accessToken });
@@ -125,7 +126,7 @@ describe('create org confirmation page controller', () => {
 
     it('should return success as false with errors if api request is unsuccessful', async () => {
       const mockError = { id: 'error' };
-      apiProvider.postData
+      postData
         .mockRejectedValueOnce({ response: { status: 400, data: { errors: [mockError] } } });
 
       const response = await postAddOrg({ odsCode, data: { odsCode }, accessToken });
@@ -134,7 +135,7 @@ describe('create org confirmation page controller', () => {
     });
 
     it('should throw an error if api request is unsuccessful', async () => {
-      apiProvider.postData
+      postData
         .mockRejectedValueOnce({ response: { status: 500, data: '500 response data' } });
 
       try {

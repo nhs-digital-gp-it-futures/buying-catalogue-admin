@@ -1,11 +1,11 @@
-import { ErrorContext } from 'buying-catalogue-library';
+import { ErrorContext, getData } from 'buying-catalogue-library';
 import { getOrgDashboardContext } from './controller';
-import * as apiProvider from '../../apiProvider';
 import * as contextCreator from './contextCreator';
+import { logger } from '../../logger';
+import { organisationApiUrl } from '../../config';
 
-jest.mock('../../apiProvider', () => ({
-  getData: jest.fn(),
-}));
+
+jest.mock('buying-catalogue-library');
 
 jest.mock('./contextCreator', () => ({
   getContext: jest.fn(),
@@ -34,24 +34,25 @@ const mockOrganisationsData = {
 describe('dashboard controller', () => {
   describe('getAddUserContext', () => {
     afterEach(() => {
-      apiProvider.getData.mockReset();
+      getData.mockReset();
       contextCreator.getContext.mockReset();
     });
 
     it('should call getData once with the correct params', async () => {
-      apiProvider.getData
+      getData
         .mockResolvedValueOnce(mockOrganisationsData);
 
       await getOrgDashboardContext({ organisationId: 1, accessToken: 'access_token' });
-      expect(apiProvider.getData.mock.calls.length).toEqual(1);
-      expect(apiProvider.getData).toHaveBeenCalledWith({
-        endpointLocator: 'getOrganisations',
+      expect(getData.mock.calls.length).toEqual(1);
+      expect(getData).toHaveBeenCalledWith({
+        endpoint: `${organisationApiUrl}/api/v1/Organisations`,
         accessToken: 'access_token',
+        logger,
       });
     });
 
     it('should call getContext with the correct params when organisations data is returned by the apiProvider', async () => {
-      apiProvider.getData
+      getData
         .mockResolvedValueOnce(mockOrganisationsData);
       contextCreator.getContext
         .mockResolvedValueOnce();
@@ -63,7 +64,7 @@ describe('dashboard controller', () => {
     });
 
     it('should throw an error when no data is returned from the apiProvider', async () => {
-      apiProvider.getData
+      getData
         .mockResolvedValueOnce();
 
       try {

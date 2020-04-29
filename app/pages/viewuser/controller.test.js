@@ -1,12 +1,11 @@
-import { ErrorContext } from 'buying-catalogue-library';
+import { ErrorContext, getData, postData } from 'buying-catalogue-library';
 import { getViewUserContext, postUserStatus } from './controller';
-import * as apiProvider from '../../apiProvider';
 import * as contextCreator from './contextCreator';
+import { logger } from '../../logger';
+import { identityServerUrl, organisationApiUrl } from '../../config';
 
-jest.mock('../../apiProvider', () => ({
-  getData: jest.fn(),
-  postData: jest.fn(),
-}));
+
+jest.mock('buying-catalogue-library');
 
 jest.mock('./contextCreator', () => ({
   getContext: jest.fn(),
@@ -40,31 +39,31 @@ const mockOrgData = {
 describe('viewuser controller', () => {
   describe('getViewUserContext', () => {
     afterEach(() => {
-      apiProvider.getData.mockReset();
+      getData.mockReset();
       contextCreator.getContext.mockReset();
     });
 
     it('should call getData twice with the correct params', async () => {
-      apiProvider.getData
+      getData
         .mockResolvedValueOnce(mockUserData)
         .mockResolvedValueOnce(mockOrgData);
 
       await getViewUserContext({ userId: 1, organisationId: 2, accessToken: 'access_token' });
-      expect(apiProvider.getData.mock.calls.length).toEqual(2);
-      expect(apiProvider.getData).toHaveBeenNthCalledWith(1, {
-        endpointLocator: 'getUserById',
-        options: { userId: 1 },
+      expect(getData.mock.calls.length).toEqual(2);
+      expect(getData).toHaveBeenNthCalledWith(1, {
+        endpoint: `${identityServerUrl}/api/v1/Users/1`,
         accessToken: 'access_token',
+        logger,
       });
-      expect(apiProvider.getData).toHaveBeenNthCalledWith(2, {
-        endpointLocator: 'getOrgById',
-        options: { organisationId: 2 },
+      expect(getData).toHaveBeenNthCalledWith(2, {
+        endpoint: `${organisationApiUrl}/api/v1/Organisations/2`,
         accessToken: 'access_token',
+        logger,
       });
     });
 
     it('should call getContext with the correct params when user and org data is returned by the apiProvider', async () => {
-      apiProvider.getData
+      getData
         .mockResolvedValueOnce(mockUserData)
         .mockResolvedValueOnce(mockOrgData);
       contextCreator.getContext
@@ -79,7 +78,7 @@ describe('viewuser controller', () => {
     });
 
     it('should throw an error when no user data is returned from the apiProvider', async () => {
-      apiProvider.getData
+      getData
         .mockResolvedValueOnce()
         .mockResolvedValueOnce(mockOrgData);
 
@@ -96,28 +95,25 @@ describe('viewuser controller', () => {
 
   describe('postAddUser', () => {
     afterEach(() => {
-      apiProvider.postData.mockReset();
+      postData.mockReset();
     });
 
     it('should call postUserStatus once with the correct params', async () => {
-      apiProvider.postData
+      postData
         .mockResolvedValueOnce({});
 
       await postUserStatus({ userId: 'user1', accessToken: 'access_token', status: 'enable' });
 
-      expect(apiProvider.postData.mock.calls.length).toEqual(1);
-      expect(apiProvider.postData).toHaveBeenCalledWith({
-        endpointLocator: 'postUserStatus',
-        options: {
-          userId: 'user1',
-          status: 'enable',
-        },
+      expect(postData.mock.calls.length).toEqual(1);
+      expect(postData).toHaveBeenCalledWith({
+        endpoint: `${identityServerUrl}/api/v1/Users/user1/enable`,
         accessToken: 'access_token',
+        logger,
       });
     });
 
     it('should return true if api request is successful', async () => {
-      apiProvider.postData
+      postData
         .mockResolvedValueOnce({});
 
       const response = await postUserStatus({ userId: 1, accessToken: 'access_token', status: 'enable' });
@@ -126,7 +122,7 @@ describe('viewuser controller', () => {
     });
 
     it('should throw an error if api request is unsuccessful', async () => {
-      apiProvider.postData
+      postData
         .mockRejectedValueOnce({ response: { status: 500 } });
 
       try {

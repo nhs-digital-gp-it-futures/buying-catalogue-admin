@@ -1,11 +1,12 @@
-import { ErrorContext } from 'buying-catalogue-library';
-import { getData, putData } from '../../apiProvider';
+import { ErrorContext, getData, putData } from 'buying-catalogue-library';
 import { getContext } from './contextCreator';
 import { logger } from '../../logger';
+import { getEndpoint } from '../../endpoints';
 
 export const getEditOrgContext = async ({ organisationId, accessToken }) => {
-  const options = { organisationId };
-  const organisation = await getData({ endpointLocator: 'getOrgById', options, accessToken });
+  const endpoint = getEndpoint({ endpointLocator: 'getOrgById', options: { organisationId } });
+
+  const organisation = await getData({ endpoint, accessToken, logger });
   if (organisation) {
     logger.info(`Organisation ${organisation.name} (${organisationId}) returned`);
     return getContext({ organisation });
@@ -17,16 +18,18 @@ export const getEditOrgContext = async ({ organisationId, accessToken }) => {
 };
 
 export const putUpdateOrganisation = async ({ organisationId, body, accessToken }) => {
+  const endpoint = getEndpoint({ endpointLocator: 'putUpdateOrganisation', options: { organisationId } });
+
   const data = {
     ...body,
     catalogueAgreementSigned: !!body.catalogueAgreementSigned,
   };
 
   await putData({
-    endpointLocator: 'putUpdateOrganisation',
-    options: { organisationId },
+    endpoint,
     body: data,
     accessToken,
+    logger,
   });
 
   // eslint-disable-next-line no-underscore-dangle

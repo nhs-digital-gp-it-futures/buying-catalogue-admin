@@ -1,12 +1,12 @@
-import { ErrorContext } from 'buying-catalogue-library';
+import { ErrorContext, getData } from 'buying-catalogue-library';
 import { getFindOrgByOds } from './controller';
-import * as apiProvider from '../../../apiProvider';
 import * as contextCreator from './contextCreator';
+import { logger } from '../../../logger';
+import { organisationApiUrl } from '../../../config';
+
 
 jest.mock('../../../logger');
-jest.mock('../../../apiProvider', () => ({
-  getData: jest.fn(),
-}));
+jest.mock('buying-catalogue-library');
 
 jest.mock('./contextCreator', () => ({
   getContext: jest.fn(),
@@ -18,20 +18,20 @@ describe('findorg controller', () => {
     const odsCode = 'abc';
 
     afterEach(() => {
-      apiProvider.getData.mockReset();
+      getData.mockReset();
       contextCreator.getContext.mockReset();
     });
 
     it('should call getData once with the correct params', async () => {
-      apiProvider.getData
+      getData
         .mockResolvedValueOnce({});
       await getFindOrgByOds({ odsCode, accessToken });
-      expect(apiProvider.getData.mock.calls.length).toEqual(1);
-      expect(apiProvider.getData).toHaveBeenCalledWith({ endpointLocator: 'getOrgByOdsCode', options: { odsCode }, accessToken });
+      expect(getData.mock.calls.length).toEqual(1);
+      expect(getData).toHaveBeenCalledWith({ endpoint: `${organisationApiUrl}/api/v1/ods/abc`, accessToken, logger });
     });
 
     it('should return success: true if there is no error in api call', async () => {
-      apiProvider.getData
+      getData
         .mockResolvedValueOnce({});
 
       const response = await getFindOrgByOds({ odsCode, accessToken });
@@ -40,7 +40,7 @@ describe('findorg controller', () => {
     });
 
     it('should return errorStatus if api call returns 404 error', async () => {
-      apiProvider.getData
+      getData
         .mockRejectedValueOnce({ response: { status: 404 } });
 
       const response = await getFindOrgByOds({ odsCode, accessToken });
@@ -50,7 +50,7 @@ describe('findorg controller', () => {
     });
 
     it('should return errorStatus if api call returns 406 error', async () => {
-      apiProvider.getData
+      getData
         .mockRejectedValueOnce({ response: { status: 406 } });
 
       const response = await getFindOrgByOds({ odsCode, accessToken });
@@ -60,7 +60,7 @@ describe('findorg controller', () => {
     });
 
     it('should throw if api call returns non 404/406 error', async () => {
-      apiProvider.getData
+      getData
         .mockRejectedValueOnce({ response: { status: 500 } });
       try {
         await getFindOrgByOds({ odsCode, accessToken });

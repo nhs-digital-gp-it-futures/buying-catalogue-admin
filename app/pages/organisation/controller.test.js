@@ -1,11 +1,11 @@
-import { ErrorContext } from 'buying-catalogue-library';
+import { ErrorContext, getData } from 'buying-catalogue-library';
 import { getOrgAccountsContext } from './controller';
-import * as apiProvider from '../../apiProvider';
 import * as contextCreator from './contextCreator';
+import { logger } from '../../logger';
+import { identityServerUrl, organisationApiUrl } from '../../config';
 
-jest.mock('../../apiProvider', () => ({
-  getData: jest.fn(),
-}));
+
+jest.mock('buying-catalogue-library');
 
 jest.mock('./contextCreator', () => ({
   getContext: jest.fn(),
@@ -45,31 +45,31 @@ const mockUsersData = {
 describe('organisation controller', () => {
   describe('getOrgAccountsContext', () => {
     afterEach(() => {
-      apiProvider.getData.mockReset();
+      getData.mockReset();
       contextCreator.getContext.mockReset();
     });
 
     it('should call getData twice with the correct params', async () => {
-      apiProvider.getData
+      getData
         .mockResolvedValueOnce(mockOrganisationData)
         .mockResolvedValueOnce(mockUsersData);
 
       await getOrgAccountsContext({ organisationId: 1, accessToken: 'access_token' });
-      expect(apiProvider.getData.mock.calls.length).toEqual(2);
-      expect(apiProvider.getData).toHaveBeenNthCalledWith(1, {
-        endpointLocator: 'getOrgById',
-        options: { organisationId: 1 },
+      expect(getData.mock.calls.length).toEqual(2);
+      expect(getData).toHaveBeenNthCalledWith(1, {
+        endpoint: `${organisationApiUrl}/api/v1/Organisations/1`,
         accessToken: 'access_token',
+        logger,
       });
-      expect(apiProvider.getData).toHaveBeenNthCalledWith(2, {
-        endpointLocator: 'getUsers',
-        options: { organisationId: 1 },
+      expect(getData).toHaveBeenNthCalledWith(2, {
+        endpoint: `${identityServerUrl}/api/v1/Organisations/1/Users`,
         accessToken: 'access_token',
+        logger,
       });
     });
 
     it('should call getContext with the correct params when organisations and users data is returned by the apiProvider', async () => {
-      apiProvider.getData
+      getData
         .mockResolvedValueOnce(mockOrganisationData)
         .mockResolvedValueOnce(mockUsersData);
       contextCreator.getContext
@@ -84,7 +84,7 @@ describe('organisation controller', () => {
     });
 
     it('should throw an error when no organisation data is returned from the apiProvider', async () => {
-      apiProvider.getData
+      getData
         .mockResolvedValueOnce()
         .mockResolvedValueOnce(mockUsersData);
 

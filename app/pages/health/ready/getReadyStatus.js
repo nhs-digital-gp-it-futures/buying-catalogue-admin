@@ -1,10 +1,13 @@
-import { getData } from '../../../apiProvider';
+import { getData } from 'buying-catalogue-library';
 import { status } from '../status';
+import { logger } from '../../../logger';
+import { getEndpoint } from '../../../endpoints';
 
 export const getReadyStatus = async () => {
   let identityApi;
   try {
-    identityApi = await getData({ endpointLocator: 'getIdentityApiHealth' });
+    const endpoint = getEndpoint({ endpointLocator: 'getIdentityApiHealth' });
+    identityApi = await getData({ endpoint, logger });
   } catch (e) {
     identityApi = status.unhealthy.message;
   }
