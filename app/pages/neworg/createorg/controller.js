@@ -1,10 +1,12 @@
-import { ErrorContext } from 'buying-catalogue-library';
+import { ErrorContext, getData, postData } from 'buying-catalogue-library';
 import { getContext } from './contextCreator';
-import { getData, postData } from '../../../apiProvider';
 import { logger } from '../../../logger';
+import { getEndpoint } from '../../../endpoints';
 
 export const getCreateOrgContext = async ({ odsCode, accessToken }) => {
-  const org = await getData({ endpointLocator: 'getOrgByOdsCode', options: { odsCode }, accessToken });
+  const endpoint = getEndpoint({ endpointLocator: 'getOrgByOdsCode', options: { odsCode } });
+
+  const org = await getData({ endpoint, accessToken, logger });
   if (org) {
     logger.info(`Organisation with ${odsCode}: ${org.organisationName} found`);
     return getContext({ orgData: org });
@@ -17,14 +19,18 @@ export const getCreateOrgContext = async ({ odsCode, accessToken }) => {
 
 export const postAddOrg = async ({ odsCode, data, accessToken }) => {
   try {
-    const orgData = await getData({ endpointLocator: 'getOrgByOdsCode', options: { odsCode }, accessToken });
+    const getOrgEndpoint = getEndpoint({ endpointLocator: 'getOrgByOdsCode', options: { odsCode } });
+    const orgData = await getData({ endpoint: getOrgEndpoint, accessToken, logger });
+    const postOrgEndpoint = getEndpoint({ endpointLocator: 'postAddOrg' });
+
     const response = await postData({
-      endpointLocator: 'postAddOrg',
+      endpoint: postOrgEndpoint,
       body: {
         ...orgData,
         catalogueAgreementSigned: !!data.catalogueAgreementSigned,
       },
       accessToken,
+      logger,
     });
 
     logger.info(`Organisation added: ${JSON.stringify(data)}`);

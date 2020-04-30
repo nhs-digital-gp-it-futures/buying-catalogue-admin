@@ -1,12 +1,15 @@
-import { ErrorContext } from 'buying-catalogue-library';
+import { ErrorContext, getData } from 'buying-catalogue-library';
 import { getContext } from './contextCreator';
-import { getData } from '../../../apiProvider';
+import { getEndpoint } from '../../../endpoints';
+import { logger } from '../../../logger';
 
 export const getFindOrgContext = params => getContext(params);
 
 export const getFindOrgByOds = async ({ odsCode, accessToken }) => {
   try {
-    await getData({ endpointLocator: 'getOrgByOdsCode', options: { odsCode }, accessToken });
+    const endpoint = getEndpoint({ endpointLocator: 'getOrgByOdsCode', options: { odsCode } });
+
+    await getData({ endpoint, accessToken, logger });
 
     return { success: true };
   } catch (err) {

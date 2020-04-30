@@ -1,10 +1,11 @@
+import { getData } from 'buying-catalogue-library';
 import { getUserStatusContext } from './controller';
-import * as apiProvider from '../../../apiProvider';
 import * as contextCreator from './contextCreator';
+import { logger } from '../../../logger';
+import { identityServerUrl } from '../../../config';
 
-jest.mock('../../../apiProvider', () => ({
-  getData: jest.fn(),
-}));
+
+jest.mock('buying-catalogue-library');
 
 jest.mock('./contextCreator', () => ({
   getContext: jest.fn(),
@@ -22,26 +23,26 @@ describe('user status controller', () => {
   describe('getUserStatusContext', () => {
     describe('when user is re-enabled', () => {
       afterEach(() => {
-        apiProvider.getData.mockReset();
+        getData.mockReset();
         contextCreator.getContext.mockReset();
       });
 
       it('should call getData once with the correct params', async () => {
-        apiProvider.getData
+        getData
           .mockResolvedValueOnce(mockUserData);
         await getUserStatusContext({
           userId: 'user1', organisationId: 'org1', accessToken: 'access_token', status: 'enable',
         });
-        expect(apiProvider.getData.mock.calls.length).toEqual(1);
-        expect(apiProvider.getData).toHaveBeenCalledWith({
-          endpointLocator: 'getUserById',
-          options: { userId: 'user1' },
+        expect(getData.mock.calls.length).toEqual(1);
+        expect(getData).toHaveBeenCalledWith({
+          endpoint: `${identityServerUrl}/api/v1/Users/user1`,
           accessToken: 'access_token',
+          logger,
         });
       });
 
       it('should call getContext with the correct params when user and org data is returned by the apiProvider', async () => {
-        apiProvider.getData
+        getData
           .mockResolvedValueOnce(mockUserData);
         contextCreator.getContext
           .mockResolvedValueOnce();
@@ -59,26 +60,26 @@ describe('user status controller', () => {
 
     describe('when user is disabled', () => {
       afterEach(() => {
-        apiProvider.getData.mockReset();
+        getData.mockReset();
         contextCreator.getContext.mockReset();
       });
 
       it('should call getData once with the correct params', async () => {
-        apiProvider.getData
+        getData
           .mockResolvedValueOnce(mockUserData);
         await getUserStatusContext({
           userId: 'user1', organisationId: 'org1', accessToken: 'access_token', status: 'disable',
         });
-        expect(apiProvider.getData.mock.calls.length).toEqual(1);
-        expect(apiProvider.getData).toHaveBeenCalledWith({
-          endpointLocator: 'getUserById',
-          options: { userId: 'user1' },
+        expect(getData.mock.calls.length).toEqual(1);
+        expect(getData).toHaveBeenCalledWith({
+          endpoint: `${identityServerUrl}/api/v1/Users/user1`,
           accessToken: 'access_token',
+          logger,
         });
       });
 
       it('should call getContext with the correct params when user and org data is returned by the apiProvider', async () => {
-        apiProvider.getData
+        getData
           .mockResolvedValueOnce(mockUserData);
         contextCreator.getContext
           .mockResolvedValueOnce();
@@ -95,7 +96,7 @@ describe('user status controller', () => {
     });
 
     it('should throw an error when no user data is returned from the apiProvider', async () => {
-      apiProvider.getData
+      getData
         .mockResolvedValueOnce({});
 
       try {

@@ -1,11 +1,12 @@
-import { ErrorContext } from 'buying-catalogue-library';
+import { ErrorContext, getData } from 'buying-catalogue-library';
 import { getContext } from './contextCreator';
-import { getData } from '../../../apiProvider';
 import { logger } from '../../../logger';
+import { getEndpoint } from '../../../endpoints';
 
 export const getEditOrgConfirmationContext = async ({ organisationId, accessToken }) => {
-  const options = { organisationId };
-  const organisation = await getData({ endpointLocator: 'getOrgById', options, accessToken });
+  const endpoint = getEndpoint({ endpointLocator: 'getOrgById', options: { organisationId } });
+
+  const organisation = await getData({ endpoint, accessToken, logger });
   if (organisation) {
     logger.info(`Organisation ${organisation.name} (${organisationId}) returned`);
     return getContext({ organisationName: organisation.name, organisationId });

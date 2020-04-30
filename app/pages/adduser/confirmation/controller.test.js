@@ -1,11 +1,11 @@
-import { ErrorContext } from 'buying-catalogue-library';
+import { ErrorContext, getData } from 'buying-catalogue-library';
 import { getAddUserConfirmationContext } from './controller';
-import * as apiProvider from '../../../apiProvider';
 import * as contextCreator from './contextCreator';
+import { logger } from '../../../logger';
+import { identityServerUrl } from '../../../config';
 
-jest.mock('../../../apiProvider', () => ({
-  getData: jest.fn(),
-}));
+
+jest.mock('buying-catalogue-library');
 
 jest.mock('./contextCreator', () => ({
   getContext: jest.fn(),
@@ -22,24 +22,24 @@ describe('add user confirmation page controller', () => {
     const userId = 'user1';
 
     afterEach(() => {
-      apiProvider.getData.mockReset();
+      getData.mockReset();
       contextCreator.getContext.mockReset();
     });
 
     it('should call getData once with the correct params', async () => {
-      apiProvider.getData
+      getData
         .mockResolvedValueOnce(mockUserData);
       await getAddUserConfirmationContext({ organisationId, userId, accessToken });
-      expect(apiProvider.getData.mock.calls.length).toEqual(1);
-      expect(apiProvider.getData).toHaveBeenCalledWith({
-        endpointLocator: 'getUserById',
-        options: { userId },
+      expect(getData.mock.calls.length).toEqual(1);
+      expect(getData).toHaveBeenCalledWith({
+        endpoint: `${identityServerUrl}/api/v1/Users/user1`,
         accessToken: 'access_token',
+        logger,
       });
     });
 
     it('should call getContext with the correct params when user data is returned by the apiProvider', async () => {
-      apiProvider.getData
+      getData
         .mockResolvedValueOnce(mockUserData);
       contextCreator.getContext
         .mockResolvedValueOnce();
@@ -53,7 +53,7 @@ describe('add user confirmation page controller', () => {
     });
 
     it('should throw an error when no user data is returned from the apiProvider', async () => {
-      apiProvider.getData
+      getData
         .mockResolvedValueOnce();
 
       try {

@@ -4,22 +4,31 @@ import { App } from '../../app';
 import { routes } from '../../routes';
 import { baseUrl } from '../../config';
 import { getCsrfTokenFromGet } from '../../test-utils/helper';
-import * as selectOrgContext from './selectorg/controller';
-import * as createOrgErrorContext from './error/controller';
-import * as findOrgContext from './findorg/controller';
-import * as createOrgContext from './createorg/controller';
-import * as apiProvider from '../../apiProvider';
+import * as selectOrgController from './selectorg/controller';
+import * as createOrgErrorController from './error/controller';
+import * as findOrgController from './findorg/controller';
+import * as createOrgController from './createorg/controller';
+import * as createOrgConfirmationController from './confirmation/controller';
 
 jest.mock('../../logger');
 
-jest.mock('../../apiProvider', () => ({
-  getData: jest.fn()
-    .mockImplementation(() => Promise.resolve({})),
-  postData: jest.fn()
-    .mockImplementation(() => Promise.resolve({ success: true })),
-  putData: jest.fn()
-    .mockImplementation(() => Promise.resolve({ success: true })),
-}));
+selectOrgController.getSelectOrgContext = jest.fn()
+  .mockResolvedValue({});
+
+findOrgController.getFindOrgContext = jest.fn()
+  .mockResolvedValue({});
+
+findOrgController.getFindOrgByOds = jest.fn()
+  .mockResolvedValue({ success: true });
+
+createOrgConfirmationController.getCreateOrgConfirmationContext = jest.fn()
+  .mockResolvedValue({ dataTestId: 'create-org-confirmation' });
+
+createOrgController.postAddOrg = jest.fn()
+  .mockResolvedValue({ success: true, orgId: 'org1', data: {} });
+
+createOrgController.getCreateOrgContext = jest.fn()
+  .mockResolvedValue({});
 
 const mockLogoutMethod = jest.fn().mockImplementation(() => Promise.resolve({}));
 
@@ -124,25 +133,18 @@ describe('routes', () => {
       checkAuthorisedRouteWithoutClaim(path)
     ));
 
-    it('should return the correct status and text when the user is authorised', () => {
-      findOrgContext.getFindOrgContext = jest.fn()
-        .mockImplementation(() => ({}));
-      return request(setUpFakeApp())
-        .get(path)
-        .set('Cookie', [mockAuthorisedCookie])
-        .expect(200)
-        .then((res) => {
-          expect(res.text.includes('data-test-id="find-org-page"')).toEqual(true);
-          expect(res.text.includes('data-test-id="error-title"')).toEqual(false);
-        });
-    });
+    it('should return the correct status and text when the user is authorised', () => request(setUpFakeApp())
+      .get(path)
+      .set('Cookie', [mockAuthorisedCookie])
+      .expect(200)
+      .then((res) => {
+        expect(res.text.includes('data-test-id="find-org-page"')).toEqual(true);
+        expect(res.text.includes('data-test-id="error-title"')).toEqual(false);
+      }));
   });
 
   describe('POST /organisations/find', () => {
     const path = '/organisations/find';
-    apiProvider.postData = jest.fn()
-      .mockImplementation(() => Promise.resolve({ success: true, data: {} }));
-
     it('should return 403 forbidden if no csrf token is available', async () => {
       await checkForbiddenNoCsrf(path);
     });
@@ -174,7 +176,7 @@ describe('routes', () => {
     });
 
     it('should redirect to /organisations/find if response.success is false ans status is 404', async () => {
-      findOrgContext.getFindOrgByOds = jest.fn()
+      findOrgController.getFindOrgByOds = jest.fn()
         .mockResolvedValueOnce({ success: false, errorStatus: 404 });
 
       const { cookies, csrfToken } = await getCsrfTokenFromGet(
@@ -195,7 +197,7 @@ describe('routes', () => {
     });
 
     it('should redirect to /organisations/find if response.success is false ans status is 406', async () => {
-      findOrgContext.getFindOrgByOds = jest.fn()
+      findOrgController.getFindOrgByOds = jest.fn()
         .mockResolvedValueOnce({ success: false, errorStatus: 406 });
 
       const { cookies, csrfToken } = await getCsrfTokenFromGet(
@@ -228,7 +230,7 @@ describe('routes', () => {
     ));
 
     it('should return the correct status and text when the user is authorised', () => {
-      selectOrgContext.getSelectOrgContext = jest.fn()
+      selectOrgController.getSelectOrgContext = jest.fn()
         .mockImplementation(() => ({}));
       return request(setUpFakeApp())
         .get(path)
@@ -243,9 +245,6 @@ describe('routes', () => {
 
   describe('POST /organisations/find/select', () => {
     const path = '/organisations/find/select?ods=abc';
-    apiProvider.postData = jest.fn()
-      .mockImplementation(() => Promise.resolve({ success: true, data: {} }));
-
     it('should return 403 forbidden if no csrf token is available', async () => {
       await checkForbiddenNoCsrf(path);
     });
@@ -288,24 +287,18 @@ describe('routes', () => {
       checkAuthorisedRouteWithoutClaim(path)
     ));
 
-    it('should return the correct status and text when the user is authorised', () => {
-      selectOrgContext.getSelectOrgContext = jest.fn()
-        .mockImplementation(() => ({}));
-      return request(setUpFakeApp())
-        .get(path)
-        .set('Cookie', [mockAuthorisedCookie])
-        .expect(200)
-        .then((res) => {
-          expect(res.text.includes('data-test-id="create-org-page"')).toEqual(true);
-          expect(res.text.includes('data-test-id="error-title"')).toEqual(false);
-        });
-    });
+    it('should return the correct status and text when the user is authorised', () => request(setUpFakeApp())
+      .get(path)
+      .set('Cookie', [mockAuthorisedCookie])
+      .expect(200)
+      .then((res) => {
+        expect(res.text.includes('data-test-id="create-org-page"')).toEqual(true);
+        expect(res.text.includes('data-test-id="error-title"')).toEqual(false);
+      }));
   });
 
   describe('POST /organisations/find/select/create', () => {
     const path = '/organisations/find/select/create';
-    apiProvider.postData = jest.fn()
-      .mockImplementation(() => Promise.resolve({ success: true, data: {} }));
 
     it('should return 403 forbidden if no csrf token is available', async () => {
       await checkForbiddenNoCsrf(path);
@@ -320,7 +313,6 @@ describe('routes', () => {
     });
 
     it('should redirect to /organisations/find/select/create/confirmation if response.success is true', async () => {
-      createOrgContext.postAddOrg = jest.fn().mockResolvedValueOnce({ success: true, orgId: 'org1' });
       const { cookies, csrfToken } = await getCsrfTokenFromGet(
         setUpFakeApp(), path, mockAuthorisedCookie,
       );
@@ -339,7 +331,7 @@ describe('routes', () => {
     });
 
     it('should redirect to /organisations/find/select/create/error if response.status is false', async () => {
-      createOrgContext.postAddOrg = jest.fn()
+      createOrgController.postAddOrg = jest.fn()
         .mockResolvedValueOnce({ success: false, errorsString: 'AnErrorId+ASecondErrorId' });
 
       const { cookies, csrfToken } = await getCsrfTokenFromGet(
@@ -371,18 +363,14 @@ describe('routes', () => {
       checkAuthorisedRouteWithoutClaim(path)
     ));
 
-    it('should return the correct status and text when the user is authorised', () => {
-      selectOrgContext.getSelectOrgContext = jest.fn()
-        .mockImplementation(() => ({}));
-      return request(setUpFakeApp())
-        .get(path)
-        .set('Cookie', [mockAuthorisedCookie])
-        .expect(200)
-        .then((res) => {
-          expect(res.text.includes('data-test-id="create-org-confirmation-page"')).toEqual(true);
-          expect(res.text.includes('data-test-id="error-title"')).toEqual(false);
-        });
-    });
+    it('should return the correct status and text when the user is authorised', () => request(setUpFakeApp())
+      .get(path)
+      .set('Cookie', [mockAuthorisedCookie])
+      .expect(200)
+      .then((res) => {
+        expect(res.text.includes('data-test-id="create-org-confirmation-page"')).toEqual(true);
+        expect(res.text.includes('data-test-id="error-title"')).toEqual(false);
+      }));
   });
 
   describe('GET /organisations/find/select/create/error', () => {
@@ -397,7 +385,7 @@ describe('routes', () => {
     ));
 
     it('should return the correct status and text when the user is authorised', () => {
-      createOrgErrorContext.getCreateOrgErrorContext = jest.fn()
+      createOrgErrorController.getCreateOrgErrorContext = jest.fn()
         .mockImplementation(() => ({ dataTestId: 'create-org-error' }));
       return request(setUpFakeApp())
         .get(path)

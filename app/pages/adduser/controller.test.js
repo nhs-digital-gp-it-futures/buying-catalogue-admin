@@ -1,12 +1,10 @@
-import { ErrorContext } from 'buying-catalogue-library';
+import { ErrorContext, getData, postData } from 'buying-catalogue-library';
 import { getAddUserContext, getAddUserPageErrorContext, postAddUser } from './controller';
-import * as apiProvider from '../../apiProvider';
 import * as contextCreator from './contextCreator';
+import { logger } from '../../logger';
+import { identityServerUrl, organisationApiUrl } from '../../config';
 
-jest.mock('../../apiProvider', () => ({
-  getData: jest.fn(),
-  postData: jest.fn(),
-}));
+jest.mock('buying-catalogue-library');
 
 jest.mock('./contextCreator', () => ({
   getContext: jest.fn(),
@@ -36,25 +34,25 @@ const mockedAddUserData = {
 describe('adduser controller', () => {
   describe('getAddUserContext', () => {
     afterEach(() => {
-      apiProvider.getData.mockReset();
+      getData.mockReset();
       contextCreator.getContext.mockReset();
     });
 
     it('should call getData once with the correct params', async () => {
-      apiProvider.getData
+      getData
         .mockResolvedValueOnce(mockedAddUserData);
 
       await getAddUserContext({ organisationId: 1, accessToken: 'access_token' });
-      expect(apiProvider.getData.mock.calls.length).toEqual(1);
-      expect(apiProvider.getData).toHaveBeenCalledWith({
-        endpointLocator: 'getOrgById',
+      expect(getData.mock.calls.length).toEqual(1);
+      expect(getData).toHaveBeenCalledWith({
+        endpoint: `${organisationApiUrl}/api/v1/Organisations/1`,
         accessToken: 'access_token',
-        options: { organisationId: 1 },
+        logger,
       });
     });
 
     it('should call getContext with the correct params when organisation data is returned by the apiProvider', async () => {
-      apiProvider.getData
+      getData
         .mockResolvedValueOnce(mockedAddUserData);
       contextCreator.getContext
         .mockResolvedValueOnce();
@@ -66,7 +64,7 @@ describe('adduser controller', () => {
     });
 
     it('should throw an error when no data is returned from the apiProvider', async () => {
-      apiProvider.getData
+      getData
         .mockResolvedValueOnce();
 
       try {
@@ -82,27 +80,27 @@ describe('adduser controller', () => {
 
   describe('getAddUserPageErrorContext', () => {
     afterEach(() => {
-      apiProvider.getData.mockReset();
+      getData.mockReset();
       contextCreator.getErrorContext.mockReset();
     });
 
     it('should call getData once with the correct params', async () => {
-      apiProvider.getData
+      getData
         .mockResolvedValueOnce(mockedAddUserData);
 
       await getAddUserPageErrorContext({ organisationId: 1, accessToken: 'access_token', validationErrors: [] });
-      expect(apiProvider.getData.mock.calls.length).toEqual(1);
-      expect(apiProvider.getData).toHaveBeenCalledWith({
-        endpointLocator: 'getOrgById',
+      expect(getData.mock.calls.length).toEqual(1);
+      expect(getData).toHaveBeenCalledWith({
+        endpoint: `${organisationApiUrl}/api/v1/Organisations/1`,
         accessToken: 'access_token',
-        options: { organisationId: 1 },
+        logger,
       });
     });
 
     it('should call getErrorContext with the correct params when organisation data is returned by the apiProvider', async () => {
       const validationErrors = [];
       const data = {};
-      apiProvider.getData
+      getData
         .mockResolvedValueOnce(mockedAddUserData);
       contextCreator.getErrorContext
         .mockResolvedValueOnce();
@@ -120,7 +118,7 @@ describe('adduser controller', () => {
     });
 
     it('should throw an error when no data is returned from the apiProvider', async () => {
-      apiProvider.getData
+      getData
         .mockResolvedValueOnce();
 
       try {
@@ -136,28 +134,26 @@ describe('adduser controller', () => {
 
   describe('postAddUser', () => {
     afterEach(() => {
-      apiProvider.postData.mockReset();
+      postData.mockReset();
     });
 
     it('should call postData once with the correct params', async () => {
-      apiProvider.postData
+      postData
         .mockResolvedValueOnce({ data: { userId: 'user1' } });
 
       await postAddUser({ organisationId: 1, data: { firstName: 'SomeName' }, accessToken: 'access_token' });
 
-      expect(apiProvider.postData.mock.calls.length).toEqual(1);
-      expect(apiProvider.postData).toHaveBeenCalledWith({
-        endpointLocator: 'postAddUser',
+      expect(postData.mock.calls.length).toEqual(1);
+      expect(postData).toHaveBeenCalledWith({
+        endpoint: `${identityServerUrl}/api/v1/Organisations/1/Users`,
         body: { firstName: 'SomeName' },
-        options: {
-          organisationId: 1,
-        },
         accessToken: 'access_token',
+        logger,
       });
     });
 
     it('should return true if api request is successful', async () => {
-      apiProvider.postData
+      postData
         .mockResolvedValueOnce({ data: { userId: 'user1' } });
 
       const response = await postAddUser({ organisationId: 1, data: { firstName: 'SomeName' }, accessToken: 'access_token' });
@@ -166,7 +162,7 @@ describe('adduser controller', () => {
     });
 
     it('should return error.respose.data if api request is unsuccessful with 400', async () => {
-      apiProvider.postData
+      postData
         .mockRejectedValueOnce({ response: { status: 400, data: '400 response data' } });
 
       const response = await postAddUser({ organisationId: 1, data: { firstName: 'SomeName' }, accessToken: 'access_token' });
@@ -175,7 +171,7 @@ describe('adduser controller', () => {
     });
 
     it('should throw an error if api request is unsuccessful with non 400', async () => {
-      apiProvider.postData
+      postData
         .mockRejectedValueOnce({ response: { status: 500, data: '500 response data' } });
 
       try {

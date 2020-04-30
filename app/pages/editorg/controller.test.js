@@ -1,12 +1,11 @@
-import { ErrorContext } from 'buying-catalogue-library';
+import { ErrorContext, getData, putData } from 'buying-catalogue-library';
 import { getEditOrgContext, putUpdateOrganisation } from './controller';
-import * as apiProvider from '../../apiProvider';
 import * as contextCreator from './contextCreator';
+import { logger } from '../../logger';
+import { organisationApiUrl } from '../../config';
 
-jest.mock('../../apiProvider', () => ({
-  getData: jest.fn(),
-  putData: jest.fn(),
-}));
+
+jest.mock('buying-catalogue-library');
 
 jest.mock('./contextCreator', () => ({
   getContext: jest.fn(),
@@ -33,25 +32,25 @@ const mockOrganisationData = {
 describe('edit organisation controller', () => {
   describe('getEditOrgContext', () => {
     afterEach(() => {
-      apiProvider.getData.mockReset();
+      getData.mockReset();
       contextCreator.getContext.mockReset();
     });
 
     it('should call getData once with the correct params', async () => {
-      apiProvider.getData
+      getData
         .mockResolvedValueOnce(mockOrganisationData);
 
       await getEditOrgContext({ organisationId: 1, accessToken: 'access_token' });
-      expect(apiProvider.getData.mock.calls.length).toEqual(1);
-      expect(apiProvider.getData).toHaveBeenCalledWith({
-        endpointLocator: 'getOrgById',
-        options: { organisationId: 1 },
+      expect(getData.mock.calls.length).toEqual(1);
+      expect(getData).toHaveBeenCalledWith({
+        endpoint: `${organisationApiUrl}/api/v1/Organisations/1`,
         accessToken: 'access_token',
+        logger,
       });
     });
 
     it('should call getContext with the correct params when organisations and users data is returned by the apiProvider', async () => {
-      apiProvider.getData
+      getData
         .mockResolvedValueOnce(mockOrganisationData);
       contextCreator.getContext
         .mockResolvedValueOnce();
@@ -65,7 +64,7 @@ describe('edit organisation controller', () => {
     });
 
     it('should throw an error when no organisation data is returned from the apiProvider', async () => {
-      apiProvider.getData
+      getData
         .mockResolvedValueOnce();
 
       try {
@@ -81,41 +80,41 @@ describe('edit organisation controller', () => {
 
   describe('putUpdateOrganisation', () => {
     afterEach(() => {
-      apiProvider.putData.mockReset();
+      putData.mockReset();
     });
 
     it('should call putData once with the correct params when catalogueAgreementSigned is in the body', async () => {
-      apiProvider.putData
+      putData
         .mockResolvedValueOnce({});
 
       await putUpdateOrganisation({ organisationId: 1, body: { catalogueAgreementSigned: 'true' }, accessToken: 'access_token' });
 
-      expect(apiProvider.putData.mock.calls.length).toEqual(1);
-      expect(apiProvider.putData).toHaveBeenCalledWith({
-        endpointLocator: 'putUpdateOrganisation',
+      expect(putData.mock.calls.length).toEqual(1);
+      expect(putData).toHaveBeenCalledWith({
+        endpoint: `${organisationApiUrl}/api/v1/Organisations/1`,
         body: { catalogueAgreementSigned: true },
-        options: { organisationId: 1 },
         accessToken: 'access_token',
+        logger,
       });
     });
 
     it('should call putData once with the correct params when catalogueAgreementSigned is not in the body', async () => {
-      apiProvider.putData
+      putData
         .mockResolvedValueOnce({});
 
       await putUpdateOrganisation({ organisationId: 1, body: {}, accessToken: 'access_token' });
 
-      expect(apiProvider.putData.mock.calls.length).toEqual(1);
-      expect(apiProvider.putData).toHaveBeenCalledWith({
-        endpointLocator: 'putUpdateOrganisation',
+      expect(putData.mock.calls.length).toEqual(1);
+      expect(putData).toHaveBeenCalledWith({
+        endpoint: `${organisationApiUrl}/api/v1/Organisations/1`,
         body: { catalogueAgreementSigned: false },
-        options: { organisationId: 1 },
         accessToken: 'access_token',
+        logger,
       });
     });
 
     it('should return true if api request is successful', async () => {
-      apiProvider.putData
+      putData
         .mockResolvedValueOnce({});
 
       const response = await putUpdateOrganisation({ organisationId: 1, body: { catalogueAgreementSigned: 'true' }, accessToken: 'access_token' });
