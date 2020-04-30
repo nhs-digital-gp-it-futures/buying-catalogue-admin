@@ -19,8 +19,8 @@ export const getCreateOrgContext = async ({ odsCode, accessToken }) => {
 
 export const postAddOrg = async ({ odsCode, data, accessToken }) => {
   try {
-    const getOrgEndpoint = getEndpoint({ endpointLocator: 'getOrgByOdsCode', options: { odsCode } });
-    const orgData = await getData({ endpoint: getOrgEndpoint, accessToken, logger });
+    const orgEndpoint = getEndpoint({ endpointLocator: 'getOrgByOdsCode', options: { odsCode } });
+    const orgData = await getData({ endpoint: orgEndpoint, accessToken, logger });
     const postOrgEndpoint = getEndpoint({ endpointLocator: 'postAddOrg' });
 
     const response = await postData({
