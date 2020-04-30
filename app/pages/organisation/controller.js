@@ -5,7 +5,7 @@ import { getEndpoint } from '../../endpoints';
 
 export const getOrgAccountsContext = async ({ organisationId, accessToken }) => {
   const orgEndpoint = getEndpoint({ endpointLocator: 'getOrgById', options: { organisationId } });
-  const organisation = await getData({ endpoint: `${orgEndpoint}`, accessToken, logger });
+  const organisation = await getData({ endpoint: orgEndpoint, accessToken, logger });
   if (organisation) {
     logger.info(`Organisation ${organisation.name} (${organisationId}) returned`);
     const usersEndpoint = getEndpoint({ endpointLocator: 'getUsers', options: { organisationId } });
