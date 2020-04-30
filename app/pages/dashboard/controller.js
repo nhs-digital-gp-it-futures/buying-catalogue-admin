@@ -11,6 +11,7 @@ export const getOrgDashboardContext = async ({ accessToken }) => {
     logger.info('Organisations returned');
     return getContext({ organisations: organisations.organisations });
   }
+
   throw new ErrorContext({
     status: 404,
     description: 'No organisations data returned',
