@@ -17,7 +17,7 @@ const endpoints = {
   postAddUser: opts => `${identityServerUrl}/api/v1/Organisations/${opts.organisationId}/Users`,
   postUserStatus: opts => `${identityServerUrl}/api/v1/Users/${opts.userId}/${opts.status}`,
 
-  // PUT endpoins
+  // PUT endpoints
   putUpdateOrganisation: opts => `${organisationApiUrl}/api/v1/Organisations/${opts.organisationId}`,
 };
 
