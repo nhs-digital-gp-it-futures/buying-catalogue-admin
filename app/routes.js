@@ -1,7 +1,7 @@
 import express from 'express';
-import { ErrorContext, errorHandler } from 'buying-catalogue-library';
+import { ErrorContext, errorHandler, healthRoutes } from 'buying-catalogue-library';
 import { logger } from './logger';
-import { withCatch, extractAccessToken } from './helpers/routerHelper';
+import { withCatch, extractAccessToken, getHealthCheckDependencies } from './helpers/routerHelper';
 import { getOrgAccountsContext } from './pages/organisation/controller';
 import { getOrgDashboardContext } from './pages/dashboard/controller';
 import { getAddUserContext, getAddUserPageErrorContext, postAddUser } from './pages/adduser/controller';
@@ -12,7 +12,6 @@ import { getUserStatusContext } from './pages/viewuser/changeUserStatusConfirmat
 import { getEditOrgContext, putUpdateOrganisation } from './pages/editorg/controller';
 import { getEditOrgConfirmationContext } from './pages/editorg/confirmation/controller';
 import config from './config';
-import healthRoutes from './pages/health/routes';
 import { newOrgRoutes } from './pages/neworg/routes';
 
 const addContext = ({ context, user, csrfToken }) => ({
@@ -25,6 +24,8 @@ const addContext = ({ context, user, csrfToken }) => ({
 
 export const routes = (authProvider) => {
   const router = express.Router();
+
+  healthRoutes({ router, dependencies: getHealthCheckDependencies(config), logger });
 
   router.use('/health', healthRoutes);
 

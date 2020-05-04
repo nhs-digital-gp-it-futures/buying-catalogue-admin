@@ -1,8 +1,9 @@
-import { identityServerUrl, organisationApiUrl, oidcBaseUri } from './config';
+import { identityServerUrl, organisationApiUrl } from './config';
 
 const endpoints = {
   // GET endpoints
-  getIdentityApiHealth: () => `${oidcBaseUri}/health/ready`,
+  getIdentityApiHealth: () => `${identityServerUrl}/health/ready`,
+  getOrganisationApiHealth: () => `${organisationApiUrl}/health/ready`,
 
   getOrganisations: () => `${organisationApiUrl}/api/v1/Organisations`,
   getOrgById: opts => `${organisationApiUrl}/api/v1/Organisations/${opts.organisationId}`,
