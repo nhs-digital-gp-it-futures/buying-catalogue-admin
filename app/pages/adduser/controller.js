@@ -1,4 +1,4 @@
-import { ErrorContext, getData, postData } from 'buying-catalogue-library';
+import { getData, postData } from 'buying-catalogue-library';
 import { getContext, getErrorContext } from './contextCreator';
 import { getEndpoint } from '../../endpoints';
 import { logger } from '../../logger';
@@ -11,10 +11,8 @@ export const getAddUserContext = async ({ organisationId, accessToken }) => {
     logger.info(`Organisation ${organisationId} returned`);
     return getContext(orgData);
   }
-  throw new ErrorContext({
-    status: 404,
-    description: 'No data returned',
-  });
+  logger.error(`No organisation data returned for id: ${organisationId}`);
+  throw new Error();
 };
 
 export const getAddUserPageErrorContext = async ({
@@ -28,10 +26,8 @@ export const getAddUserPageErrorContext = async ({
     logger.info(`Organisation ${organisationId} returned`);
     return getErrorContext({ orgData, validationErrors, data });
   }
-  throw new ErrorContext({
-    status: 404,
-    description: 'No data returned',
-  });
+  logger.error(`No organisation data returned for id: ${organisationId}`);
+  throw new Error();
 };
 
 export const postAddUser = async ({ organisationId, data, accessToken }) => {
@@ -55,8 +51,7 @@ export const postAddUser = async ({ organisationId, data, accessToken }) => {
     if (err.response && err.response.status === 400 && err.response.data) {
       return err.response.data;
     }
-    throw new ErrorContext({
-      status: err.response.status,
-    });
+    logger.error(`Error adding user for id: ${organisationId}`);
+    throw new Error();
   }
 };
