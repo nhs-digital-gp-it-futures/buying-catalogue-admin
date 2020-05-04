@@ -1,4 +1,4 @@
-import { ErrorContext, getData } from 'buying-catalogue-library';
+import { getData } from 'buying-catalogue-library';
 import { getOrgDashboardContext } from './controller';
 import * as contextCreator from './contextCreator';
 import { logger } from '../../logger';
@@ -70,10 +70,7 @@ describe('dashboard controller', () => {
       try {
         await getOrgDashboardContext({ organisationId: 1, accessToken: 'access_token' });
       } catch (err) {
-        expect(err).toEqual(new ErrorContext({
-          status: 404,
-          description: 'No organisations data returned',
-        }));
+        expect(err).toEqual(new Error());
       }
     });
   });

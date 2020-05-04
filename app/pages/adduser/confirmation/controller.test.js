@@ -1,4 +1,4 @@
-import { ErrorContext, getData } from 'buying-catalogue-library';
+import { getData } from 'buying-catalogue-library';
 import { getAddUserConfirmationContext } from './controller';
 import * as contextCreator from './contextCreator';
 import { logger } from '../../../logger';
@@ -59,10 +59,7 @@ describe('add user confirmation page controller', () => {
       try {
         await getAddUserConfirmationContext({ organisationId, userId, accessToken });
       } catch (err) {
-        expect(err).toEqual(new ErrorContext({
-          status: 404,
-          description: 'No user data returned for id: user1',
-        }));
+        expect(err).toEqual(new Error());
       }
     });
   });

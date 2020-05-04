@@ -1,4 +1,4 @@
-import { ErrorContext, getData } from 'buying-catalogue-library';
+import { getData } from 'buying-catalogue-library';
 import { getContext } from './contextCreator';
 import { getEndpoint } from '../../endpoints';
 import { logger } from '../../logger';
@@ -11,9 +11,6 @@ export const getOrgDashboardContext = async ({ accessToken }) => {
     logger.info('Organisations returned');
     return getContext({ organisations: organisations.organisations });
   }
-
-  throw new ErrorContext({
-    status: 404,
-    description: 'No organisations data returned',
-  });
+  logger.error('No organisations data returned');
+  throw new Error();
 };

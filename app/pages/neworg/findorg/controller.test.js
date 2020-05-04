@@ -1,4 +1,4 @@
-import { ErrorContext, getData } from 'buying-catalogue-library';
+import { getData } from 'buying-catalogue-library';
 import { getFindOrgByOds } from './controller';
 import * as contextCreator from './contextCreator';
 import { logger } from '../../../logger';
@@ -65,9 +65,7 @@ describe('findorg controller', () => {
       try {
         await getFindOrgByOds({ odsCode, accessToken });
       } catch (err) {
-        expect(err).toEqual(new ErrorContext({
-          status: 500,
-        }));
+        expect(err).toEqual(new Error());
       }
     });
   });

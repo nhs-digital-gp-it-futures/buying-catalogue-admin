@@ -1,4 +1,4 @@
-import { ErrorContext, getData } from 'buying-catalogue-library';
+import { getData } from 'buying-catalogue-library';
 import { getContext } from './contextCreator';
 import { getEndpoint } from '../../../endpoints';
 import { logger } from '../../../logger';
@@ -16,8 +16,7 @@ export const getFindOrgByOds = async ({ odsCode, accessToken }) => {
     if (err.response.status === 404 || err.response.status === 406) {
       return { success: false, errorStatus: err.response.status };
     }
-    throw new ErrorContext({
-      status: err.response.status,
-    });
+    logger.error(`Error finding organisation data for odsCode: ${odsCode}`);
+    throw new Error();
   }
 };

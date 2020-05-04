@@ -1,4 +1,4 @@
-import { ErrorContext, getData } from 'buying-catalogue-library';
+import { getData } from 'buying-catalogue-library';
 import { getCreateOrgConfirmationContext } from './controller';
 import * as contextCreator from './contextCreator';
 import { logger } from '../../../logger';
@@ -52,10 +52,7 @@ describe('create org confirmation page controller', () => {
       try {
         await getCreateOrgConfirmationContext({ organisationId, accessToken });
       } catch (err) {
-        expect(err).toEqual(new ErrorContext({
-          status: 404,
-          description: 'No organisation data returned for id: org1',
-        }));
+        expect(err).toEqual(new Error());
       }
     });
   });

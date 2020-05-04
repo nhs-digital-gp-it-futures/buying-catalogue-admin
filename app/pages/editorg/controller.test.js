@@ -1,4 +1,4 @@
-import { ErrorContext, getData, putData } from 'buying-catalogue-library';
+import { getData, putData } from 'buying-catalogue-library';
 import { getEditOrgContext, putUpdateOrganisation } from './controller';
 import * as contextCreator from './contextCreator';
 import { logger } from '../../logger';
@@ -70,10 +70,7 @@ describe('edit organisation controller', () => {
       try {
         await getEditOrgContext({ organisationId: 1, accessToken: 'access_token' });
       } catch (err) {
-        expect(err).toEqual(new ErrorContext({
-          status: 404,
-          description: 'No organisation data returned for id: 1',
-        }));
+        expect(err).toEqual(new Error());
       }
     });
   });

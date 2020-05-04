@@ -1,4 +1,4 @@
-import { ErrorContext, getData, postData } from 'buying-catalogue-library';
+import { getData, postData } from 'buying-catalogue-library';
 import { getContext } from './contextCreator';
 import { logger } from '../../logger';
 import { getEndpoint } from '../../endpoints';
@@ -16,10 +16,8 @@ export const getViewUserContext = async ({ organisationId, userId, accessToken }
     user.userId = userId;
     return getContext({ user });
   }
-  throw new ErrorContext({
-    status: 404,
-    description: `No user data returned for id: ${userId}`,
-  });
+  logger.error(`No user data returned for id: ${userId}`);
+  throw new Error();
 };
 
 export const postUserStatus = async ({ userId, accessToken, status }) => {
@@ -31,8 +29,7 @@ export const postUserStatus = async ({ userId, accessToken, status }) => {
     logger.info(`User ${userId} status updated to: ${status}`);
     return { success: true };
   } catch (err) {
-    throw new ErrorContext({
-      description: `Unable to update status for user id: ${userId}`,
-    });
+    logger.error(`Unable to update status for user id: ${userId}`);
+    throw new Error();
   }
 };

@@ -1,4 +1,4 @@
-import { ErrorContext, getData, postData } from 'buying-catalogue-library';
+import { getData, postData } from 'buying-catalogue-library';
 import { getViewUserContext, postUserStatus } from './controller';
 import * as contextCreator from './contextCreator';
 import { logger } from '../../logger';
@@ -85,10 +85,7 @@ describe('viewuser controller', () => {
       try {
         await getViewUserContext({ userId: 1, organisationId: 2, accessToken: 'access_token' });
       } catch (err) {
-        expect(err).toEqual(new ErrorContext({
-          status: 404,
-          description: 'No user data returned for id: 1',
-        }));
+        expect(err).toEqual(new Error());
       }
     });
   });
@@ -128,9 +125,7 @@ describe('viewuser controller', () => {
       try {
         await postUserStatus({ userId: 1, accessToken: 'access_token', status: 'enable' });
       } catch (err) {
-        expect(err).toEqual(new ErrorContext({
-          description: 'Unable to update status for user id: 1',
-        }));
+        expect(err).toEqual(new Error());
       }
     });
   });

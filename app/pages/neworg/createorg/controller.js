@@ -1,4 +1,4 @@
-import { ErrorContext, getData, postData } from 'buying-catalogue-library';
+import { getData, postData } from 'buying-catalogue-library';
 import { getContext } from './contextCreator';
 import { logger } from '../../../logger';
 import { getEndpoint } from '../../../endpoints';
@@ -11,10 +11,8 @@ export const getCreateOrgContext = async ({ odsCode, accessToken }) => {
     logger.info(`Organisation with ${odsCode}: ${org.organisationName} found`);
     return getContext({ orgData: org });
   }
-  throw new ErrorContext({
-    status: 404,
-    description: `No organisation data returned for odsCode: ${odsCode}`,
-  });
+  logger.error(`No organisation data returned for odsCode: ${odsCode}`);
+  throw new Error();
 };
 
 export const postAddOrg = async ({ odsCode, data, accessToken }) => {
@@ -46,8 +44,7 @@ export const postAddOrg = async ({ odsCode, data, accessToken }) => {
         : undefined;
       return { success: false, errorsString };
     }
-    throw new ErrorContext({
-      status: err.response.status,
-    });
+    logger.error(`Error adding organisation for odsCode: ${odsCode}`);
+    throw new Error();
   }
 };
