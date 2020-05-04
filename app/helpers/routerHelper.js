@@ -1,3 +1,4 @@
+import { ErrorContext } from 'buying-catalogue-library';
 import { appBaseUri } from '../config';
 
 export const withCatch = (authProvider, route) => async (req, res, next) => {
@@ -8,7 +9,8 @@ export const withCatch = (authProvider, route) => async (req, res, next) => {
       req.headers.referer = `${appBaseUri}${req.originalUrl}`;
       return authProvider.login()(req, res, next);
     }
-    return next(err);
+    const defaultError = new ErrorContext({ status: 500 });
+    return next(defaultError);
   }
 };
 
