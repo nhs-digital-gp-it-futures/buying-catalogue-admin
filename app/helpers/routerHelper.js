@@ -1,5 +1,6 @@
 import { ErrorContext } from 'buying-catalogue-library';
 import { appBaseUri } from '../config';
+import { getEndpoint } from '../endpoints';
 
 export const withCatch = (authProvider, route) => async (req, res, next) => {
   try {
@@ -19,3 +20,20 @@ export const withCatch = (authProvider, route) => async (req, res, next) => {
 
 export const extractAccessToken = ({ req, tokenType }) => req.session
   && req.session.accessToken && req.session.accessToken[`${tokenType}_token`];
+
+export const getHealthCheckDependencies = () => {
+  const dependencies = [
+    {
+      name: 'Identity Server',
+      endpoint: getEndpoint({ endpointLocator: 'getIdentityApiHealth' }),
+      critical: true,
+    },
+    {
+      name: 'Organisation API',
+      endpoint: getEndpoint({ endpointLocator: 'getOrganisationApiHealth' }),
+      critical: true,
+    },
+  ];
+
+  return dependencies;
+};

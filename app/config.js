@@ -21,7 +21,7 @@ module.exports = {
   identityServerUrl: process.env.IDENTITY_SERVER || 'http://localhost:5102/identity',
 
   // ORGANISATION_API_URL
-  organisationApiUrl: process.env.ORGANISATION_API_URL || 'http://localhost:8075',
+  organisationApiUrl: process.env.ORGANISATION_API_URL || 'http://localhost:5103',
 
   // LOGGER_LEVEL options are info, warn, error, off
   loggerLevel: process.env.LOGGER_LEVEL || 'error',
