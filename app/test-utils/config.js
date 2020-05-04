@@ -1,6 +1,6 @@
 export const apiLocalhost = 'http://localhost:5100';
 
-export const organisationsApiLocalhost = 'http://localhost:8075';
+export const organisationsApiLocalhost = 'http://localhost:5103';
 
 export const identityApiLocalhost = 'http://localhost:5102/identity';
 
