@@ -1,32 +1,10 @@
 require('dotenv').config();
-const util = require('util');
-const { getData } = require('buying-catalogue-library');
 const config = require('./config');
 const { App } = require('./app');
-const { AuthProvider } = require('./authProvider');
 const { routes } = require('./routes');
 const { logger } = require('./logger');
-const { getEndpoint } = require('./endpoints');
-
-const setTimeoutPromise = util.promisify(setTimeout);
-
-const isIsapiReady = async ({
-  attempt, pollDuration,
-}) => {
-  try {
-    const endpoint = getEndpoint({ endpointLocator: 'getIdentityApiHealth' });
-    await getData({ endpoint, logger });
-    logger.info('Isapi is now ready');
-    return true;
-  } catch (err) {
-    const nextAttempt = attempt + 1;
-    const nextPollDuration = nextAttempt * pollDuration;
-    logger.error(`Isapi is not ready - will poll again in ${nextAttempt} seconds`);
-    return setTimeoutPromise(nextPollDuration).then(() => isIsapiReady({
-      attempt: nextAttempt, pollDuration,
-    }));
-  }
-};
+const { isIdentityReady } = require('./helpers/isIdentityReady');
+const { createAuthProvider } = require('./helpers/createAuthProvider');
 
 (async () => {
   Object.keys(config).map((configKey) => {
@@ -37,10 +15,12 @@ const isIsapiReady = async ({
     }
   });
 
-  await isIsapiReady({ attempt: 1, pollDuration: 1000 });
+  await isIdentityReady();
 
-  // Routes
-  const authProvider = new AuthProvider();
+  // Create authProvider
+  const authProvider = createAuthProvider({ config });
+
+  // Create app
   const app = new App(authProvider).createApp();
   app.use(config.baseUrl, routes(authProvider));
 
