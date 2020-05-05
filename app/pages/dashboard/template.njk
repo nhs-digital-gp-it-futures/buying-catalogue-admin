@@ -1,7 +1,7 @@
 {% extends 'includes/layout.njk' %}
 {% from 'components/back-link/macro.njk' import backLink %}
 {% from 'components/button/macro.njk' import button %}
-{% from '../../common/components/table.njk' import table %}
+{% from 'components/bc-table/macro.njk' import bcTable %}
 
 {% block body %}
   <div class="nhsuk-width-container" data-test-id="organisations">
@@ -23,7 +23,7 @@
     </div>
 
     <div data-test-id="org-table" class="nhsuk-u-font-size-19">
-      {{ table({
+      {{ bcTable({
         columnInfo: columnInfo,
         data: organisations,
         columnClass: columnClass

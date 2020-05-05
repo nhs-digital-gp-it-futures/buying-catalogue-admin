@@ -166,7 +166,7 @@ export const routes = (authProvider) => {
   });
 
   errorHandler(router, (error, req, res) => {
-    logger.error(`${error.title} - ${error.description}`);
+    logger.error(`${error.title} - ${error.description} ${JSON.stringify(error)}`);
     return res.render('pages/error/template.njk', addContext({ context: error, user: req.user }));
   });
 
