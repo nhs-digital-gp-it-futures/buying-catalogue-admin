@@ -5,11 +5,11 @@ export const createAuthProvider = ({ config }) => {
   const unauthenticatedError = new ErrorContext({
     status: 401,
     title: 'You\'re not authorised to view this page',
-    description: 'You must be logged in as a buyer to access Buying Catalogue orders.',
+    description: 'You must be logged in as an admin to access Buying Catalogue admin.',
     backLinkHref: config.publicBrowseBaseUrl,
   });
   const authProvider = new AuthProvider({
-    config, scopes: 'Ordering', unauthenticatedError, logger,
+    config, scopes: 'Organisation', unauthenticatedError, logger,
   });
   return authProvider;
 };
