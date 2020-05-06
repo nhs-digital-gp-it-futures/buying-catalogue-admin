@@ -96,7 +96,7 @@ test('should navigate to /back-from-admin when click Back', async (t) => {
 
   await t
     .expect(goBackLink.exists).ok()
-    .expect(goBackLink.getAttribute('href')).eql('http://localhost:3000/back-from-admin');
+    .expect(goBackLink.getAttribute('href')).eql('http://localhost:3000/re-login');
 });
 
 test('should render the title', async (t) => {
