@@ -1,6 +1,6 @@
+import { formatErrors, formatAllErrors, addErrorsAndDataToManifest } from 'buying-catalogue-library';
 import manifest from './manifest.json';
 import { baseUrl } from '../../config';
-import { formatErrors, formatAllErrors, addErrorsAndDataToManifest } from './contextCreatorErrorHelper';
 
 export const getContext = orgData => ({
   ...manifest,
