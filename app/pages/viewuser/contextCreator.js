@@ -9,7 +9,6 @@ export const getContext = ({ user }) => ({
   emailAddress: user.emailAddress,
   accountDisabled: user.disabled,
   backLinkHref: `${baseUrl}/organisations/${user.organisationId}`,
-  editUserButtonHref: '#',
   changeAccountStatusButtonText: `${user.disabled ? 'Re-enable' : 'Disable'} account`,
   changeAccountStatusFormAction: `${baseUrl}/organisations/${user.organisationId}/${user.userId}/${user.disabled ? 'enable' : 'disable'}`,
 });

@@ -19,7 +19,6 @@ describe('getViewUserContext', () => {
     expect(context.nameHeading).toEqual(manifest.nameHeading);
     expect(context.phoneNumberHeading).toEqual(manifest.phoneNumberHeading);
     expect(context.emailAddressHeading).toEqual(manifest.emailAddressHeading);
-    expect(context.editUserButtonText).toEqual(manifest.editUserButtonText);
   });
 
   it('should add userName, organisationName, phoneNumber, emailAddress, accountDisabled to the context if provided', () => {
@@ -34,11 +33,6 @@ describe('getViewUserContext', () => {
   it('should construct backLinkHref', () => {
     const { backLinkHref } = getContext({ user: mockData });
     expect(backLinkHref).toEqual(`${baseUrl}/organisations/${mockData.organisationId}`);
-  });
-
-  it('should construct editUserButtonHref', () => {
-    const { editUserButtonHref } = getContext({ user: mockData });
-    expect(editUserButtonHref).toEqual('#');
   });
 
   describe('user disabled is true', () => {

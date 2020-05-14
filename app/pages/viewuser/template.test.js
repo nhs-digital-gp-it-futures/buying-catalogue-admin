@@ -14,7 +14,6 @@ const mockData = {
   phoneNumber: '07777777777',
   emailAddress: 'John@Smith.com',
   accountDisabled: false,
-  editUserButtonHref: '#',
   changeAccountStatusButtonText: 'Disable account',
   changeAccountStatusFormAction: '/organisations/org1/user2/disable',
 };
@@ -85,15 +84,6 @@ describe('viewuser page', () => {
       expect(heading.text().trim()).toEqual(mockContext.emailAddressHeading);
       expect(emailAddress.length).toEqual(1);
       expect(emailAddress.text().trim()).toEqual(mockContext.emailAddress);
-    });
-  }));
-
-  it('should render an edit user button', componentTester(setup, (harness) => {
-    harness.request(mockContext, ($) => {
-      const editUserButton = $('[data-test-id="edit-user-button"] a');
-      expect(editUserButton.length).toEqual(1);
-      expect(editUserButton.text().trim()).toEqual(mockContext.editUserButtonText);
-      expect(editUserButton.attr('href')).toEqual('#');
     });
   }));
 
