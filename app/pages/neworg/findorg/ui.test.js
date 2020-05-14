@@ -1,7 +1,7 @@
 import nock from 'nock';
+import { extractInnerText } from 'buying-catalogue-library';
 import { Selector, ClientFunction } from 'testcafe';
 import content from './manifest.json';
-import { extractInnerText } from '../../../test-utils/helper';
 import { organisationsApiLocalhost } from '../../../test-utils/config';
 
 const pageUrl = 'http://localhost:1234/admin/organisations/find';

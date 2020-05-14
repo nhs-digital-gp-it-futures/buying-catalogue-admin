@@ -1,7 +1,7 @@
 import nock from 'nock';
+import { extractInnerText } from 'buying-catalogue-library';
 import { Selector, ClientFunction } from 'testcafe';
 import { organisationsApiLocalhost, identityApiLocalhost } from '../../test-utils/config';
-import { extractInnerText } from '../../test-utils/helper';
 import { extractObjectValuesToArray } from '../../helpers/contextCreatorHelper';
 import organisationDetails from '../../test-utils/fixtures/organisationDetails.json';
 import usersData from '../../test-utils/fixtures/users.json';

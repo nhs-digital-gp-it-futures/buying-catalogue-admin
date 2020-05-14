@@ -1,7 +1,7 @@
 import nock from 'nock';
+import { extractInnerText } from 'buying-catalogue-library';
 import { Selector, ClientFunction } from 'testcafe';
 import content from './manifest.json';
-import { extractInnerText } from '../../../test-utils/helper';
 
 const path = 'http://localhost:1234/admin/organisations/find/select/create/error?ods=abc&errors=OrganisationAlreadyExists';
 const setCookies = ClientFunction(() => {
