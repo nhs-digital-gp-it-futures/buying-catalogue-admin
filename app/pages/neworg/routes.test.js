@@ -2,6 +2,7 @@ import request from 'supertest';
 import {
   FakeAuthProvider,
   testAuthorisedGetPathForUnauthenticatedUser,
+  testAuthorisedGetPathForUnauthorisedUser,
   testPostPathWithoutCsrf,
   testAuthorisedPostPathForUnauthenticatedUser,
   testAuthorisedPostPathForUnauthorisedUsers,
@@ -55,17 +56,6 @@ const setUpFakeApp = () => {
   return app;
 };
 
-const checkAuthorisedRouteWithoutClaim = (path) => {
-  request(setUpFakeApp())
-    .get(path)
-    .set('Cookie', [mockUnauthorisedCookie])
-    .expect(200)
-    .then((res) => {
-      expect(res.text.includes('data-test-id="error-title"')).toEqual(true);
-      expect(res.text.includes('You are not authorised to view this page')).toEqual(true);
-    });
-};
-
 describe('routes', () => {
   describe('GET /organisations/find', () => {
     const path = '/organisations/find';
@@ -77,7 +67,13 @@ describe('routes', () => {
     ));
 
     it('should show the error page indicating the user is not authorised if the user is logged in but not authorised', () => (
-      checkAuthorisedRouteWithoutClaim(path)
+      testAuthorisedGetPathForUnauthorisedUser({
+        app: request(setUpFakeApp()),
+        pathToTest: path,
+        mockUnauthorisedCookie,
+        expectedPageId: 'data-test-id="error-title"',
+        expectedPageMessage: 'You are not authorised to view this page',
+      })
     ));
 
     it('should return the correct status and text when the user is authorised', () => request(setUpFakeApp())
@@ -191,7 +187,13 @@ describe('routes', () => {
     ));
 
     it('should show the error page indicating the user is not authorised if the user is logged in but not authorised', () => (
-      checkAuthorisedRouteWithoutClaim(path)
+      testAuthorisedGetPathForUnauthorisedUser({
+        app: request(setUpFakeApp()),
+        pathToTest: path,
+        mockUnauthorisedCookie,
+        expectedPageId: 'data-test-id="error-title"',
+        expectedPageMessage: 'You are not authorised to view this page',
+      })
     ));
 
     it('should return the correct status and text when the user is authorised', () => {
@@ -267,7 +269,13 @@ describe('routes', () => {
     ));
 
     it('should show the error page indicating the user is not authorised if the user is logged in but not authorised', () => (
-      checkAuthorisedRouteWithoutClaim(path)
+      testAuthorisedGetPathForUnauthorisedUser({
+        app: request(setUpFakeApp()),
+        pathToTest: path,
+        mockUnauthorisedCookie,
+        expectedPageId: 'data-test-id="error-title"',
+        expectedPageMessage: 'You are not authorised to view this page',
+      })
     ));
 
     it('should return the correct status and text when the user is authorised', () => request(setUpFakeApp())
@@ -361,7 +369,13 @@ describe('routes', () => {
     ));
 
     it('should show the error page indicating the user is not authorised if the user is logged in but not authorised', () => (
-      checkAuthorisedRouteWithoutClaim(path)
+      testAuthorisedGetPathForUnauthorisedUser({
+        app: request(setUpFakeApp()),
+        pathToTest: path,
+        mockUnauthorisedCookie,
+        expectedPageId: 'data-test-id="error-title"',
+        expectedPageMessage: 'You are not authorised to view this page',
+      })
     ));
 
     it('should return the correct status and text when the user is authorised', () => request(setUpFakeApp())
@@ -384,7 +398,13 @@ describe('routes', () => {
     ));
 
     it('should show the error page indicating the user is not authorised if the user is logged in but not authorised', () => (
-      checkAuthorisedRouteWithoutClaim(path)
+      testAuthorisedGetPathForUnauthorisedUser({
+        app: request(setUpFakeApp()),
+        pathToTest: path,
+        mockUnauthorisedCookie,
+        expectedPageId: 'data-test-id="error-title"',
+        expectedPageMessage: 'You are not authorised to view this page',
+      })
     ));
 
     it('should return the correct status and text when the user is authorised', () => {
