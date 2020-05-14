@@ -155,31 +155,6 @@ test('should render email address', async (t) => {
     .expect(await extractInnerText(email)).eql(userData.emailAddress);
 });
 
-test('should render edit account button', async (t) => {
-  await pageSetup(t, true);
-  await t.navigateTo(pageUrl);
-
-  const editUserButton = Selector('[data-test-id="edit-user-button"] a');
-
-  await t
-    .expect(editUserButton.exists).ok()
-    .expect(await extractInnerText(editUserButton)).eql(content.editUserButtonText)
-    .expect(editUserButton.hasClass('nhsuk-u-margin-bottom-9')).ok()
-    .expect(editUserButton.getAttribute('href')).eql('#');
-});
-
-test('should navigate to edit user page when edit user button is clicked', async (t) => {
-  await pageSetup(t, true);
-  await t.navigateTo(pageUrl);
-
-  const editUserButton = Selector('[data-test-id="edit-user-button"] a');
-
-  await t
-    .expect(editUserButton.exists).ok()
-    .click(editUserButton)
-    .expect(getLocation()).eql(`${pageUrl}#`);
-});
-
 test('should render change account status button', async (t) => {
   await pageSetup(t, true);
   await t.navigateTo(pageUrl);
