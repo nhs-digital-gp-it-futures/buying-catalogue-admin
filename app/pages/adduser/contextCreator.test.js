@@ -1,13 +1,9 @@
+import { formatErrors, formatAllErrors, addErrorsAndDataToManifest } from 'buying-catalogue-library';
 import manifest from './manifest.json';
 import { getContext, getErrorContext } from './contextCreator';
 import { baseUrl } from '../../config';
-import * as contextCrErrHelper from './contextCreatorErrorHelper';
 
-jest.mock('./contextCreatorErrorHelper', () => ({
-  formatErrors: jest.fn(),
-  formatAllErrors: jest.fn(),
-  addErrorsAndDataToManifest: jest.fn(),
-}));
+jest.mock('buying-catalogue-library');
 
 const mockData = {
   organisationId: 'org1',
@@ -52,13 +48,14 @@ describe('adduser contextCreator', () => {
 
   describe('getErrorContext', () => {
     beforeEach(() => {
-      contextCrErrHelper.addErrorsAndDataToManifest.mockImplementation(() => manifest);
+      formatErrors.mockReturnValue({});
+      addErrorsAndDataToManifest.mockImplementation(() => manifest);
     });
 
     afterEach(() => {
-      contextCrErrHelper.formatErrors.mockReset();
-      contextCrErrHelper.formatAllErrors.mockReset();
-      contextCrErrHelper.addErrorsAndDataToManifest.mockReset();
+      formatErrors.mockReset();
+      formatAllErrors.mockReset();
+      addErrorsAndDataToManifest.mockReset();
     });
 
     it('should return the contents of the manifest', () => {
@@ -86,10 +83,10 @@ describe('adduser contextCreator', () => {
     });
 
     it('should construct errors array from the data provided', () => {
-      contextCrErrHelper.formatAllErrors.mockImplementation(() => ([
+      formatAllErrors.mockReturnValue([
         { href: '#firstName', text: 'First name is too long' },
         { href: '#lastName', text: 'Last name is required' },
-      ]));
+      ]);
       const context = getErrorContext({
         orgData: mockData,
         validationErrors: mockValidationErrors,
@@ -104,9 +101,9 @@ describe('adduser contextCreator', () => {
 
     it('should call the helper functions', () => {
       getErrorContext({ orgData: mockData, validationErrors: mockValidationErrors, data: {} });
-      expect(contextCrErrHelper.formatErrors.mock.calls.length).toEqual(1);
-      expect(contextCrErrHelper.addErrorsAndDataToManifest.mock.calls.length).toEqual(1);
-      expect(contextCrErrHelper.formatAllErrors.mock.calls.length).toEqual(1);
+      expect(formatErrors.mock.calls.length).toEqual(1);
+      expect(addErrorsAndDataToManifest.mock.calls.length).toEqual(1);
+      expect(formatAllErrors.mock.calls.length).toEqual(1);
     });
   });
 });
