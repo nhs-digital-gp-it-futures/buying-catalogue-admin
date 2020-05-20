@@ -1,0 +1,8 @@
+{% macro checkedStatement(params) %}
+  <div data-test-id="{{ params.dataTestId }}" class="bc-u-flex" >
+    <svg class="nhsuk-icon nhsuk-icon__tick" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path stroke-width="4" stroke-linecap="round" d="M18.4 7.8l-8.5 8.4L5.6 12"></path>
+    </svg> 
+    <div class="nhsuk-u-font-weight-bold bc-u-display-inline nhsuk-u-font-size-19 nhsuk-u-padding-top-1">{{ params.text }}</div>
+  </div>
+{% endmacro %}

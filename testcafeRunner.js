@@ -1,11 +1,14 @@
 import createTestcafe from 'testcafe';
-import { App } from './app';
-import routes from './app/routes';
-import { env } from './app/config';
+import { FakeAuthProvider } from 'buying-catalogue-library';
+import { App } from './app/app';
+import { routes } from './app/routes';
+import { env, baseUrl } from './app/config';
 
 let testcafe;
-const app = new App().createApp();
-app.use('/', routes);
+
+const authProvider = new FakeAuthProvider();
+const app = new App(authProvider).createApp();
+app.use(baseUrl, routes(authProvider));
 const server = app.listen('1234');
 
 const browserFromArgs = process.argv.slice(2, 3);
@@ -14,7 +17,7 @@ const browserToRun = browserFromArgs.length > 0 ? browserFromArgs : 'chrome:head
 const testFromArgs = process.argv.slice(3, 4);
 const testsToRun = testFromArgs ? `**/*${testFromArgs}*/ui.test.js` : '**/*ui.test.js';
 
-let concurrency = 4;
+let concurrency = 1;
 let stopOnFirstFail = true;
 let quarantineMode = true;
 if (env === 'pipeline' || browserFromArgs.length > 0) {

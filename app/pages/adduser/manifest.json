@@ -1,0 +1,37 @@
+{
+  "title": "Add new user",
+  "description": "Provide the following information to make a new user account.",
+  "orgNameSubheading": "Organisation name",
+  "isMultiQuestion": true,
+  "questions": [
+    {
+      "id": "firstName",
+      "mainAdvice": "First name"
+    },
+    {
+      "id": "lastName",
+      "mainAdvice": "Last name"
+    },
+    {
+      "id": "phoneNumber",
+      "mainAdvice": "Telephone number"
+    },
+    {
+      "id": "emailAddress",
+      "mainAdvice": "Email address"
+    }
+  ],
+  "addUserButtonText": "Add user",
+  "errorMessages": {
+    "EmailRequired": "Email address is required",
+    "EmailTooLong": "Email address is too long",
+    "EmailInvalidFormat": "Email address format is not valid",
+    "EmailAlreadyExists": "Email address already exists",
+    "PhoneNumberRequired": "Telephone number is required",
+    "PhoneNumberTooLong": "Telephone number is too long",
+    "LastNameRequired": "Last name is required",
+    "LastNameTooLong": "Last name is too long",
+    "FirstNameRequired": "First name is required",
+    "FirstNameTooLong": "First name is too long"
+  }
+}

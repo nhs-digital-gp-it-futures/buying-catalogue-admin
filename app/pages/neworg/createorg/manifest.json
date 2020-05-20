@@ -1,0 +1,12 @@
+{
+  "title": "Create organisation",
+  "description": "Create organisation on the Buying Catalogue.",
+  "organisationDetailsHeading": "Organisation details",
+  "changeOrgLinkText": "Change organisation",
+  "organisationNameHeading": "Organisation name",
+  "odsCodeHeading": "ODS code",
+  "addressHeading": "Address",
+  "primaryRoleIdHeading": "Primary Role ID",
+  "catalogueAgreementCheckboxText": "Ensure this organisation has a signed Organisation End User Agreement before confirming",
+  "saveButtonText": "Save"
+}
