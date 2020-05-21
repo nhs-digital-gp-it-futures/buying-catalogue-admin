@@ -40,7 +40,7 @@ createOrgController.getCreateOrgContext = jest.fn()
 const mockLogoutMethod = jest.fn().mockImplementation(() => Promise.resolve({}));
 
 const mockAuthorisedJwtPayload = JSON.stringify({
-  id: '88421113', name: 'Cool Dude', organisation: 'view',
+  id: '88421113', name: 'Cool Dude', organisation: 'manage',
 });
 const mockAuthorisedCookie = `fakeToken=${mockAuthorisedJwtPayload}`;
 
