@@ -15,6 +15,9 @@ pr:
 pool:
   vmImage: 'ubuntu-latest'
 
+variables:
+    - group: dev-acr-secrets
+
 jobs: 
 - job: version
   displayName: Work out Version
@@ -129,8 +132,8 @@ jobs:
       chartPackage=$(ls admin-*.tgz)
       az acr helm push --force \
           -n "gpitfuturesdevacr" \
-          -u $(registryLogin) \
-          -p $(registryPassword) \
+          -u "gpitfuturesdevacr" \
+          -p $(gpitfuturesdevacr-pass) \
           $chartPackage      
     failOnStderr: true
     name: helmPush
