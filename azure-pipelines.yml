@@ -141,7 +141,7 @@ jobs:
 
   - task: DockerCompose@0
     displayName: 'Build: Test'
-    condition: and(succeeded(), ne(variables['build.reason'], 'PullRequest'), or(eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(variables['Build.SourceBranch'], 'refs/heads/development'))
+    condition: and(succeeded(), ne(variables['build.reason'], 'PullRequest'), or(eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(variables['Build.SourceBranch'], 'refs/heads/development')))
     inputs:
       containerregistrytype: 'Azure Container Registry'
       azureSubscription: 'NHSAPP-BuyingCatalogue (Non-Prod)'
@@ -153,7 +153,7 @@ jobs:
 
   - task: DockerCompose@0
     displayName: 'Push: Test'
-    condition: and(succeeded(), ne(variables['build.reason'], 'PullRequest'), or(eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(variables['Build.SourceBranch'], 'refs/heads/development'))
+    condition: and(succeeded(), ne(variables['build.reason'], 'PullRequest'), or(eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(variables['Build.SourceBranch'], 'refs/heads/development')))
     inputs:
       containerregistrytype: 'Azure Container Registry'
       dockerComposeFile: '**/docker-compose.yml'
