@@ -63,11 +63,11 @@ Create the name of the service account to use
 {{- end -}}
 
 {{/*
-Defines which image and what pull policy to use
+Defines which image:tag and what pull policy to use
 */}}
-{{- define "image.properties" -}}
+{{- define "admin.image.properties" -}}
 {{- $localImageName := .Values.image.repository | replace "gpitfuturesdevacr.azurecr.io/" "" -}}
-{{- $imageName := ternary $localImageName .Values.image.repository .Values.useLocalImage -}}
+{{- $imageName := ternary $localImageName (printf "%s:%s" .Values.image.repository .Chart.AppVersion)  .Values.useLocalImage -}}
 {{- $imagePullPolicy := ternary "IfNotPresent" "Always" .Values.useLocalImage -}}
 image: {{ $imageName | quote }}
 imagePullPolicy: {{ $imagePullPolicy | quote }}
