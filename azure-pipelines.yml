@@ -128,8 +128,6 @@ jobs:
     failOnStderr: true
     displayName: 'Helm package'
   - bash: |
-      curl https://bazel.build/bazel-release.pub.gpg | sudo apt-key add -
-      sudo apt-get update
       cd charts
       chartPackage=$(ls admin-*.tgz)
       az acr helm push --force \
@@ -155,7 +153,7 @@ jobs:
 
   - task: DockerCompose@0
     displayName: 'Push: Test'
-    condition: and(succeeded(), ne(variables['build.reason'], 'PullRequest'), or(eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(variables['Build.SourceBranch'], 'refs/heads/development')))
+    condition: and(succeeded(), ne(variables['build.reason'], 'PullRequest'), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
     inputs:
       containerregistrytype: 'Azure Container Registry'
       dockerComposeFile: '**/docker-compose.yml'
