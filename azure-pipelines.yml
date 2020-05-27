@@ -47,12 +47,10 @@ jobs:
       npm build
     displayName: 'NPM install'
 
-  - script: |
-      npx webpack --config webpack.config.js
+  - script: npx webpack --config webpack.config.js
     displayName: 'NPX Webpack'
 
-  - script: |
-      npm run test
+  - script: npm run test
     displayName: 'Unit test'
 
   - task: PublishTestResults@2
