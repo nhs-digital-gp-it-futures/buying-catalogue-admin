@@ -8,7 +8,7 @@ const pageUrl = 'http://localhost:1234/admin/organisations/find';
 
 const setCookies = ClientFunction(() => {
   const cookieValue = JSON.stringify({
-    id: '88421113', name: 'Cool Dude', organisation: 'view',
+    id: '88421113', name: 'Cool Dude', organisation: 'manage',
   });
 
   document.cookie = `fakeToken=${cookieValue}`;

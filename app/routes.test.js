@@ -43,7 +43,7 @@ viewUserController.getViewUserContext = jest.fn()
   .mockResolvedValue({});
 
 const mockAuthorisedJwtPayload = JSON.stringify({
-  id: '88421113', name: 'Cool Dude', organisation: 'view',
+  id: '88421113', name: 'Cool Dude', organisation: 'manage',
 });
 const mockAuthorisedCookie = `fakeToken=${mockAuthorisedJwtPayload}`;
 
