@@ -21,8 +21,6 @@ variables:
 jobs: 
 - job: version
   displayName: Work out Version
-  pool:
-    name: GP IT Futures AKS Build Agents
   steps:
   - task: UseGitVersion@5
     displayName: gitversion
