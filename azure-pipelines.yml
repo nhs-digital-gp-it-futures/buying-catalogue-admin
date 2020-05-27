@@ -156,6 +156,8 @@ jobs:
     condition: and(succeeded(), ne(variables['build.reason'], 'PullRequest'), or(eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(variables['Build.SourceBranch'], 'refs/heads/development')))
     inputs:
       containerregistrytype: 'Azure Container Registry'
+      azureSubscription: 'NHSAPP-BuyingCatalogue (Non-Prod)'
+      azureContainerRegistry: '{"loginServer":"gpitfuturestestacr.azurecr.io", "id" : "/subscriptions/7b12a8a2-f06f-456f-b6f9-aa2d92e0b2ec/resourceGroups/gpitfutures-test-rg-acr/providers/Microsoft.ContainerRegistry/registries/gpitfuturestestacr"}'
       dockerComposeFile: '**/docker-compose.yml'
       action: 'Push services'
       additionalImageTags: '$(semVer)'
