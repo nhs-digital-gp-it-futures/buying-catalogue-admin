@@ -6,7 +6,7 @@ import content from './manifest.json';
 const path = 'http://localhost:1234/admin/organisations/find/select/create/error?ods=abc&errors=OrganisationAlreadyExists';
 const setCookies = ClientFunction(() => {
   const cookieValue = JSON.stringify({
-    id: '88421113', name: 'Cool Dude', organisation: 'view',
+    id: '88421113', name: 'Cool Dude', organisation: 'manage',
   });
 
   document.cookie = `fakeToken=${cookieValue}`;
