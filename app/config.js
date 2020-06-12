@@ -30,7 +30,7 @@ module.exports = {
   oidcBaseUri: process.env.OIDC_BASE_URI || 'http://localhost:5102/identity',
 
   // The client id to be sent to identity service
-  oidcClientId: process.env.OIDC_CLIENT_ID || 'SampleClient',
+  oidcClientId: process.env.OIDC_CLIENT_ID || 'NodeClient',
 
   // The secret need to decode JWT tokens
   oidcClientSecret: process.env.OIDC_CLIENT_SECRET,
@@ -48,7 +48,7 @@ module.exports = {
   redisUrl: process.env.REDIS_URL || 'localhost',
 
   // The port redis is running
-  redisPort: process.env.REDIS_PORT || 6380,
+  redisPort: process.env.REDIS_PORT || 6379,
 
   // Boolean to indicate whether to connect to redis via TLS
   redisTls: process.env.REDIS_TLS || 'false',
