@@ -35,7 +35,7 @@
   "author": "Katie Armstrong",
   "license": "MIT",
   "dependencies": {
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "body-parser": "^1.19.0",
     "buying-catalogue-components": "^1.2.4",
     "buying-catalogue-library": "^1.0.27",
