@@ -1,6 +1,6 @@
 {
   "name": "buying-catalogue-admin",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "",
   "main": "server.js",
   "scripts": {
@@ -37,8 +37,8 @@
   "dependencies": {
     "axios": "^0.21.1",
     "body-parser": "^1.19.0",
-    "buying-catalogue-components": "^3.3.2",
-    "buying-catalogue-library": "^1.2.3",
+    "buying-catalogue-components": "^3.3.3",
+    "buying-catalogue-library": "^1.2.4",
     "compression": "^1.7.4",
     "cookie-parser": "^1.4.5",
     "csurf": "^1.11.0",
