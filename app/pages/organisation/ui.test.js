@@ -274,16 +274,16 @@ test('should render the table with users', async (t) => {
   const columnHeading2 = tableHeadings.find('[data-test-id="column-heading-1"]');
   const columnHeading3 = tableHeadings.find('[data-test-id="column-heading-2"]');
 
-  const user1Row = Selector('div[data-test-id="table-row-0"]');
-  const user1Name = user1Row.find('a');
-  const user1Phone = user1Row.find('div');
-  const user1Email = Selector('div[data-test-id="table-row-0"] div:nth-child(3)');
+  const user1Row = Selector('tr[data-test-id="table-row-0"]');
+  const user1Name = user1Row.find('a[data-test-id="user-name-1234-56789"]');
+  const user1Phone = user1Row.find('div[data-test-id="user-phone-1234-56789"]');
+  const user1Email = user1Row.find('div[data-test-id="user-email-1234-56789"]');
   const user1DisabledTag = user1Row.find('div').withText('ACCOUNT DISABLED');
 
-  const user2Row = Selector('div[data-test-id="table-row-1"]');
-  const user2Name = user2Row.find('a');
-  const user2Phone = user2Row.find('div');
-  const user2Email = Selector('div[data-test-id="table-row-1"] div:nth-child(3)');
+  const user2Row = Selector('tr[data-test-id="table-row-1"]');
+  const user2Name = user2Row.find('a[data-test-id="user-name-4321-98765"]');
+  const user2Phone = user2Row.find('div[data-test-id="user-phone-4321-98765"]');
+  const user2Email = user2Row.find('div[data-test-id="user-email-4321-98765"]');
   const user2DisabledTag = user2Row.find('div').withText('ACCOUNT DISABLED');
 
   await t
@@ -316,7 +316,7 @@ test('should navigate to view user page when user name is clicked', async (t) =>
 
   const orgId = organisationDetails.organisationId;
 
-  const user1Row = Selector('div[data-test-id="table-row-0"]');
+  const user1Row = Selector('tr[data-test-id="table-row-0"]');
   const user1Name = user1Row.find('a');
 
   await t

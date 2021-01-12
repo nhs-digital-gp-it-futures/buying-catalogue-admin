@@ -41,7 +41,6 @@ describe('getEditOrganisationContext', () => {
     expect(context.agreementSigned).toEqual(mockData.catalogueAgreementSigned);
   });
 
-
   it('should add backLinkHref', () => {
     const { backLinkHref } = getContext({ organisation: mockData });
     expect(backLinkHref).toEqual(`${baseUrl}/organisations/${mockData.organisationId}`);

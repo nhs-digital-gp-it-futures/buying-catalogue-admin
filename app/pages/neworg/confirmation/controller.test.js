@@ -4,7 +4,6 @@ import * as contextCreator from './contextCreator';
 import { logger } from '../../../logger';
 import { organisationApiUrl } from '../../../config';
 
-
 jest.mock('buying-catalogue-library');
 
 jest.mock('./contextCreator', () => ({

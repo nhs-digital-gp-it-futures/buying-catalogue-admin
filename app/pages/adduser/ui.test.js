@@ -142,7 +142,6 @@ test('should render a text field for each question', async (t) => {
   const phoneNumberLabel = phoneNumber.find('label.nhsuk-label');
   const emailAddressLabel = emailAddress.find('label.nhsuk-label');
 
-
   await t
     .expect(firstName.exists).ok()
     .expect(await extractInnerText(firstNameLabel)).eql(content.questions[0].mainAdvice)
@@ -233,7 +232,6 @@ test('should show text fields as errors with error message when there are valida
   const lastNameField = addUserPage.find('[data-test-id="question-lastName"]');
   const phoneNumberField = addUserPage.find('[data-test-id="question-phoneNumber"]');
   const emailAddressField = addUserPage.find('[data-test-id="question-emailAddress"]');
-
 
   await t
     .expect(firstNameField.find('[data-test-id="text-field-input-error"]').exists).notOk()

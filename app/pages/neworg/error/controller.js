@@ -1,3 +1,3 @@
 import { getContext } from './contextCreator';
 
-export const getCreateOrgErrorContext = params => getContext(params);
+export const getCreateOrgErrorContext = (params) => getContext(params);

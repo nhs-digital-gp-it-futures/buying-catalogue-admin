@@ -155,12 +155,12 @@ test('should render the table content', async (t) => {
   await pageSetup(t, true);
   await t.navigateTo(pageUrl);
 
-  const row0 = Selector('div[data-test-id="table-row-0"]');
-  const row0Name = row0.find('a');
-  const row0Ods = row0.find('div');
-  const row1 = Selector('div[data-test-id="table-row-1"]');
-  const row1Name = row1.find('a');
-  const row1Ods = row1.find('div');
+  const row0 = Selector('tr[data-test-id="table-row-0"]');
+  const row0Name = row0.find('a[data-test-id="org-name-org-001"]');
+  const row0Ods = row0.find('div[data-test-id="ods-code-org-001"]');
+  const row1 = Selector('tr[data-test-id="table-row-1"]');
+  const row1Name = row1.find('a[data-test-id="org-name-org-002"]');
+  const row1Ods = row1.find('div[data-test-id="ods-code-org-002"]');
 
   await t
     .expect(row0.exists).ok()
@@ -186,7 +186,7 @@ test('should navigate to the organisation page when an organisation name is clic
   await pageSetup(t, true);
   await t.navigateTo(pageUrl);
 
-  const row0Name = Selector('div[data-test-id="table-row-0"] a');
+  const row0Name = Selector('tr[data-test-id="table-row-0"] a');
   const orgId = organisationsList.organisations[0].organisationId;
   await t
     .expect(row0Name.exists).ok()
