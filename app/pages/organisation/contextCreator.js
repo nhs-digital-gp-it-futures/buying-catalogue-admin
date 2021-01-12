@@ -12,7 +12,7 @@ export const getContext = ({ organisation }) => ({
   agreementSigned: organisation.catalogueAgreementSigned,
   columnInfo: manifest.columnInfo ? manifest.columnInfo : [],
   addUserButtonHref: `${baseUrl}/organisations/${organisation.organisationId}/adduser`,
-  users: organisation && organisation.users ? organisation.users.map(row => [
+  users: organisation && organisation.users ? organisation.users.map((row) => [
     {
       data: `${(`${row.firstName ? row.firstName : ''} ${row.lastName ? row.lastName : ''}`).trim()}` || '',
       href: `${baseUrl}/organisations/${organisation.organisationId}/${row.userId}`,

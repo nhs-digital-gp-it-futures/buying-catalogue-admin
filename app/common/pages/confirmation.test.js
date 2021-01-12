@@ -14,7 +14,6 @@ const context = {
   backLinkHref: '/organisations/org1',
 };
 
-
 describe('confirmation page', () => {
   it('should render a backLink', componentTester(setup, (harness) => {
     harness.request(context, ($) => {

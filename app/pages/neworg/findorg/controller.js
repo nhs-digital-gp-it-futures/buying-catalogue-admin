@@ -3,7 +3,7 @@ import { getContext } from './contextCreator';
 import { getEndpoint } from '../../../endpoints';
 import { logger } from '../../../logger';
 
-export const getFindOrgContext = params => getContext(params);
+export const getFindOrgContext = (params) => getContext(params);
 
 export const getFindOrgByOds = async ({ odsCode, accessToken }) => {
   try {

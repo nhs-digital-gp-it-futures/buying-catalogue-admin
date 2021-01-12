@@ -2,7 +2,7 @@ import { formatErrors, formatAllErrors, addErrorsAndDataToManifest } from 'buyin
 import manifest from './manifest.json';
 import { baseUrl } from '../../config';
 
-export const getContext = orgData => ({
+export const getContext = (orgData) => ({
   ...manifest,
   organisationId: orgData.organisationId,
   organisationName: orgData.name,
