@@ -57,7 +57,7 @@
     "@babel/cli": "^7.12.16",
     "@babel/core": "^7.12.16",
     "@babel/node": "^7.12.16",
-    "@babel/preset-env": "^7.12.16",
+    "@babel/preset-env": "^7.12.17",
     "@babel/register": "^7.12.13",
     "babel-loader": "^8.2.2",
     "cheerio": "^1.0.0-rc.5",
