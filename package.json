@@ -63,7 +63,7 @@
     "cheerio": "^1.0.0-rc.5",
     "concurrently": "^6.0.0",
     "cross-env": "^7.0.3",
-    "eslint": "^7.21.0",
+    "eslint": "^7.23.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.22.1",
     "husky": "^6.0.0",
