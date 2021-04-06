@@ -29,7 +29,7 @@
     "watch:js": "webpack --w",
     "webpack": "webpack",
     "debug": "babel-node ./app/server --inspect",
-    "postinstall": "husky install"
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
