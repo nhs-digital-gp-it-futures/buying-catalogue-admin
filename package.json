@@ -61,7 +61,7 @@
     "@babel/preset-env": "^7.13.15",
     "@babel/register": "^7.13.14",
     "babel-loader": "^8.2.2",
-    "cheerio": "^1.0.0-rc.5",
+    "cheerio": "^1.0.0-rc.6",
     "concurrently": "^6.0.1",
     "cross-env": "^7.0.3",
     "eslint": "^7.23.0",
