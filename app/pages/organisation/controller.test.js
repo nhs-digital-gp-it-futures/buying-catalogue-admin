@@ -42,6 +42,16 @@ const mockUsersData = {
 };
 
 describe('organisation controller', () => {
+  describe('add proxy', () => {
+    afterEach(() => {
+      getData.mockReset();
+      contextCreator.getContext.mockReset();
+    });
+
+    it('should format unrelated organisations for consumption by radio boxes', async () => {
+    });
+  });
+
   describe('getOrgAccountsContext', () => {
     afterEach(() => {
       getData.mockReset();

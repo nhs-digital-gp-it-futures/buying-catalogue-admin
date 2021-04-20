@@ -165,6 +165,13 @@ describe('organisations dashboard page', () => {
     });
   }));
 
+  it('should render an add organisation button', componentTester(setup, (harness) => {
+    harness.request(mockContext, ($) => {
+      const button = $('[data-test-id="add-organisation-button"] a');
+      expect(button.length).toEqual(1);
+    });
+  }));
+
   it('should render the table component with data', componentTester(setup, (harness) => {
     harness.request(mockContext, ($) => {
       const userTable = $('[data-test-id="user-table"]');

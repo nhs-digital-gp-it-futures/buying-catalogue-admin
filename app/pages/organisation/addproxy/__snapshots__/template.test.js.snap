@@ -1,0 +1,321 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`add proxy for organisation the page should render 1`] = `
+"<main class=\\"nhsuk-main-wrapper\\" id=\\"maincontent\\" data-test-id=\\"main-content\\">
+        
+  <div class=\\"nhsuk-width-container\\" data-test-id=\\"organisation-page\\">
+    <div data-test-id=\\"go-back-link\\">
+      <div class=\\"nhsuk-back-link\\">
+  <a class=\\"nhsuk-back-link__link\\" href=\\"/admin/organisations/b7ee5261-43e7-4589-907b-5eef5e98c085\\">
+  <svg class=\\"nhsuk-icon nhsuk-icon__chevron-left\\" xmlns=\\"http://www.w3.org/2000/svg\\" viewBox=\\"0 0 24 24\\" aria-hidden=\\"true\\">
+    <path d=\\"M8.5 12c0-.3.1-.5.3-.7l5-5c.4-.4 1-.4 1.4 0s.4 1 0 1.4L10.9 12l4.3 4.3c.4.4.4 1 0 1.4s-1 .4-1.4 0l-5-5c-.2-.2-.3-.4-.3-.7z\\"></path>
+  </svg>
+  Back</a>
+</div>
+
+    </div>
+
+    <div class=\\"nhsuk-grid-row\\">
+      <div class=\\"nhsuk-grid-column-two-thirds\\">
+        
+        <h1 data-test-id=\\"org-page-title\\" class=\\"nhsuk-u-margin-top-7 nhsuk-u-margin-bottom-3\\">Add organisation to Cheshire and Merseyside Commissioning Hub</h1>
+        <p data-test-id=\\"organisation-details-subheading\\" class=\\"nhsuk-heading-l nhsuk-u-font-size-22 nhsuk-u-margin-bottom-7\\">
+          Cheshire and Merseyside Commissioning Hub will then be able to create orders on this organisation's behalf.
+        </p>
+        <form method=\\"POST\\">
+          <input type=\\"hidden\\" name=\\"_csrf\\" value=\\"\\">
+          
+          
+          
+
+  
+    
+  
+
+  
+    
+    
+  
+
+  <div id=\\"relatedOrganisationId\\" data-test-id=\\"question-relatedOrganisationId\\">
+    
+      <div data-test-id=\\"radiobutton-options\\">
+        
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+<div class=\\"nhsuk-form-group\\">
+
+  <fieldset class=\\"nhsuk-fieldset\\" aria-describedby=\\"relatedOrganisationId-hint\\">
+  <legend class=\\"nhsuk-fieldset__legend nhsuk-u-font-size-24 nhsuk-u-font-weight-bold nhsuk-u-margin-bottom-2\\">
+    Which organisation are you looking for?
+  </legend>
+
+  <div class=\\"nhsuk-hint nhsuk-u-margin-bottom-3 nhsuk-u-margin-top-0\\" id=\\"relatedOrganisationId-hint\\">
+    Select one option.
+  </div>
+
+  <div class=\\"nhsuk-radios\\">
+    
+    <div class=\\"nhsuk-radios__item\\">
+      <input class=\\"nhsuk-radios__input\\" id=\\"relatedOrganisationId-1\\" name=\\"relatedOrganisationId\\" type=\\"radio\\" value=\\"43cc8258-6e92-4d39-9296-edc5bb000563\\">
+      <label class=\\"nhsuk-label nhsuk-radios__label\\" for=\\"relatedOrganisationId-1\\">
+        Cumbria and North East Commissioning Hub
+      </label>
+    </div>
+    
+    
+    <div class=\\"nhsuk-radios__item\\">
+      <input class=\\"nhsuk-radios__input\\" id=\\"relatedOrganisationId-2\\" name=\\"relatedOrganisationId\\" type=\\"radio\\" value=\\"6d37d7fb-df06-403c-9c46-d649919f9158\\">
+      <label class=\\"nhsuk-label nhsuk-radios__label\\" for=\\"relatedOrganisationId-2\\">
+        East – H&amp;J Commissioning Hub
+      </label>
+    </div>
+    
+    
+    <div class=\\"nhsuk-radios__item\\">
+      <input class=\\"nhsuk-radios__input\\" id=\\"relatedOrganisationId-3\\" name=\\"relatedOrganisationId\\" type=\\"radio\\" value=\\"bb21dd07-58df-457a-a9cb-6b035684692b\\">
+      <label class=\\"nhsuk-label nhsuk-radios__label\\" for=\\"relatedOrganisationId-3\\">
+        East Commissioning Hub
+      </label>
+    </div>
+    
+    
+    <div class=\\"nhsuk-radios__item\\">
+      <input class=\\"nhsuk-radios__input\\" id=\\"relatedOrganisationId-4\\" name=\\"relatedOrganisationId\\" type=\\"radio\\" value=\\"d795a598-26f0-46fb-8a6e-f22cd912d7dc\\">
+      <label class=\\"nhsuk-label nhsuk-radios__label\\" for=\\"relatedOrganisationId-4\\">
+        Greater Manchester Commissioning Hub
+      </label>
+    </div>
+    
+    
+    <div class=\\"nhsuk-radios__item\\">
+      <input class=\\"nhsuk-radios__input\\" id=\\"relatedOrganisationId-5\\" name=\\"relatedOrganisationId\\" type=\\"radio\\" value=\\"dff57334-4055-48cf-a569-da490ccdc66a\\">
+      <label class=\\"nhsuk-label nhsuk-radios__label\\" for=\\"relatedOrganisationId-5\\">
+        Hampshire, Isle of Wight and Thames Valley – H&amp;J Commissioning Hub
+      </label>
+    </div>
+    
+  </div>
+  </fieldset>
+
+</div>
+
+      </div>
+    
+  </div>
+
+
+          
+
+  
+  
+
+  
+  
+
+  <div data-test-id=\\"submit-button\\">
+    
+
+
+  
+    
+  
+
+
+
+
+<button class=\\"nhsuk-button\\" type=\\"submit\\">
+  Confirm
+</button>
+
+
+
+  </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+
+      </main>"
+`;
+
+exports[`add proxy for organisation the page should render with errors 1`] = `
+"<main class=\\"nhsuk-main-wrapper\\" id=\\"maincontent\\" data-test-id=\\"main-content\\">
+        
+  <div class=\\"nhsuk-width-container\\" data-test-id=\\"organisation-page\\">
+    <div data-test-id=\\"go-back-link\\">
+      <div class=\\"nhsuk-back-link\\">
+  <a class=\\"nhsuk-back-link__link\\" href=\\"/admin/organisations/b7ee5261-43e7-4589-907b-5eef5e98c085\\">
+  <svg class=\\"nhsuk-icon nhsuk-icon__chevron-left\\" xmlns=\\"http://www.w3.org/2000/svg\\" viewBox=\\"0 0 24 24\\" aria-hidden=\\"true\\">
+    <path d=\\"M8.5 12c0-.3.1-.5.3-.7l5-5c.4-.4 1-.4 1.4 0s.4 1 0 1.4L10.9 12l4.3 4.3c.4.4.4 1 0 1.4s-1 .4-1.4 0l-5-5c-.2-.2-.3-.4-.3-.7z\\"></path>
+  </svg>
+  Back</a>
+</div>
+
+    </div>
+
+    <div class=\\"nhsuk-grid-row\\">
+      <div class=\\"nhsuk-grid-column-two-thirds\\">
+        
+          
+  <div data-test-id=\\"error-summary\\">
+    <div class=\\"nhsuk-error-summary\\" aria-labelledby=\\"error-summary-title\\" role=\\"alert\\" tabindex=\\"-1\\">
+  <h2 class=\\"nhsuk-error-summary__title\\" id=\\"error-summary-title\\">
+    There is a problem
+  </h2>
+  <div class=\\"nhsuk-error-summary__body\\"><ul class=\\"nhsuk-list nhsuk-error-summary__list\\">
+      <li>
+        <a href=\\"#relatedOrganisationId\\">Select the organisation you are looking for</a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+  </div>
+
+        
+        <h1 data-test-id=\\"org-page-title\\" class=\\"nhsuk-u-margin-top-7 nhsuk-u-margin-bottom-3\\">Add organisation to Cheshire and Merseyside Commissioning Hub</h1>
+        <p data-test-id=\\"organisation-details-subheading\\" class=\\"nhsuk-heading-l nhsuk-u-font-size-22 nhsuk-u-margin-bottom-7\\">
+          Cheshire and Merseyside Commissioning Hub will then be able to create orders on this organisation's behalf.
+        </p>
+        <form method=\\"POST\\">
+          <input type=\\"hidden\\" name=\\"_csrf\\" value=\\"\\">
+          
+          
+            
+          
+          
+
+  
+    
+  
+
+  
+
+  <div id=\\"relatedOrganisationId\\" data-test-id=\\"question-relatedOrganisationId\\">
+    
+      <div data-test-id=\\"radiobutton-options-error\\">
+        
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+<div class=\\"nhsuk-form-group nhsuk-form-group--error\\">
+
+  <fieldset class=\\"nhsuk-fieldset\\" aria-describedby=\\"relatedOrganisationId-error\\">
+  <legend class=\\"nhsuk-fieldset__legend nhsuk-u-font-size-24 nhsuk-u-font-weight-bold nhsuk-u-margin-bottom-2\\">
+    Which organisation are you looking for?
+  </legend>
+
+  <span class=\\"nhsuk-error-message\\" id=\\"relatedOrganisationId-error\\">
+    <span class=\\"nhsuk-u-visually-hidden\\">Error:</span> 
+  </span>
+
+  <div class=\\"nhsuk-radios\\">
+    
+    <div class=\\"nhsuk-radios__item\\">
+      <input class=\\"nhsuk-radios__input\\" id=\\"relatedOrganisationId-1\\" name=\\"relatedOrganisationId\\" type=\\"radio\\" value=\\"43cc8258-6e92-4d39-9296-edc5bb000563\\">
+      <label class=\\"nhsuk-label nhsuk-radios__label\\" for=\\"relatedOrganisationId-1\\">
+        Cumbria and North East Commissioning Hub
+      </label>
+    </div>
+    
+    
+    <div class=\\"nhsuk-radios__item\\">
+      <input class=\\"nhsuk-radios__input\\" id=\\"relatedOrganisationId-2\\" name=\\"relatedOrganisationId\\" type=\\"radio\\" value=\\"6d37d7fb-df06-403c-9c46-d649919f9158\\">
+      <label class=\\"nhsuk-label nhsuk-radios__label\\" for=\\"relatedOrganisationId-2\\">
+        East – H&amp;J Commissioning Hub
+      </label>
+    </div>
+    
+    
+    <div class=\\"nhsuk-radios__item\\">
+      <input class=\\"nhsuk-radios__input\\" id=\\"relatedOrganisationId-3\\" name=\\"relatedOrganisationId\\" type=\\"radio\\" value=\\"bb21dd07-58df-457a-a9cb-6b035684692b\\">
+      <label class=\\"nhsuk-label nhsuk-radios__label\\" for=\\"relatedOrganisationId-3\\">
+        East Commissioning Hub
+      </label>
+    </div>
+    
+    
+    <div class=\\"nhsuk-radios__item\\">
+      <input class=\\"nhsuk-radios__input\\" id=\\"relatedOrganisationId-4\\" name=\\"relatedOrganisationId\\" type=\\"radio\\" value=\\"d795a598-26f0-46fb-8a6e-f22cd912d7dc\\">
+      <label class=\\"nhsuk-label nhsuk-radios__label\\" for=\\"relatedOrganisationId-4\\">
+        Greater Manchester Commissioning Hub
+      </label>
+    </div>
+    
+    
+    <div class=\\"nhsuk-radios__item\\">
+      <input class=\\"nhsuk-radios__input\\" id=\\"relatedOrganisationId-5\\" name=\\"relatedOrganisationId\\" type=\\"radio\\" value=\\"dff57334-4055-48cf-a569-da490ccdc66a\\">
+      <label class=\\"nhsuk-label nhsuk-radios__label\\" for=\\"relatedOrganisationId-5\\">
+        Hampshire, Isle of Wight and Thames Valley – H&amp;J Commissioning Hub
+      </label>
+    </div>
+    
+  </div>
+  </fieldset>
+
+</div>
+
+      </div>
+    
+  </div>
+
+
+          
+
+  
+  
+
+  
+  
+
+  <div data-test-id=\\"submit-button\\">
+    
+
+
+  
+    
+  
+
+
+
+
+<button class=\\"nhsuk-button\\" type=\\"submit\\">
+  Confirm
+</button>
+
+
+
+  </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+
+      </main>"
+`;

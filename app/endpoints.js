@@ -9,12 +9,15 @@ const endpoints = {
   getOrgById: (opts) => `${organisationApiUrl}/api/v1/Organisations/${opts.organisationId}`,
   getOrgByOdsCode: (opts) => `${organisationApiUrl}/api/v1/ods/${opts.odsCode}`,
 
+  getRelatedOrgs: (opts) => `${organisationApiUrl}/api/v1/Organisations/${opts.organisationId}/related-organisations`,
+  getUnrelatedOrgs: (opts) => `${organisationApiUrl}/api/v1/Organisations/${opts.organisationId}/unrelated-organisations`,
+
   getUsers: (opts) => `${identityServerUrl}/api/v1/Organisations/${opts.organisationId}/Users`,
   getUserById: (opts) => `${identityServerUrl}/api/v1/Users/${opts.userId}`,
 
   // POST endpoints
   postAddOrg: () => `${organisationApiUrl}/api/v1/Organisations`,
-
+  postAddRelatedOrg: (opts) => `${organisationApiUrl}/api/v1/Organisations/${opts.organisationId}/related-organisations`,
   postAddUser: (opts) => `${identityServerUrl}/api/v1/Organisations/${opts.organisationId}/Users`,
   postUserStatus: (opts) => `${identityServerUrl}/api/v1/Users/${opts.userId}/${opts.status}`,
 
