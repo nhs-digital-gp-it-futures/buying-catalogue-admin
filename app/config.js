@@ -1,3 +1,7 @@
+const development = 'development';
+const env = process.env.NODE_ENV || development;
+const isDevelopment = () => env === development;
+
 module.exports = {
   // App name
   appName: 'NHSD Buying Catalogue Admin',
@@ -12,7 +16,8 @@ module.exports = {
   feedbackLinkUrl: process.env.FEEDBACK_LINK_URL || 'https://forms.office.com/Pages/ResponsePage.aspx?id=Hwf2UP67GkCIA2c3SOYp4nDHKEWnXcFHiqdJhf0fCJtUNDNFRUFZVFU5RkRQTEpWU0RQVlVXMUpRQi4u',
 
   // Environment
-  env: process.env.NODE_ENV || 'development',
+  env,
+  isDevelopment,
 
   // Port to run local development server on
   port: process.env.PORT || 3005,

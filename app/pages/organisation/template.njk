@@ -73,5 +73,31 @@
         columnClass: columnClass
       })}}
     </div>
+
+    <h3 class="nhsuk-u-font-weight-bold nhsuk-u-margin-bottom-7">Related organisations</h3>
+    <p>These are the organisations {{ organisationName }} can create orders for.</p>
+    <div data-test-id="add-organisation-button">
+      {{ button({
+        text: "Add an organisation",
+        classes: "nhsuk-u-margin-bottom-9",
+        href: "/admin/organisations/addproxy/" + organisationId
+      }) }}
+    </div>
+
+    <div id="related-org-table" data-test-id="related-org-table" class="nhsuk-u-font-size-19">
+      {{ bcTable({
+        columnInfo: [
+          {
+            "data": "Organisation name"
+          },
+          {
+            "data": "ODS code"
+          },
+          {}
+        ],
+        data: relatedOrgs,
+        columnClass: columnClass
+      })}}
+    </div>
   </div>
 {% endblock %}

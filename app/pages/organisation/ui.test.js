@@ -6,6 +6,7 @@ import { extractObjectValuesToArray } from '../../helpers/contextCreatorHelper';
 import organisationDetails from '../../test-utils/fixtures/organisationDetails.json';
 import usersData from '../../test-utils/fixtures/users.json';
 import content from './manifest.json';
+import { relatedOrgs } from './addproxy/mockData';
 
 const pageUrl = 'http://localhost:1234/admin/organisations/org1';
 
@@ -21,6 +22,9 @@ const mocks = () => {
   nock(organisationsApiLocalhost)
     .get('/api/v1/Organisations/org1')
     .reply(200, organisationDetails);
+  nock(organisationsApiLocalhost)
+    .get('/api/v1/Organisations/org1/related-organisations')
+    .reply(200, relatedOrgs);
   nock(identityApiLocalhost)
     .get('/api/v1/Organisations/org1/Users')
     .reply(200, usersData);
