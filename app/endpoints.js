@@ -17,6 +17,7 @@ const endpoints = {
 
   // POST endpoints
   postAddOrg: () => `${organisationApiUrl}/api/v1/Organisations`,
+  deleteRelatedOrg: (opts) => `${organisationApiUrl}/api/v1/Organisations/${opts.organisationId}/related-organisations/${opts.relatedOrganisationId}`,
   postAddRelatedOrg: (opts) => `${organisationApiUrl}/api/v1/Organisations/${opts.organisationId}/related-organisations`,
   postAddUser: (opts) => `${identityServerUrl}/api/v1/Organisations/${opts.organisationId}/Users`,
   postUserStatus: (opts) => `${identityServerUrl}/api/v1/Users/${opts.userId}/${opts.status}`,

@@ -1,9 +1,9 @@
-import { componentTester, snapshotTest } from '../../../test-utils/componentTester';
-import { organisation, unrelatedOrgsRadio, errors } from './mockData';
+import { componentTester, snapshotTest } from '../../../../test-utils/componentTester';
+import { organisation, unrelatedOrgsRadio, errors } from '../mockData';
 
 const setup = {
   template: {
-    path: 'pages/organisation/addproxy/template.njk',
+    path: 'pages/organisation/proxy/add/template.njk',
   },
 };
 

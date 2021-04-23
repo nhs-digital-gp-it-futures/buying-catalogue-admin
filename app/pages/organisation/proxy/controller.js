@@ -1,4 +1,9 @@
-import { getData, postData, ErrorContext } from 'buying-catalogue-library';
+import {
+  getData,
+  postData,
+  deleteData,
+  ErrorContext,
+} from 'buying-catalogue-library';
 import { logger } from '../../../logger';
 import { getEndpoint } from '../../../endpoints';
 
@@ -14,6 +19,8 @@ export const getUnrelatedOrganisations = async ({ organisationId, accessToken })
     throw new ErrorContext({
       status: err.response.status,
       description: errorString,
+      stackTrace: err.stack,
+      data: err.response.data,
     });
   }
 };
@@ -29,6 +36,8 @@ export const getOrganisation = async ({ organisationId, accessToken }) => {
     throw new ErrorContext({
       status: err.response.status,
       description: errorString,
+      stackTrace: err.stack,
+      data: err.response.data,
     });
   }
 };
@@ -45,6 +54,34 @@ export const getRelatedOrganisations = async ({ organisationId, accessToken }) =
     throw new ErrorContext({
       status: err.response.status,
       description: errorString,
+      stackTrace: err.stack,
+      data: err.response.data,
+    });
+  }
+};
+
+export const deleteRelatedOrganisation = async (
+  { organisationId, relatedOrganisationId, accessToken },
+) => {
+  try {
+    await deleteData({
+      endpoint: getEndpoint({ endpointLocator: 'deleteRelatedOrg', options: { organisationId, relatedOrganisationId } }),
+      body: {
+        relatedOrganisationId,
+      },
+      accessToken,
+      logger,
+    });
+    logger.info(`Relationship removed between organisations ${organisationId} and ${relatedOrganisationId}`);
+    return { organisationId, relatedOrganisationId };
+  } catch (err) {
+    const errorString = `Error removing relationship between organisations ${organisationId} and ${relatedOrganisationId}`;
+    logger.error(errorString);
+    throw new ErrorContext({
+      status: err.response.status,
+      description: errorString,
+      stackTrace: err.stack,
+      data: err.response.data,
     });
   }
 };
@@ -67,7 +104,10 @@ export const postRelatedOrganisation = async (
     const errorString = `Error creating relationship between organisations ${organisationId} and ${relatedOrganisationId}`;
     logger.error(errorString);
     throw new ErrorContext({
+      status: err.response.status,
       description: errorString,
+      stackTrace: err.stack,
+      data: err.response.data,
     });
   }
 };
@@ -89,18 +129,20 @@ export const formatUnrelatedOrgsRadio = (unrelatedOrgs) => unrelatedOrgs.map((it
   { value: item.organisationId, text: item.name }
 ));
 
-export const formatRelatedOrgsTable = (rawRelatedOrgs) => rawRelatedOrgs.map((item) => ([
-  {
-    data: item.name,
-    dataTestId: `related-org-name-${item.organisationId}`,
-  },
-  {
-    data: item.odsCode,
-    dataTestId: `related-org-odsCode-${item.organisationId}`,
-  },
-  {
-    href: `/remove/${item.organisationId}`,
-    data: 'remove',
-    dataTestId: `related-org-remove-${item.organisationId}`,
-  },
-]));
+export const formatRelatedOrgsTable = (rawRelatedOrgs, organisationId) => rawRelatedOrgs.map(
+  (item) => ([
+    {
+      data: item.name,
+      dataTestId: `related-org-name-${item.organisationId}`,
+    },
+    {
+      data: item.odsCode,
+      dataTestId: `related-org-odsCode-${item.organisationId}`,
+    },
+    {
+      href: `/admin/organisations/removeproxy/${organisationId}/${item.organisationId}`,
+      data: 'Remove',
+      dataTestId: `related-org-remove-${item.organisationId}`,
+    },
+  ]),
+);

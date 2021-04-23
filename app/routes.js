@@ -7,13 +7,14 @@ import { withCatch, extractAccessToken, getHealthCheckDependencies } from './hel
 import { getOrgAccountsContext } from './pages/organisation/controller';
 import {
   getRelatedOrganisations,
+  deleteRelatedOrganisation,
   postRelatedOrganisation,
   getUnrelatedOrganisations,
   getOrganisation,
   validateAddProxyForm,
   formatRelatedOrgsTable,
   formatUnrelatedOrgsRadio,
-} from './pages/organisation/addproxy/controller';
+} from './pages/organisation/proxy/controller';
 import { getOrgDashboardContext } from './pages/dashboard/controller';
 import { getAddUserContext, getAddUserPageErrorContext, postAddUser } from './pages/adduser/controller';
 import includesContext from './includes/manifest.json';
@@ -48,16 +49,16 @@ export const routes = (authProvider) => {
     res.render('pages/dashboard/template.njk', addContext({ context, user: req.user }));
   }));
 
-  router.get('/organisations/addproxy/:organisationId', authProvider.authorise({ claim: 'organisation' }), withCatch(authProvider, async (req, res) => {
+  router.get('/organisations/proxy/:organisationId', authProvider.authorise({ claim: 'organisation' }), withCatch(authProvider, async (req, res) => {
     const { organisationId } = req.params;
     logger.info('navigating to add proxy page');
     const unrelatedOrgs = await getUnrelatedOrganisations({ organisationId, accessToken: extractAccessToken({ req, tokenType: 'access' }) });
     const organisation = await getOrganisation({ organisationId, accessToken: extractAccessToken({ req, tokenType: 'access' }) });
 
-    res.render('pages/organisation/addproxy/template.njk', addContext({ context: { organisation, unrelatedOrgsRadio: formatUnrelatedOrgsRadio(unrelatedOrgs) }, user: req.user, csrfToken: req.csrfToken() }));
+    res.render('pages/organisation/proxy/add/template.njk', addContext({ context: { organisation, unrelatedOrgsRadio: formatUnrelatedOrgsRadio(unrelatedOrgs) }, user: req.user, csrfToken: req.csrfToken() }));
   }));
 
-  router.post('/organisations/addproxy/:organisationId', authProvider.authorise({ claim: 'organisation' }), withCatch(authProvider, async (req, res) => {
+  router.post('/organisations/proxy/:organisationId', authProvider.authorise({ claim: 'organisation' }), withCatch(authProvider, async (req, res) => {
     const { organisationId } = req.params;
     const { relatedOrganisationId } = req.body;
     const errors = validateAddProxyForm({ req });
@@ -66,10 +67,25 @@ export const routes = (authProvider) => {
     if (errors) {
       const unrelatedOrgs = await getUnrelatedOrganisations({ organisationId, accessToken: extractAccessToken({ req, tokenType: 'access' }) });
       const organisation = await getOrganisation({ organisationId, accessToken: extractAccessToken({ req, tokenType: 'access' }) });
-      return res.render('pages/organisation/addproxy/template.njk', addContext({ context: { organisation, unrelatedOrgsRadio: formatUnrelatedOrgsRadio(unrelatedOrgs), errors }, user: req.user, csrfToken: req.csrfToken() }));
+      return res.render('pages/organisation/proxy/add/template.njk', addContext({ context: { organisation, unrelatedOrgsRadio: formatUnrelatedOrgsRadio(unrelatedOrgs), errors }, user: req.user, csrfToken: req.csrfToken() }));
     }
 
     await postRelatedOrganisation({ relatedOrganisationId, organisationId, accessToken: extractAccessToken({ req, tokenType: 'access' }) });
+    return res.redirect(`${config.baseUrl}/organisations/${organisationId}#related-org-table`);
+  }));
+
+  router.get('/organisations/removeproxy/:organisationId/:relatedOrganisationId', authProvider.authorise({ claim: 'organisation' }), withCatch(authProvider, async (req, res) => {
+    const { relatedOrganisationId } = req.params;
+    logger.info('navigating to remove proxy page');
+    const organisation = await getOrganisation({ organisationId: relatedOrganisationId, accessToken: extractAccessToken({ req, tokenType: 'access' }) });
+
+    res.render('pages/organisation/proxy/remove/template.njk', addContext({ context: { organisation }, user: req.user, csrfToken: req.csrfToken() }));
+  }));
+
+  router.post('/organisations/removeproxy/:organisationId/:relatedOrganisationId', authProvider.authorise({ claim: 'organisation' }), withCatch(authProvider, async (req, res) => {
+    const { organisationId, relatedOrganisationId } = req.params;
+    logger.info('removing related organisation relationship');
+    await deleteRelatedOrganisation({ organisationId, relatedOrganisationId, accessToken: extractAccessToken({ req, tokenType: 'access' }) });
     return res.redirect(`${config.baseUrl}/organisations/${organisationId}#related-org-table`);
   }));
 
@@ -80,7 +96,7 @@ export const routes = (authProvider) => {
     logger.info(`navigating to organisation: ${organisationId} account page`);
     const context = await getOrgAccountsContext({ organisationId, accessToken: extractAccessToken({ req, tokenType: 'access' }) });
     const rawRelatedOrgs = await getRelatedOrganisations({ organisationId, accessToken: extractAccessToken({ req, tokenType: 'access' }) });
-    res.render('pages/organisation/template.njk', addContext({ context: { relatedOrgs: formatRelatedOrgsTable(rawRelatedOrgs), ...context }, user: req.user }));
+    res.render('pages/organisation/template.njk', addContext({ context: { relatedOrgs: formatRelatedOrgsTable(rawRelatedOrgs, organisationId), ...context }, user: req.user }));
   }));
 
   router.post('/organisations/:organisationId/edit', authProvider.authorise({ claim: 'organisation' }), withCatch(authProvider, async (req, res) => {
@@ -184,7 +200,11 @@ export const routes = (authProvider) => {
 
   errorHandler(router, (error, req, res) => {
     logger.error(`${error.title} - ${error.description} ${JSON.stringify(error)}`);
-    return res.render('pages/error/template.njk', addContext({ context: error, user: req.user }));
+    const context = {
+      ...error,
+      isDevelopment: config.isDevelopment(),
+    };
+    return res.render('pages/error/template.njk', addContext({ context, user: req.user }));
   });
 
   return router;

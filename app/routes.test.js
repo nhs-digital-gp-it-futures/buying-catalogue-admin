@@ -12,14 +12,31 @@ import { App } from './app';
 import { routes } from './routes';
 import { baseUrl } from './config';
 import * as addUserConfirmationController from './pages/adduser/confirmation/controller';
+import * as proxyController from './pages/organisation/proxy/controller';
 import * as addUserController from './pages/adduser/controller';
 import * as userStatusController from './pages/viewuser/changeUserStatusConfirmation/controller';
 import * as dashboardController from './pages/dashboard/controller';
 import * as viewUserController from './pages/viewuser/controller';
+import { organisation, unrelatedOrgs, relatedOrgs } from './pages/organisation/proxy/mockData';
 
 jest.mock('./logger');
 
 const mockLogoutMethod = jest.fn().mockImplementation(() => Promise.resolve({}));
+
+proxyController.getUnrelatedOrganisations = jest.fn()
+  .mockResolvedValue(unrelatedOrgs);
+
+proxyController.getRelatedOrganisations = jest.fn()
+  .mockResolvedValue(relatedOrgs);
+
+proxyController.getOrganisation = jest.fn()
+  .mockResolvedValue(organisation);
+
+proxyController.postRelatedOrganisation = jest.fn()
+  .mockResolvedValue({ organisationId: 'org1', relatedOrganisationId: 'org2' });
+
+proxyController.deleteRelatedOrganisation = jest.fn()
+  .mockResolvedValue({ organisationId: 'org1', relatedOrganisationId: 'org2' });
 
 userStatusController.getUserStatusContext = jest.fn()
   .mockResolvedValue({ dataTestId: 'mock-confirmation' });
@@ -287,6 +304,208 @@ describe('routes', () => {
           expect(res.redirect).toEqual(true);
           expect(res.headers.location).toEqual(`${baseUrl}/organisations/org1/user2/disable`);
           expect(res.text.includes('data-test-id="error-title"')).toEqual(false);
+        });
+    });
+  });
+
+  describe('GET /organisations/proxy/:organisationId', () => {
+    const path = '/organisations/proxy/org1';
+
+    it('should redirect to the login page if the user is not logged in', () => (
+      testAuthorisedGetPathForUnauthenticatedUser({
+        app: request(setUpFakeApp()), getPath: path, expectedRedirectPath: 'http://identity-server/login',
+      })
+    ));
+
+    it('should show the error page indicating the user is not authorised if the user is logged in but not authorised', () => (
+      testAuthorisedGetPathForUnauthorisedUser({
+        app: request(setUpFakeApp()),
+        getPath: path,
+        getPathCookies: [mockUnauthorisedCookie],
+        expectedPageId: 'data-test-id="error-title"',
+        expectedPageMessage: 'You are not authorised to view this page',
+      })
+    ));
+
+    it('should return the correct status and text when the user is authorised', () => request(setUpFakeApp())
+      .get(path)
+      .set('Cookie', [mockAuthorisedCookie])
+      .expect(200)
+      .then((res) => {
+        expect(res.text.includes('data-test-id="add-proxy-organisation-page"')).toEqual(true);
+      }));
+  });
+
+  describe('GET /organisations/removeproxy/:organisationId/:relatedOrganisationId', () => {
+    const path = '/organisations/removeproxy/org1/org2';
+
+    it('should redirect to the login page if the user is not logged in', () => (
+      testAuthorisedGetPathForUnauthenticatedUser({
+        app: request(setUpFakeApp()), getPath: path, expectedRedirectPath: 'http://identity-server/login',
+      })
+    ));
+
+    it('should show the error page indicating the user is not authorised if the user is logged in but not authorised', () => (
+      testAuthorisedGetPathForUnauthorisedUser({
+        app: request(setUpFakeApp()),
+        getPath: path,
+        getPathCookies: [mockUnauthorisedCookie],
+        expectedPageId: 'data-test-id="error-title"',
+        expectedPageMessage: 'You are not authorised to view this page',
+      })
+    ));
+
+    it('should return the correct status and text when the user is authorised', () => request(setUpFakeApp())
+      .get(path)
+      .set('Cookie', [mockAuthorisedCookie])
+      .expect(200)
+      .then((res) => {
+        expect(res.text.includes('data-test-id="remove-proxy-organisation-page"')).toEqual(true);
+      }));
+  });
+
+  describe('POST /organisations/proxy/:organisationId', () => {
+    const path = '/organisations/proxy/org1';
+
+    afterEach(() => {
+      proxyController.postRelatedOrganisation.mockReset();
+    });
+
+    it('should return 403 forbidden if no csrf token is available', () => (
+      testPostPathWithoutCsrf({
+        app: request(setUpFakeApp()), postPath: path, postPathCookies: [mockAuthorisedCookie],
+      })
+    ));
+
+    it('should redirect to the login page if the user is not logged in', () => (
+      testAuthorisedPostPathForUnauthenticatedUser({
+        app: request(setUpFakeApp()),
+        getPath: path,
+        postPath: path,
+        getPathCookies: [mockAuthorisedCookie],
+        postPathCookies: [],
+        expectedRedirectPath: 'http://identity-server/login',
+      })
+    ));
+
+    it('should show the error page indicating the user is not authorised if the user is logged in but not authorised', () => (
+      testAuthorisedPostPathForUnauthorisedUsers({
+        app: request(setUpFakeApp()),
+        getPath: path,
+        postPath: path,
+        getPathCookies: [mockAuthorisedCookie],
+        postPathCookies: [mockUnauthorisedCookie],
+        expectedPageId: 'data-test-id="error-title"',
+        expectedPageMessage: 'You are not authorised to view this page',
+      })
+    ));
+
+    it('should return the correct status and text if successful', async () => {
+      proxyController.postRelatedOrganisation = jest.fn()
+        .mockResolvedValue({ organisationId: 'org1', relatedOrganisationId: 'org2' });
+
+      const { cookies, csrfToken } = await getCsrfTokenFromGet({
+        app: request(setUpFakeApp()),
+        getPath: path,
+        getPathCookies: [mockAuthorisedCookie],
+      });
+
+      return request(setUpFakeApp())
+        .post(path)
+        .type('form')
+        .set('Cookie', [cookies, mockAuthorisedCookie])
+        .send({
+          relatedOrganisationId: 'org2',
+          _csrf: csrfToken,
+        })
+        .expect(302)
+        .then((res) => {
+          expect(res.redirect).toEqual(true);
+          expect(res.headers.location).toEqual(`${baseUrl}/organisations/org1#related-org-table`);
+        });
+    });
+
+    it('should return the correct status and text if invalid', async () => {
+      const { cookies, csrfToken } = await getCsrfTokenFromGet({
+        app: request(setUpFakeApp()),
+        getPath: path,
+        getPathCookies: [mockAuthorisedCookie],
+      });
+
+      return request(setUpFakeApp())
+        .post(path)
+        .type('form')
+        .set('Cookie', [cookies, mockAuthorisedCookie])
+        .send({
+          relatedOrganisationId: null,
+          _csrf: csrfToken,
+        })
+        .expect(200)
+        .then((res) => {
+          expect(res.text.includes('data-test-id="add-proxy-organisation-page"')).toEqual(true);
+          expect(res.text.includes('data-test-id="error-summary"')).toEqual(true);
+        });
+    });
+  });
+
+  describe('POST /organisations/removeproxy/:organisationId/:relatedOrganisationId', () => {
+    const path = '/organisations/removeproxy/org1/org2';
+
+    afterEach(() => {
+      proxyController.deleteRelatedOrganisation.mockReset();
+    });
+
+    it('should return 403 forbidden if no csrf token is available', () => (
+      testPostPathWithoutCsrf({
+        app: request(setUpFakeApp()), postPath: path, postPathCookies: [mockAuthorisedCookie],
+      })
+    ));
+
+    it('should redirect to the login page if the user is not logged in', () => (
+      testAuthorisedPostPathForUnauthenticatedUser({
+        app: request(setUpFakeApp()),
+        getPath: path,
+        postPath: path,
+        getPathCookies: [mockAuthorisedCookie],
+        postPathCookies: [],
+        expectedRedirectPath: 'http://identity-server/login',
+      })
+    ));
+
+    it('should show the error page indicating the user is not authorised if the user is logged in but not authorised', () => (
+      testAuthorisedPostPathForUnauthorisedUsers({
+        app: request(setUpFakeApp()),
+        getPath: path,
+        postPath: path,
+        getPathCookies: [mockAuthorisedCookie],
+        postPathCookies: [mockUnauthorisedCookie],
+        expectedPageId: 'data-test-id="error-title"',
+        expectedPageMessage: 'You are not authorised to view this page',
+      })
+    ));
+
+    it('should return the correct status and text if successful', async () => {
+      proxyController.deleteRelatedOrganisation = jest.fn()
+        .mockResolvedValue({ organisationId: 'org1', relatedOrganisationId: 'org2' });
+
+      const { cookies, csrfToken } = await getCsrfTokenFromGet({
+        app: request(setUpFakeApp()),
+        getPath: path,
+        getPathCookies: [mockAuthorisedCookie],
+      });
+
+      return request(setUpFakeApp())
+        .post(path)
+        .type('form')
+        .set('Cookie', [cookies, mockAuthorisedCookie])
+        .send({
+          relatedOrganisationId: 'org2',
+          _csrf: csrfToken,
+        })
+        .expect(302)
+        .then((res) => {
+          expect(res.redirect).toEqual(true);
+          expect(res.headers.location).toEqual(`${baseUrl}/organisations/org1#related-org-table`);
         });
     });
   });

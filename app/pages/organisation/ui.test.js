@@ -6,7 +6,7 @@ import { extractObjectValuesToArray } from '../../helpers/contextCreatorHelper';
 import organisationDetails from '../../test-utils/fixtures/organisationDetails.json';
 import usersData from '../../test-utils/fixtures/users.json';
 import content from './manifest.json';
-import { relatedOrgs } from './addproxy/mockData';
+import { relatedOrgs } from './proxy/mockData';
 
 const pageUrl = 'http://localhost:1234/admin/organisations/org1';
 
