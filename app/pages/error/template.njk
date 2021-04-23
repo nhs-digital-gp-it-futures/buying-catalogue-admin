@@ -9,7 +9,9 @@
     },
     error: {
       title: title,
-      description: description
+      description: description,
+      stackTrace: stackTrace if isDevelopment else null,
+      data: data if isDevelopment else null
     }
   }) }}
 {% endblock %}

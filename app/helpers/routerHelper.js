@@ -1,5 +1,5 @@
 import { ErrorContext } from 'buying-catalogue-library';
-import { appBaseUri, isDevelopment } from '../config';
+import { appBaseUri } from '../config';
 import { getEndpoint } from '../endpoints';
 import { logger } from '../logger';
 
@@ -20,8 +20,7 @@ export const withCatch = (authProvider, route) => async (req, res, next) => {
       return authProvider.login()(req, res, next);
     }
 
-    const stackTrace = isDevelopment() ? err.stack : undefined;
-    const defaultError = new ErrorContext({ status: 500, stackTrace });
+    const defaultError = new ErrorContext({ status: 500, stackTrace: err.stack });
 
     return next(defaultError);
   }

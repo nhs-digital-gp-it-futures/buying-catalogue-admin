@@ -1,4 +1,9 @@
-import { getData, postData, ErrorContext } from 'buying-catalogue-library';
+import {
+  getData,
+  postData,
+  deleteData,
+  ErrorContext,
+} from 'buying-catalogue-library';
 import {
   validateAddProxyForm,
   formatUnrelatedOrgsRadio,
@@ -6,6 +11,7 @@ import {
   getUnrelatedOrganisations,
   getRelatedOrganisations,
   getOrganisation,
+  deleteRelatedOrganisation,
   postRelatedOrganisation,
 } from './controller';
 import { logger } from '../../../logger';
@@ -168,6 +174,53 @@ describe('organisation add proxy controller', () => {
     });
   });
 
+  describe('deleteRelatedOrganisation', () => {
+    const accessToken = 'access_token';
+    const organisationId = 'b7ee5261-43e7-4589-907b-5eef5e98c085';
+    const relatedOrganisationId = '6d37d7fb-df06-403c-9c46-d649919f9158';
+
+    it('should call deleteData once with the correct params', async () => {
+      deleteData.mockResolvedValueOnce({
+        data: {
+          organisationId,
+          relatedOrganisationId,
+        },
+      });
+
+      await deleteRelatedOrganisation({ organisationId, relatedOrganisationId, accessToken });
+
+      expect(deleteData.mock.calls.length).toEqual(1);
+      expect(deleteData).toHaveBeenCalledWith({
+        endpoint: `${organisationApiUrl}/api/v1/Organisations/${organisationId}/related-organisations/${relatedOrganisationId}`,
+        body: {
+          relatedOrganisationId,
+        },
+        accessToken,
+        logger,
+      });
+    });
+
+    it('should return organisationId and relatedOrganisationId if successful', async () => {
+      const response = await deleteRelatedOrganisation(
+        { organisationId, relatedOrganisationId, accessToken },
+      );
+      expect(response).toEqual({ organisationId, relatedOrganisationId });
+    });
+
+    it('should return an instance of ErrorContext if api request is unsuccessful', async () => {
+      deleteData.mockRejectedValueOnce({
+        response: {
+          status: 400,
+        },
+      });
+      await expect(
+        deleteRelatedOrganisation({ organisationId, relatedOrganisationId, accessToken }),
+      )
+        .rejects
+        .toBeInstanceOf(ErrorContext);
+    });
+  });
+
   describe('add proxy functions', () => {
     afterEach(() => {
       getData.mockReset();
@@ -178,7 +231,7 @@ describe('organisation add proxy controller', () => {
     });
 
     it('it should format related organisations into a table with remove', async () => {
-      expect(formatRelatedOrgsTable(relatedOrgs)).toEqual(relatedOrgsTable);
+      expect(formatRelatedOrgsTable(relatedOrgs, 'orgId')).toEqual(relatedOrgsTable);
     });
   });
 

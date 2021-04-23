@@ -3,7 +3,7 @@
 exports[`add proxy for organisation the page should render 1`] = `
 "<main class=\\"nhsuk-main-wrapper\\" id=\\"maincontent\\" data-test-id=\\"main-content\\">
         
-  <div class=\\"nhsuk-width-container\\" data-test-id=\\"organisation-page\\">
+  <div class=\\"nhsuk-width-container\\" data-test-id=\\"add-proxy-organisation-page\\">
     <div data-test-id=\\"go-back-link\\">
       <div class=\\"nhsuk-back-link\\">
   <a class=\\"nhsuk-back-link__link\\" href=\\"/admin/organisations/b7ee5261-43e7-4589-907b-5eef5e98c085\\">
@@ -155,7 +155,7 @@ exports[`add proxy for organisation the page should render 1`] = `
 exports[`add proxy for organisation the page should render with errors 1`] = `
 "<main class=\\"nhsuk-main-wrapper\\" id=\\"maincontent\\" data-test-id=\\"main-content\\">
         
-  <div class=\\"nhsuk-width-container\\" data-test-id=\\"organisation-page\\">
+  <div class=\\"nhsuk-width-container\\" data-test-id=\\"add-proxy-organisation-page\\">
     <div data-test-id=\\"go-back-link\\">
       <div class=\\"nhsuk-back-link\\">
   <a class=\\"nhsuk-back-link__link\\" href=\\"/admin/organisations/b7ee5261-43e7-4589-907b-5eef5e98c085\\">
