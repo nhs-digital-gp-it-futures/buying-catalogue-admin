@@ -15,12 +15,21 @@ export const withCatch = (authProvider, route) => async (req, res, next) => {
       return next(err);
     }
 
-    if (err.response && err.response.status === 401) {
-      req.headers.referer = `${appBaseUri}${req.originalUrl}`;
-      return authProvider.login()(req, res, next);
+    let responseData;
+    if (err.response) {
+      if (err.response.status === 401) {
+        req.headers.referer = `${appBaseUri}${req.originalUrl}`;
+        return authProvider.login()(req, res, next);
+      }
+
+      responseData = err.response.data;
     }
 
-    const defaultError = new ErrorContext({ status: 500, stackTrace: err.stack });
+    const defaultError = new ErrorContext({
+      status: 500,
+      stackTrace: err.stack,
+      data: responseData,
+    });
 
     return next(defaultError);
   }
