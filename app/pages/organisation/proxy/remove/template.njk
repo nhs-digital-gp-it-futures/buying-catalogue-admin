@@ -9,7 +9,7 @@
   <div class="nhsuk-width-container" data-test-id="remove-proxy-organisation-page">
     <div data-test-id="go-back-link">
       {{ backLink({
-        "href": "/admin/organisations/" + organisation.organisationId,
+        "href": backLinkUrl,
         "text": "Back"
       }) }}
     </div>
@@ -27,7 +27,7 @@
               type: "submit",
               text: "Remove organisation"
           })}}
-          <a href="/admin/organisations/{{ organisation.organisationId }}">Cancel</a>
+          <a href="{{ backLinkUrl }}">Cancel</a>
         </form>
       </div>
     </div>

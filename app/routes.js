@@ -75,11 +75,13 @@ export const routes = (authProvider) => {
   }));
 
   router.get('/organisations/removeproxy/:organisationId/:relatedOrganisationId', authProvider.authorise({ claim: 'organisation' }), withCatch(authProvider, async (req, res) => {
-    const { relatedOrganisationId } = req.params;
+    const { relatedOrganisationId, organisationId } = req.params;
     logger.info('navigating to remove proxy page');
-    const organisation = await getOrganisation({ organisationId: relatedOrganisationId, accessToken: extractAccessToken({ req, tokenType: 'access' }) });
-
-    res.render('pages/organisation/proxy/remove/template.njk', addContext({ context: { organisation }, user: req.user, csrfToken: req.csrfToken() }));
+    const context = {
+      organisation: await getOrganisation({ organisationId: relatedOrganisationId, accessToken: extractAccessToken({ req, tokenType: 'access' }) }),
+      backLinkUrl: `/admin/organisations/${organisationId}`,
+    };
+    res.render('pages/organisation/proxy/remove/template.njk', addContext({ context, user: req.user, csrfToken: req.csrfToken() }));
   }));
 
   router.post('/organisations/removeproxy/:organisationId/:relatedOrganisationId', authProvider.authorise({ claim: 'organisation' }), withCatch(authProvider, async (req, res) => {

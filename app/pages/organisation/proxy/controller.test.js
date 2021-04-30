@@ -192,9 +192,6 @@ describe('organisation add proxy controller', () => {
       expect(deleteData.mock.calls.length).toEqual(1);
       expect(deleteData).toHaveBeenCalledWith({
         endpoint: `${organisationApiUrl}/api/v1/Organisations/${organisationId}/related-organisations/${relatedOrganisationId}`,
-        body: {
-          relatedOrganisationId,
-        },
         accessToken,
         logger,
       });

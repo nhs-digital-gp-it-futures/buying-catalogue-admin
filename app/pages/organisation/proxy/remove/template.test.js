@@ -9,7 +9,10 @@ const setup = {
 
 describe('add proxy for organisation', () => {
   it('the page should render', componentTester(setup, (harness) => {
-    harness.request({ organisation }, ($) => {
+    harness.request({
+      organisation,
+      backLinkUrl: 'backLinkUrl',
+    }, ($) => {
       const snapshot = snapshotTest($, '[data-test-id="main-content"]');
       expect(snapshot).toMatchSnapshot();
     });

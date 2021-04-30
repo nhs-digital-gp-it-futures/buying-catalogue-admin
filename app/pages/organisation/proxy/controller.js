@@ -66,9 +66,6 @@ export const deleteRelatedOrganisation = async (
   try {
     await deleteData({
       endpoint: getEndpoint({ endpointLocator: 'deleteRelatedOrg', options: { organisationId, relatedOrganisationId } }),
-      body: {
-        relatedOrganisationId,
-      },
       accessToken,
       logger,
     });
