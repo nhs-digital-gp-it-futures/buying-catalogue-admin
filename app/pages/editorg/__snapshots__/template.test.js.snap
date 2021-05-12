@@ -1,0 +1,121 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`editorg page the page should render 1`] = `
+"<main class=\\"nhsuk-main-wrapper\\" id=\\"maincontent\\" data-test-id=\\"main-content\\">
+        
+  <div class=\\"nhsuk-width-container\\" data-test-id=\\"edit-organisation-page\\">
+    <div data-test-id=\\"go-back-link\\">
+      <div class=\\"nhsuk-back-link\\">
+  <a class=\\"nhsuk-back-link__link\\" href=\\"/organisations/org1\\">
+  <svg class=\\"nhsuk-icon nhsuk-icon__chevron-left\\" xmlns=\\"http://www.w3.org/2000/svg\\" viewBox=\\"0 0 24 24\\" aria-hidden=\\"true\\">
+    <path d=\\"M8.5 12c0-.3.1-.5.3-.7l5-5c.4-.4 1-.4 1.4 0s.4 1 0 1.4L10.9 12l4.3 4.3c.4.4.4 1 0 1.4s-1 .4-1.4 0l-5-5c-.2-.2-.3-.4-.3-.7z\\"></path>
+  </svg>
+  Back</a>
+</div>
+
+    </div>
+  
+    <h1 data-test-id=\\"edit-org-page-title\\" class=\\"nhsuk-u-margin-top-7 nhsuk-u-margin-bottom-3\\">Edit Greater Manchester CCG</h1>
+    <p data-test-id=\\"edit-org-page-description\\" class=\\"nhsuk-heading-l nhsuk-u-font-size-22 nhsuk-u-margin-bottom-9\\">Change the Organisation End User Agreement status for this organisation.</p>
+
+    <dl class=\\"nhsuk-summary-list nhsuk-u-padding-margin-5\\">
+      <div class=\\"nhsuk-summary-list__row\\">
+        <dt class=\\"nhsuk-summary-list__key\\">
+          Organisation name
+        </dt>
+        <dd class=\\"nhsuk-summary-list__value\\">
+          Greater Manchester CCG
+        </dd>
+      </div>
+      <div class=\\"nhsuk-summary-list__row\\">
+        <dt class=\\"nhsuk-summary-list__key\\">
+          ODS code
+        </dt>
+        <dd class=\\"nhsuk-summary-list__value\\">
+          X01
+        </dd>
+      </div>
+      <div class=\\"nhsuk-summary-list__row\\">
+        <dt class=\\"nhsuk-summary-list__key\\">
+          Primary Role ID
+        </dt>
+        <dd class=\\"nhsuk-summary-list__value\\">
+          ID123
+        </dd>
+      </div>
+      <div class=\\"nhsuk-summary-list__row\\">
+        <dt class=\\"nhsuk-summary-list__key\\">
+          Business address
+        </dt>
+        <dd class=\\"nhsuk-summary-list__value\\">
+          
+            <div data-test-id=\\"org-page-address-1\\">12 Station Road</div>
+          
+            <div data-test-id=\\"org-page-address-2\\">Leeds</div>
+          
+            <div data-test-id=\\"org-page-address-3\\">West Yorkshire</div>
+          
+            <div data-test-id=\\"org-page-address-4\\">LS15 5FG</div>
+          
+        </dd>
+      </div>
+    </dl>
+
+    <form method=\\"post\\" action=\\"/organisations/org1\\">
+      <input type=\\"hidden\\" name=\\"_csrf\\" value=\\"mockCsrfToken\\">
+    
+      <div data-test-id=\\"catalogue-agreement-checkbox\\" class=\\"nhsuk-u-margin-bottom-9\\">
+        
+
+
+
+
+
+  
+<div class=\\"nhsuk-form-group\\">
+
+  <div class=\\"nhsuk-checkboxes\\">
+    
+    
+    
+    
+    
+    
+    <div class=\\"nhsuk-checkboxes__item\\">
+      <input class=\\"nhsuk-checkboxes__input\\" id=\\"catalogue-agreement-checkbox\\" name=\\"catalogueAgreementSigned\\" type=\\"checkbox\\" value=\\"catalogueAgreementSigned\\">
+      <label class=\\"nhsuk-label nhsuk-checkboxes__label\\" for=\\"catalogue-agreement-checkbox\\">
+        Organisation End User Agreement has been signed
+      </label>
+    </div>
+    
+    
+    
+  </div>
+
+</div>
+
+      </div>
+
+      <div data-test-id=\\"save-button\\">
+        
+
+
+  
+    
+  
+
+
+
+
+<button class=\\"nhsuk-button nhsuk-u-margin-bottom-9\\" type=\\"submit\\">
+  Save
+</button>
+
+
+
+      </div>
+    </form>
+  </div>
+
+      </main>"
+`;

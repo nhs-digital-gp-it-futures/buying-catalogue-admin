@@ -1,9 +1,0 @@
-{
-  "description": "Change the Organisation End User Agreement status for this organisation.",
-  "odsCodeHeading": "ODS code",
-  "organisationNameHeading": "Organisation name",
-  "primaryRoleIdHeading": "Primary Role ID",
-  "addressHeading": "Business address",
-  "catalogueAgreementCheckboxText": "Organisation End User Agreement has been signed",
-  "saveButtonText": "Save"
-}

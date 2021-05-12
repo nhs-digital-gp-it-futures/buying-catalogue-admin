@@ -1,4 +1,3 @@
-import manifest from './manifest.json';
 import { baseUrl } from '../../config';
 import { getContext } from './contextCreator';
 
@@ -21,18 +20,6 @@ const mockData = {
 };
 
 describe('getEditOrganisationContext', () => {
-  it('should return the contents of the manfest', () => {
-    const context = getContext({ organisation: {} });
-    expect(context.description).toEqual(manifest.description);
-    expect(context.orgSubheading).toEqual(manifest.orgSubheading);
-    expect(context.editOrgButtonText).toEqual(manifest.editOrgButtonText);
-    expect(context.odsCodeHeading).toEqual(manifest.odsCodeHeading);
-    expect(context.primaryRoleIdHeading).toEqual(manifest.primaryRoleIdHeading);
-    expect(context.addressHeading).toEqual(manifest.addressHeading);
-    expect(context.catalogueAgreementCheckboxText).toEqual(manifest.catalogueAgreementCheckboxText);
-    expect(context.saveButtonText).toEqual(manifest.saveButtonText);
-  });
-
   it('should add organisationName, odsCode, primaryRoleId, agreementSigned to the context if provided', () => {
     const context = getContext({ organisation: mockData });
     expect(context.organisationName).toEqual(mockData.name);

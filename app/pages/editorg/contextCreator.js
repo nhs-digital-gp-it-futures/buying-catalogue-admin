@@ -1,9 +1,7 @@
-import manifest from './manifest.json';
 import { baseUrl } from '../../config';
 import { extractObjectValuesToArray } from '../../helpers/contextCreatorHelper';
 
 export const getContext = ({ organisation }) => ({
-  ...manifest,
   organisationName: organisation.name,
   odsCode: organisation.odsCode,
   primaryRoleId: organisation.primaryRoleId,

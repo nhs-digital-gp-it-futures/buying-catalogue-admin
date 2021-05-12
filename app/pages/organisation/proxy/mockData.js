@@ -173,7 +173,7 @@ export const relatedOrgsTable = [
 ];
 
 export const errors = {
-  messagge: 'Select one option.',
+  messagge: 'Select the organisation you are looking for',
   errorList: [{
     text: 'Select the organisation you are looking for',
     href: '#relatedOrganisationId',
