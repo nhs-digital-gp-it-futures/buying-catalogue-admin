@@ -101,7 +101,7 @@ test('should render the description', async (t) => {
   await pageSetup(t, true);
   await t.navigateTo(enablePageUrl);
 
-  const description = Selector('h2[data-test-id="enable-user-confirmation-page-description"]');
+  const description = Selector('p[data-test-id="enable-user-confirmation-page-description"]');
 
   await t
     .expect(description.exists).ok()
@@ -177,7 +177,7 @@ test('should render the description', async (t) => {
   await pageSetup(t, true);
   await t.navigateTo(disablePageUrl);
 
-  const description = Selector('h2[data-test-id="disable-user-confirmation-page-description"]');
+  const description = Selector('p[data-test-id="disable-user-confirmation-page-description"]');
 
   await t
     .expect(description.exists).ok()

@@ -1,16 +1,13 @@
-import manifest from './manifest.json';
 import { baseUrl } from '../../config';
 import { extractObjectValuesToArray } from '../../helpers/contextCreatorHelper';
 
 export const getContext = ({ organisation }) => ({
-  ...manifest,
   organisationId: organisation.organisationId,
   organisationName: organisation.name,
   odsCode: organisation.odsCode,
   primaryRoleId: organisation.primaryRoleId,
   address: organisation.address ? extractObjectValuesToArray(organisation.address) : [],
   agreementSigned: organisation.catalogueAgreementSigned,
-  columnInfo: manifest.columnInfo ? manifest.columnInfo : [],
   addUserButtonHref: `${baseUrl}/organisations/${organisation.organisationId}/adduser`,
   users: organisation && organisation.users ? organisation.users.map((row) => [
     {

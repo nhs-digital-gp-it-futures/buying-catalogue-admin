@@ -1,5 +1,4 @@
-import { componentTester } from '../../test-utils/componentTester';
-import manifest from './manifest.json';
+import { componentTester, snapshotTest } from '../../test-utils/componentTester';
 
 const setup = {
   template: {
@@ -17,93 +16,16 @@ const mockData = {
 };
 
 const mockContext = {
-  ...manifest,
   ...mockData,
   backLinkHref: '/organisations/org1',
   csrfToken: 'mockCsrfToken',
 };
 
 describe('editorg page', () => {
-  it('should render a backLink to the organisation page', componentTester(setup, (harness) => {
+  it('the page should render', componentTester(setup, (harness) => {
     harness.request(mockContext, ($) => {
-      const homepageBackLink = $('[data-test-id="go-back-link"]');
-      expect(homepageBackLink.length).toEqual(1);
-      expect(homepageBackLink.text().trim()).toEqual('Back');
-      expect($(homepageBackLink).find('a').attr('href')).toEqual(mockContext.backLinkHref);
-    });
-  }));
-
-  it('should render a title', componentTester(setup, (harness) => {
-    harness.request(mockContext, ($) => {
-      const title = $('h1[data-test-id="edit-org-page-title"]');
-      expect(title.length).toEqual(1);
-      expect(title.text().trim()).toEqual(`Edit ${mockContext.organisationName}`);
-    });
-  }));
-
-  it('should render a description', componentTester(setup, (harness) => {
-    harness.request(mockContext, ($) => {
-      const description = $('h2[data-test-id="edit-org-page-description"]');
-      expect(description.length).toEqual(1);
-      expect(description.text().trim()).toEqual(mockContext.description);
-    });
-  }));
-
-  it('should render organisation ods code', componentTester(setup, (harness) => {
-    harness.request(mockContext, ($) => {
-      const heading = $('h3[data-test-id="organisation-ods-code-heading"]');
-      const odsCode = $('div[data-test-id="organisation-ods-code"]');
-      expect(heading.length).toEqual(1);
-      expect(heading.text().trim()).toEqual(mockContext.odsCodeHeading);
-      expect(odsCode.length).toEqual(1);
-      expect(odsCode.text().trim()).toEqual(mockContext.odsCode);
-    });
-  }));
-
-  it('should render organisation name', componentTester(setup, (harness) => {
-    harness.request(mockContext, ($) => {
-      const heading = $('h3[data-test-id="organisation-name-heading"]');
-      const orgName = $('div[data-test-id="organisation-name"]');
-      expect(heading.length).toEqual(1);
-      expect(heading.text().trim()).toEqual(mockContext.organisationNameHeading);
-      expect(orgName.length).toEqual(1);
-      expect(orgName.text().trim()).toEqual(mockContext.organisationName);
-    });
-  }));
-
-  it('should render address', componentTester(setup, (harness) => {
-    harness.request(mockContext, ($) => {
-      const heading = $('h3[data-test-id="organisation-address-heading"]');
-      const address = $('div[data-test-id="organisation-address"]');
-      const addressLines = address.find('div');
-      const address1 = $('[data-test-id="organisation-address-1"]');
-      const address2 = $('[data-test-id="organisation-address-2"]');
-      const address3 = $('[data-test-id="organisation-address-3"]');
-      const address4 = $('[data-test-id="organisation-address-4"]');
-
-      expect(heading.length).toEqual(1);
-      expect(heading.text().trim()).toEqual(mockContext.addressHeading);
-      expect(address.length).toEqual(1);
-      expect(addressLines.length).toEqual(mockContext.address.length);
-      expect(address1.length).toEqual(1);
-      expect(address1.text().trim()).toEqual(mockContext.address[0]);
-      expect(address2.length).toEqual(1);
-      expect(address2.text().trim()).toEqual(mockContext.address[1]);
-      expect(address3.length).toEqual(1);
-      expect(address3.text().trim()).toEqual(mockContext.address[2]);
-      expect(address4.length).toEqual(1);
-      expect(address4.text().trim()).toEqual(mockContext.address[3]);
-    });
-  }));
-
-  it('should render organisation primary role id', componentTester(setup, (harness) => {
-    harness.request(mockContext, ($) => {
-      const heading = $('h3[data-test-id="organisation-primary-role-id-heading"]');
-      const primaryRoleID = $('div[data-test-id="organisation-primary-role-id"]');
-      expect(heading.length).toEqual(1);
-      expect(heading.text().trim()).toEqual(mockContext.primaryRoleIdHeading);
-      expect(primaryRoleID.length).toEqual(1);
-      expect(primaryRoleID.text().trim()).toEqual(mockContext.primaryRoleId);
+      const snapshot = snapshotTest($, '[data-test-id="main-content"]');
+      expect(snapshot).toMatchSnapshot();
     });
   }));
 
@@ -125,7 +47,6 @@ describe('editorg page', () => {
         const checkboxLabel = $('[data-test-id="catalogue-agreement-checkbox"] label');
         expect(checkboxLabel.length).toEqual(1);
         expect(checkboxLabel.attr('for')).toEqual('catalogue-agreement-checkbox');
-        expect(checkboxLabel.text().trim()).toEqual(mockContext.catalogueAgreementCheckboxText);
       });
     }));
 
@@ -138,30 +59,4 @@ describe('editorg page', () => {
       });
     }));
   });
-
-  it('should render save button', componentTester(setup, (harness) => {
-    harness.request(mockContext, ($) => {
-      const saveButton = $('[data-test-id="save-button"] button');
-      expect(saveButton.length).toEqual(1);
-      expect(saveButton.text().trim())
-        .toEqual(mockContext.saveButtonText);
-    });
-  }));
-
-  it('should create form element with correct action', componentTester(setup, (harness) => {
-    harness.request(mockContext, ($) => {
-      const formElement = $('form');
-      expect(formElement.length).toEqual(1);
-      expect(formElement.attr('action')).toEqual(mockContext.saveCatalogueAgreementPostAction);
-    });
-  }));
-
-  it('should render hidden input with csrf token', componentTester(setup, (harness) => {
-    harness.request(mockContext, ($) => {
-      const formElement = $('input[name=_csrf]');
-      expect(formElement.length).toEqual(1);
-      expect(formElement.attr('type')).toEqual('hidden');
-      expect(formElement.attr('value')).toEqual(mockContext.csrfToken);
-    });
-  }));
 });

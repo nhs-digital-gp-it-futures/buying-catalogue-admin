@@ -113,7 +113,7 @@ export const validateAddProxyForm = ({ req }) => {
   const { relatedOrganisationId } = req.body;
   const errors = {};
   if (!relatedOrganisationId) {
-    errors.message = 'Select one option.';
+    errors.message = 'Select the organisation you are looking for';
     errors.errorList = [{
       text: 'Select the organisation you are looking for',
       href: '#relatedOrganisationId',
