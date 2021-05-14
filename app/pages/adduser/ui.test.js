@@ -99,7 +99,7 @@ test('should render the description', async (t) => {
   await pageSetup(t, true);
   await t.navigateTo(pageUrl);
 
-  const description = Selector('h2[data-test-id="add-user-page-description"]');
+  const description = Selector('p[data-test-id="add-user-page-description"]');
 
   await t
     .expect(description.exists).ok()
@@ -110,7 +110,7 @@ test('should render organisation name subheading', async (t) => {
   await pageSetup(t, true);
   await t.navigateTo(pageUrl);
 
-  const orgDetailsSubheading = Selector('h3[data-test-id="org-name-subheading"]');
+  const orgDetailsSubheading = Selector('h2[data-test-id="org-name-subheading"]');
 
   await t
     .expect(orgDetailsSubheading.exists).ok()

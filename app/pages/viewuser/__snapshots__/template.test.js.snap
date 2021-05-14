@@ -1,0 +1,85 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`viewuser page the page should render 1`] = `
+"<main class=\\"nhsuk-main-wrapper\\" id=\\"maincontent\\" data-test-id=\\"main-content\\">
+        
+  <div class=\\"nhsuk-width-container\\" data-test-id=\\"view-user-page\\">
+    <div data-test-id=\\"go-back-link\\">
+      <div class=\\"nhsuk-back-link\\">
+  <a class=\\"nhsuk-back-link__link\\" href=\\"/organisations/org1\\">
+  <svg class=\\"nhsuk-icon nhsuk-icon__chevron-left\\" xmlns=\\"http://www.w3.org/2000/svg\\" viewBox=\\"0 0 24 24\\" aria-hidden=\\"true\\">
+    <path d=\\"M8.5 12c0-.3.1-.5.3-.7l5-5c.4-.4 1-.4 1.4 0s.4 1 0 1.4L10.9 12l4.3 4.3c.4.4.4 1 0 1.4s-1 .4-1.4 0l-5-5c-.2-.2-.3-.4-.3-.7z\\"></path>
+  </svg>
+  Go back</a>
+</div>
+
+    </div>
+  
+    <div class=\\"nhsuk-grid-row\\">
+      <div class=\\"nhsuk-grid-column-two-thirds\\">
+        <h1 class=\\"nhsuk-u-margin-top-7\\" data-test-id=\\"view-user-page-title\\">John Smith details</h1>
+      </div>
+    </div>
+
+    <dl class=\\"nhsuk-summary-list nhsuk-u-padding-margin-5\\">
+      <div class=\\"nhsuk-summary-list__row\\">
+        <dt class=\\"nhsuk-summary-list__key\\">
+          Organisation name
+        </dt>
+        <dd class=\\"nhsuk-summary-list__value\\">
+          Greater Manchester CCG
+        </dd>
+      </div>
+      <div class=\\"nhsuk-summary-list__row\\">
+        <dt class=\\"nhsuk-summary-list__key\\">
+          Name
+        </dt>
+        <dd class=\\"nhsuk-summary-list__value\\">
+          John Smith
+        </dd>
+      </div>
+      <div class=\\"nhsuk-summary-list__row\\">
+        <dt class=\\"nhsuk-summary-list__key\\">
+          Contact details
+        </dt>
+        <dd class=\\"nhsuk-summary-list__value\\">
+          07777777777
+        </dd>
+      </div>
+      <div class=\\"nhsuk-summary-list__row\\">
+        <dt class=\\"nhsuk-summary-list__key\\">
+          Email address
+        </dt>
+        <dd class=\\"nhsuk-summary-list__value\\">
+          John@Smith.com
+        </dd>
+      </div>
+    </dl>
+
+    <div class=\\"nhsuk-grid-row\\">
+      <form method=\\"post\\" action=\\"/organisations/org1/user2/disable\\">
+        <input type=\\"hidden\\" name=\\"_csrf\\" value=\\"mockCsrfToken\\">
+        <div data-test-id=\\"change-account-status-button\\" class=\\"nhsuk-grid-column-one-quarter\\">
+          
+
+
+  
+    
+  
+
+
+
+
+<button class=\\"nhsuk-button nhsuk-u-margin-bottom-9\\" type=\\"submit\\">
+  Disable account
+</button>
+
+
+
+        </div>
+      </form>
+    </div>
+  <div>
+
+      </div></div></main>"
+`;

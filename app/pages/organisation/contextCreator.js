@@ -12,7 +12,6 @@ export const getContext = ({ organisation }) => ({
   users: organisation && organisation.users ? organisation.users.map((row) => [
     {
       data: `${(`${row.firstName ? row.firstName : ''} ${row.lastName ? row.lastName : ''}`).trim()}` || '',
-      href: `${baseUrl}/organisations/${organisation.organisationId}/${row.userId}`,
       dataTestId: `user-name-${row.userId}`,
     },
     {
@@ -26,9 +25,14 @@ export const getContext = ({ organisation }) => ({
     {
       tag: row.isDisabled ? {
         dataTestId: `account-disabled-tag-${row.userId}`,
-        classes: 'bc-c-tag-outline nhsuk-u-font-size-16',
+        classes: 'bc-c-tag-outline nhsuk-u-font-size-14',
         text: 'ACCOUNT DISABLED',
       } : false,
+    },
+    {
+      data: 'Manage',
+      href: `${baseUrl}/organisations/${organisation.organisationId}/${row.userId}`,
+      dataTestId: `user-manage-${row.userId}`,
     },
   ]) : [],
   backLinkHref: `${baseUrl}/organisations`,

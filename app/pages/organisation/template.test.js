@@ -40,7 +40,7 @@ const mockData = {
     }, {
       tag: {
         dataTestId: 'account-disabled-tag-user2',
-        classes: 'bc-c-tag-outline nhsuk-u-font-size-16',
+        classes: 'bc-c-tag-outline nhsuk-u-font-size-14',
         text: 'ACCOUNT DISABLED',
       },
     }],

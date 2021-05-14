@@ -8,19 +8,50 @@
     <div data-test-id="go-back-link">
       {{ backLink({
         "href": backLinkHref,
-        "text": "Back"
+        "text": "Go back"
       }) }}
     </div>
   
-    <h1 data-test-id="view-user-page-title" class="">{{ userName }} {{ title }}</h1>
-    <h2 data-test-id="organisation-name-heading" class="nhsuk-heading-s nhsuk-u-margin-bottom-2">{{ orgHeading }}</h2>
-    <div data-test-id="organisation-name" class="nhsuk-u-font-size-19 nhsuk-u-margin-bottom-5">{{ organisationName }}</div>
-    <h2 data-test-id="user-name-heading" class="nhsuk-heading-s nhsuk-u-margin-bottom-2">{{ nameHeading }}</h2>
-    <div data-test-id="user-name" class="nhsuk-u-font-size-19 nhsuk-u-margin-bottom-5">{{ userName }}</div>
-    <h2 data-test-id="user-contact-details-heading" class="nhsuk-heading-s nhsuk-u-margin-bottom-2">{{ phoneNumberHeading }}</h2>
-    <div data-test-id="user-contact-details" class="nhsuk-u-font-size-19 nhsuk-u-margin-bottom-5">{{ phoneNumber }}</div>
-    <h2 data-test-id="user-email-heading" class="nhsuk-heading-s nhsuk-u-margin-bottom-2">{{ emailAddressHeading }}</h2>
-    <div data-test-id="user-email" class="nhsuk-u-font-size-19 nhsuk-u-margin-bottom-7">{{ emailAddress }}</div>
+    <div class="nhsuk-grid-row">
+      <div class="nhsuk-grid-column-two-thirds">
+        <h1 class="nhsuk-u-margin-top-7" data-test-id="view-user-page-title" class="">{{ userName }} {{ title }}</h1>
+      </div>
+    </div>
+
+    <dl class="nhsuk-summary-list nhsuk-u-padding-margin-5">
+      <div class="nhsuk-summary-list__row">
+        <dt class="nhsuk-summary-list__key">
+          {{ orgHeading }}
+        </dt>
+        <dd class="nhsuk-summary-list__value">
+          {{ organisationName }}
+        </dd>
+      </div>
+      <div class="nhsuk-summary-list__row">
+        <dt class="nhsuk-summary-list__key">
+          {{ nameHeading }}
+        </dt>
+        <dd class="nhsuk-summary-list__value">
+          {{ userName }}
+        </dd>
+      </div>
+      <div class="nhsuk-summary-list__row">
+        <dt class="nhsuk-summary-list__key">
+          {{ phoneNumberHeading }}
+        </dt>
+        <dd class="nhsuk-summary-list__value">
+          {{ phoneNumber }}
+        </dd>
+      </div>
+      <div class="nhsuk-summary-list__row">
+        <dt class="nhsuk-summary-list__key">
+          {{ emailAddressHeading }}
+        </dt>
+        <dd class="nhsuk-summary-list__value">
+          {{ emailAddress }}
+        </dd>
+      </div>
+    </dl>
 
     <div class="nhsuk-grid-row">
       <form method="post" action="{{ changeAccountStatusFormAction }}">

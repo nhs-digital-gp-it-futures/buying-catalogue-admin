@@ -99,62 +99,6 @@ test('should render the title', async (t) => {
     .expect(await extractInnerText(title)).eql(`${userData.name} ${content.title}`);
 });
 
-test('should render organisation name', async (t) => {
-  await pageSetup(t, true);
-  await t.navigateTo(pageUrl);
-
-  const orgNameHeading = Selector('h2[data-test-id="organisation-name-heading"]');
-  const orgName = Selector('div[data-test-id="organisation-name"]');
-
-  await t
-    .expect(orgNameHeading.exists).ok()
-    .expect(await extractInnerText(orgNameHeading)).eql(content.orgHeading)
-    .expect(orgName.exists).ok()
-    .expect(await extractInnerText(orgName)).eql(organisationData.name);
-});
-
-test('should render user name', async (t) => {
-  await pageSetup(t, true);
-  await t.navigateTo(pageUrl);
-
-  const userNameHeading = Selector('h2[data-test-id="user-name-heading"]');
-  const userName = Selector('div[data-test-id="user-name"]');
-
-  await t
-    .expect(userNameHeading.exists).ok()
-    .expect(await extractInnerText(userNameHeading)).eql(content.nameHeading)
-    .expect(userName.exists).ok()
-    .expect(await extractInnerText(userName)).eql(userData.name);
-});
-
-test('should render contact details', async (t) => {
-  await pageSetup(t, true);
-  await t.navigateTo(pageUrl);
-
-  const contactDetailsHeading = Selector('h2[data-test-id="user-contact-details-heading"]');
-  const contactDetails = Selector('div[data-test-id="user-contact-details"]');
-
-  await t
-    .expect(contactDetailsHeading.exists).ok()
-    .expect(await extractInnerText(contactDetailsHeading)).eql(content.phoneNumberHeading)
-    .expect(contactDetailsHeading.exists).ok()
-    .expect(await extractInnerText(contactDetails)).eql(userData.phoneNumber);
-});
-
-test('should render email address', async (t) => {
-  await pageSetup(t, true);
-  await t.navigateTo(pageUrl);
-
-  const emailHeading = Selector('h2[data-test-id="user-email-heading"]');
-  const email = Selector('div[data-test-id="user-email"]');
-
-  await t
-    .expect(emailHeading.exists).ok()
-    .expect(await extractInnerText(emailHeading)).eql(content.emailAddressHeading)
-    .expect(email.exists).ok()
-    .expect(await extractInnerText(email)).eql(userData.emailAddress);
-});
-
 test('should render change account status button', async (t) => {
   await pageSetup(t, true);
   await t.navigateTo(pageUrl);

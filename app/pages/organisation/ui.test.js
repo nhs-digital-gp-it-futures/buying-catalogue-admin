@@ -134,7 +134,7 @@ test('should navigate to add related organisation page when add organisation but
     .expect(getLocation()).eql(`http://localhost:1234/admin/organisations/proxy/${orgId}`);
 });
 
-test('should navigate to view user page when user name is clicked', async (t) => {
+test('should navigate to view user page when manage is clicked', async (t) => {
   nock(identityApiLocalhost)
     .get(`/api/v1/Users/${usersData.users[0].userId}`)
     .reply(200, organisationDetails);
@@ -147,11 +147,26 @@ test('should navigate to view user page when user name is clicked', async (t) =>
 
   const orgId = organisationDetails.organisationId;
 
-  const user1Row = Selector('tr[data-test-id="table-row-0"]');
+  const user1Row = Selector('[data-test-id="users-table"] tr[data-test-id="table-row-0"]');
   const user1Name = user1Row.find('a');
 
   await t
     .expect(user1Name.exists).ok()
     .click(user1Name)
     .expect(getLocation()).eql(`http://localhost:1234/admin/organisations/${orgId}/${usersData.users[0].userId}`);
+});
+
+test('should navigate to remove organisation page when remove is clicked', async (t) => {
+  await pageSetup(t, true);
+  await t.navigateTo(pageUrl);
+
+  const orgId = organisationDetails.organisationId;
+
+  const user1Row = Selector('[data-test-id="related-org-table"] tr[data-test-id="table-row-0"]');
+  const user1Name = user1Row.find('a');
+
+  await t
+    .expect(user1Name.exists).ok()
+    .click(user1Name)
+    .expect(getLocation()).eql(`http://localhost:1234/admin/organisations/removeproxy/${orgId}/${relatedOrgs[0].organisationId}`);
 });
