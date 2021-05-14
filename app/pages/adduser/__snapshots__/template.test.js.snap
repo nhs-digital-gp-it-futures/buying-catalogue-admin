@@ -1,0 +1,411 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`organisations add user page the page should render 1`] = `
+"<main class=\\"nhsuk-main-wrapper\\" id=\\"maincontent\\" data-test-id=\\"main-content\\">
+        
+  <div class=\\"nhsuk-width-container\\" data-test-id=\\"add-user-page\\">
+    <div data-test-id=\\"go-back-link\\">
+      <div class=\\"nhsuk-back-link\\">
+  <a class=\\"nhsuk-back-link__link\\" href=\\"/organisations/org1\\">
+  <svg class=\\"nhsuk-icon nhsuk-icon__chevron-left\\" xmlns=\\"http://www.w3.org/2000/svg\\" viewBox=\\"0 0 24 24\\" aria-hidden=\\"true\\">
+    <path d=\\"M8.5 12c0-.3.1-.5.3-.7l5-5c.4-.4 1-.4 1.4 0s.4 1 0 1.4L10.9 12l4.3 4.3c.4.4.4 1 0 1.4s-1 .4-1.4 0l-5-5c-.2-.2-.3-.4-.3-.7z\\"></path>
+  </svg>
+  Go back</a>
+</div>
+
+    </div>
+    <div class=\\"nhsuk-grid-row\\">
+      <div class=\\"nhsuk-grid-column-two-thirds\\">
+        
+
+        <h1 data-test-id=\\"add-user-page-title\\" class=\\"nhsuk-u-margin-top-7 nhsuk-u-margin-bottom-3\\">Add new user</h1>
+        <p data-test-id=\\"add-user-page-description\\" class=\\"nhsuk-heading-l nhsuk-u-font-size-24 nhsuk-u-margin-bottom-6\\">Provide the following information to make a new user account.</p>
+
+        <h2 data-test-id=\\"org-name-subheading\\" class=\\"nhsuk-u-font-weight-bold nhsuk-u-margin-bottom-2\\">Organisation name</h2>
+        
+  
+
+
+        <form method=\\"post\\">
+          <input type=\\"hidden\\" name=\\"_csrf\\" value=\\"\\">
+          
+            <div class=\\"nhsuk-u-margin-bottom-4\\">
+              
+  
+    
+  
+
+  
+
+  <div data-test-id=\\"question-firstName\\">
+    
+      <div data-test-id=\\"text-field-input\\">
+        
+
+<div class=\\"nhsuk-form-group nhsuk-u-margin-bottom-2\\">
+  <label class=\\"nhsuk-label nhsuk-u-font-size-24 nhsuk-u-font-weight-bold nhsuk-u-margin-bottom-2\\" for=\\"firstName\\">
+    First name
+  </label>
+  <input class=\\"nhsuk-input\\" id=\\"firstName\\" name=\\"firstName\\" type=\\"text\\">
+</div>
+
+      </div>
+    
+    <div data-test-id=\\"text-field-footer\\">
+      <span class=\\"nhsuk-label bc-t-font-color--grey-1 nhsuk-u-font-size-16\\">
+        
+      </span>
+    </div>
+  </div>
+
+            </div>
+          
+            <div class=\\"nhsuk-u-margin-bottom-4\\">
+              
+  
+    
+  
+
+  
+
+  <div data-test-id=\\"question-lastName\\">
+    
+      <div data-test-id=\\"text-field-input\\">
+        
+
+<div class=\\"nhsuk-form-group nhsuk-u-margin-bottom-2\\">
+  <label class=\\"nhsuk-label nhsuk-u-font-size-24 nhsuk-u-font-weight-bold nhsuk-u-margin-bottom-2\\" for=\\"lastName\\">
+    Last name
+  </label>
+  <input class=\\"nhsuk-input\\" id=\\"lastName\\" name=\\"lastName\\" type=\\"text\\">
+</div>
+
+      </div>
+    
+    <div data-test-id=\\"text-field-footer\\">
+      <span class=\\"nhsuk-label bc-t-font-color--grey-1 nhsuk-u-font-size-16\\">
+        
+      </span>
+    </div>
+  </div>
+
+            </div>
+          
+            <div class=\\"nhsuk-u-margin-bottom-4\\">
+              
+  
+    
+  
+
+  
+
+  <div data-test-id=\\"question-phoneNumber\\">
+    
+      <div data-test-id=\\"text-field-input\\">
+        
+
+<div class=\\"nhsuk-form-group nhsuk-u-margin-bottom-2\\">
+  <label class=\\"nhsuk-label nhsuk-u-font-size-24 nhsuk-u-font-weight-bold nhsuk-u-margin-bottom-2\\" for=\\"phoneNumber\\">
+    Telephone number
+  </label>
+  <input class=\\"nhsuk-input\\" id=\\"phoneNumber\\" name=\\"phoneNumber\\" type=\\"text\\">
+</div>
+
+      </div>
+    
+    <div data-test-id=\\"text-field-footer\\">
+      <span class=\\"nhsuk-label bc-t-font-color--grey-1 nhsuk-u-font-size-16\\">
+        
+      </span>
+    </div>
+  </div>
+
+            </div>
+          
+            <div class=\\"nhsuk-u-margin-bottom-4\\">
+              
+  
+    
+  
+
+  
+
+  <div data-test-id=\\"question-emailAddress\\">
+    
+      <div data-test-id=\\"text-field-input\\">
+        
+
+<div class=\\"nhsuk-form-group nhsuk-u-margin-bottom-2\\">
+  <label class=\\"nhsuk-label nhsuk-u-font-size-24 nhsuk-u-font-weight-bold nhsuk-u-margin-bottom-2\\" for=\\"emailAddress\\">
+    Email address
+  </label>
+  <input class=\\"nhsuk-input\\" id=\\"emailAddress\\" name=\\"emailAddress\\" type=\\"text\\">
+</div>
+
+      </div>
+    
+    <div data-test-id=\\"text-field-footer\\">
+      <span class=\\"nhsuk-label bc-t-font-color--grey-1 nhsuk-u-font-size-16\\">
+        
+      </span>
+    </div>
+  </div>
+
+            </div>
+          
+
+          <div data-test-id=\\"add-user-button\\" class=\\"nhsuk-u-margin-top-9\\">
+            
+
+
+  
+    
+  
+
+
+
+
+<button class=\\"nhsuk-button nhsuk-u-margin-bottom-9\\" type=\\"submit\\">
+  Add user
+</button>
+
+
+
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+      </main>"
+`;
+
+exports[`organisations add user page the page should render with errors 1`] = `
+"<main class=\\"nhsuk-main-wrapper\\" id=\\"maincontent\\" data-test-id=\\"main-content\\">
+        
+  <div class=\\"nhsuk-width-container\\" data-test-id=\\"add-user-page\\">
+    <div data-test-id=\\"go-back-link\\">
+      <div class=\\"nhsuk-back-link\\">
+  <a class=\\"nhsuk-back-link__link\\" href=\\"/organisations/org1\\">
+  <svg class=\\"nhsuk-icon nhsuk-icon__chevron-left\\" xmlns=\\"http://www.w3.org/2000/svg\\" viewBox=\\"0 0 24 24\\" aria-hidden=\\"true\\">
+    <path d=\\"M8.5 12c0-.3.1-.5.3-.7l5-5c.4-.4 1-.4 1.4 0s.4 1 0 1.4L10.9 12l4.3 4.3c.4.4.4 1 0 1.4s-1 .4-1.4 0l-5-5c-.2-.2-.3-.4-.3-.7z\\"></path>
+  </svg>
+  Go back</a>
+</div>
+
+    </div>
+    <div class=\\"nhsuk-grid-row\\">
+      <div class=\\"nhsuk-grid-column-two-thirds\\">
+        
+          
+  <div data-test-id=\\"error-summary\\">
+    <div class=\\"nhsuk-error-summary\\" aria-labelledby=\\"error-summary-title\\" role=\\"alert\\" tabindex=\\"-1\\">
+  <h2 class=\\"nhsuk-error-summary__title\\" id=\\"error-summary-title\\">
+    There is a problem
+  </h2>
+  <div class=\\"nhsuk-error-summary__body\\"><ul class=\\"nhsuk-list nhsuk-error-summary__list\\">
+      <li>
+        <a href=\\"#firstname\\">First name is required</a>
+      </li>
+      <li>
+        <a href=\\"#firstname\\">First name is too long</a>
+      </li>
+      <li>
+        <a href=\\"#lastname\\">Last name is required</a>
+      </li>
+      <li>
+        <a href=\\"#lastname\\">Last name is too long</a>
+      </li>
+      <li>
+        <a href=\\"#emailaddress\\">Email is required</a>
+      </li>
+      <li>
+        <a href=\\"#emailaddress\\">Email address is too long</a>
+      </li>
+      <li>
+        <a href=\\"#emailaddress\\">Email address already exists</a>
+      </li>
+      <li>
+        <a href=\\"#phonenumber\\">Telephone number is required</a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+  </div>
+
+        
+
+        <h1 data-test-id=\\"add-user-page-title\\" class=\\"nhsuk-u-margin-top-7 nhsuk-u-margin-bottom-3\\">Add new user</h1>
+        <p data-test-id=\\"add-user-page-description\\" class=\\"nhsuk-heading-l nhsuk-u-font-size-24 nhsuk-u-margin-bottom-6\\">Provide the following information to make a new user account.</p>
+
+        <h2 data-test-id=\\"org-name-subheading\\" class=\\"nhsuk-u-font-weight-bold nhsuk-u-margin-bottom-2\\">Organisation name</h2>
+        
+  
+
+
+        <form method=\\"post\\">
+          <input type=\\"hidden\\" name=\\"_csrf\\" value=\\"\\">
+          
+            <div class=\\"nhsuk-u-margin-bottom-4\\">
+              
+  
+    
+  
+
+  
+
+  <div data-test-id=\\"question-firstName\\">
+    
+      <div data-test-id=\\"text-field-input-error\\">
+        
+
+<div class=\\"nhsuk-form-group nhsuk-form-group--error nhsuk-u-margin-bottom-2\\">
+  <label class=\\"nhsuk-label nhsuk-u-font-size-24 nhsuk-u-font-weight-bold nhsuk-u-margin-bottom-2\\" for=\\"firstName\\">
+    First name
+  </label>
+  <span class=\\"nhsuk-error-message\\" id=\\"firstName-error\\">
+    <span class=\\"nhsuk-u-visually-hidden\\">Error:</span> 
+  </span>
+  <input class=\\"nhsuk-input nhsuk-input--error\\" id=\\"firstName\\" name=\\"firstName\\" type=\\"text\\" aria-describedby=\\"firstName-error\\">
+</div>
+
+      </div>
+    
+    <div data-test-id=\\"text-field-footer\\">
+      <span class=\\"nhsuk-label bc-t-font-color--grey-1 nhsuk-u-font-size-16\\">
+        
+      </span>
+    </div>
+  </div>
+
+            </div>
+          
+            <div class=\\"nhsuk-u-margin-bottom-4\\">
+              
+  
+    
+  
+
+  
+
+  <div data-test-id=\\"question-lastName\\">
+    
+      <div data-test-id=\\"text-field-input-error\\">
+        
+
+<div class=\\"nhsuk-form-group nhsuk-form-group--error nhsuk-u-margin-bottom-2\\">
+  <label class=\\"nhsuk-label nhsuk-u-font-size-24 nhsuk-u-font-weight-bold nhsuk-u-margin-bottom-2\\" for=\\"lastName\\">
+    Last name
+  </label>
+  <span class=\\"nhsuk-error-message\\" id=\\"lastName-error\\">
+    <span class=\\"nhsuk-u-visually-hidden\\">Error:</span> 
+  </span>
+  <input class=\\"nhsuk-input nhsuk-input--error\\" id=\\"lastName\\" name=\\"lastName\\" type=\\"text\\" aria-describedby=\\"lastName-error\\">
+</div>
+
+      </div>
+    
+    <div data-test-id=\\"text-field-footer\\">
+      <span class=\\"nhsuk-label bc-t-font-color--grey-1 nhsuk-u-font-size-16\\">
+        
+      </span>
+    </div>
+  </div>
+
+            </div>
+          
+            <div class=\\"nhsuk-u-margin-bottom-4\\">
+              
+  
+    
+  
+
+  
+
+  <div data-test-id=\\"question-phoneNumber\\">
+    
+      <div data-test-id=\\"text-field-input-error\\">
+        
+
+<div class=\\"nhsuk-form-group nhsuk-form-group--error nhsuk-u-margin-bottom-2\\">
+  <label class=\\"nhsuk-label nhsuk-u-font-size-24 nhsuk-u-font-weight-bold nhsuk-u-margin-bottom-2\\" for=\\"phoneNumber\\">
+    Telephone number
+  </label>
+  <span class=\\"nhsuk-error-message\\" id=\\"phoneNumber-error\\">
+    <span class=\\"nhsuk-u-visually-hidden\\">Error:</span> 
+  </span>
+  <input class=\\"nhsuk-input nhsuk-input--error\\" id=\\"phoneNumber\\" name=\\"phoneNumber\\" type=\\"text\\" aria-describedby=\\"phoneNumber-error\\">
+</div>
+
+      </div>
+    
+    <div data-test-id=\\"text-field-footer\\">
+      <span class=\\"nhsuk-label bc-t-font-color--grey-1 nhsuk-u-font-size-16\\">
+        
+      </span>
+    </div>
+  </div>
+
+            </div>
+          
+            <div class=\\"nhsuk-u-margin-bottom-4\\">
+              
+  
+    
+  
+
+  
+
+  <div data-test-id=\\"question-emailAddress\\">
+    
+      <div data-test-id=\\"text-field-input-error\\">
+        
+
+<div class=\\"nhsuk-form-group nhsuk-form-group--error nhsuk-u-margin-bottom-2\\">
+  <label class=\\"nhsuk-label nhsuk-u-font-size-24 nhsuk-u-font-weight-bold nhsuk-u-margin-bottom-2\\" for=\\"emailAddress\\">
+    Email address
+  </label>
+  <span class=\\"nhsuk-error-message\\" id=\\"emailAddress-error\\">
+    <span class=\\"nhsuk-u-visually-hidden\\">Error:</span> 
+  </span>
+  <input class=\\"nhsuk-input nhsuk-input--error\\" id=\\"emailAddress\\" name=\\"emailAddress\\" type=\\"text\\" aria-describedby=\\"emailAddress-error\\">
+</div>
+
+      </div>
+    
+    <div data-test-id=\\"text-field-footer\\">
+      <span class=\\"nhsuk-label bc-t-font-color--grey-1 nhsuk-u-font-size-16\\">
+        
+      </span>
+    </div>
+  </div>
+
+            </div>
+          
+
+          <div data-test-id=\\"add-user-button\\" class=\\"nhsuk-u-margin-top-9\\">
+            
+
+
+  
+    
+  
+
+
+
+
+<button class=\\"nhsuk-button nhsuk-u-margin-bottom-9\\" type=\\"submit\\">
+  Add user
+</button>
+
+
+
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+      </main>"
+`;

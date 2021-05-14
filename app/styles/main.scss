@@ -8,3 +8,28 @@
 .float-right {
   float: right;
 }
+
+.even-table {
+  .bc-c-data-text {
+    margin: 0;
+  }
+
+  th,
+  td {
+    padding: 8px !important;
+    vertical-align: middle;
+
+    &:first-child {
+      padding-left: 0 !important;
+    }
+
+    &:last-child {
+      padding-right: 0 !important;
+    }
+  }
+
+  th {
+    padding-bottom: 0 !important;
+    padding-top: 0 !important;
+  }
+}

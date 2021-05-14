@@ -1,4 +1,4 @@
-import { componentTester } from '../../test-utils/componentTester';
+import { componentTester, snapshotTest } from '../../test-utils/componentTester';
 import content from './manifest.json';
 import { publicBrowseBaseUrl } from '../../config';
 
@@ -34,6 +34,13 @@ const context = {
 };
 
 describe('organisations dashboard page', () => {
+  it('the page should render', componentTester(setup, (harness) => {
+    harness.request(context, ($) => {
+      const snapshot = snapshotTest($, '[data-test-id="main-content"]');
+      expect(snapshot).toMatchSnapshot();
+    });
+  }));
+
   it('should render a backLink to public browse', componentTester(setup, (harness) => {
     harness.request(context, ($) => {
       const homepageBackLink = $('[data-test-id="go-back-link"]');

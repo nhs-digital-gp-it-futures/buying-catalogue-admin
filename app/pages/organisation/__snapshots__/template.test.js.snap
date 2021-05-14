@@ -15,10 +15,13 @@ exports[`organisations dashboard page the page should render 1`] = `
 
     </div>
   
-    <h1 data-test-id=\\"org-page-title\\" class=\\"nhsuk-u-margin-top-7 nhsuk-u-margin-bottom-3\\">Greater Manchester CCG</h1>
-    <p data-test-id=\\"org-page-description\\" class=\\"nhsuk-heading-l nhsuk-u-font-size-22\\">These are the details for the organisation and its users.</p>
-
-    <h2 data-test-id=\\"organisation-details-subheading\\">Organisation details</h2>
+    <div class=\\"nhsuk-grid-row\\">
+      <div class=\\"nhsuk-grid-column-two-thirds\\">
+        <h1 data-test-id=\\"org-page-title\\" class=\\"nhsuk-u-margin-top-7 nhsuk-u-margin-bottom-3\\">Greater Manchester CCG</h1>
+        <p data-test-id=\\"org-page-description\\" class=\\"nhsuk-heading-l nhsuk-u-font-size-22\\">These are the details for the organisation and its users.</p>
+        <h2 data-test-id=\\"organisation-details-subheading\\">Organisation details</h2>
+      </div>
+    </div>
 
     <dl class=\\"nhsuk-summary-list nhsuk-u-padding-margin-5\\">
       <div class=\\"nhsuk-summary-list__row\\">
@@ -76,8 +79,12 @@ exports[`organisations dashboard page the page should render 1`] = `
       </div>
     </dl>
   
-    <h2>User accounts</h2>
-    <p>These are the user accounts for Greater Manchester CCG.</p>
+    <div class=\\"nhsuk-grid-row\\">
+      <div class=\\"nhsuk-grid-column-two-thirds\\">
+        <h2>User accounts</h2>
+        <p>These are the user accounts for Greater Manchester CCG.</p>
+      </div>
+    </div>
 
     <div data-test-id=\\"add-user-button\\">
       <div class=\\"nhsuk-action-link\\">
@@ -92,7 +99,7 @@ exports[`organisations dashboard page the page should render 1`] = `
 
     </div>
 
-    <div class=\\"nhsuk-u-font-size-19\\">
+    <div data-test-id=\\"users-table\\" class=\\"nhsuk-u-font-size-19 even-table\\">
       
   <table data-test-id=\\"table\\" class=\\"\\" style=\\"page-break-inside:auto\\">
     
@@ -119,6 +126,12 @@ exports[`organisations dashboard page the page should render 1`] = `
         
           <th data-test-id=\\"column-heading-3\\" class=\\"nhsuk-u-padding-bottom-0 \\" style=\\"width:\\">
             <div data-test-id=\\"column-heading-3-data\\" class=\\"nhsuk-u-font-weight-bold\\"></div>
+            
+            
+          </th>
+        
+          <th data-test-id=\\"column-heading-4\\" class=\\"nhsuk-u-padding-bottom-0 \\" style=\\"width:\\">
+            <div data-test-id=\\"column-heading-4-data\\" class=\\"nhsuk-u-font-weight-bold\\"></div>
             
             
           </th>
@@ -232,7 +245,7 @@ exports[`organisations dashboard page the page should render 1`] = `
             
               <div>
                 
-  <div data-test-id=\\"account-disabled-tag-user2\\" class=\\"bc-c-tag nhsuk-u-font-weight-bold bc-c-tag-outline nhsuk-u-font-size-16\\">ACCOUNT DISABLED</div>
+  <div data-test-id=\\"account-disabled-tag-user2\\" class=\\"bc-c-tag nhsuk-u-font-weight-bold bc-c-tag-outline nhsuk-u-font-size-14\\">ACCOUNT DISABLED</div>
 
               </div>
             
@@ -248,8 +261,12 @@ exports[`organisations dashboard page the page should render 1`] = `
 
     </div>
 
-    <h2>Related organisations</h2>
-    <p>These are the organisations Greater Manchester CCG can create orders for.</p>
+    <div class=\\"nhsuk-grid-row\\">
+      <div class=\\"nhsuk-grid-column-two-thirds\\">
+        <h2>Related organisations</h2>
+        <p>These are the organisations Greater Manchester CCG can create orders for.</p>
+      </div>
+    </div>
 
     <div data-test-id=\\"add-organisation-button\\">
       <div class=\\"nhsuk-action-link\\">
@@ -264,7 +281,7 @@ exports[`organisations dashboard page the page should render 1`] = `
 
     </div>
 
-    <div id=\\"related-org-table\\" class=\\"nhsuk-u-font-size-19\\">
+    <div data-test-id=\\"related-org-table\\" id=\\"related-org-table\\" class=\\"nhsuk-u-font-size-19 even-table\\">
       
   <table data-test-id=\\"table\\" class=\\"\\" style=\\"page-break-inside:auto\\">
     

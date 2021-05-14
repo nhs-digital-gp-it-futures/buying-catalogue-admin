@@ -1,4 +1,4 @@
-import { componentTester } from '../../test-utils/componentTester';
+import { componentTester, snapshotTest } from '../../test-utils/componentTester';
 import context from './manifest.json';
 
 context.backLinkHref = '/organisations/org1';
@@ -50,11 +50,25 @@ const contextWithErrors = {
 };
 
 describe('organisations add user page', () => {
+  it('the page should render', componentTester(setup, (harness) => {
+    harness.request(context, ($) => {
+      const snapshot = snapshotTest($, '[data-test-id="main-content"]');
+      expect(snapshot).toMatchSnapshot();
+    });
+  }));
+
+  it('the page should render with errors', componentTester(setup, (harness) => {
+    harness.request(contextWithErrors, ($) => {
+      const snapshot = snapshotTest($, '[data-test-id="main-content"]');
+      expect(snapshot).toMatchSnapshot();
+    });
+  }));
+
   it('should render a backLink', componentTester(setup, (harness) => {
     harness.request(context, ($) => {
       const backLink = $('[data-test-id="go-back-link"]');
       expect(backLink.length).toEqual(1);
-      expect(backLink.text().trim()).toEqual('Back');
+      expect(backLink.text().trim()).toEqual('Go back');
       expect($(backLink).find('a').attr('href')).toEqual('/organisations/org1');
     });
   }));
@@ -90,7 +104,7 @@ describe('organisations add user page', () => {
 
   it('should render a organisation name subheading', componentTester(setup, (harness) => {
     harness.request(context, ($) => {
-      const subheading = $('h3[data-test-id="org-name-subheading"]');
+      const subheading = $('h2[data-test-id="org-name-subheading"]');
       expect(subheading.length).toEqual(1);
       expect(subheading.text().trim()).toEqual(context.orgNameSubheading);
     });
