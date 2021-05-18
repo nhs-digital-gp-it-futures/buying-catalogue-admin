@@ -36,7 +36,7 @@ All environment variables are provided a default to work with your local cluster
 
 `OIDC_CLIENT_SECRET` and `COOKIE_SECRET`
 
-Add below values to your `.env` file in project root.
+Update your `.env` file in project root with values that are mentioned below:
 
 LOGGER_LEVEL=debug
 OIDC_CLIENT_SECRET=SampleClientSecret
