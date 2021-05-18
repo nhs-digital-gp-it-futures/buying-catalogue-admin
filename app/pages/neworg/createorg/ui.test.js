@@ -93,7 +93,7 @@ test('should render the description', async (t) => {
   await pageSetup(t, true);
   await t.navigateTo(pageUrl);
 
-  const description = Selector('h2[data-test-id="create-org-page-description"]');
+  const description = Selector('p[data-test-id="create-org-page-description"]');
 
   await t
     .expect(description.exists).ok()
