@@ -36,7 +36,11 @@ All environment variables are provided a default to work with your local cluster
 
 `OIDC_CLIENT_SECRET` and `COOKIE_SECRET`
 
-Add these to your `.env` file in project root. Ask a colleague for their values.
+Add below values to your `.env` file in project root.
+
+LOGGER_LEVEL=debug
+OIDC_CLIENT_SECRET=SampleClientSecret
+COOKIE_SECRET=secret squirrel
 
 Run the app with `npm run start:dev`
 Application should now be running on <http://localhost:3005/admin/organisations>.
