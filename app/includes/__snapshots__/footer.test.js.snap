@@ -10,7 +10,7 @@ exports[`footer should render the footer 1`] = `
           <li class=\\"nhsuk-footer__list-item\\"><a class=\\"nhsuk-footer__list-item-link\\" href=\\"/guide#contact-us\\">NHS Digital Helpdesk</a></li>
           <li class=\\"nhsuk-footer__list-item\\"><a class=\\"nhsuk-footer__list-item-link\\" href=\\"https://digital.nhs.uk/\\">NHS Digital</a></li>
           <li class=\\"nhsuk-footer__list-item\\"><a class=\\"nhsuk-footer__list-item-link\\" href=\\"https://digital.nhs.uk/services/future-gp-it-systems-and-services\\">About GP IT Futures</a></li>
-          <li class=\\"nhsuk-footer__list-item\\"><a class=\\"nhsuk-footer__list-item-link\\" href=\\"https://gpitbjss.atlassian.net/wiki/spaces/GPITF/overview\\">Capabilities and Standards Model</a></li>
+          <li class=\\"nhsuk-footer__list-item\\"><a class=\\"nhsuk-footer__list-item-link\\" href=\\"https://gpitbjss.atlassian.net/wiki/spaces/DCSH/overview\\">Capabilities and Standards models</a></li>
         </ul>
         
         <p class=\\"nhsuk-footer__copyright\\">© Crown copyright</p>
