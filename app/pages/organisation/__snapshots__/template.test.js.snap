@@ -58,7 +58,7 @@ exports[`organisations dashboard page the page should render 1`] = `
       </div>
       <div class=\\"nhsuk-summary-list__row\\">
         <dt class=\\"nhsuk-summary-list__key\\">
-          Contact
+          Contract
         </dt>
         <dd class=\\"nhsuk-summary-list__value\\">
           <a data-test-id=\\"edit-org-button\\" href=\\"/organisations/org1/edit\\" class=\\"float-right nhsuk-u-margin-left-2\\">Change</a>
