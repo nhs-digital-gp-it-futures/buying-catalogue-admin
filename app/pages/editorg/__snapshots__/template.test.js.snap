@@ -17,20 +17,12 @@ exports[`editorg page the page should render 1`] = `
   
     <div class=\\"nhsuk-grid-row\\">
       <div class=\\"nhsuk-grid-column-two-thirds\\">
-        <h1 data-test-id=\\"edit-org-page-title\\" class=\\"nhsuk-u-margin-top-7 nhsuk-u-margin-bottom-3\\">Edit Greater Manchester CCG</h1>
+        <h1 data-test-id=\\"edit-org-page-title\\" class=\\"nhsuk-u-margin-top-7 nhsuk-u-margin-bottom-3\\">Edit </h1>
         <p data-test-id=\\"edit-org-page-description\\" class=\\"nhsuk-heading-l nhsuk-u-font-size-22 nhsuk-u-margin-bottom-9\\">Change the Organisation End User Agreement status for this organisation.</p>
       </div>
     </div>
 
     <dl class=\\"nhsuk-summary-list nhsuk-u-padding-margin-5\\">
-      <div class=\\"nhsuk-summary-list__row\\">
-        <dt class=\\"nhsuk-summary-list__key\\">
-          Organisation name
-        </dt>
-        <dd class=\\"nhsuk-summary-list__value\\">
-          Greater Manchester CCG
-        </dd>
-      </div>
       <div class=\\"nhsuk-summary-list__row\\">
         <dt class=\\"nhsuk-summary-list__key\\">
           ODS code

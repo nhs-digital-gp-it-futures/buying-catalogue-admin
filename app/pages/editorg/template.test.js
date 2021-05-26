@@ -7,7 +7,6 @@ const setup = {
 };
 
 const mockData = {
-  organisationName: 'Greater Manchester CCG',
   odsCode: 'X01',
   primaryRoleId: 'ID123',
   address: ['12 Station Road', 'Leeds', 'West Yorkshire', 'LS15 5FG'],
