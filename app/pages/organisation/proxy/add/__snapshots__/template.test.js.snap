@@ -59,7 +59,7 @@ exports[`add proxy for organisation the page should render 1`] = `
   </legend>
 
   <div class=\\"nhsuk-hint nhsuk-u-margin-bottom-3 nhsuk-u-margin-top-0\\" id=\\"relatedOrganisationId-hint\\">
-    Select the organisation you want to act on behalf of.
+    Select the organisation you want Cheshire and Merseyside Commissioning Hub to act on behalf of.
   </div>
 
   <div class=\\"nhsuk-radios\\">
@@ -226,7 +226,7 @@ exports[`add proxy for organisation the page should render with errors 1`] = `
   </legend>
 
   <div class=\\"nhsuk-hint nhsuk-u-margin-bottom-1 nhsuk-u-margin-top-0\\" id=\\"relatedOrganisationId-hint\\">
-    Select the organisation you want to act on behalf of.
+    Select the organisation you want Cheshire and Merseyside Commissioning Hub to act on behalf of.
   </div>
 
   <span class=\\"nhsuk-error-message\\" id=\\"relatedOrganisationId-error\\">
